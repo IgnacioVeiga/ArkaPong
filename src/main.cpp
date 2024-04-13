@@ -5,6 +5,7 @@
 #include "Paddle.h"
 #include "GameConstants.h"
 #include "AudioManager.h"
+#include "TextManager.h"
 
 int main(int argc, char *args[])
 {
@@ -48,6 +49,9 @@ int main(int argc, char *args[])
         SDL_Quit();
         return 1;
     }
+
+    TextManager textManager(renderer);
+    textManager.loadFont("fonts/arcadeclassic.regular.ttf", 24);
 
     // Creación de objetos del juego
     Ball ball(SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT / 2 - 10);
@@ -96,6 +100,9 @@ int main(int argc, char *args[])
         ball.render(renderer);
         leftPaddle.render(renderer);
         rightPaddle.render(renderer);
+
+        SDL_Color white = {255, 255, 255};
+        textManager.displayText("Score " + std::to_string(0), 100, 50, white);
 
         SDL_RenderPresent(renderer);
 
