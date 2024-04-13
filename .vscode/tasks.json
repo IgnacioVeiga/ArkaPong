@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build game",
+            "type": "cppbuild",
+            "command": "g++",
+            "args": [
+                "-g",
+                "${workspaceFolder}/src/*.cpp",
+                "-o",
+                "${workspaceFolder}/build/game.exe",
+                "-I${workspaceFolder}/include/SDL2",
+                "-I${workspaceFolder}/include",
+                "-L${workspaceFolder}/lib",
+                "-lSDL2main",
+                "-lSDL2",
+                "-lSDL2_mixer",
+                "-mwindows"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        }
+    ]
+}
