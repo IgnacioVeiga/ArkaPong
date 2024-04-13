@@ -4,12 +4,13 @@
 #include <SDL2/SDL.h>
 #include "Paddle.h"
 #include "GameConstants.h"
+#include "GameState.h"
 
 class Ball
 {
 public:
     Ball(int x, int y);
-    void move();
+    void move(GameState& gameState);
     bool detectCollision(const Paddle &paddle);
     void render(SDL_Renderer *renderer);
 

@@ -1,5 +1,6 @@
 #include "Ball.h"
 #include "AudioManager.h"
+#include "GameState.h"
 
 Ball::Ball(int x, int y) : velX(BALL_VELOCITY), velY(BALL_VELOCITY)
 {
@@ -9,7 +10,7 @@ Ball::Ball(int x, int y) : velX(BALL_VELOCITY), velY(BALL_VELOCITY)
     rect.h = 20;
 }
 
-void Ball::move()
+void Ball::move(GameState &gameState)
 {
     rect.x += velX;
     rect.y += velY;
@@ -18,20 +19,27 @@ void Ball::move()
     if (rect.y <= 0 || rect.y + rect.h >= SCREEN_HEIGHT)
     {
         velY = -velY;
-        Mix_PlayChannel(-1, sound_bounce, 0);  // Reproduce sonido de rebote
+        Mix_PlayChannel(-1, sound_bounce, 0); // Reproduce sonido de rebote
     }
 
     // Chequeo de punto anotado
     if (rect.x <= 0 || rect.x + rect.w >= SCREEN_WIDTH)
     {
+        // Suma puntos al jugador correspondiente
+        if (rect.x <= 0)
+            gameState.scorePointRight();
+        if (rect.x + rect.w >= SCREEN_WIDTH)
+            gameState.scorePointLeft();
+
+        // Reproduce sonido de anotación
+        Mix_PlayChannel(-1, sound_score, 0);
+
         // Reinicia la posición de la pelota al centro
         rect.x = SCREEN_WIDTH / 2 - rect.w / 2;
         rect.y = SCREEN_HEIGHT / 2 - rect.h / 2;
 
         // Opcional: Ajusta velX para comenzar hacia el lado del jugador que no anotó
         velX = -velX; // Invierte dirección inicial como ejemplo
-        
-        Mix_PlayChannel(-1, sound_score, 0);  // Reproduce sonido de anotación
     }
 }
 

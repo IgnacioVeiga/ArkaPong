@@ -30,7 +30,7 @@ int main(int argc, char *args[])
     }
 
     // Creación de la ventana
-    SDL_Window *window = SDL_CreateWindow("Pong Game",
+    SDL_Window *window = SDL_CreateWindow("Pong",
                                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                           SCREEN_WIDTH, SCREEN_HEIGHT,
                                           SDL_WINDOW_SHOWN);
@@ -52,8 +52,9 @@ int main(int argc, char *args[])
     }
 
     TextManager textManager(renderer);
-    textManager.loadFont("fonts/PressStart2P-vaV7.ttf", 24);
+    textManager.loadFont("fonts/PressStart2P-vaV7.ttf", 16);
 
+    // Esto se usa para los puntajes
     GameState gameState;
 
     // Creación de objetos del juego
@@ -90,7 +91,7 @@ int main(int argc, char *args[])
             leftPaddle.moveDown();
 
         // Mover la pelota
-        ball.move();
+        ball.move(gameState);
 
         // Detectar colisiones
         ball.detectCollision(leftPaddle);
@@ -107,7 +108,7 @@ int main(int argc, char *args[])
         SDL_Color white = {255, 255, 255};
         std::string scoreText = "Left: " + std::to_string(gameState.getPlayerLeftScore()) +
                                 " Right: " + std::to_string(gameState.getPlayerRightScore());
-        textManager.displayText(scoreText, 100, 50, white);
+        textManager.displayText(scoreText, 50, 10, white);
 
         SDL_RenderPresent(renderer);
 
