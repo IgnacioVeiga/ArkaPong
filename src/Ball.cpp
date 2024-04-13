@@ -1,61 +1,50 @@
 #include "Ball.h"
-#include "AudioManager.h"
-#include "GameState.h"
+#include "GameConstants.h"
+#include <SDL2/SDL.h>
 
-Ball::Ball(int x, int y) : velX(BALL_VELOCITY), velY(BALL_VELOCITY)
+Ball::Ball(SDL_Renderer *renderer, int x, int y, int w, int h) : renderer(renderer), velX(BALL_SPEED), velY(BALL_SPEED)
 {
-    rect.x = x;
-    rect.y = y;
-    rect.w = 20; // tamaño de la pelota
-    rect.h = 20;
+    rect = {x, y, w, h};
 }
 
-void Ball::move(GameState &gameState)
+void Ball::move()
 {
     rect.x += velX;
     rect.y += velY;
 
-    // Rebotar en las paredes superior e inferior
     if (rect.y <= 0 || rect.y + rect.h >= SCREEN_HEIGHT)
     {
         velY = -velY;
-        Mix_PlayChannel(-1, sound_bounce, 0); // Reproduce sonido de rebote
-    }
-
-    // Chequeo de punto anotado
-    if (rect.x <= 0 || rect.x + rect.w >= SCREEN_WIDTH)
-    {
-        // Suma puntos al jugador correspondiente
-        if (rect.x <= 0)
-            gameState.scorePointRight();
-        if (rect.x + rect.w >= SCREEN_WIDTH)
-            gameState.scorePointLeft();
-
-        // Reproduce sonido de anotación
-        Mix_PlayChannel(-1, sound_score, 0);
-
-        // Reinicia la posición de la pelota al centro
-        rect.x = SCREEN_WIDTH / 2 - rect.w / 2;
-        rect.y = SCREEN_HEIGHT / 2 - rect.h / 2;
-
-        // Opcional: Ajusta velX para comenzar hacia el lado del jugador que no anotó
-        velX = -velX; // Invierte dirección inicial como ejemplo
     }
 }
 
-bool Ball::detectCollision(const Paddle &paddle)
+void Ball::reset(int x, int y)
 {
-    SDL_Rect paddleRect = paddle.getRect();
-    if (SDL_HasIntersection(&rect, &paddleRect))
-    {
-        velX = -velX; // Invierte la dirección X
-        return true;
-    }
-    return false;
+    rect.x = x;
+    rect.y = y;
 }
 
-void Ball::render(SDL_Renderer *renderer)
+void Ball::changeDirection(Paddle &paddle)
+{
+    if (SDL_HasIntersection(&rect, &paddle.getRect()))
+    {
+        velX = -velX;
+        int paddleCenter = paddle.getRect().y + paddle.getRect().h / 2;
+        int ballCenter = rect.y + rect.h / 2;
+        velY = (ballCenter - paddleCenter) / 15; // Adjust Y velocity based on hit position
+    }
+}
+
+void Ball::render()
 {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Color blanco
     SDL_RenderFillRect(renderer, &rect);
+}
+
+bool Ball::checkCollision(const SDL_Rect& paddleRect) {
+    // Comprueba si hay colisión entre la pelota y un paddle
+    if (SDL_HasIntersection(&rect, &paddleRect)) {
+        return true;
+    }
+    return false;
 }

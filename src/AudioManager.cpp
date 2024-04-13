@@ -1,35 +1,34 @@
-#include <stdio.h>
 #include "AudioManager.h"
+#include <SDL2/SDL.h>
 
-// Definición de variables globales
-Mix_Chunk *sound_bounce = NULL;
-Mix_Chunk *sound_score = NULL;
-
-bool loadMedia()
+AudioManager::AudioManager()
 {
-    // Cargando sonido de rebote
+    // Carga de sonidos
     sound_bounce = Mix_LoadWAV("sounds/bounce.wav");
     if (!sound_bounce)
     {
-        printf("Failed to load bounce sound effect! SDL_mixer Error: %s\n", Mix_GetError());
-        return false;
+        SDL_Log("Failed to load bounce sound: %s", Mix_GetError());
     }
 
-    // Cargando sonido de anotación
     sound_score = Mix_LoadWAV("sounds/score.wav");
     if (!sound_score)
     {
-        printf("Failed to load score sound effect! SDL_mixer Error: %s\n", Mix_GetError());
-        return false;
+        SDL_Log("Failed to load score sound: %s", Mix_GetError());
     }
-
-    return true;
 }
 
-void closeAudio()
+AudioManager::~AudioManager()
 {
     Mix_FreeChunk(sound_bounce);
     Mix_FreeChunk(sound_score);
-    sound_bounce = NULL;
-    sound_score = NULL;
+}
+
+void AudioManager::playBounceSound()
+{
+    Mix_PlayChannel(-1, sound_bounce, 0); // Reproduce sonido de rebote
+}
+
+void AudioManager::playScoreSound()
+{
+    Mix_PlayChannel(-1, sound_score, 0); // Reproduce sonido de anotación
 }

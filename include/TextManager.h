@@ -1,21 +1,19 @@
 #ifndef TEXTMANAGER_H
 #define TEXTMANAGER_H
 
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 class TextManager
 {
 public:
     TextManager(SDL_Renderer *renderer);
-    ~TextManager();
-
-    void loadFont(const std::string &fontPath, int fontSize);
-    void displayText(const std::string &text, int x, int y, SDL_Color color);
+    void renderText(const std::string &text, int x, int y, SDL_Color color = {255, 255, 255, 255});
 
 private:
-    TTF_Font *font = nullptr;
-    SDL_Renderer *renderer = nullptr;
+    SDL_Renderer *renderer;
+    TTF_Font *font;
 };
 
 #endif

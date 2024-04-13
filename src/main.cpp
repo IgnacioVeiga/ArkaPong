@@ -1,125 +1,52 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
-#include <stdio.h>
-#include "Ball.h"
-#include "Paddle.h"
+#include <SDL2/SDL_ttf.h>
 #include "GameConstants.h"
 #include "GameState.h"
-#include "AudioManager.h"
-#include "TextManager.h"
 
-int main(int argc, char *args[])
+int main(int argc, char *argv[])
 {
-    // Inicialización de SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-    {
-        printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
-        return -1;
-    }
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    TTF_Init();
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-    // Inicializa SDL_mixer
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-    {
-        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-        return -1;
-    }
-    if (!loadMedia())
-    {
-        printf("Failed to load media!\n");
-        return -1;
-    }
-
-    // Creación de la ventana
-    SDL_Window *window = SDL_CreateWindow("Pong",
-                                          SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                          SCREEN_WIDTH, SCREEN_HEIGHT,
+    SDL_Window *window = SDL_CreateWindow("Pong game",
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SCREEN_WIDTH,
+                                          SCREEN_HEIGHT,
                                           SDL_WINDOW_SHOWN);
-    if (!window)
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
+                                                SDL_RENDERER_ACCELERATED);
+    SDL_Event event;
+
+    GameState gameState(renderer);
+    bool gameRunning = true;
+
+    while (gameRunning)
     {
-        SDL_Log("Ventana no pudo ser creada: %s", SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
-
-    // Creación del renderer
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer)
-    {
-        SDL_DestroyWindow(window);
-        SDL_Log("Renderer no pudo ser creado: %s", SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
-
-    TextManager textManager(renderer);
-    textManager.loadFont("fonts/PressStart2P-vaV7.ttf", 16);
-
-    // Esto se usa para los puntajes
-    GameState gameState;
-
-    // Creación de objetos del juego
-    Ball ball(SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT / 2 - 10);
-    Paddle leftPaddle(30, SCREEN_HEIGHT / 2 - 50);
-    Paddle rightPaddle(SCREEN_WIDTH - 50, SCREEN_HEIGHT / 2 - 50);
-
-    // Estado del teclado
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
-
-    // Bucle principal del juego
-    bool running = true;
-    SDL_Event e;
-    while (running)
-    {
-        // Procesamiento de eventos
-        while (SDL_PollEvent(&e))
+        // Event handling
+        while (SDL_PollEvent(&event))
         {
-            if (e.type == SDL_QUIT)
+            if (event.type == SDL_QUIT)
             {
-                running = false;
+                gameRunning = false;
             }
         }
+        gameState.handleInput();
 
-        // Movimiento basado en el estado del teclado
-        if (state[SDL_SCANCODE_UP])
-            rightPaddle.moveUp();
-        if (state[SDL_SCANCODE_DOWN])
-            rightPaddle.moveDown();
+        // Game logic
+        gameState.update();
 
-        if (state[SDL_SCANCODE_W])
-            leftPaddle.moveUp();
-        if (state[SDL_SCANCODE_S])
-            leftPaddle.moveDown();
-
-        // Mover la pelota
-        ball.move(gameState);
-
-        // Detectar colisiones
-        ball.detectCollision(leftPaddle);
-        ball.detectCollision(rightPaddle);
-
-        // Renderizar
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Fondo negro
-        SDL_RenderClear(renderer);
-
-        ball.render(renderer);
-        leftPaddle.render(renderer);
-        rightPaddle.render(renderer);
-
-        SDL_Color white = {255, 255, 255};
-        std::string scoreText = "Left: " + std::to_string(gameState.getPlayerLeftScore()) +
-                                " Right: " + std::to_string(gameState.getPlayerRightScore());
-        textManager.displayText(scoreText, 50, 10, white);
-
-        SDL_RenderPresent(renderer);
-
-        // 60 FPS
-        SDL_Delay(1000 / 60);
+        // Render stuff
+        gameState.render(renderer);
     }
 
-    // Limpieza
-    closeAudio();
+    // Cleanup
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    Mix_CloseAudio();
+    TTF_Quit();
     SDL_Quit();
 
     return 0;

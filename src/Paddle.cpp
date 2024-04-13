@@ -1,36 +1,29 @@
+#include <algorithm>
 #include "Paddle.h"
+#include "GameConstants.h"
 
-Paddle::Paddle(int x, int y)
+Paddle::Paddle(SDL_Renderer *renderer, int x, int y, int w, int h) : renderer(renderer)
 {
-    rect.x = x;
-    rect.y = y;
-    rect.w = 20;  // Ancho del paddle
-    rect.h = 100; // Altura del paddle
+    rect = {x, y, w, h};
 }
 
 void Paddle::moveUp()
 {
-    if (rect.y > 0)
-    {
-        rect.y -= PADDLE_SPEED;
-    }
+    rect.y = std::max(0, rect.y - 10);
 }
 
 void Paddle::moveDown()
 {
-    if (rect.y + rect.h < SCREEN_HEIGHT)
-    {
-        rect.y += PADDLE_SPEED;
-    }
+    rect.y = std::min(SCREEN_HEIGHT - rect.h, rect.y + 10);
 }
 
-SDL_Rect Paddle::getRect() const
-{
-    return rect;
-}
-
-void Paddle::render(SDL_Renderer *renderer)
+void Paddle::render()
 {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Color blanco
     SDL_RenderFillRect(renderer, &rect);
+}
+
+const SDL_Rect &Paddle::getRect() const
+{
+    return rect;
 }

@@ -1,13 +1,19 @@
-#ifndef AUDIOMANAGER_H
-#define AUDIOMANAGER_H
+#ifndef AUDIO_MANAGER_H
+#define AUDIO_MANAGER_H
 
 #include <SDL2/SDL_mixer.h>
 
-// Declaración de variables globales para los efectos de sonido
-extern Mix_Chunk *sound_bounce;
-extern Mix_Chunk *sound_score;
+class AudioManager
+{
+public:
+    AudioManager();
+    ~AudioManager();
+    void playBounceSound();
+    void playScoreSound();
 
-bool loadMedia();  // Función para cargar los medios
-void closeAudio(); // Función para liberar recursos de audio
+private:
+    Mix_Chunk *sound_bounce;
+    Mix_Chunk *sound_score;
+};
 
 #endif
