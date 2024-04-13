@@ -10,10 +10,11 @@ public:
     Ball(SDL_Renderer *renderer, int x, int y, int w, int h);
     void move();
     void reset(int x, int y);
+    void setInitialDirection();
     void changeDirection(Paddle &paddle);
     void render();
     const SDL_Rect &getRect() const { return rect; }
-    bool checkCollision(const SDL_Rect& paddleRect);
+    bool checkCollision(const SDL_Rect &paddleRect);
 
 private:
     SDL_Renderer *renderer;

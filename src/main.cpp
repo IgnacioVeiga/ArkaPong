@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
 
     GameState gameState(renderer);
     bool gameRunning = true;
+    
+    // Para la direccion de la pelota aleatoria
+    srand(time(nullptr));
 
     while (gameRunning)
     {

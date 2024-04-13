@@ -1,6 +1,7 @@
 #include "Ball.h"
 #include "GameConstants.h"
 #include <SDL2/SDL.h>
+#include <ctime>
 
 Ball::Ball(SDL_Renderer *renderer, int x, int y, int w, int h) : renderer(renderer), velX(BALL_SPEED), velY(BALL_SPEED)
 {
@@ -22,6 +23,15 @@ void Ball::reset(int x, int y)
 {
     rect.x = x;
     rect.y = y;
+}
+
+void Ball::setInitialDirection() {
+    // Establece velocidad horizontal aleatoria
+    velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
+
+    // Establece velocidad vertical con un factor aleatorio que varía entre -BALL_SPEED y BALL_SPEED
+    int factor = rand() % BALL_SPEED + 1; // asegura que el factor no sea cero
+    velY = (rand() % 2 == 0 ? -factor : factor);
 }
 
 void Ball::changeDirection(Paddle &paddle)

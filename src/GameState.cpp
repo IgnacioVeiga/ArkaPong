@@ -116,4 +116,5 @@ void GameState::checkCollision()
 void GameState::resetBall()
 {
     ball.reset((SCREEN_WIDTH - BALL_SIZE) / 2, (SCREEN_HEIGHT - BALL_SIZE) / 2);
+    ball.setInitialDirection();
 }
