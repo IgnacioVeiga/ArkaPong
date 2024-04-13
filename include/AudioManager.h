@@ -10,10 +10,12 @@ public:
     ~AudioManager();
     void playBounceSound();
     void playScoreSound();
+    void playPauseStartSound();
 
 private:
     Mix_Chunk *sound_bounce;
     Mix_Chunk *sound_score;
+    Mix_Chunk *sound_pause_start;
 };
 
 #endif

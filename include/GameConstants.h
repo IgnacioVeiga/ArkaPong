@@ -4,7 +4,7 @@
 const int SCREEN_WIDTH = 854;
 const int SCREEN_HEIGHT = 480;
 
-const int BALL_SPEED = 5;
+const int BALL_SPEED = 8;
 const int BALL_SIZE = 15;
 
 const int PADDLE_SPEED = 5;

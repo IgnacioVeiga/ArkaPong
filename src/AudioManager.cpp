@@ -15,6 +15,12 @@ AudioManager::AudioManager()
     {
         SDL_Log("Failed to load score sound: %s", Mix_GetError());
     }
+
+    sound_pause_start = Mix_LoadWAV("sounds/pause_start.wav");
+    if (!sound_pause_start)
+    {
+        SDL_Log("Failed to load pause/start sound: %s", Mix_GetError());
+    }
 }
 
 AudioManager::~AudioManager()
@@ -31,4 +37,9 @@ void AudioManager::playBounceSound()
 void AudioManager::playScoreSound()
 {
     Mix_PlayChannel(-1, sound_score, 0); // Reproduce sonido de anotación
+}
+
+void AudioManager::playPauseStartSound()
+{
+    Mix_PlayChannel(-1, sound_pause_start, 0); // Reproduce sonido de anotación
 }

@@ -2,7 +2,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include "GameConstants.h"
-#include "GameState.h"
+#include "GameStateManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
                                                 SDL_RENDERER_ACCELERATED);
     SDL_Event event;
 
-    GameState gameState(renderer);
+    GameStateManager gameStateManager(renderer);
     bool gameRunning = true;
     
     // Para la direccion de la pelota aleatoria
@@ -36,13 +36,13 @@ int main(int argc, char *argv[])
                 gameRunning = false;
             }
         }
-        gameState.handleInput();
+        gameStateManager.handleInput();
 
         // Game logic
-        gameState.update();
+        gameStateManager.update();
 
         // Render stuff
-        gameState.render(renderer);
+        gameStateManager.render(renderer);
     }
 
     // Cleanup
