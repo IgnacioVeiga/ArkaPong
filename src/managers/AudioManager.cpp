@@ -1,22 +1,21 @@
 #include "AudioManager.h"
-#include "GameConstants.h"
 #include <SDL2/SDL.h>
 
 AudioManager::AudioManager()
 {
-    sound_bounce = Mix_LoadWAV(BOUNCE_FILEPATH);
+    sound_bounce = Mix_LoadWAV("assets/sounds/bounce.wav");
     if (!sound_bounce)
     {
         SDL_Log("Failed to load bounce sound: %s", Mix_GetError());
     }
 
-    sound_score = Mix_LoadWAV(SCORE_FILEPATH);
+    sound_score = Mix_LoadWAV("assets/sounds/score.wav");
     if (!sound_score)
     {
         SDL_Log("Failed to load score sound: %s", Mix_GetError());
     }
 
-    sound_pause_start = Mix_LoadWAV(PAUSE_START_FILEPATH);
+    sound_pause_start = Mix_LoadWAV("assets/sounds/pause_start.wav");
     if (!sound_pause_start)
     {
         SDL_Log("Failed to load pause/start sound: %s", Mix_GetError());

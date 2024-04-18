@@ -1,9 +1,8 @@
 #include "TextManager.h"
-#include "GameConstants.h"
 
 TextManager::TextManager(SDL_Renderer *renderer) : renderer(renderer)
 {
-    font = TTF_OpenFont(FONT_FILEPATH, 16);
+    font = TTF_OpenFont("assets/fonts/PressStart2P-vaV7.ttf", 16);
 }
 
 void TextManager::renderText(const std::string &text, int x, int y, SDL_Color color)

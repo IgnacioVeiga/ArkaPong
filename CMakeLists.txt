@@ -51,6 +51,10 @@ add_custom_command(TARGET Pong POST_BUILD
     "${PROJECT_SOURCE_DIR}/lib/SDL2_ttf.dll"
     "$<TARGET_FILE_DIR:Pong>")
 
+add_custom_command(TARGET Pong POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_SOURCE_DIR}/assets"
+    "$<TARGET_FILE_DIR:Pong>/assets")
 
 # (Opcional) Define las rutas de los DLL para ejecución en Windows
 if(WIN32)

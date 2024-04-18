@@ -15,9 +15,4 @@ inline const int PADDLE_OFFSET = 32;
 inline const int PADDLE_WIDTH = 12;
 inline const int PADDLE_HEIGHT = 86;
 
-inline const char *BOUNCE_FILEPATH = "assets/sounds/bouce.wav";
-inline const char *PAUSE_START_FILEPATH = "assets/sounds/pause_start.wav";
-inline const char *SCORE_FILEPATH = "assets/sounds/score.wav";
-inline const char *FONT_FILEPATH = "assets/fonts/PressStart2P-vaV7.ttf";
-
 #endif

@@ -6,6 +6,13 @@
 
 int main(int argc, char *argv[])
 {
+    char *basePath = SDL_GetBasePath();
+    if (basePath)
+    {
+        printf("Current path is: %s\n", basePath);
+        SDL_free(basePath);
+    }
+
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     TTF_Init();
     Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -16,7 +23,7 @@ int main(int argc, char *argv[])
                                           SCREEN_WIDTH,
                                           SCREEN_HEIGHT,
                                           SDL_WINDOW_SHOWN);
-                                          
+
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
                                                 SDL_RENDERER_ACCELERATED);
     SDL_Event event;
