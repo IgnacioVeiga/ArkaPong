@@ -2,11 +2,14 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Nombre del proyecto
-project(Pong VERSION 1.0)
+project(PONG)
 
 # Especificar el estándar de C++ requerido
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Definir el directorio de salida para los ejecutables
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Incluir directorios donde están los headers
 include_directories(
@@ -33,42 +36,18 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Vincular las bibliotecas de SDL2 al proyecto
 target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_mixer SDL2_ttf)
 
-# Copia SDL2.dll
-add_custom_command(TARGET Pong POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${PROJECT_SOURCE_DIR}/lib/SDL2.dll"
-    "$<TARGET_FILE_DIR:Pong>")
+# Copiar los archivos DLL y recursos necesarios después de la construcción
+# Copia todos los archivos .dll
+file(GLOB DLL_FILES "${PROJECT_SOURCE_DIR}/lib/*.dll")
+foreach(dll ${DLL_FILES})
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${dll}
+        "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+endforeach()
 
-# Copia SDL2_mixer.dll
-add_custom_command(TARGET Pong POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${PROJECT_SOURCE_DIR}/lib/SDL2_mixer.dll"
-    "$<TARGET_FILE_DIR:Pong>")
 
-# Copia SDL2_ttf.dll
-add_custom_command(TARGET Pong POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${PROJECT_SOURCE_DIR}/lib/SDL2_ttf.dll"
-    "$<TARGET_FILE_DIR:Pong>")
-
-add_custom_command(TARGET Pong POST_BUILD
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "${CMAKE_SOURCE_DIR}/assets"
-    "$<TARGET_FILE_DIR:Pong>/assets")
-
-# (Opcional) Define las rutas de los DLL para ejecución en Windows
-if(WIN32)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_SOURCE_DIR}/lib/SDL2.dll"
-        "${CMAKE_BINARY_DIR}/bin")
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_SOURCE_DIR}/lib/SDL2_mixer.dll"
-        "${CMAKE_BINARY_DIR}/bin")
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_SOURCE_DIR}/lib/SDL2_ttf.dll"
-        "${CMAKE_BINARY_DIR}/bin")
-endif()
+        "${CMAKE_SOURCE_DIR}/assets"
+        "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
