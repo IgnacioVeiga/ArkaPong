@@ -8,21 +8,22 @@ int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     TTF_Init();
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048);
 
-    SDL_Window *window = SDL_CreateWindow("Pong game",
+    SDL_Window *window = SDL_CreateWindow(GAME_TITLE,
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
                                           SCREEN_WIDTH,
                                           SCREEN_HEIGHT,
                                           SDL_WINDOW_SHOWN);
+                                          
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
                                                 SDL_RENDERER_ACCELERATED);
     SDL_Event event;
 
     GameStateManager gameStateManager(renderer);
     bool gameRunning = true;
-    
+
     // Para la direccion de la pelota aleatoria
     srand(time(nullptr));
 
