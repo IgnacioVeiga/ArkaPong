@@ -2,20 +2,20 @@
 #define AUDIO_MANAGER_H
 
 #include <SDL2/SDL_mixer.h>
+#include <string>
+#include <unordered_map>
 
 class AudioManager
 {
 public:
     AudioManager();
     ~AudioManager();
-    void playBounceSound();
-    void playScoreSound();
-    void playPauseStartSound();
+    void loadSound(const std::string &name, const std::string &filename);
+    void playSound(const std::string &name);
+    void clearSounds();
 
 private:
-    Mix_Chunk *sound_bounce;
-    Mix_Chunk *sound_score;
-    Mix_Chunk *sound_pause_start;
+    std::unordered_map<std::string, Mix_Chunk *> sounds;
 };
 
 #endif

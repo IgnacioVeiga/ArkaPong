@@ -1,1 +1,2 @@
-# PONG (C++)
+# ArkaPong
+Arkanoid + Pong

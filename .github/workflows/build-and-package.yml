@@ -1,0 +1,61 @@
+name: Build and Package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            folder: win
+          - os: ubuntu-latest
+            folder: linux
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install CMake
+      uses: lukka/get-cmake@v4
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{ github.workspace }}/build
+
+    - name: Configure CMake
+      run: cmake -B ${{ github.workspace }}/build -S ${{ github.workspace }} -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: cmake --build ${{ github.workspace }}/build --config Release
+
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: pong-${{ matrix.folder }}
+        path: ${{ github.workspace }}/build/bin/**
+        if-no-files-found: error
+
+  package:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+      - name: Zip files
+        run: |
+          zip -r pong-${{ matrix.os }}.zip ./*
+      - uses: actions/upload-artifact@v3
+        with:
+          name: pong-${{ matrix.os }}-zip
+          path: pong-${{ matrix.os }}.zip

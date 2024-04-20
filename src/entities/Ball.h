@@ -1,25 +1,34 @@
 #ifndef BALL_H
 #define BALL_H
 
-#include <SDL2/SDL.h>
+#include "Entity.h"
 #include "Paddle.h"
 
-class Ball
+class Ball : public Entity
 {
 public:
-    Ball(SDL_Renderer *renderer, int x, int y, int w, int h);
-    void move();
+    Ball(SDL_Renderer *renderer, const char *imagePath, int x, int y, int w, int h);
+    ~Ball();
+    void move() override;
     void reset(int x, int y);
-    void setInitialDirection();
-    void changeDirection(Paddle &paddle);
-    void render();
-    const SDL_Rect &getRect() const { return rect; }
-    bool checkCollision(const SDL_Rect &paddleRect);
+    void render(SDL_Renderer *renderer) override;
+    const SDL_Rect &getRect() const override;
+
+    void getVelocity(int &velX, int &velY) const
+    {
+        velX = this->velX;
+        velY = this->velY;
+    }
+    void setVelocity(int velX, int velY)
+    {
+        this->velX = velX;
+        this->velY = velY;
+    }
 
 private:
     SDL_Renderer *renderer;
-    SDL_Rect rect;
     int velX, velY;
+    void setInitialDirection();
 };
 
 #endif

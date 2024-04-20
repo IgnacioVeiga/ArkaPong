@@ -1,45 +1,36 @@
 #include "AudioManager.h"
 #include <SDL2/SDL.h>
 
-AudioManager::AudioManager()
-{
-    sound_bounce = Mix_LoadWAV("assets/sounds/bounce.wav");
-    if (!sound_bounce)
-    {
-        SDL_Log("Failed to load bounce sound: %s", Mix_GetError());
-    }
-
-    sound_score = Mix_LoadWAV("assets/sounds/score.wav");
-    if (!sound_score)
-    {
-        SDL_Log("Failed to load score sound: %s", Mix_GetError());
-    }
-
-    sound_pause_start = Mix_LoadWAV("assets/sounds/pause_start.wav");
-    if (!sound_pause_start)
-    {
-        SDL_Log("Failed to load pause/start sound: %s", Mix_GetError());
-    }
-}
+AudioManager::AudioManager() {}
 
 AudioManager::~AudioManager()
 {
-    Mix_FreeChunk(sound_bounce);
-    Mix_FreeChunk(sound_score);
-    Mix_FreeChunk(sound_pause_start);
+    clearSounds();
 }
 
-void AudioManager::playBounceSound()
+void AudioManager::loadSound(const std::string &name, const std::string &filename)
 {
-    Mix_PlayChannel(-1, sound_bounce, 0);
+    Mix_Chunk *sound = Mix_LoadWAV(filename.c_str());
+    if (sound)
+    {
+        sounds[name] = sound;
+    }
+    else
+    {
+        SDL_Log("Failed to load sound %s: %s", filename.c_str(), Mix_GetError());
+    }
 }
 
-void AudioManager::playScoreSound()
+void AudioManager::playSound(const std::string &name)
 {
-    Mix_PlayChannel(-1, sound_score, 0);
+    Mix_PlayChannel(-1, sounds[name], 0);
 }
 
-void AudioManager::playPauseStartSound()
+void AudioManager::clearSounds()
 {
-    Mix_PlayChannel(-1, sound_pause_start, 0);
+    for (auto &kv : sounds)
+    {
+        Mix_FreeChunk(kv.second);
+    }
+    sounds.clear();
 }

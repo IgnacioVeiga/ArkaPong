@@ -1,20 +1,21 @@
 #ifndef PADDLE_H
 #define PADDLE_H
 
-#include <SDL2/SDL.h>
+#include "Entity.h"
 
-class Paddle
+class Paddle : public Entity
 {
 public:
-    Paddle(SDL_Renderer *renderer, int x, int y, int w, int h);
+    Paddle(SDL_Renderer *renderer, const char *imagePath, int x, int y, int w, int h);
+    ~Paddle();
     void moveUp();
     void moveDown();
-    void render();
-    const SDL_Rect &getRect() const;
+    void move() override;  // Implementación específica de Paddle
+    void render(SDL_Renderer *renderer) override;
+    const SDL_Rect &getRect() const override;
 
 private:
     SDL_Renderer *renderer;
-    SDL_Rect rect;
 };
 
 #endif
