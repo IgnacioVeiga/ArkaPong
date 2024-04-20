@@ -30,6 +30,10 @@ jobs:
     - name: Install CMake
       uses: lukka/get-cmake@latest
 
+    - name: Install SDL2 libraries
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev
+
     - name: Create Build Environment
       run: cmake -E make_directory ${{ github.workspace }}/build
 
