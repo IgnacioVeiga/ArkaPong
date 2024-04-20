@@ -28,7 +28,7 @@ jobs:
         python-version: '3.x'
 
     - name: Install CMake
-      uses: lukka/get-cmake@v4
+      uses: lukka/get-cmake@latest
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{ github.workspace }}/build
@@ -42,7 +42,7 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: pong-${{ matrix.folder }}
+        name: ArkaPong-${{ matrix.folder }}
         path: ${{ github.workspace }}/build/bin/**
         if-no-files-found: error
 
@@ -54,8 +54,8 @@ jobs:
       - uses: actions/download-artifact@v3
       - name: Zip files
         run: |
-          zip -r pong-${{ matrix.os }}.zip ./*
+          zip -r ArkaPong-${{ matrix.os }}.zip ./*
       - uses: actions/upload-artifact@v3
         with:
-          name: pong-${{ matrix.os }}-zip
-          path: pong-${{ matrix.os }}.zip
+          name: ArkaPong-${{ matrix.os }}-zip
+          path: ArkaPong-${{ matrix.os }}.zip
