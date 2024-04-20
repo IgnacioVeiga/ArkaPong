@@ -2,6 +2,7 @@
 #include "MenuState.h"
 #include "GameConstants.h"
 #include <SDL2/SDL_mixer.h>
+#include <time.h>
 
 Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunning(false)
 {
@@ -91,7 +92,7 @@ void Game::mainLoop()
         SDL_RenderClear(renderer);
         flowManager->render(renderer);
         SDL_RenderPresent(renderer);
-        
+
         SDL_Delay(1000 / 60); // 60 FPS
     }
 }
