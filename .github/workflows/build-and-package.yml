@@ -1,4 +1,4 @@
-name: Build and Package
+name: Build
 
 on:
   push:
@@ -13,53 +13,51 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        include:
-          - os: windows-latest
-            folder: win
-          - os: ubuntu-latest
-            folder: linux
-
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        sdl_version: ["2.0.14", "2.0.14", "2.0.14"]
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Install CMake
-      uses: lukka/get-cmake@latest
-
-    - name: Install SDL2 libraries
-      if: matrix.os == 'ubuntu-latest'
-      run: sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev
-
-    - name: Create Build Environment
-      run: cmake -E make_directory ${{ github.workspace }}/build
-
-    - name: Configure CMake
-      run: cmake -B ${{ github.workspace }}/build -S ${{ github.workspace }} -DCMAKE_BUILD_TYPE=Release
-
-    - name: Build
-      run: cmake --build ${{ github.workspace }}/build --config Release
-
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: ArkaPong-${{ matrix.folder }}
-        path: ${{ github.workspace }}/build/bin/**
-        if-no-files-found: error
-
-  package:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-      - name: Zip files
+      - name: Install dependencies
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
-          zip -r ArkaPong-${{ matrix.os }}.zip ./*
-      - uses: actions/upload-artifact@v3
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev libsdl2-ttf-dev libsdl2-mixer-dev
+
+      - name: Install dependencies
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install sdl2 sdl2-ttf sdl2-mixer --version=$env:sdl_version
+
+      - name: Configure and build
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        run: |
+          cmake -B build -S .
+          cmake --build build --config Release
+
+      - name: Configure and build
+        if: matrix.os == 'windows-latest'
+        run: |
+          cmake -B build -S . -G "Visual Studio 16 2019" -A x64
+          cmake --build build --config Release
+
+      - name: Package
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        run: |
+          mkdir release
+          mv build/ArkaPong release/
+          tar -czvf ArkaPong_${{ matrix.os }}_${{ github.run_number }}.tar.gz release/*
+
+      - name: Package
+        if: matrix.os == 'windows-latest'
+        run: |
+          mkdir release
+          mv build/Release/ArkaPong.exe release/
+          7z a ArkaPong_${{ matrix.os }}_${{ github.run_number }}.zip release/*
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: ArkaPong-${{ matrix.os }}-zip
-          path: ArkaPong-${{ matrix.os }}.zip
+          name: ArkaPong_${{ matrix.os }}_${{ github.run_number }}
+          path: ArkaPong_${{ matrix.os }}_${{ github.run_number }}.*
