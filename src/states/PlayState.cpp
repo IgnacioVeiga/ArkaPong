@@ -1,4 +1,5 @@
 #include "PlayState.h"
+#include "PauseState.h"
 #include "GameConstants.h"
 
 PlayState::PlayState(SDL_Renderer *rend, GameFlowManager *flowMgr)
@@ -25,6 +26,7 @@ PlayState::PlayState(SDL_Renderer *rend, GameFlowManager *flowMgr)
           SCREEN_WIDTH / 2 - BALL_SIZE / 2,
           SCREEN_HEIGHT / 2 - BALL_SIZE / 2, BALL_SIZE,
           BALL_SIZE),
+      flowMgr(flowMgr),
       countdown(3),
       countdownTimer(SDL_GetTicks()),
       isCountingDown(true)
@@ -67,7 +69,11 @@ void PlayState::handleInput()
 
     if (keystate[SDL_SCANCODE_SPACE])
     {
-        // TODO: Cambiar al PauseState
+        flowMgr->changeState(new PauseState(renderer));
+    }
+    else if (keystate[SDL_SCANCODE_ESCAPE])
+    {
+        // TODO: exit
     }
 }
 

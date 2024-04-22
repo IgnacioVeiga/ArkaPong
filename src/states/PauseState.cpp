@@ -1,6 +1,8 @@
 #include "PauseState.h"
+#include "GameConstants.h"
 
-PauseState::PauseState(SDL_Renderer *rend) : renderer(rend)
+PauseState::PauseState(SDL_Renderer *rend)
+    : renderer(rend)
 {
     textManager = new TextManager(renderer);
 }
@@ -24,6 +26,7 @@ void PauseState::render(SDL_Renderer *renderer)
 {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    textManager->renderText("Game Paused - Press SPACE to continue", 100, 100);
+    textManager->renderText("Game Paused", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 100);
+    textManager->renderText("Press SPACE to continue", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2);
     SDL_RenderPresent(renderer);
 }
