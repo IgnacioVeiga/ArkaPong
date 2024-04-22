@@ -3,11 +3,10 @@
 #include <cstdlib>
 #include <ctime>
 
-Ball::Ball(SDL_Renderer *renderer, const char *imagePath, int x, int y, int w, int h) : renderer(renderer), velX(BALL_SPEED), velY(BALL_SPEED)
+Ball::Ball(SDL_Renderer *renderer) : renderer(renderer), velX(BALL_SPEED), velY(BALL_SPEED)
 {
-    this->renderer = renderer;
-
     // Cargar imagen BMP directamente
+    const char *imagePath = "assets/sprites/ball.bmp";
     SDL_Surface *tempSurface = SDL_LoadBMP(imagePath);
     if (!tempSurface)
     {
@@ -25,7 +24,12 @@ Ball::Ball(SDL_Renderer *renderer, const char *imagePath, int x, int y, int w, i
     }
 
     // Definir el rectángulo para el rendering de la textura
-    rect = {x, y, w, h};
+    rect = {
+        SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
+        SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
+        BALL_SIZE,                         // W
+        BALL_SIZE                          // H
+    };
 }
 
 Ball::~Ball()

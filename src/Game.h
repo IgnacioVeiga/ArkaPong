@@ -16,10 +16,6 @@ private:
     SDL_Renderer *renderer;
     GameFlowManager *flowManager; // Gestor del flujo del juego
     bool isRunning;
-
-    void init();     // Inicialización de componentes del juego
-    void mainLoop(); // Bucle principal del juego
-    void cleanUp();  // Limpieza de recursos
 };
 
 #endif

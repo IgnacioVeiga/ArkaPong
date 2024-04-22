@@ -7,7 +7,7 @@
 class Ball : public Entity
 {
 public:
-    Ball(SDL_Renderer *renderer, const char *imagePath, int x, int y, int w, int h);
+    Ball(SDL_Renderer *renderer);
     ~Ball();
     void move() override;
     void reset(int x, int y);

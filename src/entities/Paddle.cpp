@@ -2,11 +2,10 @@
 #include "GameConstants.h"
 #include <algorithm>
 
-Paddle::Paddle(SDL_Renderer *renderer, const char *imagePath, int x, int y, int w, int h) : renderer(renderer)
+Paddle::Paddle(SDL_Renderer *renderer, int x) : renderer(renderer)
 {
-    this->renderer = renderer;
-
     // Cargar imagen BMP directamente
+    const char *imagePath = "assets/sprites/paddle.bmp";
     SDL_Surface *tempSurface = SDL_LoadBMP(imagePath);
     if (!tempSurface)
     {
@@ -24,7 +23,12 @@ Paddle::Paddle(SDL_Renderer *renderer, const char *imagePath, int x, int y, int 
     }
 
     // Definir el rectángulo para el rendering de la textura
-    rect = {x, y, w, h};
+    rect = {
+        x,                                     // X
+        SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
+        PADDLE_WIDTH,                          // W
+        PADDLE_HEIGHT                          // H
+    };
 }
 
 Paddle::~Paddle()

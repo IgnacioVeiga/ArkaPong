@@ -6,16 +6,6 @@
 
 Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunning(false)
 {
-    init();
-}
-
-Game::~Game()
-{
-    cleanUp();
-}
-
-void Game::init()
-{
     srand(time(nullptr));
 
     // Inicializa SDL
@@ -68,12 +58,25 @@ void Game::init()
     isRunning = true;
 }
 
-void Game::run()
+Game::~Game()
 {
-    mainLoop();
+    if (flowManager)
+    {
+        delete flowManager;
+    }
+    if (renderer)
+    {
+        SDL_DestroyRenderer(renderer);
+    }
+    if (window)
+    {
+        SDL_DestroyWindow(window);
+    }
+    Mix_CloseAudio();
+    SDL_Quit();
 }
 
-void Game::mainLoop()
+void Game::run()
 {
     SDL_Event event;
     while (isRunning)
@@ -95,22 +98,4 @@ void Game::mainLoop()
 
         SDL_Delay(1000 / 60); // 60 FPS
     }
-}
-
-void Game::cleanUp()
-{
-    if (flowManager)
-    {
-        delete flowManager;
-    }
-    if (renderer)
-    {
-        SDL_DestroyRenderer(renderer);
-    }
-    if (window)
-    {
-        SDL_DestroyWindow(window);
-    }
-    Mix_CloseAudio();
-    SDL_Quit();
 }

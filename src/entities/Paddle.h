@@ -6,7 +6,7 @@
 class Paddle : public Entity
 {
 public:
-    Paddle(SDL_Renderer *renderer, const char *imagePath, int x, int y, int w, int h);
+    Paddle(SDL_Renderer *renderer, int x);
     ~Paddle();
     void moveUp();
     void moveDown();
