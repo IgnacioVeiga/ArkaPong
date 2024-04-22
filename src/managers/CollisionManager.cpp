@@ -61,7 +61,9 @@ void CollisionManager::handleWallCollisions(Ball &ball)
     if (rect.x <= 0 || rect.x + rect.w >= SCREEN_WIDTH)
     {
         ball.reset(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        SDL_Delay(500);
         audioManager->playSound("score");
+        SDL_Delay(2000);
         if (rect.x <= 0)
         {
             scoreManager->increaseScoreRight();
