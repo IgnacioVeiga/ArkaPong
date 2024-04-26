@@ -12,6 +12,7 @@ Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunni
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
     {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+        SDL_Quit();
         return;
     }
 
@@ -19,6 +20,7 @@ Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunni
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
     {
         SDL_Log("SDL_mixer initialization failed: %s", Mix_GetError());
+        SDL_Quit();
         return;
     }
 
