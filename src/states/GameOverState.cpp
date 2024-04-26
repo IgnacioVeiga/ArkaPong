@@ -13,7 +13,7 @@ GameOverState::~GameOverState()
 
 void GameOverState::handleInput()
 {
-    // Aquí puedes gestionar la entrada para reiniciar el juego o salir
+    // Gestionar la entrada para salir al MenuState o del juego
 }
 
 void GameOverState::update()

@@ -18,7 +18,6 @@ Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunni
     // Inicializar SDL_mixer
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
     {
-        // Manejar el error si la inicialización de SDL_mixer falla
         SDL_Log("SDL_mixer initialization failed: %s", Mix_GetError());
         return;
     }
@@ -31,7 +30,6 @@ Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunni
         return;
     }
 
-    // Crea la ventana y el renderizador
     window = SDL_CreateWindow(
         GAME_TITLE,
         SDL_WINDOWPOS_CENTERED,
@@ -39,6 +37,7 @@ Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunni
         SCREEN_WIDTH,
         SCREEN_HEIGHT,
         SDL_WINDOW_SHOWN);
+    
     renderer = SDL_CreateRenderer(
         window,
         -1,

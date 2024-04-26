@@ -10,7 +10,7 @@ public:
     ~Paddle();
     void moveUp();
     void moveDown();
-    void move() override;  // Implementación específica de Paddle
+    void move() override;
     void render(SDL_Renderer *renderer) override;
     const SDL_Rect &getRect() const override;
 

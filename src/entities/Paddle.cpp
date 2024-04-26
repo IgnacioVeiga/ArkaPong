@@ -48,8 +48,7 @@ void Paddle::moveDown()
 
 void Paddle::move()
 {
-    // Este método podría estar vacío si no necesitas un movimiento continuo
-    // o puedes poner lógica para movimientos automáticos o basados en IA
+    // TODO: revisar si se deberia implementar la IA acá
 }
 
 void Paddle::render(SDL_Renderer *renderer)

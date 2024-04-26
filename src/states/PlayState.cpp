@@ -66,11 +66,12 @@ void PlayState::handleInput()
 
 void PlayState::update()
 {
+    // Eliminar la logica del countdown si no se va a utilizar
     Uint32 currentTime = SDL_GetTicks();
     if (isCountingDown)
     {
         if (currentTime - countdownTimer > 1000)
-        { // cada segundo
+        {
             countdown--;
             countdownTimer = currentTime;
             if (countdown <= 0)
@@ -83,6 +84,7 @@ void PlayState::update()
         }
         return;
     }
+
     ball.move();
     collisionManager->handleWallCollisions(ball);
     collisionManager->handlePaddleCollision(ball, playerLeft);
@@ -105,6 +107,7 @@ void PlayState::render(SDL_Renderer *renderer)
         playerLeft.render(renderer);
         playerRight.render(renderer);
         ball.render(renderer);
+        
         std::string leftScore = "P1: " + std::to_string(scoreManager->getPlayerLeftScore());
         std::string rightScore = "P2: " + std::to_string(scoreManager->getPlayerRightScore());
         textManager->renderText(leftScore, 50, 50);                  // Posición puede ajustarse según necesidad

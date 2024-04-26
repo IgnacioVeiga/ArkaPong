@@ -31,7 +31,9 @@ void CollisionManager::handlePaddleCollision(Ball &ball, const Paddle &paddle)
         int paddleCenter = paddleRect.y + paddleRect.h / 2;
         int ballCenter = ballRect.y + ballRect.h / 2;
         int deltaY = ballCenter - paddleCenter;
-        velY += deltaY / 15; // Este factor de ajuste puede variar según tus necesidades de jugabilidad
+        
+        // Este factor de ajuste puede variar según tus necesidades de jugabilidad
+        velY += deltaY / 15;
         ball.setVelocity(-velX, velY);
         audioManager->playSound("paddle_bounce");
     }

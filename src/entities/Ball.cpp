@@ -52,8 +52,13 @@ void Ball::reset(int x, int y)
 
 void Ball::setInitialDirection()
 {
+    // Hacia izquierda o derecha (aleatorio)
     velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
-    int factor = rand() % BALL_SPEED + 1; // Asegura que el factor no sea cero
+
+    // La velocidad en el eje Y no es siempre la misma
+    int factor = rand() % BALL_SPEED + 1;
+
+    // Hacia arriba o abajo (aleatorio)
     velY = (rand() % 2 == 0 ? -factor : factor);
 }
 
