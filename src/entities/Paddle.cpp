@@ -51,6 +51,12 @@ void Paddle::move()
     // TODO: revisar si se deberia implementar la IA acá
 }
 
+void Paddle::center()
+{
+    rect.x = SCREEN_WIDTH / 2;
+    rect.y = SCREEN_HEIGHT / 2;
+}
+
 void Paddle::render(SDL_Renderer *renderer)
 {
     if (texture)

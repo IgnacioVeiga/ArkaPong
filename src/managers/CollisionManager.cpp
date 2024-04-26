@@ -62,10 +62,11 @@ void CollisionManager::handleWallCollisions(Ball &ball)
     // Comprobar colisiones con las paredes izquierda y derecha para puntuación
     if (rect.x <= 0 || rect.x + rect.w >= SCREEN_WIDTH)
     {
-        ball.reset(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        ball.center();
         SDL_Delay(500);
         audioManager->playSound("score");
         SDL_Delay(2000);
+        // TODO: centrar jugadores
         if (rect.x <= 0)
         {
             scoreManager->increaseScoreRight();

@@ -43,15 +43,11 @@ void Ball::move()
     rect.y += velY;
 }
 
-void Ball::reset(int x, int y)
+void Ball::center()
 {
-    rect.x = x;
-    rect.y = y;
-    setInitialDirection();
-}
+    rect.x = SCREEN_WIDTH / 2;
+    rect.y = SCREEN_HEIGHT / 2;
 
-void Ball::setInitialDirection()
-{
     // Hacia izquierda o derecha (aleatorio)
     velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
 

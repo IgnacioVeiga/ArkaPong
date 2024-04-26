@@ -10,7 +10,7 @@ public:
     Ball(SDL_Renderer *renderer);
     ~Ball();
     void move() override;
-    void reset(int x, int y);
+    void center();
     void render(SDL_Renderer *renderer) override;
     const SDL_Rect &getRect() const override;
 
@@ -28,7 +28,6 @@ public:
 private:
     SDL_Renderer *renderer;
     int velX, velY;
-    void setInitialDirection();
 };
 
 #endif
