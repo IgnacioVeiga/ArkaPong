@@ -41,7 +41,7 @@ Game::Game() : window(nullptr), flowManager(nullptr), isRunning(false)
         SCREEN_WIDTH,
         SCREEN_HEIGHT,
         SDL_WINDOW_SHOWN);
-    
+
     renderer = SDL_CreateRenderer(
         window,
         -1,
@@ -81,9 +81,17 @@ Game::~Game()
 
 void Game::run()
 {
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
+
+    Uint32 frameStart;
+    int frameTime;
+
     SDL_Event event;
     while (isRunning)
     {
+        frameStart = SDL_GetTicks();
+
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
@@ -99,6 +107,8 @@ void Game::run()
         flowManager->render();
         SDL_RenderPresent(renderer);
 
-        SDL_Delay(1000 / 60); // 60 FPS
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > frameTime)
+            SDL_Delay(frameDelay - frameTime);
     }
 }
