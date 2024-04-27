@@ -1,8 +1,9 @@
 #include "Paddle.h"
 #include "GameConstants.h"
 #include <algorithm>
+#include <Game.h>
 
-Paddle::Paddle(SDL_Renderer *renderer, int x) : renderer(renderer)
+Paddle::Paddle(int x)
 {
     // Cargar imagen BMP directamente
     const char *imagePath = "assets/sprites/paddle.bmp";
@@ -14,7 +15,7 @@ Paddle::Paddle(SDL_Renderer *renderer, int x) : renderer(renderer)
     else
     {
         // Crear una textura a partir de la superficie
-        texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
         SDL_FreeSurface(tempSurface); // Liberar la superficie después de crear la textura
         if (!texture)
         {
@@ -57,17 +58,17 @@ void Paddle::center()
     rect.y = SCREEN_HEIGHT / 2;
 }
 
-void Paddle::render(SDL_Renderer *renderer)
+void Paddle::render()
 {
     if (texture)
     {
-        SDL_RenderCopy(renderer, texture, NULL, &rect);
+        SDL_RenderCopy(Game::renderer, texture, NULL, &rect);
     }
     else
     {
         // Dibujo de fallback si no se carga la textura
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Blanco
-        SDL_RenderFillRect(renderer, &rect);
+        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255); // Blanco
+        SDL_RenderFillRect(Game::renderer, &rect);
     }
 }
 

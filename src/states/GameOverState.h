@@ -7,14 +7,13 @@
 class GameOverState : public GameState
 {
 public:
-    GameOverState(SDL_Renderer *renderer);
+    GameOverState();
     ~GameOverState();
     void handleInput() override;
     void update() override;
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
 
 private:
-    SDL_Renderer *renderer;
     TextManager *textManager;
 };
 

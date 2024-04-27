@@ -8,13 +8,12 @@
 
 class TextManager {
 public:
-    TextManager(SDL_Renderer *renderer);
+    TextManager();
     ~TextManager();
     void renderText(const std::string &text, int x, int y, SDL_Color color = {255, 255, 255, 255});
     void clearTextCache();
 
 private:
-    SDL_Renderer *renderer;
     TTF_Font *font;
     std::unordered_map<std::string, SDL_Texture*> textCache;
 };

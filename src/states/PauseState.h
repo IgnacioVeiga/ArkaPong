@@ -7,16 +7,15 @@
 class PauseState : public GameState
 {
 private:
-    SDL_Renderer *renderer;
     TextManager *textManager;
 
 public:
-    PauseState(SDL_Renderer *renderer);
+    PauseState();
     ~PauseState();
 
     void handleInput() override;
     void update() override;
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
 };
 
 #endif

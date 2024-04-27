@@ -1,18 +1,16 @@
 #include "PlayState.h"
 #include "PauseState.h"
 #include "GameConstants.h"
+#include <Game.h>
 
-PlayState::PlayState(SDL_Renderer *rend, GameFlowManager *flowMgr)
-    : renderer(rend),
-      scoreManager(new ScoreManager()),
+PlayState::PlayState(GameFlowManager *flowMgr)
+    : scoreManager(new ScoreManager()),
       collisionManager(new CollisionManager(scoreManager)),
       playerLeft(
-          rend,
           PADDLE_OFFSET),
       playerRight(
-          rend,
           SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH),
-      ball(rend),
+      ball(),
       flowMgr(flowMgr),
       countdown(3),
       countdownTimer(SDL_GetTicks()),
@@ -21,7 +19,7 @@ PlayState::PlayState(SDL_Renderer *rend, GameFlowManager *flowMgr)
     audioManager = new AudioManager();
     audioManager->loadSound("round_start", "assets/audio/bgm/round_start.wav");
 
-    textManager = new TextManager(renderer);
+    textManager = new TextManager();
 }
 
 PlayState::~PlayState()
@@ -56,7 +54,7 @@ void PlayState::handleInput()
 
     if (keystate[SDL_SCANCODE_SPACE])
     {
-        flowMgr->changeState(new PauseState(renderer));
+        flowMgr->changeState(new PauseState());
     }
     else if (keystate[SDL_SCANCODE_ESCAPE])
     {
@@ -78,7 +76,7 @@ void PlayState::update()
             {
                 isCountingDown = false;
                 audioManager->playSound("round_start");
-                render(renderer);
+                render();
                 SDL_Delay(3000);
             }
         }
@@ -91,10 +89,10 @@ void PlayState::update()
     collisionManager->handlePaddleCollision(ball, playerRight);
 }
 
-void PlayState::render(SDL_Renderer *renderer)
+void PlayState::render()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
+    SDL_RenderClear(Game::renderer);
     if (isCountingDown)
     {
         textManager->renderText("Stage 1", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 100);
@@ -104,9 +102,9 @@ void PlayState::render(SDL_Renderer *renderer)
     }
     else
     {
-        playerLeft.render(renderer);
-        playerRight.render(renderer);
-        ball.render(renderer);
+        playerLeft.render();
+        playerRight.render();
+        ball.render();
 
         std::string leftScore = "P1: " + std::to_string(scoreManager->getPlayerLeftScore());
         std::string rightScore = "P2: " + std::to_string(scoreManager->getPlayerRightScore());
@@ -123,5 +121,5 @@ void PlayState::render(SDL_Renderer *renderer)
         textManager->renderText(leftScore, PADDLE_OFFSET, PADDLE_OFFSET);
         textManager->renderText(rightScore, SCREEN_WIDTH - 109, PADDLE_OFFSET);
     }
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Game::renderer);
 }

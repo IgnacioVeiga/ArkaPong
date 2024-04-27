@@ -10,10 +10,10 @@ public:
     Game();
     ~Game();
     void run(); // Método para iniciar el juego
+    static SDL_Renderer *renderer;
 
 private:
     SDL_Window *window;
-    SDL_Renderer *renderer;
     GameFlowManager *flowManager; // Gestor del flujo del juego
     bool isRunning;
 };

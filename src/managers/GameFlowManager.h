@@ -15,7 +15,7 @@ public:
     void changeState(GameState *newState);
     void handleInput();
     void update();
-    void render(SDL_Renderer *renderer);
+    void render();
 };
 
 #endif

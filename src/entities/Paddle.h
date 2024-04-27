@@ -6,17 +6,16 @@
 class Paddle : public Entity
 {
 public:
-    Paddle(SDL_Renderer *renderer, int x);
+    Paddle(int x);
     ~Paddle();
     void moveUp();
     void moveDown();
     void move() override;
     void center();
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     const SDL_Rect &getRect() const override;
 
 private:
-    SDL_Renderer *renderer;
 };
 
 #endif

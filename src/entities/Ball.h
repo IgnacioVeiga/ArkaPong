@@ -7,11 +7,11 @@
 class Ball : public Entity
 {
 public:
-    Ball(SDL_Renderer *renderer);
+    Ball();
     ~Ball();
     void move() override;
     void center();
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
     const SDL_Rect &getRect() const override;
 
     void getVelocity(int &velX, int &velY) const
@@ -26,7 +26,6 @@ public:
     }
 
 private:
-    SDL_Renderer *renderer;
     int velX, velY;
 };
 

@@ -2,8 +2,9 @@
 #include "GameConstants.h"
 #include <cstdlib>
 #include <ctime>
+#include <Game.h>
 
-Ball::Ball(SDL_Renderer *renderer) : renderer(renderer), velX(BALL_SPEED), velY(BALL_SPEED)
+Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {
     // Cargar imagen BMP directamente
     const char *imagePath = "assets/sprites/ball.bmp";
@@ -15,7 +16,7 @@ Ball::Ball(SDL_Renderer *renderer) : renderer(renderer), velX(BALL_SPEED), velY(
     else
     {
         // Crear una textura a partir de la superficie
-        texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
         SDL_FreeSurface(tempSurface); // Liberar la superficie después de crear la textura
         if (!texture)
         {
@@ -58,17 +59,17 @@ void Ball::center()
     velY = (rand() % 2 == 0 ? -factor : factor);
 }
 
-void Ball::render(SDL_Renderer *renderer)
+void Ball::render()
 {
     if (texture)
     {
-        SDL_RenderCopy(renderer, texture, NULL, &rect);
+        SDL_RenderCopy(Game::renderer, texture, NULL, &rect);
     }
     else
     {
         // Dibujo de fallback si no se carga la textura
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Blanco
-        SDL_RenderFillRect(renderer, &rect);
+        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255); // Blanco
+        SDL_RenderFillRect(Game::renderer, &rect);
     }
 }
 

@@ -9,18 +9,17 @@
 class MenuState : public GameState
 {
 private:
-    SDL_Renderer *renderer;
     TextManager *textManager;
     AudioManager *audioManager;
     GameFlowManager *flowManager;
 
 public:
-    MenuState(SDL_Renderer *renderer, GameFlowManager *flowMgr);
+    MenuState(GameFlowManager *flowMgr);
     ~MenuState();
 
     void handleInput() override;
     void update() override;
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
 };
 
 #endif

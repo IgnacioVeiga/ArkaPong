@@ -34,10 +34,10 @@ void GameFlowManager::update()
     }
 }
 
-void GameFlowManager::render(SDL_Renderer *renderer)
+void GameFlowManager::render()
 {
     if (currentState)
     {
-        currentState->render(renderer);
+        currentState->render();
     }
 }

@@ -4,7 +4,9 @@
 #include <SDL2/SDL_mixer.h>
 #include <time.h>
 
-Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunning(false)
+SDL_Renderer *Game::renderer = nullptr;
+
+Game::Game() : window(nullptr), flowManager(nullptr), isRunning(false)
 {
     srand(time(nullptr));
 
@@ -55,7 +57,7 @@ Game::Game() : window(nullptr), renderer(nullptr), flowManager(nullptr), isRunni
 
     // Configura el flujo de manejo del juego
     flowManager = new GameFlowManager();
-    flowManager->changeState(new MenuState(renderer, flowManager));
+    flowManager->changeState(new MenuState(flowManager));
     isRunning = true;
 }
 
@@ -94,7 +96,7 @@ void Game::run()
         flowManager->update();
 
         SDL_RenderClear(renderer);
-        flowManager->render(renderer);
+        flowManager->render();
         SDL_RenderPresent(renderer);
 
         SDL_Delay(1000 / 60); // 60 FPS

@@ -1,11 +1,12 @@
 #include "MenuState.h"
 #include "PlayState.h"
 #include "GameConstants.h"
+#include <Game.h>
 
-MenuState::MenuState(SDL_Renderer *renderer, GameFlowManager *flowMgr)
-    : renderer(renderer), flowManager(flowMgr)
+MenuState::MenuState(GameFlowManager *flowMgr)
+    : flowManager(flowMgr)
 {
-    textManager = new TextManager(renderer);
+    textManager = new TextManager();
     audioManager = new AudioManager();
     audioManager->loadSound("game_start", "assets/audio/bgm/game_start.wav");
 }
@@ -24,7 +25,7 @@ void MenuState::handleInput()
         // Cambiar al PlayState
         audioManager->playSound("game_start");
         SDL_Delay(5000);
-        flowManager->changeState(new PlayState(renderer, flowManager));
+        flowManager->changeState(new PlayState(flowManager));
     }
     else if (keystate[SDL_SCANCODE_ESCAPE])
     {
@@ -41,10 +42,10 @@ void MenuState::update()
     // Actualizar lógica del menú, como animaciones o efectos
 }
 
-void MenuState::render(SDL_Renderer *renderer)
+void MenuState::render()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Fondo negro
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255); // Fondo negro
+    SDL_RenderClear(Game::renderer);
     textManager->renderText("Press SPACE to start", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2);
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Game::renderer);
 }

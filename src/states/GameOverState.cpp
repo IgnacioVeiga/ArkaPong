@@ -1,9 +1,10 @@
 #include "GameOverState.h"
 #include "GameConstants.h"
+#include <Game.h>
 
-GameOverState::GameOverState(SDL_Renderer *renderer) : renderer(renderer)
+GameOverState::GameOverState()
 {
-    textManager = new TextManager(renderer);
+    textManager = new TextManager();
 }
 
 GameOverState::~GameOverState()
@@ -21,10 +22,10 @@ void GameOverState::update()
     // Actualización específica para el estado Game Over, si es necesario
 }
 
-void GameOverState::render(SDL_Renderer *renderer)
+void GameOverState::render()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Fondo negro
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255); // Fondo negro
+    SDL_RenderClear(Game::renderer);
     textManager->renderText("Game Over", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2);
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Game::renderer);
 }

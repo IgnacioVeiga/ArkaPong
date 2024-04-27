@@ -12,7 +12,6 @@
 class PlayState : public GameState
 {
 private:
-    SDL_Renderer *renderer;
     Paddle playerLeft;
     Paddle playerRight;
     Ball ball;
@@ -26,12 +25,12 @@ private:
     bool isCountingDown;
 
 public:
-    PlayState(SDL_Renderer *renderer, GameFlowManager *flowMgr);
+    PlayState(GameFlowManager *flowMgr);
     ~PlayState();
 
     void handleInput() override;
     void update() override;
-    void render(SDL_Renderer *renderer) override;
+    void render() override;
 };
 
 #endif
