@@ -1,4 +1,5 @@
 #include "Ball.h"
+#include "TextureManager.h"
 #include "GameConstants.h"
 #include <cstdlib>
 #include <ctime>
@@ -6,23 +7,7 @@
 
 Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {
-    // Cargar imagen BMP directamente
-    const char *imagePath = "assets/sprites/ball.bmp";
-    SDL_Surface *tempSurface = SDL_LoadBMP(imagePath);
-    if (!tempSurface)
-    {
-        SDL_Log("Unable to load BMP file: %s, SDL Error: %s", imagePath, SDL_GetError());
-    }
-    else
-    {
-        // Crear una textura a partir de la superficie
-        texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
-        SDL_FreeSurface(tempSurface); // Liberar la superficie después de crear la textura
-        if (!texture)
-        {
-            SDL_Log("Unable to create texture from %s, SDL Error: %s", imagePath, SDL_GetError());
-        }
-    }
+    texture = TextureManager::LoadTexture("assets/sprites/ball.bmp");
 
     // Definir el rectángulo para el rendering de la textura
     rect = {
