@@ -11,10 +11,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Definir el directorio de salida para los ejecutables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Incluir directorios donde están los headers
+find_package(SDL2 REQUIRED)
+find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+
+# Incluye las carpetas de encabezados necesarias
 include_directories(
-    ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src
+    ${SDL2_INCLUDE_DIRS}
+    ${SDL2_MIXER_INCLUDE_DIRS}
+    ${SDL2_TTF_INCLUDE_DIRS}
 )
 
 # Añadir recursivamente todos los subdirectorios que contienen headers
@@ -25,7 +31,7 @@ foreach(_headerFile ${HEADER_FILES})
 endforeach()
 
 # Añadir directorio donde están los archivos de las librerías de SDL
-link_directories(${CMAKE_SOURCE_DIR}/lib)
+# link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 # Recopilar todos los archivos fuente .cpp
 file(GLOB_RECURSE SOURCES "src/*.cpp")
@@ -38,13 +44,13 @@ target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_mixer SDL2_ttf)
 
 # Copiar los archivos DLL y recursos necesarios después de la construcción
 # Copia todos los archivos .dll
-file(GLOB DLL_FILES "${PROJECT_SOURCE_DIR}/lib/*.dll")
-foreach(dll ${DLL_FILES})
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${dll}
-        "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-endforeach()
+# file(GLOB DLL_FILES "${PROJECT_SOURCE_DIR}/lib/*.dll")
+# foreach(dll ${DLL_FILES})
+#     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#         COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#         ${dll}
+#         "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+# endforeach()
 
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

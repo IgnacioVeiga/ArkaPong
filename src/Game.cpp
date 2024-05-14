@@ -81,6 +81,10 @@ Game::~Game()
 
 void Game::run()
 {
+    /*
+        TODO: not working on Linux (tested on Fedora 40 KDE),
+        works fine on Windows 10.
+    */
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
 

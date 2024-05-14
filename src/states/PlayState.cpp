@@ -111,12 +111,12 @@ void PlayState::render()
 
         // FOR DEBUG REASONS ONLY
         // TODO: Remove later
-        int velX, velY;
-        ball.getVelocity(velX, velY);
-        float vel = sqrt(velX ^ 2 + velY ^ 2);
-        float ang = tanf(velY / velX);
-        std::string ballVel = "Vx: " + std::to_string(velX) + " Vy: " + std::to_string(velY) + " V: " + std::to_string(vel) + " Ang: " + std::to_string(ang);
-        textManager->renderText(ballVel, PADDLE_OFFSET, SCREEN_HEIGHT - PADDLE_OFFSET);
+        // int velX, velY;
+        // ball.getVelocity(velX, velY);
+        // float vel = sqrt(velX ^ 2 + velY ^ 2);
+        // float ang = tanf(velY / velX);
+        // std::string ballVel = "Vx: " + std::to_string(velX) + " Vy: " + std::to_string(velY) + " V: " + std::to_string(vel) + " Ang: " + std::to_string(ang);
+        // textManager->renderText(ballVel, PADDLE_OFFSET, SCREEN_HEIGHT - PADDLE_OFFSET);
 
         textManager->renderText(leftScore, PADDLE_OFFSET, PADDLE_OFFSET);
         textManager->renderText(rightScore, SCREEN_WIDTH - 109, PADDLE_OFFSET);
