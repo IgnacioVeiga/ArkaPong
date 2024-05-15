@@ -11,10 +11,9 @@ class MenuState : public GameState
 private:
     TextManager *textManager;
     AudioManager *audioManager;
-    GameFlowManager *flowManager;
 
 public:
-    MenuState(GameFlowManager *flowMgr);
+    MenuState();
     ~MenuState();
 
     void handleInput() override;

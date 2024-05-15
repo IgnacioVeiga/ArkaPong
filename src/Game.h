@@ -9,13 +9,12 @@ class Game
 public:
     Game();
     ~Game();
-    void run(); // Método para iniciar el juego
+    void run();
     static SDL_Renderer *renderer;
+    static GameFlowManager *gFlowManager;
 
 private:
-    SDL_Window *window;
-    GameFlowManager *flowManager; // Gestor del flujo del juego
-    bool isRunning;
+    static SDL_Window *window;
 };
 
 #endif

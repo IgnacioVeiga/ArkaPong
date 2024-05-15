@@ -3,7 +3,7 @@
 #include "GameConstants.h"
 #include <Game.h>
 
-PlayState::PlayState(GameFlowManager *flowMgr)
+PlayState::PlayState()
     : scoreManager(new ScoreManager()),
       collisionManager(new CollisionManager(scoreManager)),
       playerLeft(
@@ -11,7 +11,6 @@ PlayState::PlayState(GameFlowManager *flowMgr)
       playerRight(
           SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH),
       ball(),
-      flowMgr(flowMgr),
       countdown(3),
       countdownTimer(SDL_GetTicks()),
       isCountingDown(true)
@@ -54,7 +53,7 @@ void PlayState::handleInput()
 
     if (keystate[SDL_SCANCODE_SPACE])
     {
-        flowMgr->changeState(new PauseState());
+        Game::gFlowManager->changeState(new PauseState());
     }
     else if (keystate[SDL_SCANCODE_ESCAPE])
     {

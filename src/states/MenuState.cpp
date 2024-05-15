@@ -3,8 +3,7 @@
 #include "GameConstants.h"
 #include <Game.h>
 
-MenuState::MenuState(GameFlowManager *flowMgr)
-    : flowManager(flowMgr)
+MenuState::MenuState()
 {
     textManager = new TextManager();
     audioManager = new AudioManager();
@@ -25,7 +24,7 @@ void MenuState::handleInput()
         // Cambiar al PlayState
         audioManager->playSound("game_start");
         SDL_Delay(5000);
-        flowManager->changeState(new PlayState(flowManager));
+        Game::gFlowManager->changeState(new PlayState());
     }
     else if (keystate[SDL_SCANCODE_ESCAPE])
     {

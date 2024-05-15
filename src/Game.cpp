@@ -5,12 +5,13 @@
 #include <time.h>
 
 SDL_Renderer *Game::renderer = nullptr;
+GameFlowManager *Game::gFlowManager = nullptr;
+SDL_Window *Game::window = nullptr;
 
-Game::Game() : window(nullptr), flowManager(nullptr), isRunning(false)
+Game::Game()
 {
     srand(time(nullptr));
 
-    // Inicializa SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
     {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
@@ -18,7 +19,6 @@ Game::Game() : window(nullptr), flowManager(nullptr), isRunning(false)
         return;
     }
 
-    // Inicializar SDL_mixer
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
     {
         SDL_Log("SDL_mixer initialization failed: %s", Mix_GetError());
@@ -26,7 +26,6 @@ Game::Game() : window(nullptr), flowManager(nullptr), isRunning(false)
         return;
     }
 
-    // Inicializa SDL_ttf
     if (TTF_Init() == -1)
     {
         SDL_Log("Unable to initialize SDL_ttf: %s", TTF_GetError());
@@ -55,17 +54,15 @@ Game::Game() : window(nullptr), flowManager(nullptr), isRunning(false)
         return;
     }
 
-    // Configura el flujo de manejo del juego
-    flowManager = new GameFlowManager();
-    flowManager->changeState(new MenuState(flowManager));
-    isRunning = true;
+    Game::gFlowManager = new GameFlowManager();
+    Game::gFlowManager->changeState(new MenuState());
 }
 
 Game::~Game()
 {
-    if (flowManager)
+    if (Game::gFlowManager)
     {
-        delete flowManager;
+        delete Game::gFlowManager;
     }
     if (renderer)
     {
@@ -92,7 +89,7 @@ void Game::run()
     int frameTime;
 
     SDL_Event event;
-    while (isRunning)
+    while (true)
     {
         frameStart = SDL_GetTicks();
 
@@ -100,15 +97,16 @@ void Game::run()
         {
             if (event.type == SDL_QUIT)
             {
-                isRunning = false;
+                // quit game
+                return;
             }
         }
 
-        flowManager->handleInput();
-        flowManager->update();
+        Game::gFlowManager->handleInput();
+        Game::gFlowManager->update();
 
         SDL_RenderClear(renderer);
-        flowManager->render();
+        Game::gFlowManager->render();
         SDL_RenderPresent(renderer);
 
         frameTime = SDL_GetTicks() - frameStart;

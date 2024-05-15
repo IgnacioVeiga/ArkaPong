@@ -19,13 +19,12 @@ private:
     AudioManager *audioManager;
     ScoreManager *scoreManager;
     CollisionManager *collisionManager;
-    GameFlowManager *flowMgr;
     int countdown;
     Uint32 countdownTimer;
     bool isCountingDown;
 
 public:
-    PlayState(GameFlowManager *flowMgr);
+    PlayState();
     ~PlayState();
 
     void handleInput() override;
