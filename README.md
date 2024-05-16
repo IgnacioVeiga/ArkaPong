@@ -15,6 +15,7 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
 ![PONG](https://www.retrogames.cz/games/530/Pong-gameplay.gif)
 
 ### ArkaPong
+![pre-alpha_ArkaPong_gameplay](https://github.com/IgnacioVeiga/ArkaPong/assets/42973262/5912f11a-54bc-495f-80a5-e85f92a2490c)
 
 ## Installation
 
