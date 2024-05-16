@@ -14,17 +14,17 @@ GameOverState::~GameOverState()
 
 void GameOverState::handleInput()
 {
-    // Gestionar la entrada para salir al MenuState o del juego
+    // GameState.h implementation, may be unnecessary
 }
 
 void GameOverState::update()
 {
-    // Actualización específica para el estado Game Over, si es necesario
+    // TODO: countdown to go to MenuState
 }
 
 void GameOverState::render()
 {
-    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255); // Fondo negro
+    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);
     textManager->renderText("Game Over", SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2);
     SDL_RenderPresent(Game::renderer);

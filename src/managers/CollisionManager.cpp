@@ -23,16 +23,16 @@ void CollisionManager::handlePaddleCollision(Ball &ball, const Paddle &paddle)
 
     if (SDL_HasIntersection(&ballRect, &paddleRect))
     {
-        // Invertir la dirección horizontal de la pelota
+        // Hit paddle, so reverse velX
         int velX, velY;
         ball.getVelocity(velX, velY);
 
-        // Ajustar la dirección vertical según la posición relativa de impacto en el paddle
+        // velY is adjusted according to the relative position of the impact on the paddle
         int paddleCenter = paddleRect.y + paddleRect.h / 2;
         int ballCenter = ballRect.y + ballRect.h / 2;
         int deltaY = ballCenter - paddleCenter;
-        
-        // Este factor de ajuste puede variar según tus necesidades de jugabilidad
+
+        // TODO: Check this factor if it needs to be changed.
         velY += deltaY / 15;
         ball.setVelocity(-velX, velY);
         audioManager->playSound("paddle_bounce");
@@ -45,28 +45,28 @@ void CollisionManager::handleWallCollisions(Ball &ball)
     int velX, velY;
     ball.getVelocity(velX, velY);
 
-    // Comprobar colisiones con las paredes superior e inferior y ajustar la dirección vertical
+    // Check collisions against the ceiling or floor
     if (rect.y <= 0 && velY < 0)
     {
-        // Toca la pared superior y se mueve hacia arriba
+        // Hit ceiling, so reverse velY
         ball.setVelocity(velX, -velY);
         audioManager->playSound("wall_bounce");
     }
     else if (rect.y + rect.h >= SCREEN_HEIGHT && velY > 0)
     {
-        // Toca la pared inferior y se mueve hacia abajo
+        // Hit floor, so reverse velY
         ball.setVelocity(velX, -velY);
         audioManager->playSound("wall_bounce");
     }
 
-    // Comprobar colisiones con las paredes izquierda y derecha para puntuación
+    // Collisions with the left and right walls are checked for score
     if (rect.x <= 0 || rect.x + rect.w >= SCREEN_WIDTH)
     {
         ball.center();
         SDL_Delay(500);
         audioManager->playSound("score");
         SDL_Delay(2000);
-        // TODO: centrar jugadores
+        // TODO: center paddles
         if (rect.x <= 0)
         {
             scoreManager->increaseScoreRight();

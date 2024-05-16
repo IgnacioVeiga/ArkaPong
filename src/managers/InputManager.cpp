@@ -1,6 +1,6 @@
 #include "InputManager.h"
 
-void InputManager::handleInput(GameFlowManager &flowManager)
+void InputManager::handleInput(FlowManager &flowManager)
 {
     // const Uint8 *state = SDL_GetKeyboardState(NULL);
 

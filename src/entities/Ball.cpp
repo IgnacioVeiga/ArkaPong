@@ -9,7 +9,7 @@ Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {
     texture = TextureManager::LoadTexture("assets/sprites/ball.bmp");
 
-    // Definir el rectángulo para el rendering de la textura
+    // Rectangle where the texture is rendered
     rect = {
         SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
         SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
@@ -34,13 +34,11 @@ void Ball::center()
     rect.x = SCREEN_WIDTH / 2;
     rect.y = SCREEN_HEIGHT / 2;
 
-    // Hacia izquierda o derecha (aleatorio)
+    // To left or right (random)
     velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
-
-    // La velocidad en el eje Y no es siempre la misma
+    // velY is not always the same
     int factor = rand() % BALL_SPEED + 1;
-
-    // Hacia arriba o abajo (aleatorio)
+    // Up or down (random)
     velY = (rand() % 2 == 0 ? -factor : factor);
 }
 
@@ -52,8 +50,8 @@ void Ball::render()
     }
     else
     {
-        // Dibujo de fallback si no se carga la textura
-        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255); // Blanco
+        // Drawing fallback in case texture is not available
+        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
         SDL_RenderFillRect(Game::renderer, &rect);
     }
 }

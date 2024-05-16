@@ -8,7 +8,7 @@ Paddle::Paddle(int x)
 {
     texture = TextureManager::LoadTexture("assets/sprites/paddle.bmp");
 
-    // Definir el rectángulo para el rendering de la textura
+    // Rectangle where the texture is rendered
     rect = {
         x,                                     // X
         SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
@@ -34,7 +34,7 @@ void Paddle::moveDown()
 
 void Paddle::move()
 {
-    // TODO: revisar si se deberia implementar la IA acá
+    // TODO: investigate whether AI should be implemented here so that the "cpu" controls it.
 }
 
 void Paddle::center()
@@ -51,8 +51,8 @@ void Paddle::render()
     }
     else
     {
-        // Dibujo de fallback si no se carga la textura
-        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255); // Blanco
+        // Drawing fallback in case texture is not available
+        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
         SDL_RenderFillRect(Game::renderer, &rect);
     }
 }

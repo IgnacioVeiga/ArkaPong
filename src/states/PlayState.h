@@ -7,7 +7,7 @@
 #include "TextManager.h"
 #include "CollisionManager.h"
 #include "ScoreManager.h"
-#include "GameFlowManager.h"
+#include "FlowManager.h"
 
 class PlayState : public GameState
 {
@@ -15,13 +15,11 @@ private:
     Paddle playerLeft;
     Paddle playerRight;
     Ball ball;
+    
     TextManager *textManager;
     AudioManager *audioManager;
     ScoreManager *scoreManager;
     CollisionManager *collisionManager;
-    int countdown;
-    Uint32 countdownTimer;
-    bool isCountingDown;
 
 public:
     PlayState();

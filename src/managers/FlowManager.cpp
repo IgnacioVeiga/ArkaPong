@@ -1,7 +1,7 @@
-#include "GameFlowManager.h"
+#include "FlowManager.h"
 #include <iostream>
 
-GameFlowManager::~GameFlowManager()
+FlowManager::~FlowManager()
 {
     if (currentState)
     {
@@ -9,7 +9,7 @@ GameFlowManager::~GameFlowManager()
     }
 }
 
-void GameFlowManager::changeState(GameState *newState)
+void FlowManager::changeState(GameState *newState)
 {
     if (currentState)
     {
@@ -18,7 +18,7 @@ void GameFlowManager::changeState(GameState *newState)
     currentState = newState;
 }
 
-void GameFlowManager::handleInput()
+void FlowManager::handleInput()
 {
     if (currentState)
     {
@@ -26,7 +26,7 @@ void GameFlowManager::handleInput()
     }
 }
 
-void GameFlowManager::update()
+void FlowManager::update()
 {
     if (currentState)
     {
@@ -34,7 +34,7 @@ void GameFlowManager::update()
     }
 }
 
-void GameFlowManager::render()
+void FlowManager::render()
 {
     if (currentState)
     {

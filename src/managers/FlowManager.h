@@ -1,16 +1,16 @@
-#ifndef GAME_FLOW_MANAGER_H
-#define GAME_FLOW_MANAGER_H
+#ifndef FLOW_MANAGER_H
+#define FLOW_MANAGER_H
 
 #include "GameState.h"
 
-class GameFlowManager
+class FlowManager
 {
 private:
     GameState *currentState;
 
 public:
-    GameFlowManager() : currentState(nullptr) {}
-    ~GameFlowManager();
+    FlowManager() : currentState(nullptr) {}
+    ~FlowManager();
 
     void changeState(GameState *newState);
     void handleInput();

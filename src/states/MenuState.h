@@ -4,7 +4,7 @@
 #include "GameState.h"
 #include "TextManager.h"
 #include "AudioManager.h"
-#include "GameFlowManager.h"
+#include "FlowManager.h"
 
 class MenuState : public GameState
 {

@@ -1,21 +1,16 @@
-# Establecer la versión mínima requerida de CMake
 cmake_minimum_required(VERSION 3.10)
-
-# Nombre del proyecto
 project(ArkaPong)
-
-# Especificar el estándar de C++ requerido
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Definir el directorio de salida para los ejecutables
+# Output directory for executables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
-# Incluye las carpetas de encabezados necesarias
+# Required ".h" file folders
 include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${SDL2_INCLUDE_DIRS}
@@ -23,27 +18,26 @@ include_directories(
     ${SDL2_TTF_INCLUDE_DIRS}
 )
 
-# Añadir recursivamente todos los subdirectorios que contienen headers
+# Recursively adds all subdirectories containing headers
 file(GLOB_RECURSE HEADER_FILES "${CMAKE_SOURCE_DIR}/src/*.h")
 foreach(_headerFile ${HEADER_FILES})
     get_filename_component(_dir ${_headerFile} PATH)
     include_directories(${_dir})
 endforeach()
 
-# Añadir directorio donde están los archivos de las librerías de SDL
+# Directory where SDL library files are located (only for Windows with MinGW)
 # link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-# Recopilar todos los archivos fuente .cpp
+# Collect all ".cpp" files
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-# Crear el ejecutable con base en los fuentes encontrados
+# Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# Vincular las bibliotecas de SDL2 al proyecto
+# Links SDL2 libraries to the project
 target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_mixer SDL2_ttf)
 
-# Copiar los archivos DLL y recursos necesarios después de la construcción
-# Copia todos los archivos .dll
+# Copy the necessary DLL files after the build (Windows ONLY)
 # file(GLOB DLL_FILES "${PROJECT_SOURCE_DIR}/lib/*.dll")
 # foreach(dll ${DLL_FILES})
 #     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -52,7 +46,7 @@ target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_mixer SDL2_ttf)
 #         "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 # endforeach()
 
-
+# Copy the assets folder to where the executable is after the build.
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/assets"

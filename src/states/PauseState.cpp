@@ -14,12 +14,12 @@ PauseState::~PauseState()
 
 void PauseState::handleInput()
 {
-    // TODO: permitir cambiar a PlayState o MenuState
+    // TODO: return to PlayState or MenuState
 }
 
 void PauseState::update()
 {
-    // Puede que no necesite actualizar nada específico
+    // GameState.h implementation, may be unnecessary
 }
 
 void PauseState::render()

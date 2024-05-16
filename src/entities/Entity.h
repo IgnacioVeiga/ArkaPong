@@ -6,14 +6,16 @@
 class Entity
 {
 public:
-    virtual ~Entity() {}                             // Destructor virtual para permitir una eliminación adecuada
-    virtual void move() = 0;                         // Función puramente virtual para mover la entidad
-    virtual void render() = 0; // Función puramente virtual para renderizar la entidad
-    virtual const SDL_Rect &getRect() const = 0;     // Obtener el rectángulo de la entidad para detectar colisiones
+    virtual ~Entity(){};
+    virtual void move() = 0;
+    virtual void render() = 0;
+
+    // To get the rectangle of the entity to detect collisions
+    virtual const SDL_Rect &getRect() const = 0;
 
 protected:
-    SDL_Rect rect;        // Posición y dimensiones de la entidad
-    SDL_Texture *texture; // Textura de la entidad
+    SDL_Rect rect;
+    SDL_Texture *texture;
 };
 
 #endif

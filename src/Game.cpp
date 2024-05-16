@@ -5,7 +5,7 @@
 #include <time.h>
 
 SDL_Renderer *Game::renderer = nullptr;
-GameFlowManager *Game::gFlowManager = nullptr;
+FlowManager *Game::flowManager = nullptr;
 SDL_Window *Game::window = nullptr;
 
 Game::Game()
@@ -55,15 +55,15 @@ Game::Game()
         return;
     }
 
-    Game::gFlowManager = new GameFlowManager();
-    Game::gFlowManager->changeState(new MenuState());
+    Game::flowManager = new FlowManager();
+    Game::flowManager->changeState(new MenuState());
 }
 
 Game::~Game()
 {
-    if (Game::gFlowManager)
+    if (Game::flowManager)
     {
-        delete Game::gFlowManager;
+        delete Game::flowManager;
     }
     if (renderer)
     {
@@ -100,9 +100,9 @@ void Game::run()
             }
         }
 
-        Game::gFlowManager->handleInput();
-        Game::gFlowManager->update();
-        Game::gFlowManager->render();
+        Game::flowManager->handleInput();
+        Game::flowManager->update();
+        Game::flowManager->render();
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)

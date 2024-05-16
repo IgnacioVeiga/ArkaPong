@@ -2,12 +2,12 @@
 #define INPUT_MANAGER_H
 
 #include <SDL2/SDL.h>
-#include "GameFlowManager.h"
+#include "FlowManager.h"
 
 class InputManager
 {
 public:
-    static void handleInput(GameFlowManager &flowManager);
+    static void handleInput(FlowManager &flowManager);
 };
 
 #endif
