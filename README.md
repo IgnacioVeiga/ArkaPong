@@ -17,8 +17,6 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
 ### ArkaPong
 ![pre-alpha_ArkaPong_gameplay](https://github.com/IgnacioVeiga/ArkaPong/assets/42973262/5912f11a-54bc-495f-80a5-e85f92a2490c)
 
-## Installation
-
 ### Prerequisites
 - C++ compiler
 - SDL2, SDL2_ttf and SDL2_mixer libraries
@@ -30,11 +28,8 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
     git clone https://github.com/IgnacioVeiga/ArkaPong.git
     cd ArkaPong
     ```
-2. Build the project using CMake
-3. Run the game:
+2. Build the project using CMake (check the CMakeLists.txt file)
+3. The executable must be accompanied by "assets" folder in order to be executed. Then can run the game
 
 ## Contributing
-Any contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code follows the project's style guidelines and includes proper documentation.
-
-## Contact
-For any questions or suggestions, please open an issue
+Any contributions are welcome! Please fork the repository and create a pull request with your changes.
