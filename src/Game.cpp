@@ -10,26 +10,23 @@ SDL_Window *Game::window = nullptr;
 
 Game::Game()
 {
-    srand(time(nullptr));
+    srand(time(NULL));
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
     {
-        SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
-        SDL_Quit();
+        SDL_Log("SDL2 initialization failed: %s", SDL_GetError());
         return;
     }
 
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
     {
-        SDL_Log("SDL_mixer initialization failed: %s", Mix_GetError());
-        SDL_Quit();
+        SDL_Log("SDL2_mixer initialization failed: %s", Mix_GetError());
         return;
     }
 
     if (TTF_Init() == -1)
     {
-        SDL_Log("Unable to initialize SDL_ttf: %s", TTF_GetError());
-        SDL_Quit();
+        SDL_Log("SDL2_ttf initialization failed: %s", TTF_GetError());
         return;
     }
 
@@ -46,11 +43,15 @@ Game::Game()
         -1,
         SDL_RENDERER_ACCELERATED);
 
-    if (!window || !renderer)
+    if (!window)
     {
-        SDL_Log("Failed to create window or renderer: %s", SDL_GetError());
-        TTF_Quit();
-        SDL_Quit();
+        SDL_Log("Failed to create window: %s", SDL_GetError());
+        return;
+    }
+
+    if (!renderer)
+    {
+        SDL_Log("Failed to create renderer: %s", SDL_GetError());
         return;
     }
 
@@ -72,16 +73,13 @@ Game::~Game()
     {
         SDL_DestroyWindow(window);
     }
+    TTF_Quit();
     Mix_CloseAudio();
     SDL_Quit();
 }
 
 void Game::run()
 {
-    /*
-        TODO: not working on Linux (tested on Fedora 40 KDE),
-        works fine on Windows 10.
-    */
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
 
@@ -104,13 +102,12 @@ void Game::run()
 
         Game::gFlowManager->handleInput();
         Game::gFlowManager->update();
-
-        SDL_RenderClear(renderer);
         Game::gFlowManager->render();
-        SDL_RenderPresent(renderer);
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)
+        {
             SDL_Delay(frameDelay - frameTime);
+        }
     }
 }
