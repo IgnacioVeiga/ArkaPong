@@ -1,2 +1,39 @@
-# ArkaPong
-Arkanoid + Pong
+# ArkaPong (pre-alpha)
+
+ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong". This game is being developed from scratch in C++ using SDL2 libraries. It is currently in pre-alpha stage and requires structural improvements. The game is intended to be compatible with Windows and any Linux distributions. Use CMake for the build process.
+
+## Features (planned)
+- Classic Arkanoid and Pong gameplay elements
+- Single-player and multiplayer modes
+- Power-ups and special abilities
+- Multiple levels and game modes
+
+### Arkanoid
+![Arkanoid](https://images.squarespace-cdn.com/content/v1/5e004a01af59914152deea6d/1604237320287-Q5RPEEJ8B77OTM4OSGXV/Brick+Breaker.gif)
+
+### PONG
+![PONG](https://www.retrogames.cz/games/530/Pong-gameplay.gif)
+
+### ArkaPong
+
+## Installation
+
+### Prerequisites
+- C++ compiler
+- SDL2, SDL2_ttf and SDL2_mixer libraries
+- CMake
+
+### Build
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/IgnacioVeiga/ArkaPong.git
+    cd ArkaPong
+    ```
+2. Build the project using CMake
+3. Run the game:
+
+## Contributing
+Any contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code follows the project's style guidelines and includes proper documentation.
+
+## Contact
+For any questions or suggestions, please open an issue
