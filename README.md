@@ -24,8 +24,8 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
   - [SDL2](https://github.com/libsdl-org/SDL) (2.30.3)
   - [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer) (2.8.0)
   - [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf) (2.22.0)
-- A compiler compatible with C++ 17.
-  - For Windows: MinGW-w64, MSVC, etc.
+- A compiler compatible (C++ 17).
+  - For Windows: MinGW
   - For Linux: GCC, Clang, etc.
 
 ### Build
