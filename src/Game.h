@@ -12,6 +12,7 @@ public:
     void run();
     static SDL_Renderer *renderer;
     static FlowManager *flowManager;
+    static bool game_on;
 
 private:
     static SDL_Window *window;

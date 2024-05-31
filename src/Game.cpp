@@ -7,6 +7,7 @@
 SDL_Renderer *Game::renderer = nullptr;
 FlowManager *Game::flowManager = nullptr;
 SDL_Window *Game::window = nullptr;
+bool Game::game_on = true;
 
 Game::Game()
 {
@@ -87,7 +88,7 @@ void Game::run()
     int frameTime;
 
     SDL_Event event;
-    while (true)
+    while (Game::game_on)
     {
         frameStart = SDL_GetTicks();
 
@@ -95,8 +96,7 @@ void Game::run()
         {
             if (event.type == SDL_QUIT)
             {
-                // quit game
-                return;
+                Game::game_on = false;
             }
         }
 
