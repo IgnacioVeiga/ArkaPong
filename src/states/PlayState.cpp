@@ -66,7 +66,7 @@ void PlayState::handleInput()
     }
     else if (keystate[SDL_SCANCODE_ESCAPE])
     {
-        // TODO: exit
+        Game::game_on = false;
     }
 }
 
