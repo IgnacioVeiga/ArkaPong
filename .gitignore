@@ -1,3 +1,9 @@
 .vs/
 .vscode/
 build/
+vcpkg_installed/
+ArkaPong/
+Debug/
+Release/
+out/
+ArkaPong.vcxproj.user
