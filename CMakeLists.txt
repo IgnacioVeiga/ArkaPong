@@ -25,9 +25,6 @@ foreach(_headerFile ${HEADER_FILES})
     include_directories(${_dir})
 endforeach()
 
-# Directory where SDL library files are located (only for Windows with MinGW)
-# link_directories(${CMAKE_SOURCE_DIR}/lib)
-
 # Collect all ".cpp" files
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
@@ -37,14 +34,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Links SDL2 libraries to the project
 target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_mixer SDL2_ttf)
 
-# Copy the necessary DLL files after the build (Windows ONLY)
-# file(GLOB DLL_FILES "${PROJECT_SOURCE_DIR}/lib/*.dll")
-# foreach(dll ${DLL_FILES})
-#     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#         ${dll}
-#         "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-# endforeach()
+# TODO: Copy the necessary DLL files after the build (Windows ONLY)
 
 # Copy the assets folder to where the executable is after the build.
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
