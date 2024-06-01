@@ -2,7 +2,7 @@
 #define PAUSE_STATE_H
 
 #include "GameState.h"
-#include "TextManager.h"
+#include "../managers/TextManager.h"
 
 class PauseState : public GameState
 {

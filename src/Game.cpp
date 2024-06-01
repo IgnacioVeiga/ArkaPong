@@ -1,8 +1,9 @@
-#include "Game.h"
-#include "MenuState.h"
-#include "GameConstants.h"
-#include <SDL2/SDL_mixer.h>
 #include <time.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include "Game.h"
+#include "utilities/GameConstants.h"
+#include "states/MenuState.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 FlowManager *Game::flowManager = nullptr;
@@ -11,7 +12,7 @@ bool Game::game_on = true;
 
 Game::Game()
 {
-    srand(time(NULL));
+    srand(time(nullptr));
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
     {

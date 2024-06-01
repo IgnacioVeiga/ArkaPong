@@ -1,6 +1,6 @@
 #include "CollisionManager.h"
-#include "GameConstants.h"
 #include <SDL2/SDL.h>
+#include "../utilities/GameConstants.h"
 
 CollisionManager::CollisionManager(ScoreManager *scoreManager)
     : scoreManager(scoreManager)

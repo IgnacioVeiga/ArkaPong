@@ -1,10 +1,9 @@
 #ifndef COLLISION_MANAGER_H
 #define COLLISION_MANAGER_H
 
-#include "Ball.h"
-#include "Paddle.h"
 #include "ScoreManager.h"
 #include "AudioManager.h"
+#include "../entities/Ball.h"
 
 class CollisionManager
 {

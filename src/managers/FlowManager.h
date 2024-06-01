@@ -1,7 +1,7 @@
 #ifndef FLOW_MANAGER_H
 #define FLOW_MANAGER_H
 
-#include "GameState.h"
+#include "../states/GameState.h"
 
 class FlowManager
 {

@@ -3,9 +3,9 @@
 
 #include "vector"
 #include "GameState.h"
-#include "TextManager.h"
-#include "AudioManager.h"
-#include "FlowManager.h"
+#include <string>
+#include "../managers/TextManager.h"
+#include "../managers/AudioManager.h"
 
 struct MenuOption
 {

@@ -1,6 +1,6 @@
 #include "GameOverState.h"
-#include "GameConstants.h"
-#include <Game.h>
+#include "../utilities/GameConstants.h"
+#include "../Game.h"
 
 GameOverState::GameOverState()
 {

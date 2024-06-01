@@ -2,7 +2,7 @@
 #define GAME_OVER_STATE_H
 
 #include "GameState.h"
-#include "TextManager.h"
+#include "../managers/TextManager.h"
 
 class GameOverState : public GameState
 {

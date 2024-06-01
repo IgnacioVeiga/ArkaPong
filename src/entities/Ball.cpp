@@ -1,9 +1,9 @@
 #include "Ball.h"
-#include "TextureManager.h"
-#include "GameConstants.h"
 #include <cstdlib>
 #include <ctime>
-#include <Game.h>
+#include "../managers/TextureManager.h"
+#include "../utilities/GameConstants.h"
+#include "../Game.h"
 
 Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {

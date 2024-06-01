@@ -1,7 +1,7 @@
 #include "MenuState.h"
 #include "PlayState.h"
-#include "GameConstants.h"
-#include <Game.h>
+#include "../Game.h"
+#include "../utilities/GameConstants.h"
 
 MenuState::MenuState()
 {

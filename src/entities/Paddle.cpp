@@ -1,8 +1,8 @@
 #include "Paddle.h"
-#include "TextureManager.h"
-#include "GameConstants.h"
 #include <algorithm>
-#include <Game.h>
+#include "../managers/TextureManager.h"
+#include "../utilities/GameConstants.h"
+#include "../Game.h"
 
 Paddle::Paddle(int x)
 {

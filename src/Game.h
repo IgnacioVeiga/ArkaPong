@@ -1,8 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SDL2/SDL.h>
-#include "FlowManager.h"
+#include "managers/FlowManager.h"
 
 class Game
 {

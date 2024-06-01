@@ -1,7 +1,7 @@
 #include "PlayState.h"
 #include "PauseState.h"
-#include "GameConstants.h"
-#include <Game.h>
+#include "../utilities/GameConstants.h"
+#include "../Game.h"
 
 PlayState::PlayState()
     : playerLeft(
