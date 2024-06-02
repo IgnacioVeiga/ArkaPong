@@ -1,11 +1,12 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_render.h>
 #include <vector>
-#include <unordered_map>
+#include "EntityManager.h"
+#include "ComponentManager.h"
+#include "InputSystem.h"
+#include "MovementSystem.h"
+#include "RenderSystem.h"
 #include "Components.h"
 
 class Game
@@ -22,7 +23,11 @@ private:
     void initECS();
     void cleanUp();
     static SDL_Window *window;
+
+    EntityManager entityManager;
+    ComponentManager componentManager;
+    InputSystem inputSystem;
+    MovementSystem movementSystem;
+    RenderSystem renderSystem;
     std::vector<std::pair<PositionComponent, RenderComponent>> entities;
 };
-
-#endif

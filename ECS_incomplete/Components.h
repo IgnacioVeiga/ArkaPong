@@ -1,4 +1,5 @@
-#include <SDL2/SDL_render.h>
+#pragma once
+
 #include <SDL2/SDL_scancode.h>
 
 struct PositionComponent
@@ -13,15 +14,17 @@ struct VelocityComponent
 
 struct RenderComponent
 {
-    SDL_Texture* texture;
+    SDL_Texture *texture;
     SDL_Rect rect;
 };
 
-struct InputComponent {
+struct InputComponent
+{
     SDL_Scancode upKey;
     SDL_Scancode downKey;
 };
 
-struct MovementComponent {
+struct MovementComponent
+{
     float speed;
 };

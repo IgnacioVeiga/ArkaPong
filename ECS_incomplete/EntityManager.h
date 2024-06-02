@@ -1,5 +1,5 @@
-#include <cstdint>
-#include <vector>
+#pragma once
+
 #include "Entity.h"
 
 class EntityManager

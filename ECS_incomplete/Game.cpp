@@ -1,8 +1,9 @@
 #include "Game.h"
-#include "GameConstants.h"
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
 #include <time.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
+#include "GameConstants.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Window *Game::window = nullptr;
@@ -71,34 +72,45 @@ void Game::initSDL()
 
 void Game::initECS()
 {
-    PositionComponent ballPosition = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-    SDL_Surface *surface = SDL_LoadBMP("assets/sprites/ball.bmp");
-    if (!surface)
-    {
-        SDL_Log("Loading texture failed");
-        game_on = false;
-        return;
-    }
-    SDL_Texture *ballTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
+    Entity playerLeft = entityManager.createEntity();
+    componentManager.addComponent(playerLeft.getId(), PositionComponent{50, SCREEN_HEIGHT / 2});
+    componentManager.addComponent(playerLeft.getId(), VelocityComponent{0, 0});
+    componentManager.addComponent(playerLeft.getId(), MovementComponent{PADDLE_SPEED});
+    componentManager.addComponent(playerLeft.getId(), InputComponent{SDL_SCANCODE_W, SDL_SCANCODE_S});
+    SDL_Texture *textureLeft;
+    textureLeft = renderSystem.LoadTexture("assets/sprites/paddle.bmp");
+    SDL_Rect rectLeft = {
+        PADDLE_OFFSET,                         // X
+        SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
+        PADDLE_WIDTH,                          // W
+        PADDLE_HEIGHT                          // H
+    };
+    componentManager.addComponent(playerLeft.getId(), RenderComponent{textureLeft, rectLeft});
 
-    RenderComponent ballRender = {ballTexture, {
-                                                   SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
-                                                   SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
-                                                   BALL_SIZE,                         // W
-                                                   BALL_SIZE                          // H
-                                               }};
-    entities.push_back(std::make_pair(ballPosition, ballRender));
+    Entity playerRight = entityManager.createEntity();
+    componentManager.addComponent(playerRight.getId(), PositionComponent{SCREEN_WIDTH - 50, SCREEN_HEIGHT / 2});
+    componentManager.addComponent(playerRight.getId(), VelocityComponent{0, 0});
+    componentManager.addComponent(playerRight.getId(), MovementComponent{PADDLE_SPEED});
+    componentManager.addComponent(playerRight.getId(), InputComponent{SDL_SCANCODE_UP, SDL_SCANCODE_DOWN});
+    SDL_Texture *textureRight;
+    textureRight = renderSystem.LoadTexture("assets/sprites/paddle.bmp");
+    SDL_Rect rectRight = {
+        SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH, // X
+        SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2,       // Y
+        PADDLE_WIDTH,                                // W
+        PADDLE_HEIGHT                                // H
+    };
+    componentManager.addComponent(playerLeft.getId(), RenderComponent{textureRight, rectRight});
+
+    inputSystem.addEntity(playerLeft);
+    inputSystem.addEntity(playerRight);
+
+    movementSystem.addEntity(playerLeft);
+    movementSystem.addEntity(playerRight);
 }
 
 void Game::cleanUp()
 {
-    for (auto &entity : entities)
-    {
-        SDL_DestroyTexture(entity.second.texture);
-    }
-    entities.clear();
-
     if (renderer)
         SDL_DestroyRenderer(renderer);
     if (window)
@@ -109,41 +121,33 @@ void Game::cleanUp()
     SDL_Quit();
 }
 
-void Game::run() {
+void Game::run()
+{
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
 
-    while (game_on) {
+    while (game_on)
+    {
         Uint32 frameStart = SDL_GetTicks();
 
         // events
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_QUIT)
+            {
                 game_on = false;
             }
         }
 
-        // update logic
-        for (auto& entity : entities) {
-            // example of simple ball movement
-            entity.first.x += 1.0f;
-            entity.first.y += 1.0f;
-        }
-
-        // render
-        SDL_RenderClear(renderer);
-        for (auto& entity : entities) {
-            SDL_Rect dest = entity.second.rect;
-            dest.x = static_cast<int>(entity.first.x);
-            dest.y = static_cast<int>(entity.first.y);
-            SDL_RenderCopy(renderer, entity.second.texture, nullptr, &dest);
-        }
-        SDL_RenderPresent(renderer);
+        inputSystem.update(componentManager);
+        movementSystem.update(componentManager);
+        renderSystem.render(entities);
 
         // frametime control
         Uint32 frameTime = SDL_GetTicks() - frameStart;
-        if (frameDelay > frameTime) {
+        if (frameDelay > frameTime)
+        {
             SDL_Delay(frameDelay - frameTime);
         }
     }

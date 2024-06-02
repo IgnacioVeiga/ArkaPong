@@ -1,5 +1,6 @@
-#include <vector>
-#include "ComponentManager.h"
+#pragma once
+
+#include "Entity.h"
 #include "Components.h"
 
 class MovementSystem

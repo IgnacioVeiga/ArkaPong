@@ -1,6 +1,8 @@
-#include <SDL2/SDL.h>
-#include <unordered_map>
-#include "MovementSystem.h"
+#pragma once
+
+#include "Entity.h"
+#include "Components.h"
+#include <SDL2/SDL_keyboard.h>
 
 class InputSystem
 {

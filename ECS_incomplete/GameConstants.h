@@ -1,5 +1,4 @@
-#ifndef GAME_CONSTANTS_H
-#define GAME_CONSTANTS_H
+#pragma once
 
 inline const char *GAME_TITLE = "ArkaPong";
 inline const int SCREEN_WIDTH = 854;
@@ -14,5 +13,3 @@ inline const int PADDLE_SPEED = 12;
 inline const int PADDLE_OFFSET = 32;
 inline const int PADDLE_WIDTH = 16;
 inline const int PADDLE_HEIGHT = 64;
-
-#endif
