@@ -1,10 +1,10 @@
 # ArkaPong (pre-alpha)
 
-ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong". This game is being developed from scratch in C++ using SDL2 libraries. It is currently in pre-alpha stage and requires structural improvements. The game is intended to be compatible with Windows and any Linux distributions. Use CMake for the build process.
+ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong". This game is being developed from scratch in C++ using SDL2 libraries. It is currently in pre-alpha stage and requires structural improvements. It should be compatible with Windows and any Linux distribution.
 
 ## Features (planned)
 - Classic Arkanoid and Pong gameplay elements
-- Single-player and multiplayer modes
+- Single-player and multiplayer
 - Power-ups and special abilities
 - Multiple levels and game modes
 
