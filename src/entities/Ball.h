@@ -10,7 +10,7 @@ public:
     Ball();
     ~Ball();
     void move() override;
-    void center();
+    void center() override;
     void render() override;
     const SDL_Rect &getRect() const override;
 
