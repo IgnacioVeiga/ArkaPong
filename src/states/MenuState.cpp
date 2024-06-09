@@ -78,12 +78,12 @@ void MenuState::render()
     SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);
 
-    textManager->renderText(GAME_TITLE, SCREEN_WIDTH / 2 - 120, 30, c_white);
+    textManager->renderText(GAME_TITLE, SCREEN_WIDTH / 2, PADDLE_OFFSET, TextAlignment::CENTER, 24);
 
     // Main menu options
     for (int i = 0; i < menuOptions.size(); ++i)
     {
-        textManager->renderText(menuOptions[i].text, menuOptions[i].rect.x + 20, menuOptions[i].rect.y, c_white);
+        textManager->renderText(menuOptions[i].text, menuOptions[i].rect.x + 20, menuOptions[i].rect.y);
 
         if (i == selectedOption)
         {
@@ -96,6 +96,6 @@ void MenuState::render()
         SDL_RenderFillRect(Game::renderer, &menuOptions[i].rect);
     }
 
-    textManager->renderText("pre-alpha 2024", SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT - 30, c_white);
+    textManager->renderText("pre-alpha 2024", SCREEN_WIDTH / 2, SCREEN_HEIGHT - PADDLE_OFFSET, c_gray,TextAlignment::CENTER, 8);
     SDL_RenderPresent(Game::renderer);
 }

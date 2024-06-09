@@ -21,7 +21,7 @@ PlayState::PlayState()
 	// Showing round number
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
 	SDL_RenderClear(Game::renderer);
-	textManager->renderText("Round 1", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	textManager->renderText("Round 1", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, TextAlignment::CENTER);
 	SDL_RenderPresent(Game::renderer);
 	SDL_Delay(3000);
 
@@ -98,7 +98,19 @@ void PlayState::render()
 	std::string leftScore = "P1: " + std::to_string(scoreManager->getPlayerLeftScore());
 	std::string rightScore = "P2: " + std::to_string(scoreManager->getPlayerRightScore());
 
-	textManager->renderText(leftScore, PADDLE_OFFSET, PADDLE_OFFSET);
-	textManager->renderText(rightScore, SCREEN_WIDTH - 109, PADDLE_OFFSET);
+	textManager->renderText(
+		leftScore,				// Text
+		PADDLE_OFFSET,			// X
+		PADDLE_OFFSET,			// Y
+		{ 6, 186, 221, 255 },	// Blue
+		TextAlignment::LEFT
+	);
+	textManager->renderText(
+		rightScore,						// Text
+		SCREEN_WIDTH - PADDLE_OFFSET,	// X
+		PADDLE_OFFSET,					// Y
+		{ 245, 110, 100, 255 },			// Red
+		TextAlignment::RIGHT
+	);
 	SDL_RenderPresent(Game::renderer);
 }

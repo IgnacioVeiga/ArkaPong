@@ -104,6 +104,7 @@
     <ClInclude Include="src\states\PauseState.h" />
     <ClInclude Include="src\states\PlayState.h" />
     <ClInclude Include="src\utilities\GameConstants.h" />
+    <ClInclude Include="src\utilities\TextParams.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\entities\Ball.cpp" />
