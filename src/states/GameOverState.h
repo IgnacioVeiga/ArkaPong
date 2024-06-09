@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include "../managers/TextManager.h"
+#include "../managers/AudioManager.h"
 
 class GameOverState : public GameState
 {
@@ -15,6 +16,10 @@ public:
 
 private:
     TextManager *textManager;
+    AudioManager* audioManager;
+
+    Uint32 countdownTimer;
+    int countdown;
 };
 
 #endif

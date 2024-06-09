@@ -2,6 +2,7 @@
 #include "PauseState.h"
 #include "../utilities/GameConstants.h"
 #include "../Game.h"
+#include "./GameOverState.h"
 
 PlayState::PlayState()
 	: playerLeft(
@@ -72,9 +73,18 @@ void PlayState::handleInput()
 void PlayState::update()
 {
 	ball.move();
+
+	// TODO: refactor this functions
 	collisionManager->handleWallCollisions(ball);
 	collisionManager->handlePaddleCollision(ball, playerLeft);
 	collisionManager->handlePaddleCollision(ball, playerRight);
+
+	// Temporary condition, this will then depend on the game mode and level
+	if (scoreManager->getPlayerLeftScore() == 10 ||
+		scoreManager->getPlayerRightScore() == 10)
+	{
+		Game::flowManager->changeState(new GameOverState());
+	}
 }
 
 void PlayState::render()
