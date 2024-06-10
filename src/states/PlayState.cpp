@@ -5,10 +5,8 @@
 #include "./GameOverState.h"
 
 PlayState::PlayState()
-	: playerLeft(
-		PADDLE_OFFSET),
-	playerRight(
-		SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH)
+	: playerLeft(PlayerSide::PLAYER_LEFT),
+	  playerRight(PlayerSide::PLAYER_RIGHT)
 {
 	scoreManager = new ScoreManager();
 	collisionManager = new CollisionManager(scoreManager);

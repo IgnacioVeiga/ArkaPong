@@ -3,11 +3,18 @@
 
 #include "Entity.h"
 
+enum class PlayerSide
+{
+    PLAYER_LEFT,
+    PLAYER_RIGHT
+};
+
 class Paddle : public Entity
 {
 public:
-    Paddle(int x);
-    ~Paddle();
+    Paddle(PlayerSide side);
+    PlayerSide side = PlayerSide::PLAYER_LEFT;
+    SDL_Rect clip = {0, 0, 31, 7};
     void moveUp();
     void moveDown();
     void move() override;

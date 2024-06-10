@@ -4,11 +4,12 @@
 #include "../utilities/GameConstants.h"
 #include "../Game.h"
 
-Paddle::Paddle(int x)
+Paddle::Paddle(PlayerSide side) : side(side)
 {
     texture = TextureManager::LoadTexture("assets/sprites/paddle.bmp");
 
-    // Rectangle where the texture is rendered
+    int x = (side == PlayerSide::PLAYER_LEFT) ? PADDLE_OFFSET : SCREEN_WIDTH - PADDLE_OFFSET;
+    // Rectangle used for the position and the colider
     rect = {
         x,                                     // X
         SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
@@ -39,7 +40,6 @@ void Paddle::move()
 
 void Paddle::center()
 {
-    rect.x = SCREEN_WIDTH / 2;
     rect.y = SCREEN_HEIGHT / 2;
 }
 
