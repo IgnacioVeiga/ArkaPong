@@ -41,7 +41,7 @@ PlayState::~PlayState()
 
 void PlayState::handleInput()
 {
-	const Uint8* keystate = SDL_GetKeyboardState(NULL);
+	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 	if (keystate[SDL_SCANCODE_W])
 	{
 		playerLeft.moveUp();
@@ -99,18 +99,16 @@ void PlayState::render()
 	std::string rightScore = "P2: " + std::to_string(scoreManager->getPlayerRightScore());
 
 	textManager->renderText(
-		leftScore,				// Text
-		PADDLE_OFFSET,			// X
-		PADDLE_OFFSET,			// Y
-		{ 6, 186, 221, 255 },	// Blue
-		TextAlignment::LEFT
-	);
+		leftScore,			// Text
+		PADDLE_OFFSET,		// X
+		PADDLE_OFFSET,		// Y
+		{6, 186, 221, 255}, // Blue
+		TextAlignment::LEFT);
 	textManager->renderText(
-		rightScore,						// Text
-		SCREEN_WIDTH - PADDLE_OFFSET,	// X
-		PADDLE_OFFSET,					// Y
-		{ 245, 110, 100, 255 },			// Red
-		TextAlignment::RIGHT
-	);
+		rightScore,					  // Text
+		SCREEN_WIDTH - PADDLE_OFFSET, // X
+		PADDLE_OFFSET,				  // Y
+		{245, 110, 100, 255},		  // Red
+		TextAlignment::RIGHT);
 	SDL_RenderPresent(Game::renderer);
 }

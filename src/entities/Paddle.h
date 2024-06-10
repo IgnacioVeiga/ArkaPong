@@ -13,7 +13,7 @@ public:
     void move() override;
     void center() override;
     void render() override;
-    const SDL_Rect& getRect() const override;
+    const SDL_Rect &getRect() const override;
 };
 
 #endif
