@@ -16,7 +16,6 @@ public:
 
 protected:
     SDL_Rect rect;
-    SDL_Texture *texture;
 };
 
 #endif

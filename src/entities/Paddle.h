@@ -13,8 +13,13 @@ class Paddle : public Entity
 {
 public:
     Paddle(PlayerSide side);
+
     PlayerSide side = PlayerSide::PLAYER_LEFT;
-    SDL_Rect clip = {0, 0, 31, 7};
+    SDL_Rect clip = {0, 0, 32, 8};
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+    SDL_Point rotation_point = {0, 7};
+    double rotation_angle = 90.0;
+
     void moveUp();
     void moveDown();
     void move() override;

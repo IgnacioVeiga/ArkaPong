@@ -10,9 +10,9 @@ inline const int AUDIO_FREQUENCY = 44100;
 inline const int BALL_SPEED = 8;
 inline const int BALL_SIZE = 10;
 
-inline const int PADDLE_SPEED = 12;
+inline const int PADDLE_SPEED = 8;
 inline const int PADDLE_OFFSET = 32;
-inline const int PADDLE_WIDTH = 16;
-inline const int PADDLE_HEIGHT = 64;
+inline const int PADDLE_WIDTH = 8;
+inline const int PADDLE_HEIGHT = 32;
 
 #endif

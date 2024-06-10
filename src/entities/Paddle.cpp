@@ -6,8 +6,6 @@
 
 Paddle::Paddle(PlayerSide side) : side(side)
 {
-    texture = TextureManager::LoadTexture("assets/sprites/paddle.bmp");
-
     int x = (side == PlayerSide::PLAYER_LEFT) ? PADDLE_OFFSET : SCREEN_WIDTH - PADDLE_OFFSET;
     // Rectangle used for the position and the colider
     rect = {
@@ -18,11 +16,6 @@ Paddle::Paddle(PlayerSide side) : side(side)
     };
 }
 
-Paddle::~Paddle()
-{
-    SDL_DestroyTexture(texture);
-}
-
 void Paddle::moveUp()
 {
     rect.y = std::max(0, rect.y - PADDLE_SPEED);
@@ -30,7 +23,7 @@ void Paddle::moveUp()
 
 void Paddle::moveDown()
 {
-    rect.y = std::min(SCREEN_HEIGHT - rect.h, rect.y + PADDLE_SPEED);
+    rect.y = std::min(SCREEN_HEIGHT - PADDLE_HEIGHT, rect.y + PADDLE_SPEED);
 }
 
 void Paddle::move()
@@ -45,16 +38,17 @@ void Paddle::center()
 
 void Paddle::render()
 {
-    if (texture)
+    if (side == PlayerSide::PLAYER_RIGHT)
     {
-        SDL_RenderCopy(Game::renderer, texture, NULL, &rect);
+        // The texture first flips and then rotates.
+        flip = SDL_FLIP_VERTICAL;
     }
-    else
-    {
-        // Drawing fallback in case texture is not available
-        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
-        SDL_RenderFillRect(Game::renderer, &rect);
-    }
+
+    // FOR DEBUG REASONS, this is the real colider. REMOVE LATER.
+    // SDL_SetRenderDrawColor(Game::renderer, 0, 255, 0, 255);
+    // SDL_RenderFillRect(Game::renderer, &rect);
+
+    TextureManager::drawTexture("paddle", rect.x, rect.y, &clip, rotation_angle, &rotation_point, flip);
 }
 
 const SDL_Rect &Paddle::getRect() const

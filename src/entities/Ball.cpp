@@ -7,9 +7,7 @@
 
 Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {
-    texture = TextureManager::LoadTexture("assets/sprites/ball.bmp");
-
-    // Rectangle where the texture is rendered
+    // Rectangle used for the position and the colider
     rect = {
         SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
         SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
@@ -18,15 +16,10 @@ Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
     };
 }
 
-Ball::~Ball()
-{
-    SDL_DestroyTexture(texture);
-}
-
 void Ball::move()
 {
-    rect.x += velX;
-    rect.y += velY;
+    // rect.x += velX;
+    // rect.y += velY;
 }
 
 void Ball::center()
@@ -44,16 +37,7 @@ void Ball::center()
 
 void Ball::render()
 {
-    if (texture)
-    {
-        SDL_RenderCopy(Game::renderer, texture, NULL, &rect);
-    }
-    else
-    {
-        // Drawing fallback in case texture is not available
-        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
-        SDL_RenderFillRect(Game::renderer, &rect);
-    }
+    TextureManager::drawTexture("ball", rect.x, rect.y, nullptr, 0.0, nullptr, SDL_FLIP_NONE, 2.0, 2.0);
 }
 
 const SDL_Rect &Ball::getRect() const

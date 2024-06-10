@@ -8,7 +8,6 @@ class Ball : public Entity
 {
 public:
     Ball();
-    ~Ball();
     void move() override;
     void center() override;
     void render() override;

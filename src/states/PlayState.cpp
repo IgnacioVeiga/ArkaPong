@@ -3,6 +3,7 @@
 #include "../utilities/GameConstants.h"
 #include "../Game.h"
 #include "./GameOverState.h"
+#include "../managers/TextureManager.h"
 
 PlayState::PlayState()
 	: playerLeft(PlayerSide::PLAYER_LEFT),
@@ -15,6 +16,9 @@ PlayState::PlayState()
 	audioManager->loadSound("round_start", "assets/audio/bgm/round_start.wav");
 
 	textManager = new TextManager();
+
+	TextureManager::loadTexture("ball", "assets/sprites/ball.bmp");
+	TextureManager::loadTexture("paddle", "assets/sprites/vaus.bmp");
 
 	// Showing round number
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
