@@ -2,13 +2,10 @@
 #include <SDL2/SDL.h>
 #include "../utilities/GameConstants.h"
 
-CollisionManager::CollisionManager(ScoreManager* scoreManager)
-	: scoreManager(scoreManager)
+CollisionManager::CollisionManager()
 {
 	audioManager = new AudioManager();
-	// audioManager->loadSound("wall_bounce", "assets/audio/sfx/ball_hit_obstacle.wav");
 	audioManager->loadSound("paddle_bounce", "assets/audio/sfx/ball_hit_vaus.wav");
-	audioManager->loadSound("score", "assets/audio/sfx/vaus_explosion.wav");
 }
 
 CollisionManager::~CollisionManager()
@@ -16,60 +13,115 @@ CollisionManager::~CollisionManager()
 	delete audioManager;
 }
 
-void CollisionManager::handlePaddleCollision(Ball& ball, const Paddle& paddle)
-{
-	const SDL_Rect& ballRect = ball.getRect();
-	const SDL_Rect& paddleRect = paddle.getRect();
-
-	if (SDL_HasIntersection(&ballRect, &paddleRect))
-	{
-		// Hit paddle, so reverse velX
-		// TODO: check if ball hit the sides of paddle to reverse velY
-		int velX, velY;
-		ball.getVelocity(velX, velY);
-
-		// velY is adjusted according to the relative position of the impact on the paddle
-		int paddleCenter = paddleRect.y + paddleRect.h / 2;
-		int ballCenter = ballRect.y + ballRect.h / 2;
-		int deltaY = ballCenter - paddleCenter;
-
-		// TODO: Check this factor if it needs to be changed.
-		velY += deltaY / 15;
-		ball.setVelocity(-velX, velY);
-		audioManager->playSound("paddle_bounce");
-	}
-}
-
-void CollisionManager::handleWallCollisions(Ball& ball)
+bool CollisionManager::CheckWallCollisions(Ball& ball)
 {
 	SDL_Rect rect = ball.getRect();
 	int velX, velY;
 	ball.getVelocity(velX, velY);
 
 	// Check collisions against the ceiling or floor
-	if ((rect.y <= 0 && velY < 0) ||
-		(rect.y + rect.h >= SCREEN_HEIGHT && velY > 0))
+	if (CheckCollision(WALL_TOP, rect) || CheckCollision(WALL_BOTTOM, rect))
 	{
 		// Hit, so reverse velY
 		ball.setVelocity(velX, -velY);
-		// audioManager->playSound("wall_bounce");
+		return true;
+	}
+	return false;
+}
+
+bool CollisionManager::CheckPaddleCollision(Paddle& paddle, Ball& ball) {
+	SDL_Rect paddleRect = paddle.getRect();
+	SDL_Rect ballRect = ball.getRect();
+
+	CollisionSide side = DetectCollisionSide(ballRect, paddleRect);
+
+	int velX, velY;
+	ball.getVelocity(velX, velY);
+
+	switch (side) {
+		case CollisionSide::RIGHT:
+		case CollisionSide::LEFT: {
+			// Adjust the Y velocity based on the impact position
+			int paddleCenter = paddleRect.y + (paddleRect.h * SCALE) / 2;
+			int ballCenter = ballRect.y + (ballRect.h * SCALE) / 2;
+			int deltaY = ballCenter - paddleCenter;
+			velY += deltaY / 15;
+
+			// Reverse the X velocity
+			ball.setVelocity(-velX, velY);
+			break;
+		}
+		case CollisionSide::TOP:
+		case CollisionSide::BOTTOM: {
+			// Invert the Y velocity if it hits the top or bottom
+			ball.setVelocity(velX, -velY);
+			break;
+		}
+		case CollisionSide::NONE: {
+			// No collision
+			return false;
+		}
 	}
 
-	// Collisions with the left and right walls are checked for score
-	if (rect.x <= 0 || rect.x + rect.w >= SCREEN_WIDTH)
-	{
-		ball.center();
-		SDL_Delay(500);
-		audioManager->playSound("score");
-		SDL_Delay(2000);
-		// TODO: center paddles
-		if (rect.x <= 0)
-		{
-			scoreManager->increaseScoreRight();
-		}
-		else if (rect.x + rect.w >= SCREEN_WIDTH)
-		{
-			scoreManager->increaseScoreLeft();
-		}
+	audioManager->playSound("paddle_bounce");
+	return true;
+}
+
+CollisionSide CollisionManager::CheckBallOutOfBounds(Ball& ball) {
+	SDL_Rect ballRect = ball.getRect();
+	if (ballRect.x + ballRect.w < 0) {
+		return CollisionSide::LEFT;
 	}
+	else if (ballRect.x + ballRect.w > SCREEN_WIDTH) {
+		return CollisionSide::RIGHT;
+	}
+	return CollisionSide::NONE;
+}
+
+
+bool CollisionManager::CheckCollision(const SDL_Rect& rect1, const SDL_Rect& rect2) {
+	// Simple AABB collision detection
+	return (rect1.x < rect2.x + rect2.w &&
+		rect1.x + rect1.w > rect2.x &&
+		rect1.y < rect2.y + rect2.h &&
+		rect1.y + rect1.h > rect2.y);
+}
+
+CollisionSide CollisionManager::DetectCollisionSide(const SDL_Rect& ballRect, const SDL_Rect& paddleRect) {
+	// Define the sides of the paddle
+	int left = paddleRect.x;
+	int right = paddleRect.x + paddleRect.w * SCALE;
+	int top = paddleRect.y;
+	int bottom = paddleRect.y + paddleRect.h * SCALE;
+
+	// Determine the side of the collision
+	if (ballRect.x + ballRect.w * SCALE < left) {
+		return CollisionSide::NONE;  // No collision
+	}
+	if (ballRect.x > right) {
+		return CollisionSide::NONE;  // No collision
+	}
+	if (ballRect.y + ballRect.h * SCALE < top) {
+		return CollisionSide::NONE;  // No collision
+	}
+	if (ballRect.y > bottom) {
+		return CollisionSide::NONE;  // No collision
+	}
+
+	// Determine if the collision is on the front, back, top or bottom
+	int ballCenterX = ballRect.x + (ballRect.w * SCALE) / 2;
+	int ballCenterY = ballRect.y + (ballRect.h * SCALE) / 2;
+	int paddleCenterX = paddleRect.x + (paddleRect.w * SCALE) / 2;
+	int paddleCenterY = paddleRect.y + (paddleRect.h * SCALE) / 2;
+
+	if (ballCenterX < paddleCenterX) {
+		return CollisionSide::RIGHT;
+	}
+	if (ballCenterX > paddleCenterX) {
+		return CollisionSide::LEFT;
+	}
+	if (ballCenterY < paddleCenterY) {
+		return CollisionSide::TOP;
+	}
+	return CollisionSide::BOTTOM;
 }

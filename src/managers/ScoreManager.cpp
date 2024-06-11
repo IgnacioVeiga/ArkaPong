@@ -1,23 +1,46 @@
 #include "ScoreManager.h"
+#include "../Game.h"
+#include "../states/GameOverState.h"
 
-ScoreManager::ScoreManager() : playerLeftScore(0), playerRightScore(0) {}
-
-void ScoreManager::increaseScoreLeft()
+ScoreManager::ScoreManager()
 {
-    playerLeftScore++;
+	audioManager = new AudioManager();
+	audioManager->loadSound("explosion", "assets/audio/sfx/vaus_explosion.wav");
 }
 
-void ScoreManager::increaseScoreRight()
+ScoreManager::~ScoreManager()
 {
-    playerRightScore++;
+	delete audioManager;
+}
+
+void ScoreManager::increaseScore(PlayerSide player)
+{
+	if (player == PlayerSide::PLAYER_LEFT)
+	{
+		playerLeftScore++;
+	}
+	else
+	{
+		playerRightScore++;
+	}
+
+	SDL_Delay(250);
+	audioManager->playSound("explosion");
+	SDL_Delay(2000);
+
+	// Temporary condition, this will then depend on the game mode and level
+	if (getPlayerLeftScore() == 10 || getPlayerRightScore() == 10)
+	{
+		Game::flowManager->changeState(new GameOverState());
+	}
 }
 
 int ScoreManager::getPlayerLeftScore() const
 {
-    return playerLeftScore;
+	return playerLeftScore;
 }
 
 int ScoreManager::getPlayerRightScore() const
 {
-    return playerRightScore;
+	return playerRightScore;
 }

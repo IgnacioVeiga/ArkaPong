@@ -17,7 +17,6 @@ public:
     PlayerSide side = PlayerSide::PLAYER_LEFT;
     SDL_Rect clip = {0, 0, 8, 32};
     SDL_RendererFlip flip = SDL_FLIP_NONE;
-    int scale = 2;
 
     void moveUp();
     void moveDown();

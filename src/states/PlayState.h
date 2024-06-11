@@ -18,6 +18,7 @@ private:
 	Paddle playerLeft;
 	Paddle playerRight;
 	Ball ball;
+
 	TextManager* textManager;
 	AudioManager* audioManager;
 	ScoreManager* scoreManager;

@@ -17,8 +17,8 @@ public:
         const std::string &id,
         int x, int y,
         SDL_Rect *clip = nullptr,
-        SDL_RendererFlip flip = SDL_FLIP_NONE,
-        int scale = 1);
+        SDL_RendererFlip flip = SDL_FLIP_NONE
+    );
 
     // Clear all loaded textures
     static void clearTextures();

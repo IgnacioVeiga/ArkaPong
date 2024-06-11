@@ -1,6 +1,7 @@
 #include "TextureManager.h"
 #include "../Game.h"
 #include <iostream>
+#include "../utilities/GameConstants.h"
 
 // Initialize the static member variable
 std::unordered_map<std::string, Texture *> TextureManager::textures;
@@ -35,7 +36,7 @@ bool TextureManager::loadTexture(const std::string &id, const std::string &filen
     return true;
 }
 
-void TextureManager::drawTexture(const std::string &id, int x, int y, SDL_Rect *clip, SDL_RendererFlip flip, int scale)
+void TextureManager::drawTexture(const std::string &id, int x, int y, SDL_Rect *clip, SDL_RendererFlip flip)
 {
     // Find the texture in the map by its ID
     auto it = textures.find(id);
@@ -49,16 +50,16 @@ void TextureManager::drawTexture(const std::string &id, int x, int y, SDL_Rect *
     Texture *tex = it->second; // Get the texture from the map
 
     // Calculate the scaled width and height of the texture
-    int scaledWidth = static_cast<int>(tex->width * scale);
-    int scaledHeight = static_cast<int>(tex->height * scale);
+    int scaledWidth = static_cast<int>(tex->width * SCALE);
+    int scaledHeight = static_cast<int>(tex->height * SCALE);
 
     SDL_Rect renderQuad = {x, y, scaledWidth, scaledHeight}; // Set the rendering rectangle with scaled dimensions
 
     // If a clip rectangle is provided, adjust the rendering rectangle's size
     if (clip)
     {
-        renderQuad.w = clip->w * scale;
-        renderQuad.h = clip->h * scale;
+        renderQuad.w = clip->w * SCALE;
+        renderQuad.h = clip->h * SCALE;
     }
 
     // Render the texture with optional clipping, flipping, and scaling

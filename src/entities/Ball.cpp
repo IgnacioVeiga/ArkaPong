@@ -8,17 +8,17 @@
 Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {
 	rect = {
-		SCREEN_WIDTH / 2 - (BALL_SIZE * scale) / 2,		// X
-		SCREEN_HEIGHT / 2 - (BALL_SIZE * scale) / 2,	// Y
-		BALL_SIZE * scale,								// W
-		BALL_SIZE * scale								// H
+		SCREEN_WIDTH / 2 - BALL_SIZE / 2,	// X
+		SCREEN_HEIGHT / 2 - BALL_SIZE / 2,	// Y
+		BALL_SIZE,							// W
+		BALL_SIZE							// H
 	};
 }
 
 void Ball::move()
 {
-	//rect.x += velX;
-	//rect.y += velY;
+	rect.x += velX;
+	rect.y += velY;
 }
 
 void Ball::center()
@@ -36,7 +36,7 @@ void Ball::center()
 
 void Ball::render()
 {
-	TextureManager::drawTexture("vaus", rect.x, rect.y, &clip, SDL_FLIP_NONE, scale);
+	TextureManager::drawTexture("vaus", rect.x, rect.y, &clip, SDL_FLIP_NONE);
 }
 
 const SDL_Rect& Ball::getRect() const

@@ -2,15 +2,14 @@
 #include "PauseState.h"
 #include "../utilities/GameConstants.h"
 #include "../Game.h"
-#include "./GameOverState.h"
 #include "../managers/TextureManager.h"
 
 PlayState::PlayState()
 	: playerLeft(PlayerSide::PLAYER_LEFT),
-	  playerRight(PlayerSide::PLAYER_RIGHT)
+	playerRight(PlayerSide::PLAYER_RIGHT)
 {
 	scoreManager = new ScoreManager();
-	collisionManager = new CollisionManager(scoreManager);
+	collisionManager = new CollisionManager();
 
 	audioManager = new AudioManager();
 	audioManager->loadSound("round_start", "assets/audio/bgm/round_start.wav");
@@ -18,6 +17,7 @@ PlayState::PlayState()
 	textManager = new TextManager();
 
 	TextureManager::loadTexture("vaus", "assets/sprites/vaus.bmp");
+	TextureManager::loadTexture("blocks_and_bg", "assets/sprites/blocks_backgrounds.bmp");
 
 	// Showing round number
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
@@ -75,17 +75,33 @@ void PlayState::update()
 {
 	ball.move();
 
-	// TODO: refactor this functions
-	collisionManager->handleWallCollisions(ball);
-	collisionManager->handlePaddleCollision(ball, playerLeft);
-	collisionManager->handlePaddleCollision(ball, playerRight);
+	if (collisionManager->CheckWallCollisions(ball)) return;
+	if (collisionManager->CheckPaddleCollision(playerLeft, ball)) return;
+	if (collisionManager->CheckPaddleCollision(playerRight, ball)) return;
 
-	// Temporary condition, this will then depend on the game mode and level
-	if (scoreManager->getPlayerLeftScore() == 10 ||
-		scoreManager->getPlayerRightScore() == 10)
+	switch (collisionManager->CheckBallOutOfBounds(ball))
 	{
-		Game::flowManager->changeState(new GameOverState());
+	case CollisionSide::LEFT:
+	{
+		scoreManager->increaseScore(PlayerSide::PLAYER_RIGHT);
+		// TODO: do destroy animation of player left
+		break;
 	}
+	case CollisionSide::RIGHT:
+	{
+		scoreManager->increaseScore(PlayerSide::PLAYER_LEFT);
+		// TODO: do destroy animation of player right
+		break;
+	}
+	default:
+		return;
+	}
+
+	ball.center();
+	playerLeft.center();
+	playerRight.center();
+	render();
+	SDL_Delay(1000);
 }
 
 void PlayState::render()
@@ -99,17 +115,26 @@ void PlayState::render()
 	std::string leftScore = "P1: " + std::to_string(scoreManager->getPlayerLeftScore());
 	std::string rightScore = "P2: " + std::to_string(scoreManager->getPlayerRightScore());
 
+	SDL_Rect wall = { 72, 32, 8, 8 };
+	int i = 0;
+	while (i < SCREEN_WIDTH)
+	{
+		TextureManager::drawTexture("blocks_and_bg", i, 0, &wall);
+		TextureManager::drawTexture("blocks_and_bg", i, SCREEN_HEIGHT - (8 * SCALE), &wall);
+		i += 8 * SCALE;
+	}
+
 	textManager->renderText(
 		leftScore,			// Text
 		PADDLE_OFFSET,		// X
 		PADDLE_OFFSET,		// Y
-		{6, 186, 221, 255}, // Blue
+		{ 6, 186, 221, 255 }, // Blue
 		TextAlignment::LEFT);
 	textManager->renderText(
 		rightScore,					  // Text
 		SCREEN_WIDTH - PADDLE_OFFSET, // X
 		PADDLE_OFFSET,				  // Y
-		{245, 110, 100, 255},		  // Red
+		{ 245, 110, 100, 255 },		  // Red
 		TextAlignment::RIGHT);
 	SDL_RenderPresent(Game::renderer);
 }
