@@ -90,6 +90,7 @@
     <ClInclude Include="src\entities\Ball.h" />
     <ClInclude Include="src\entities\Entity.h" />
     <ClInclude Include="src\entities\Paddle.h" />
+    <ClInclude Include="src\entities\Texture.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\managers\AudioManager.h" />
     <ClInclude Include="src\managers\CollisionManager.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="src\states\MenuState.h" />
     <ClInclude Include="src\states\PauseState.h" />
     <ClInclude Include="src\states\PlayState.h" />
+    <ClInclude Include="src\utilities\AudioParams.h" />
     <ClInclude Include="src\utilities\GameConstants.h" />
     <ClInclude Include="src\utilities\TextParams.h" />
   </ItemGroup>

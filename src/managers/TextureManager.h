@@ -12,15 +12,13 @@ public:
     // Load a texture from a file and store it with a given ID
     static bool loadTexture(const std::string &id, const std::string &filename);
 
-    // Draw a texture on the screen at (x, y) with optional clipping, rotation, and flipping
+    // Draw a texture on the screen at (x, y) with optional clipping, flipping and scale
     static void drawTexture(
         const std::string &id,
         int x, int y,
         SDL_Rect *clip = nullptr,
-        double angle = 0.0,
-        SDL_Point *center = nullptr,
         SDL_RendererFlip flip = SDL_FLIP_NONE,
-        double scaleX = 1.0, double scaleY = 1.0);
+        int scale = 1);
 
     // Clear all loaded textures
     static void clearTextures();

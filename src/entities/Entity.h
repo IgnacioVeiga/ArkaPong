@@ -15,6 +15,7 @@ public:
     virtual const SDL_Rect &getRect() const = 0;
 
 protected:
+    // Rectangle used for the position and the colider
     SDL_Rect rect;
 };
 

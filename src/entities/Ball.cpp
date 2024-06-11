@@ -7,40 +7,39 @@
 
 Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {
-    // Rectangle used for the position and the colider
-    rect = {
-        SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
-        SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
-        BALL_SIZE,                         // W
-        BALL_SIZE                          // H
-    };
+	rect = {
+		SCREEN_WIDTH / 2 - (BALL_SIZE * scale) / 2,		// X
+		SCREEN_HEIGHT / 2 - (BALL_SIZE * scale) / 2,	// Y
+		BALL_SIZE * scale,								// W
+		BALL_SIZE * scale								// H
+	};
 }
 
 void Ball::move()
 {
-    // rect.x += velX;
-    // rect.y += velY;
+	//rect.x += velX;
+	//rect.y += velY;
 }
 
 void Ball::center()
 {
-    rect.x = SCREEN_WIDTH / 2;
-    rect.y = SCREEN_HEIGHT / 2;
+	rect.x = SCREEN_WIDTH / 2;
+	rect.y = SCREEN_HEIGHT / 2;
 
-    // To left or right (random)
-    velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
-    // velY is not always the same
-    int factor = rand() % BALL_SPEED + 1;
-    // Up or down (random)
-    velY = (rand() % 2 == 0 ? -factor : factor);
+	// To left or right (random)
+	velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
+	// velY is not always the same
+	int factor = rand() % BALL_SPEED + 1;
+	// Up or down (random)
+	velY = (rand() % 2 == 0 ? -factor : factor);
 }
 
 void Ball::render()
 {
-    TextureManager::drawTexture("ball", rect.x, rect.y, nullptr, 0.0, nullptr, SDL_FLIP_NONE, 2.0, 2.0);
+	TextureManager::drawTexture("vaus", rect.x, rect.y, &clip, SDL_FLIP_NONE, scale);
 }
 
-const SDL_Rect &Ball::getRect() const
+const SDL_Rect& Ball::getRect() const
 {
-    return rect;
+	return rect;
 }

@@ -17,8 +17,7 @@ PlayState::PlayState()
 
 	textManager = new TextManager();
 
-	TextureManager::loadTexture("ball", "assets/sprites/ball.bmp");
-	TextureManager::loadTexture("paddle", "assets/sprites/vaus.bmp");
+	TextureManager::loadTexture("vaus", "assets/sprites/vaus.bmp");
 
 	// Showing round number
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);

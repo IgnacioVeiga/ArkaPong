@@ -15,10 +15,9 @@ public:
     Paddle(PlayerSide side);
 
     PlayerSide side = PlayerSide::PLAYER_LEFT;
-    SDL_Rect clip = {0, 0, 32, 8};
+    SDL_Rect clip = {0, 0, 8, 32};
     SDL_RendererFlip flip = SDL_FLIP_NONE;
-    SDL_Point rotation_point = {0, 7};
-    double rotation_angle = 90.0;
+    int scale = 2;
 
     void moveUp();
     void moveDown();
