@@ -24,11 +24,6 @@ void Paddle::moveDown()
 	rect.y = std::min(SCREEN_HEIGHT - (8 * SCALE) - rect.h, rect.y + PADDLE_SPEED);
 }
 
-void Paddle::move()
-{
-	// TODO: investigate whether AI should be implemented here so that the "cpu" controls it.
-}
-
 void Paddle::center()
 {
 	rect.y = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;

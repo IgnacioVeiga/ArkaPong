@@ -9,8 +9,8 @@ class Ball : public Entity
 {
 public:
     Ball();
-    void move() override;
-    void center() override;
+    void move();
+    void center();
     void render() override;
     SDL_Rect clip = {
         42, // X coordinate of the bitmap file

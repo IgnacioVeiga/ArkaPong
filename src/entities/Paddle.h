@@ -25,8 +25,7 @@ public:
 
     void moveUp();
     void moveDown();
-    void move() override;
-    void center() override;
+    void center();
     void render() override;
     const SDL_Rect &getRect() const override;
 };
