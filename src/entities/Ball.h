@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Paddle.h"
+#include "../utilities/GameConstants.h"
 
 class Ball : public Entity
 {
@@ -11,7 +12,11 @@ public:
     void move() override;
     void center() override;
     void render() override;
-    SDL_Rect clip = { 42, 5, 5, 5 };
+    SDL_Rect clip = {
+        42, // X coordinate of the bitmap file
+        5,  // Y coordinate of the bitmap file
+        BALL_SIZE,
+        BALL_SIZE};
     const SDL_Rect &getRect() const override;
 
     void getVelocity(int &velX, int &velY) const

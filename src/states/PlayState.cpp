@@ -6,7 +6,7 @@
 
 PlayState::PlayState()
 	: playerLeft(PlayerSide::PLAYER_LEFT),
-	playerRight(PlayerSide::PLAYER_RIGHT)
+	  playerRight(PlayerSide::PLAYER_RIGHT)
 {
 	scoreManager = new ScoreManager();
 	collisionManager = new CollisionManager();
@@ -75,9 +75,12 @@ void PlayState::update()
 {
 	ball.move();
 
-	if (collisionManager->CheckWallCollisions(ball)) return;
-	if (collisionManager->CheckPaddleCollision(playerLeft, ball)) return;
-	if (collisionManager->CheckPaddleCollision(playerRight, ball)) return;
+	if (collisionManager->CheckWallCollisions(ball))
+		return;
+	if (collisionManager->CheckPaddleCollision(playerLeft, ball))
+		return;
+	if (collisionManager->CheckPaddleCollision(playerRight, ball))
+		return;
 
 	switch (collisionManager->CheckBallOutOfBounds(ball))
 	{
@@ -128,13 +131,13 @@ void PlayState::render()
 		leftScore,			// Text
 		PADDLE_OFFSET,		// X
 		PADDLE_OFFSET,		// Y
-		{ 6, 186, 221, 255 }, // Blue
+		{6, 186, 221, 255}, // Blue
 		TextAlignment::LEFT);
 	textManager->renderText(
 		rightScore,					  // Text
 		SCREEN_WIDTH - PADDLE_OFFSET, // X
 		PADDLE_OFFSET,				  // Y
-		{ 245, 110, 100, 255 },		  // Red
+		{245, 110, 100, 255},		  // Red
 		TextAlignment::RIGHT);
 	SDL_RenderPresent(Game::renderer);
 }

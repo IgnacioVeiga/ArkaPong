@@ -1,17 +1,16 @@
 #include "Paddle.h"
 #include <algorithm>
 #include "../managers/TextureManager.h"
-#include "../utilities/GameConstants.h"
 #include "../Game.h"
 
 Paddle::Paddle(PlayerSide side) : side(side)
 {
 	int x = (side == PlayerSide::PLAYER_RIGHT) ? SCREEN_WIDTH - PADDLE_OFFSET : PADDLE_OFFSET;
 	rect = {
-		x,										// X
-		SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2,	// Y
-		PADDLE_WIDTH,							// W
-		PADDLE_HEIGHT							// H
+		x,									   // X
+		SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
+		PADDLE_WIDTH,						   // W
+		PADDLE_HEIGHT						   // H
 	};
 }
 
@@ -22,7 +21,7 @@ void Paddle::moveUp()
 
 void Paddle::moveDown()
 {
-	rect.y = std::min(SCREEN_HEIGHT - (8 * SCALE) - (rect.h * SCALE), rect.y + PADDLE_SPEED);
+	rect.y = std::min(SCREEN_HEIGHT - (8 * SCALE) - rect.h, rect.y + PADDLE_SPEED);
 }
 
 void Paddle::move()
@@ -32,7 +31,7 @@ void Paddle::move()
 
 void Paddle::center()
 {
-	rect.y = SCREEN_HEIGHT / 2;
+	rect.y = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
 }
 
 void Paddle::render()
@@ -45,7 +44,7 @@ void Paddle::render()
 	TextureManager::drawTexture("vaus", rect.x, rect.y, &clip, flip);
 }
 
-const SDL_Rect& Paddle::getRect() const
+const SDL_Rect &Paddle::getRect() const
 {
 	return rect;
 }

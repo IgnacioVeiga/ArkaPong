@@ -2,16 +2,15 @@
 #include <cstdlib>
 #include <ctime>
 #include "../managers/TextureManager.h"
-#include "../utilities/GameConstants.h"
 #include "../Game.h"
 
 Ball::Ball() : velX(BALL_SPEED), velY(BALL_SPEED)
 {
 	rect = {
-		SCREEN_WIDTH / 2 - BALL_SIZE / 2,	// X
-		SCREEN_HEIGHT / 2 - BALL_SIZE / 2,	// Y
-		BALL_SIZE,							// W
-		BALL_SIZE							// H
+		SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
+		SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
+		BALL_SIZE,						   // W
+		BALL_SIZE						   // H
 	};
 }
 
@@ -23,8 +22,8 @@ void Ball::move()
 
 void Ball::center()
 {
-	rect.x = SCREEN_WIDTH / 2;
-	rect.y = SCREEN_HEIGHT / 2;
+	rect.x = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
+	rect.y = SCREEN_HEIGHT / 2 - BALL_SIZE / 2;
 
 	// To left or right (random)
 	velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
@@ -39,7 +38,7 @@ void Ball::render()
 	TextureManager::drawTexture("vaus", rect.x, rect.y, &clip, SDL_FLIP_NONE);
 }
 
-const SDL_Rect& Ball::getRect() const
+const SDL_Rect &Ball::getRect() const
 {
 	return rect;
 }
