@@ -118,13 +118,16 @@ void PlayState::render()
 	std::string leftScore = "P1: " + std::to_string(scoreManager->getPlayerLeftScore());
 	std::string rightScore = "P2: " + std::to_string(scoreManager->getPlayerRightScore());
 
-	SDL_Rect wall = { 72, 32, 8, 8 };
+	SDL_Rect wall_clip = {72, 32, 8, 8};
 	int i = 0;
 	while (i < SCREEN_WIDTH)
 	{
-		TextureManager::drawTexture("blocks_and_bg", i, 0, &wall);
-		TextureManager::drawTexture("blocks_and_bg", i, SCREEN_HEIGHT - (8 * SCALE), &wall);
-		i += 8 * SCALE;
+		SDL_Rect wall_top = {i, 0, 8, 8};
+		SDL_Rect wall_bottom = {i, SCREEN_HEIGHT - 8 * SCALE, 8, 8};
+
+		TextureManager::drawTexture("blocks_and_bg", &wall_top, &wall_clip);
+		TextureManager::drawTexture("blocks_and_bg", &wall_bottom, &wall_clip);
+		i += 8;
 	}
 
 	textManager->renderText(

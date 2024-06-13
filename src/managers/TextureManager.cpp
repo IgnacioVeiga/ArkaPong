@@ -36,7 +36,7 @@ bool TextureManager::loadTexture(const std::string &id, const std::string &filen
     return true;
 }
 
-void TextureManager::drawTexture(const std::string &id, int x, int y, SDL_Rect *clip, SDL_RendererFlip flip)
+void TextureManager::drawTexture(const std::string &id, SDL_Rect *dest_rect, SDL_Rect *src_rect, SDL_RendererFlip flip)
 {
     // Find the texture in the map by its ID
     auto it = textures.find(id);
@@ -53,17 +53,21 @@ void TextureManager::drawTexture(const std::string &id, int x, int y, SDL_Rect *
     int scaledWidth = static_cast<int>(tex->width * SCALE);
     int scaledHeight = static_cast<int>(tex->height * SCALE);
 
-    SDL_Rect renderQuad = {x, y, scaledWidth, scaledHeight}; // Set the rendering rectangle with scaled dimensions
-
     // If a clip rectangle is provided, adjust the rendering rectangle's size
-    if (clip)
+    if (src_rect)
     {
-        renderQuad.w = clip->w * SCALE;
-        renderQuad.h = clip->h * SCALE;
+        dest_rect->w = src_rect->w * SCALE;
+        dest_rect->h = src_rect->h * SCALE;
+    }
+    else
+    {
+        // Set the rendering rectangle with scaled dimensions
+        dest_rect->h = scaledWidth;
+        dest_rect->h = scaledHeight;
     }
 
     // Render the texture with optional clipping, flipping, and scaling
-    SDL_RenderCopyEx(Game::renderer, tex->sdlTexture, clip, &renderQuad, 0.0, nullptr, flip);
+    SDL_RenderCopyEx(Game::renderer, tex->sdlTexture, src_rect, dest_rect, 0.0, nullptr, flip);
 }
 
 void TextureManager::clearTextures()

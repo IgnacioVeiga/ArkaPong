@@ -35,7 +35,11 @@ void Ball::center()
 
 void Ball::render()
 {
-	TextureManager::drawTexture("vaus", rect.x, rect.y, &clip, SDL_FLIP_NONE);
+	TextureManager::drawTexture("vaus", &rect, &clip, SDL_FLIP_NONE);
+
+	// DEBUG:
+	// SDL_SetRenderDrawColor(Game::renderer, 0, 255, 0, 255);
+	// SDL_RenderFillRect(Game::renderer, &rect);
 }
 
 const SDL_Rect &Ball::getRect() const

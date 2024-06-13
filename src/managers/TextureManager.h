@@ -15,8 +15,8 @@ public:
     // Draw a texture on the screen at (x, y) with optional clipping, flipping and scale
     static void drawTexture(
         const std::string &id,
-        int x, int y,
-        SDL_Rect *clip = nullptr,
+        SDL_Rect *dest_rect,
+        SDL_Rect *src_rect = nullptr,
         SDL_RendererFlip flip = SDL_FLIP_NONE
     );
 

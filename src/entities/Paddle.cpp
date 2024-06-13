@@ -40,8 +40,11 @@ void Paddle::render()
 	{
 		flip = SDL_FLIP_HORIZONTAL;
 	}
+	TextureManager::drawTexture("vaus", &rect, &clip, flip);
 
-	TextureManager::drawTexture("vaus", rect.x, rect.y, &clip, flip);
+	// DEBUG:
+	// SDL_SetRenderDrawColor(Game::renderer, 0, 255, 0, 255);
+	// SDL_RenderFillRect(Game::renderer, &rect);
 }
 
 const SDL_Rect &Paddle::getRect() const
