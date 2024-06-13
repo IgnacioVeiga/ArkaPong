@@ -104,7 +104,7 @@ CollisionSide CollisionManager::DetectCollisionSide(const SDL_Rect &ballRect, co
 	int bottom = paddleRect.y + paddleRect.h;
 
 	// Determine the side of the collision
-	if (ballRect.x + ballRect.w * SCALE < left)
+	if (ballRect.x + ballRect.w < left)
 	{
 		return CollisionSide::NONE; // No collision
 	}
@@ -112,7 +112,7 @@ CollisionSide CollisionManager::DetectCollisionSide(const SDL_Rect &ballRect, co
 	{
 		return CollisionSide::NONE; // No collision
 	}
-	if (ballRect.y + ballRect.h * SCALE < top)
+	if (ballRect.y + ballRect.h < top)
 	{
 		return CollisionSide::NONE; // No collision
 	}
