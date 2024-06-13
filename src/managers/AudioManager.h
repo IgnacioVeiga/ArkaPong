@@ -17,6 +17,7 @@ public:
     // Overloads for partial customization
     void playSound(const std::string &name, int volume);
     void playSound(const std::string &name, int volume, int loops);
+    void playSound(const std::string &name, int volume, int loops, int ticks);
 
     void pauseAllSounds();
     void resumeAllSounds();

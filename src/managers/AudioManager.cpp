@@ -30,7 +30,7 @@ void AudioManager::playSound(const std::string &name, const AudioParams &params)
 
     Mix_Chunk *sound = it->second;
     Mix_VolumeChunk(sound, params.volume);
-    int channel = Mix_PlayChannel(params.channel, sound, params.loops);
+    int channel = Mix_PlayChannelTimed(params.channel, sound, params.loops, params.ticks);
     if (channel != -1)
     {
         soundChannels[name] = channel; // Track the channel for this sound
@@ -49,6 +49,15 @@ void AudioManager::playSound(const std::string &name, int volume, int loops)
     AudioParams params;
     params.volume = volume;
     params.loops = loops;
+    playSound(name, params);
+}
+
+void AudioManager::playSound(const std::string &name, int volume, int loops, int ticks)
+{
+    AudioParams params;
+    params.volume = volume;
+    params.loops = loops;
+    params.ticks = ticks;
     playSound(name, params);
 }
 
