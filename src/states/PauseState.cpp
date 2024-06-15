@@ -14,7 +14,15 @@ PauseState::~PauseState()
 
 void PauseState::handleInput()
 {
-    // TODO: return to PlayState or MenuState
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+    if (keystate[SDL_SCANCODE_SPACE])
+    {
+        // Game::flowManager->changeState(new PlayState());
+    }
+    else if (keystate[SDL_SCANCODE_ESCAPE])
+    {
+        Game::game_on = false;
+    }
 }
 
 void PauseState::update()
