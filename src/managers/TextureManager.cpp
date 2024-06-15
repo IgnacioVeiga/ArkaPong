@@ -3,8 +3,8 @@
 #include <iostream>
 #include "../utilities/GameConstants.h"
 
-// Initialize the static member variable
 std::unordered_map<std::string, Texture *> TextureManager::textures;
+std::unordered_map<std::string, std::unordered_map<std::string, Animation>> TextureManager::animations;
 
 bool TextureManager::loadTexture(const std::string &id, const std::string &filename)
 {
@@ -12,7 +12,6 @@ bool TextureManager::loadTexture(const std::string &id, const std::string &filen
     SDL_Surface *tempSurface = SDL_LoadBMP(filename.c_str());
     if (!tempSurface)
     {
-        // Log an error if the image fails to load
         SDL_Log("Failed to load BMP %s: %s", filename.c_str(), SDL_GetError());
         return false;
     }
@@ -21,7 +20,6 @@ bool TextureManager::loadTexture(const std::string &id, const std::string &filen
     SDL_Texture *texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
     if (!texture)
     {
-        // Log an error if the texture fails to create
         SDL_Log("Failed to create texture from %s: %s", filename.c_str(), SDL_GetError());
         SDL_FreeSurface(tempSurface);
         return false;
@@ -42,7 +40,6 @@ void TextureManager::drawTexture(const std::string &id, SDL_Rect *dest_rect, SDL
     auto it = textures.find(id);
     if (it == textures.end())
     {
-        // Log an error if the texture is not found
         SDL_Log("Texture %s not found", id.c_str());
         return;
     }
@@ -53,7 +50,7 @@ void TextureManager::drawTexture(const std::string &id, SDL_Rect *dest_rect, SDL
     int scaledWidth = static_cast<int>(tex->width * SCALE);
     int scaledHeight = static_cast<int>(tex->height * SCALE);
 
-    // If a clip rectangle is provided, adjust the rendering rectangle's size
+    // If a source rectangle is provided, adjust the rendering rectangle's size
     if (src_rect)
     {
         dest_rect->w = src_rect->w * SCALE;
@@ -90,4 +87,45 @@ Texture *TextureManager::getTexture(const std::string &id)
         return it->second; // Return the texture if found
     }
     return nullptr; // Return nullptr if the texture is not found
+}
+
+// New functions for animations
+void TextureManager::createAnimation(const std::string &id, const std::string &animId, const std::vector<SDL_Rect> &frames, int speed)
+{
+    animations[id][animId] = Animation(frames, speed);
+}
+
+void TextureManager::playAnimation(const std::string &id, const std::string &animId, SDL_Rect *dest_rect, SDL_RendererFlip flip)
+{
+    auto itTex = textures.find(id);
+    if (itTex == textures.end())
+    {
+        SDL_Log("Texture %s not found", id.c_str());
+        return;
+    }
+
+    auto itAnim = animations.find(id);
+    if (itAnim == animations.end() || itAnim->second.find(animId) == itAnim->second.end())
+    {
+        SDL_Log("Animation %s not found for texture %s", animId.c_str(), id.c_str());
+        return;
+    }
+
+    Animation &anim = itAnim->second[animId];
+    Uint32 ticks = getTicks();
+    anim.currentFrame = (ticks / anim.speed) % anim.frames.size();
+    SDL_Rect *src_rect = &anim.frames[anim.currentFrame];
+
+    drawTexture(id, dest_rect, src_rect, flip);
+}
+
+void TextureManager::clearAnimations()
+{
+    animations.clear();
+}
+
+// Helper function to get current ticks
+Uint32 TextureManager::getTicks()
+{
+    return SDL_GetTicks();
 }
