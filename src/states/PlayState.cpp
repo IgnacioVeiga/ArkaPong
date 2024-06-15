@@ -17,7 +17,7 @@ PlayState::PlayState()
 	textManager = new TextManager();
 
 	TextureManager::loadTexture("vaus", "assets/sprites/vaus.bmp");
-	TextureManager::loadTexture("blocks_and_bg", "assets/sprites/blocks_backgrounds.bmp");
+	TextureManager::loadTexture("walls", "assets/sprites/walls.bmp");
 
 	// Showing round number
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
@@ -118,15 +118,15 @@ void PlayState::render()
 	std::string leftScore = "P1: " + std::to_string(scoreManager->getPlayerLeftScore());
 	std::string rightScore = "P2: " + std::to_string(scoreManager->getPlayerRightScore());
 
-	SDL_Rect wall_clip = {72, 32, 8, 8};
+	SDL_Rect wall_clip = {24, 18, 8, 8};
 	int i = 0;
 	while (i < SCREEN_WIDTH)
 	{
 		SDL_Rect wall_top = {i, 0, 8, 8};
 		SDL_Rect wall_bottom = {i, SCREEN_HEIGHT - 8 * SCALE, 8, 8};
 
-		TextureManager::drawTexture("blocks_and_bg", &wall_top, &wall_clip);
-		TextureManager::drawTexture("blocks_and_bg", &wall_bottom, &wall_clip);
+		TextureManager::drawTexture("walls", &wall_top, &wall_clip);
+		TextureManager::drawTexture("walls", &wall_bottom, &wall_clip);
 		i += 8;
 	}
 
