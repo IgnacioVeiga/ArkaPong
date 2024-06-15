@@ -25,8 +25,7 @@ void ScoreManager::increaseScore(PlayerSide player)
 	}
 
 	SDL_Delay(250);
-	audioManager->playSound("explosion");
-	SDL_Delay(2000);
+	audioManager->playSound("explosion", true);
 
 	// Temporary condition, this will then depend on the game mode and level
 	if (getPlayerLeftScore() == 10 || getPlayerRightScore() == 10)

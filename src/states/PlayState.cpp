@@ -27,9 +27,8 @@ PlayState::PlayState()
 	SDL_Delay(3000);
 
 	// Round starts
-	audioManager->playSound("round_start");
 	render();
-	SDL_Delay(3000);
+	audioManager->playSound("round_start", true);
 }
 
 PlayState::~PlayState()

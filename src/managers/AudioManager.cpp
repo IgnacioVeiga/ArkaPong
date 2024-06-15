@@ -35,26 +35,51 @@ void AudioManager::playSound(const std::string &name, const AudioParams &params)
     {
         soundChannels[name] = channel; // Track the channel for this sound
     }
+
+    if (params.wait)
+    {
+        // Wait for the sound to finish playing
+        waitForSoundToFinish(name);
+    }
 }
 
-void AudioManager::playSound(const std::string &name, int volume)
+void AudioManager::waitForSoundToFinish(const std::string &name)
+{
+    auto it = soundChannels.find(name);
+    if (it != soundChannels.end())
+    {
+        int channel = it->second;
+        while (Mix_Playing(channel) != 0)
+        {
+            SDL_Delay(100); // Wait 100 ms before checking again
+        }
+        soundChannels.erase(it); // Remove the channel from the tracking map
+    }
+    else
+    {
+        SDL_Log("Sound %s is not playing on any channel", name.c_str());
+    }
+}
+
+void AudioManager::playSound(const std::string &name, bool wait)
 {
     AudioParams params;
+    params.wait = wait;
+    playSound(name, params);
+}
+
+void AudioManager::playSound(const std::string &name, bool wait, int volume)
+{
+    AudioParams params;
+    params.wait = wait;
     params.volume = volume;
     playSound(name, params);
 }
 
-void AudioManager::playSound(const std::string &name, int volume, int loops)
+void AudioManager::playSound(const std::string &name, bool wait, int volume, int loops, int ticks)
 {
     AudioParams params;
-    params.volume = volume;
-    params.loops = loops;
-    playSound(name, params);
-}
-
-void AudioManager::playSound(const std::string &name, int volume, int loops, int ticks)
-{
-    AudioParams params;
+    params.wait = wait;
     params.volume = volume;
     params.loops = loops;
     params.ticks = ticks;

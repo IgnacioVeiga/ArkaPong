@@ -39,14 +39,12 @@ void MenuState::handleInput()
         // TODO: refactor
         if (menuOptions[selectedOption].text == "1P")
         {
-            audioManager->playSound("game_start");
-            SDL_Delay(5000);
+            audioManager->playSound("game_start", true);
             Game::flowManager->changeState(new PlayState());
         }
         else if (menuOptions[selectedOption].text == "2P")
         {
-            audioManager->playSound("game_start");
-            SDL_Delay(5000);
+            audioManager->playSound("game_start", true);
             Game::flowManager->changeState(new PlayState());
         }
         else if (menuOptions[selectedOption].text == "Settings")
@@ -96,6 +94,6 @@ void MenuState::render()
         SDL_RenderFillRect(Game::renderer, &menuOptions[i].rect);
     }
 
-    textManager->renderText("pre-alpha 2024", SCREEN_WIDTH / 2, SCREEN_HEIGHT - PADDLE_OFFSET, c_gray,TextAlignment::CENTER, 8);
+    textManager->renderText("pre-alpha 2024", SCREEN_WIDTH / 2, SCREEN_HEIGHT - PADDLE_OFFSET, c_gray, TextAlignment::CENTER, 8);
     SDL_RenderPresent(Game::renderer);
 }

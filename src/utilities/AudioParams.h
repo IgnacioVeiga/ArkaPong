@@ -17,9 +17,12 @@ struct AudioParams
     // Maximum number of milliseconds to play this chunk before halting it. To play until all data has been mixed, specify -1.
     int ticks = -1;
 
+    // Wait for the sound to finish playing
+    bool wait = false;
+
     // Constructor with parameters for easier initialization if needed
-    AudioParams(int channel = -1, int volume = MIX_MAX_VOLUME, int loops = 0, int ticks = -1)
-        : channel(channel), volume(volume), loops(loops), ticks(ticks) {}
+    AudioParams(int channel = -1, bool wait = false, int volume = MIX_MAX_VOLUME, int loops = 0, int ticks = -1)
+        : channel(channel), wait(wait), volume(volume), loops(loops), ticks(ticks) {}
 };
 
 #endif

@@ -15,14 +15,15 @@ public:
     void playSound(const std::string &name, const AudioParams &params = AudioParams());
 
     // Overloads for partial customization
-    void playSound(const std::string &name, int volume);
-    void playSound(const std::string &name, int volume, int loops);
-    void playSound(const std::string &name, int volume, int loops, int ticks);
+    void playSound(const std::string &name, bool wait);
+    void playSound(const std::string &name, bool wait, int volume);
+    void playSound(const std::string &name, bool wait, int volume, int loops, int ticks);
 
     void pauseAllSounds();
     void resumeAllSounds();
     void pauseSound(const std::string &name);
     void resumeSound(const std::string &name);
+    void waitForSoundToFinish(const std::string &name);
 
     void clearSounds();
 

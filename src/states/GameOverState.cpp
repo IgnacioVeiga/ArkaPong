@@ -11,7 +11,7 @@ GameOverState::GameOverState()
 
 	audioManager = new AudioManager();
 	audioManager->loadSound("game_over", "assets/audio/bgm/game_over.wav");
-	audioManager->playSound("game_over");
+	audioManager->playSound("game_over", true);
 }
 
 GameOverState::~GameOverState()
