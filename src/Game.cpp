@@ -1,4 +1,3 @@
-#include <time.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include "Game.h"
@@ -10,26 +9,24 @@ FlowManager *Game::flowManager = nullptr;
 SDL_Window *Game::window = nullptr;
 bool Game::game_on = true;
 
-Game::Game()
+int Game::Init_SDL()
 {
-    srand(time(nullptr));
-
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
     {
         SDL_Log("SDL2 initialization failed: %s", SDL_GetError());
-        return;
+        return -1;
     }
 
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
     {
         SDL_Log("SDL2_mixer initialization failed: %s", Mix_GetError());
-        return;
+        return -1;
     }
 
     if (TTF_Init() == -1)
     {
         SDL_Log("SDL2_ttf initialization failed: %s", TTF_GetError());
-        return;
+        return -1;
     }
 
     window = SDL_CreateWindow(
@@ -48,40 +45,24 @@ Game::Game()
     if (!window)
     {
         SDL_Log("Failed to create window: %s", SDL_GetError());
-        return;
+        return -1;
     }
 
     if (!renderer)
     {
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
-        return;
+        return -1;
     }
 
-    Game::flowManager = new FlowManager();
-    Game::flowManager->changeState(new MenuState());
+    return 0;
 }
 
-Game::~Game()
+void Game::Run()
 {
-    if (Game::flowManager)
-    {
-        delete Game::flowManager;
-    }
-    if (renderer)
-    {
-        SDL_DestroyRenderer(renderer);
-    }
-    if (window)
-    {
-        SDL_DestroyWindow(window);
-    }
-    TTF_Quit();
-    Mix_CloseAudio();
-    SDL_Quit();
-}
+    Game::flowManager = new FlowManager(
+        new MenuState()
+    );
 
-void Game::run()
-{
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
 
@@ -111,4 +92,23 @@ void Game::run()
             SDL_Delay(frameDelay - frameTime);
         }
     }
+}
+
+void Game::CleanUp()
+{
+    if (Game::flowManager)
+    {
+        delete Game::flowManager;
+    }
+    if (renderer)
+    {
+        SDL_DestroyRenderer(renderer);
+    }
+    if (window)
+    {
+        SDL_DestroyWindow(window);
+    }
+    TTF_Quit();
+    Mix_CloseAudio();
+    SDL_Quit();
 }

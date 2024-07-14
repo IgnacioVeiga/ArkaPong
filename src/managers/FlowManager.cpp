@@ -1,6 +1,10 @@
 #include "FlowManager.h"
 #include <iostream>
 
+FlowManager::FlowManager(GameState* newState) {
+    changeState(newState);
+}
+
 FlowManager::~FlowManager()
 {
     if (currentState)

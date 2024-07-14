@@ -9,7 +9,7 @@ private:
     GameState *currentState;
 
 public:
-    FlowManager() : currentState(nullptr) {}
+    FlowManager(GameState* newState);
     ~FlowManager();
 
     void changeState(GameState *newState);

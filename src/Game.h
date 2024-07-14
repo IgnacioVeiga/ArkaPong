@@ -6,9 +6,10 @@
 class Game
 {
 public:
-    Game();
-    ~Game();
-    void run();
+    int Init_SDL();
+    void Run();
+    void CleanUp();
+
     static SDL_Renderer *renderer;
     static FlowManager *flowManager;
     static bool game_on;
