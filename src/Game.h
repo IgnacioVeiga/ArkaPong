@@ -6,7 +6,7 @@
 class Game
 {
 public:
-    int Init_SDL();
+    bool Init_SDL();
     void Run();
     void CleanUp();
 

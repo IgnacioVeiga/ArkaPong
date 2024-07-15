@@ -4,12 +4,13 @@
 #include <time.h>
 #include "Game.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     srand(time(nullptr));
 
     Game game;
 
-    if (game.Init_SDL() == -1) return 1;
+    if (!game.Init_SDL()) return 1;
 
     game.Run();
     game.CleanUp();

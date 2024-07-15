@@ -1,14 +1,16 @@
 #pragma once
-#include "SDL.h"
 
 class Game
 {
 public:
-    bool Init();
+    bool Init_SDL();
     void Run();
     void CleanUp();
 
+    static SDL_Renderer* renderer;
+    static SceneManager* sceneManager;
+    static bool game_on;
+
 private:
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
+    static SDL_Window* window;
 };

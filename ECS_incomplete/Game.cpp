@@ -1,55 +1,114 @@
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+
 #include "Game.h"
-#include "SDL.h"
 #include "GameScene.h"
 #include "SceneManager.h"
 
-SceneManager sceneManager;
+SDL_Renderer* Game::renderer = nullptr;
+SceneManager* Game::sceneManager = nullptr;
+SDL_Window* Game::window = nullptr;
+bool Game::game_on = true;
 
-bool Game::Init() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
+bool Game::Init_SDL()
+{
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
+    {
+        SDL_Log("SDL2 initialization failed: %s", SDL_GetError());
         return false;
     }
 
-    window = SDL_CreateWindow("ArkaPong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
-    if (!window) {
+    if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
+    {
+        SDL_Log("SDL2_mixer initialization failed: %s", Mix_GetError());
+        return false;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        SDL_Log("SDL2_ttf initialization failed: %s", TTF_GetError());
+        return false;
+    }
+
+    window = SDL_CreateWindow(
+        GAME_TITLE,
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT,
+        SDL_WINDOW_SHOWN);
+
+    renderer = SDL_CreateRenderer(
+        window,
+        -1,
+        SDL_RENDERER_ACCELERATED);
+
+    if (!window)
+    {
         SDL_Log("Failed to create window: %s", SDL_GetError());
         return false;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
+    if (!renderer)
+    {
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
         return false;
     }
 
-    // Inicializar la escena
+    return true;
+}
+void Game::Run()
+{
     GameScene* gameScene = new GameScene();
     sceneManager.LoadScene(gameScene);
 
-    return true;
-}
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
 
-void Game::Run() {
-    bool running = true;
+    Uint32 frameStart;
+    int frameTime;
+
     SDL_Event event;
-    while (running) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = false;
+    while (Game::game_on)
+    {
+        frameStart = SDL_GetTicks();
+
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_QUIT)
+            {
+                Game::game_on = false;
             }
-            // Aquí deberíamos agregar el manejo de eventos de la escena actual
         }
 
-        sceneManager.Update(1.0f / 60.0f); // Actualizamos con un tiempo fijo por ahora
-        SDL_RenderClear(renderer);
-        sceneManager.Render(renderer);
-        SDL_RenderPresent(renderer);
+        //sceneManager.Update(1.0f / 60.0f);
+        //SDL_RenderClear(renderer);
+        //sceneManager.Render(renderer);
+        //SDL_RenderPresent(renderer);
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > frameTime)
+        {
+            SDL_Delay(frameDelay - frameTime);
+        }
     }
 }
 
-void Game::CleanUp() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+void Game::CleanUp()
+{
+    if (Game::sceneManager)
+    {
+        delete Game::sceneManager;
+    }
+    if (renderer)
+    {
+        SDL_DestroyRenderer(renderer);
+    }
+    if (window)
+    {
+        SDL_DestroyWindow(window);
+    }
+    TTF_Quit();
+    Mix_CloseAudio();
     SDL_Quit();
 }

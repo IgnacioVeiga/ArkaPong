@@ -9,24 +9,24 @@ SceneManager *Game::sceneManager = nullptr;
 SDL_Window *Game::window = nullptr;
 bool Game::game_on = true;
 
-int Game::Init_SDL()
+bool Game::Init_SDL()
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
     {
         SDL_Log("SDL2 initialization failed: %s", SDL_GetError());
-        return -1;
+        return false;
     }
 
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
     {
         SDL_Log("SDL2_mixer initialization failed: %s", Mix_GetError());
-        return -1;
+        return false;
     }
 
     if (TTF_Init() == -1)
     {
         SDL_Log("SDL2_ttf initialization failed: %s", TTF_GetError());
-        return -1;
+        return false;
     }
 
     window = SDL_CreateWindow(
@@ -45,16 +45,16 @@ int Game::Init_SDL()
     if (!window)
     {
         SDL_Log("Failed to create window: %s", SDL_GetError());
-        return -1;
+        return false;
     }
 
     if (!renderer)
     {
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
-        return -1;
+        return false;
     }
 
-    return 0;
+    return true;
 }
 
 void Game::Run()

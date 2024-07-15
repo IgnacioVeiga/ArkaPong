@@ -1,18 +1,19 @@
 #define SDL_MAIN_HANDLED
 
-#include "Game.h"
+#include <SDL2/SDL.h>
 #include <time.h>
+#include "Game.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     srand(time(nullptr));
 
     Game game;
 
-    if (game.Init() == 1)
-        return 1;
+    if (!game.Init_SDL()) return 1;
 
     game.Run();
     game.CleanUp();
+
     return 0;
 }
