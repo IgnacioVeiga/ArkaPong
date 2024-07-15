@@ -1,16 +1,16 @@
-#ifndef FLOW_MANAGER_H
-#define FLOW_MANAGER_H
+#ifndef SCENE_MANAGER_H
+#define SCENE_MANAGER_H
 
 #include "../scenes/GameScene.h"
 
-class FlowManager
+class SceneManager
 {
 private:
     GameScene *currentScene;
 
 public:
-    FlowManager(GameScene* newScene);
-    ~FlowManager();
+    SceneManager(GameScene* newScene);
+    ~SceneManager();
 
     void changeScene(GameScene *newScene);
     void handleInput();

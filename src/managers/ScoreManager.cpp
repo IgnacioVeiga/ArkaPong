@@ -30,7 +30,7 @@ void ScoreManager::increaseScore(PlayerSide player)
 	// Temporary condition, this will then depend on the game mode and level
 	if (getPlayerLeftScore() == 10 || getPlayerRightScore() == 10)
 	{
-		Game::flowManager->changeScene(new GameOverScene());
+		Game::sceneManager->changeScene(new GameOverScene());
 	}
 }
 

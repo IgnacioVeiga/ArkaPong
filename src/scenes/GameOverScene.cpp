@@ -35,7 +35,7 @@ void GameOverScene::update()
 		countdownTimer = currentTime;
 		if (countdown <= 0)
 		{
-			Game::flowManager->changeScene(new MenuScene());
+			Game::sceneManager->changeScene(new MenuScene());
 		}
 	}
 	return;

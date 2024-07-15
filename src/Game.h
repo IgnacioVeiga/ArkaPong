@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "managers/FlowManager.h"
+#include "managers/SceneManager.h"
 
 class Game
 {
@@ -11,7 +11,7 @@ public:
     void CleanUp();
 
     static SDL_Renderer *renderer;
-    static FlowManager *flowManager;
+    static SceneManager *sceneManager;
     static bool game_on;
 
 private:

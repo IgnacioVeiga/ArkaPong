@@ -5,7 +5,7 @@
 #include "scenes/MenuScene.h"
 
 SDL_Renderer *Game::renderer = nullptr;
-FlowManager *Game::flowManager = nullptr;
+SceneManager *Game::sceneManager = nullptr;
 SDL_Window *Game::window = nullptr;
 bool Game::game_on = true;
 
@@ -59,7 +59,7 @@ int Game::Init_SDL()
 
 void Game::Run()
 {
-    Game::flowManager = new FlowManager(
+    Game::sceneManager = new SceneManager(
         new MenuScene()
     );
 
@@ -82,9 +82,9 @@ void Game::Run()
             }
         }
 
-        Game::flowManager->handleInput();
-        Game::flowManager->update();
-        Game::flowManager->render();
+        Game::sceneManager->handleInput();
+        Game::sceneManager->update();
+        Game::sceneManager->render();
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)
@@ -96,9 +96,9 @@ void Game::Run()
 
 void Game::CleanUp()
 {
-    if (Game::flowManager)
+    if (Game::sceneManager)
     {
-        delete Game::flowManager;
+        delete Game::sceneManager;
     }
     if (renderer)
     {

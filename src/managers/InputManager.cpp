@@ -1,3 +1,3 @@
 #include "InputManager.h"
 
-void InputManager::handleInput(FlowManager &flowManager) { }
+void InputManager::handleInput(SceneManager &sceneManager) { }

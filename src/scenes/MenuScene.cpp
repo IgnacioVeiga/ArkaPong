@@ -40,12 +40,12 @@ void MenuScene::handleInput()
         if (menuOptions[selectedOption].text == "1P")
         {
             audioManager->playSound("game_start", true);
-            Game::flowManager->changeScene(new PlayScene());
+            Game::sceneManager->changeScene(new PlayScene());
         }
         else if (menuOptions[selectedOption].text == "2P")
         {
             audioManager->playSound("game_start", true);
-            Game::flowManager->changeScene(new PlayScene());
+            Game::sceneManager->changeScene(new PlayScene());
         }
         else if (menuOptions[selectedOption].text == "Settings")
         {

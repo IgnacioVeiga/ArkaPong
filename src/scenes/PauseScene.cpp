@@ -17,7 +17,7 @@ void PauseScene::handleInput()
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
     if (keystate[SDL_SCANCODE_SPACE])
     {
-        // Game::flowManager->changeScene(new PlayScene());
+        // Game::sceneManager->changeScene(new PlayScene());
     }
     else if (keystate[SDL_SCANCODE_ESCAPE])
     {

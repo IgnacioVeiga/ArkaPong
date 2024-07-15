@@ -1,11 +1,11 @@
-#include "FlowManager.h"
+#include "SceneManager.h"
 #include <iostream>
 
-FlowManager::FlowManager(GameScene* newScene) {
+SceneManager::SceneManager(GameScene* newScene) {
     currentScene = newScene;
 }
 
-FlowManager::~FlowManager()
+SceneManager::~SceneManager()
 {
     if (currentScene)
     {
@@ -13,7 +13,7 @@ FlowManager::~FlowManager()
     }
 }
 
-void FlowManager::changeScene(GameScene *newScene)
+void SceneManager::changeScene(GameScene *newScene)
 {
     if (currentScene)
     {
@@ -22,7 +22,7 @@ void FlowManager::changeScene(GameScene *newScene)
     currentScene = newScene;
 }
 
-void FlowManager::handleInput()
+void SceneManager::handleInput()
 {
     if (currentScene)
     {
@@ -30,7 +30,7 @@ void FlowManager::handleInput()
     }
 }
 
-void FlowManager::update()
+void SceneManager::update()
 {
     if (currentScene)
     {
@@ -38,7 +38,7 @@ void FlowManager::update()
     }
 }
 
-void FlowManager::render()
+void SceneManager::render()
 {
     if (currentScene)
     {

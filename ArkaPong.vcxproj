@@ -94,7 +94,7 @@
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\managers\AudioManager.h" />
     <ClInclude Include="src\managers\CollisionManager.h" />
-    <ClInclude Include="src\managers\FlowManager.h" />
+    <ClInclude Include="src\managers\SceneManager.h" />
     <ClInclude Include="src\managers\InputManager.h" />
     <ClInclude Include="src\managers\ScoreManager.h" />
     <ClInclude Include="src\managers\TextManager.h" />
@@ -115,7 +115,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\managers\CollisionManager.cpp" />
-    <ClCompile Include="src\managers\FlowManager.cpp" />
+    <ClCompile Include="src\managers\SceneManager.cpp" />
     <ClCompile Include="src\managers\InputManager.cpp" />
     <ClCompile Include="src\managers\ScoreManager.cpp" />
     <ClCompile Include="src\managers\TextManager.cpp" />

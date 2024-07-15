@@ -62,7 +62,7 @@ void PlayScene::handleInput()
 
 	if (keystate[SDL_SCANCODE_SPACE])
 	{
-		Game::flowManager->changeScene(new PauseScene());
+		Game::sceneManager->changeScene(new PauseScene());
 	}
 	else if (keystate[SDL_SCANCODE_ESCAPE])
 	{
