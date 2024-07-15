@@ -2,7 +2,7 @@
 #include <iostream>
 
 FlowManager::FlowManager(GameState* newState) {
-    changeState(newState);
+    currentState = newState;
 }
 
 FlowManager::~FlowManager()
