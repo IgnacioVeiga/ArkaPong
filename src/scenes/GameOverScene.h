@@ -1,15 +1,15 @@
-#ifndef GAME_OVER_STATE_H
-#define GAME_OVER_STATE_H
+#ifndef GAME_OVER_SCENE_H
+#define GAME_OVER_SCENE_H
 
-#include "GameState.h"
+#include "GameScene.h"
 #include "../managers/TextManager.h"
 #include "../managers/AudioManager.h"
 
-class GameOverState : public GameState
+class GameOverScene : public GameScene
 {
 public:
-    GameOverState();
-    ~GameOverState();
+    GameOverScene();
+    ~GameOverScene();
     void handleInput() override;
     void update() override;
     void render() override;

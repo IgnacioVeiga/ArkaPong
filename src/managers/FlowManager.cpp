@@ -1,47 +1,47 @@
 #include "FlowManager.h"
 #include <iostream>
 
-FlowManager::FlowManager(GameState* newState) {
-    currentState = newState;
+FlowManager::FlowManager(GameScene* newScene) {
+    currentScene = newScene;
 }
 
 FlowManager::~FlowManager()
 {
-    if (currentState)
+    if (currentScene)
     {
-        delete currentState;
+        delete currentScene;
     }
 }
 
-void FlowManager::changeState(GameState *newState)
+void FlowManager::changeScene(GameScene *newScene)
 {
-    if (currentState)
+    if (currentScene)
     {
-        delete currentState;
+        delete currentScene;
     }
-    currentState = newState;
+    currentScene = newScene;
 }
 
 void FlowManager::handleInput()
 {
-    if (currentState)
+    if (currentScene)
     {
-        currentState->handleInput();
+        currentScene->handleInput();
     }
 }
 
 void FlowManager::update()
 {
-    if (currentState)
+    if (currentScene)
     {
-        currentState->update();
+        currentScene->update();
     }
 }
 
 void FlowManager::render()
 {
-    if (currentState)
+    if (currentScene)
     {
-        currentState->render();
+        currentScene->render();
     }
 }

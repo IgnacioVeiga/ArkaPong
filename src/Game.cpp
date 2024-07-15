@@ -2,7 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "Game.h"
 #include "utilities/GameConstants.h"
-#include "states/MenuState.h"
+#include "scenes/MenuScene.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 FlowManager *Game::flowManager = nullptr;
@@ -60,7 +60,7 @@ int Game::Init_SDL()
 void Game::Run()
 {
     Game::flowManager = new FlowManager(
-        new MenuState()
+        new MenuScene()
     );
 
     const int FPS = 60;

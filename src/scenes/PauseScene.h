@@ -1,17 +1,17 @@
-#ifndef PAUSE_STATE_H
-#define PAUSE_STATE_H
+#ifndef PAUSE_SCENE_H
+#define PAUSE_SCENE_H
 
-#include "GameState.h"
+#include "GameScene.h"
 #include "../managers/TextManager.h"
 
-class PauseState : public GameState
+class PauseScene : public GameScene
 {
 private:
     TextManager *textManager;
 
 public:
-    PauseState();
-    ~PauseState();
+    PauseScene();
+    ~PauseScene();
 
     void handleInput() override;
     void update() override;

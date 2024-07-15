@@ -1,9 +1,9 @@
-#include "GameOverState.h"
+#include "GameOverScene.h"
 #include "../utilities/GameConstants.h"
-#include "./MenuState.h"
+#include "./MenuScene.h"
 #include "../Game.h"
 
-GameOverState::GameOverState()
+GameOverScene::GameOverScene()
 {
 	countdown = 5;
 	countdownTimer = SDL_GetTicks();
@@ -14,20 +14,20 @@ GameOverState::GameOverState()
 	audioManager->playSound("game_over", true);
 }
 
-GameOverState::~GameOverState()
+GameOverScene::~GameOverScene()
 {
 	delete textManager;
 	delete audioManager;
 }
 
-void GameOverState::handleInput()
+void GameOverScene::handleInput()
 {
-	// GameState.h implementation, may be unnecessary
+	// GameScene.h implementation, may be unnecessary
 }
 
-void GameOverState::update()
+void GameOverScene::update()
 {
-	// Countdown to go to MenuState
+	// Countdown to go to MenuScene
 	Uint32 currentTime = SDL_GetTicks();
 	if (currentTime - countdownTimer > 1000)
 	{
@@ -35,13 +35,13 @@ void GameOverState::update()
 		countdownTimer = currentTime;
 		if (countdown <= 0)
 		{
-			Game::flowManager->changeState(new MenuState());
+			Game::flowManager->changeScene(new MenuScene());
 		}
 	}
 	return;
 }
 
-void GameOverState::render()
+void GameOverScene::render()
 {
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
 	SDL_RenderClear(Game::renderer);

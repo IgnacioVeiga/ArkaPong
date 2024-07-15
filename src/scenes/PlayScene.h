@@ -1,16 +1,16 @@
-#ifndef PLAY_STATE_H
-#define PLAY_STATE_H
+#ifndef PLAY_SCENE_H
+#define PLAY_SCENE_H
 
-#include "GameState.h"
+#include "GameScene.h"
 #include "../entities/Ball.h"
 #include "../managers/CollisionManager.h"
 #include "../managers/TextManager.h"
 
-class PlayState : public GameState
+class PlayScene : public GameScene
 {
 public:
-	PlayState();
-	~PlayState();
+	PlayScene();
+	~PlayScene();
 	void handleInput() override;
 	void update() override;
 	void render() override;

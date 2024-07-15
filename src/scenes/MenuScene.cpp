@@ -1,22 +1,22 @@
-#include "MenuState.h"
-#include "PlayState.h"
+#include "MenuScene.h"
+#include "PlayScene.h"
 #include "../Game.h"
 #include "../utilities/GameConstants.h"
 
-MenuState::MenuState()
+MenuScene::MenuScene()
 {
     textManager = new TextManager();
     audioManager = new AudioManager();
     audioManager->loadSound("game_start", "assets/audio/bgm/game_start.wav");
 }
 
-MenuState::~MenuState()
+MenuScene::~MenuScene()
 {
     delete textManager;
     delete audioManager;
 }
 
-void MenuState::handleInput()
+void MenuScene::handleInput()
 {
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
@@ -40,12 +40,12 @@ void MenuState::handleInput()
         if (menuOptions[selectedOption].text == "1P")
         {
             audioManager->playSound("game_start", true);
-            Game::flowManager->changeState(new PlayState());
+            Game::flowManager->changeScene(new PlayScene());
         }
         else if (menuOptions[selectedOption].text == "2P")
         {
             audioManager->playSound("game_start", true);
-            Game::flowManager->changeState(new PlayState());
+            Game::flowManager->changeScene(new PlayScene());
         }
         else if (menuOptions[selectedOption].text == "Settings")
         {
@@ -62,7 +62,7 @@ void MenuState::handleInput()
     }
 }
 
-void MenuState::update()
+void MenuScene::update()
 {
     /*
         TODO: Show animations, for example, a blinking at the text of the selected game mode.
@@ -71,7 +71,7 @@ void MenuState::update()
     */
 }
 
-void MenuState::render()
+void MenuScene::render()
 {
     SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);

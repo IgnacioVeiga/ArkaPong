@@ -1,10 +1,10 @@
-#include "PlayState.h"
-#include "PauseState.h"
+#include "PlayScene.h"
+#include "PauseScene.h"
 #include "../utilities/GameConstants.h"
 #include "../Game.h"
 #include "../managers/TextureManager.h"
 
-PlayState::PlayState()
+PlayScene::PlayScene()
 	: playerLeft(PlayerSide::PLAYER_LEFT),
 	  playerRight(PlayerSide::PLAYER_RIGHT)
 {
@@ -31,7 +31,7 @@ PlayState::PlayState()
 	audioManager->playSound("round_start", true);
 }
 
-PlayState::~PlayState()
+PlayScene::~PlayScene()
 {
 	delete scoreManager;
 	delete collisionManager;
@@ -39,7 +39,7 @@ PlayState::~PlayState()
 	delete textManager;
 }
 
-void PlayState::handleInput()
+void PlayScene::handleInput()
 {
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 	if (keystate[SDL_SCANCODE_W])
@@ -62,7 +62,7 @@ void PlayState::handleInput()
 
 	if (keystate[SDL_SCANCODE_SPACE])
 	{
-		Game::flowManager->changeState(new PauseState());
+		Game::flowManager->changeScene(new PauseScene());
 	}
 	else if (keystate[SDL_SCANCODE_ESCAPE])
 	{
@@ -70,7 +70,7 @@ void PlayState::handleInput()
 	}
 }
 
-void PlayState::update()
+void PlayScene::update()
 {
 	ball.move();
 
@@ -106,7 +106,7 @@ void PlayState::update()
 	SDL_Delay(1000);
 }
 
-void PlayState::render()
+void PlayScene::render()
 {
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
 	SDL_RenderClear(Game::renderer);

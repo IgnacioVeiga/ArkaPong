@@ -1,18 +1,18 @@
 #ifndef FLOW_MANAGER_H
 #define FLOW_MANAGER_H
 
-#include "../states/GameState.h"
+#include "../scenes/GameScene.h"
 
 class FlowManager
 {
 private:
-    GameState *currentState;
+    GameScene *currentScene;
 
 public:
-    FlowManager(GameState* newState);
+    FlowManager(GameScene* newScene);
     ~FlowManager();
 
-    void changeState(GameState *newState);
+    void changeScene(GameScene *newScene);
     void handleInput();
     void update();
     void render();

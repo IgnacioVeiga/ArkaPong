@@ -99,11 +99,11 @@
     <ClInclude Include="src\managers\ScoreManager.h" />
     <ClInclude Include="src\managers\TextManager.h" />
     <ClInclude Include="src\managers\TextureManager.h" />
-    <ClInclude Include="src\states\GameOverState.h" />
-    <ClInclude Include="src\states\GameState.h" />
-    <ClInclude Include="src\states\MenuState.h" />
-    <ClInclude Include="src\states\PauseState.h" />
-    <ClInclude Include="src\states\PlayState.h" />
+    <ClInclude Include="src\scenes\GameOverScene.h" />
+    <ClInclude Include="src\scenes\GameScene.h" />
+    <ClInclude Include="src\scenes\MenuScene.h" />
+    <ClInclude Include="src\scenes\PauseScene.h" />
+    <ClInclude Include="src\scenes\PlayScene.h" />
     <ClInclude Include="src\utilities\AudioParams.h" />
     <ClInclude Include="src\utilities\GameConstants.h" />
     <ClInclude Include="src\utilities\TextParams.h" />
@@ -120,10 +120,10 @@
     <ClCompile Include="src\managers\ScoreManager.cpp" />
     <ClCompile Include="src\managers\TextManager.cpp" />
     <ClCompile Include="src\managers\TextureManager.cpp" />
-    <ClCompile Include="src\states\GameOverState.cpp" />
-    <ClCompile Include="src\states\MenuState.cpp" />
-    <ClCompile Include="src\states\PauseState.cpp" />
-    <ClCompile Include="src\states\PlayState.cpp" />
+    <ClCompile Include="src\scenes\GameOverScene.cpp" />
+    <ClCompile Include="src\scenes\MenuScene.cpp" />
+    <ClCompile Include="src\scenes\PauseScene.cpp" />
+    <ClCompile Include="src\scenes\PlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

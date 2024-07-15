@@ -1,23 +1,23 @@
-#include "PauseState.h"
+#include "PauseScene.h"
 #include "../utilities/GameConstants.h"
 #include "../Game.h"
 
-PauseState::PauseState()
+PauseScene::PauseScene()
 {
     textManager = new TextManager();
 }
 
-PauseState::~PauseState()
+PauseScene::~PauseScene()
 {
     delete textManager;
 }
 
-void PauseState::handleInput()
+void PauseScene::handleInput()
 {
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
     if (keystate[SDL_SCANCODE_SPACE])
     {
-        // Game::flowManager->changeState(new PlayState());
+        // Game::flowManager->changeScene(new PlayScene());
     }
     else if (keystate[SDL_SCANCODE_ESCAPE])
     {
@@ -25,12 +25,12 @@ void PauseState::handleInput()
     }
 }
 
-void PauseState::update()
+void PauseScene::update()
 {
-    // GameState.h implementation, may be unnecessary
+    // GameScene.h implementation, may be unnecessary
 }
 
-void PauseState::render()
+void PauseScene::render()
 {
     SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Game::renderer);

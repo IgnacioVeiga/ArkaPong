@@ -1,8 +1,8 @@
-#ifndef MENU_STATE_H
-#define MENU_STATE_H
+#ifndef MENU_SCENE_H
+#define MENU_SCENE_H
 
 #include "vector"
-#include "GameState.h"
+#include "GameScene.h"
 #include <string>
 #include "../managers/TextManager.h"
 #include "../managers/AudioManager.h"
@@ -13,7 +13,7 @@ struct MenuOption
     SDL_Rect rect;
 };
 
-class MenuState : public GameState
+class MenuScene : public GameScene
 {
 private:
     TextManager *textManager;
@@ -32,8 +32,8 @@ private:
     int selectedOption = 0;
 
 public:
-    MenuState();
-    ~MenuState();
+    MenuScene();
+    ~MenuScene();
 
     void handleInput() override;
     void update() override;

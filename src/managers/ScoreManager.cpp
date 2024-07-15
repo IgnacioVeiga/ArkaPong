@@ -1,6 +1,6 @@
 #include "ScoreManager.h"
 #include "../Game.h"
-#include "../states/GameOverState.h"
+#include "../scenes/GameOverScene.h"
 
 ScoreManager::ScoreManager()
 {
@@ -30,7 +30,7 @@ void ScoreManager::increaseScore(PlayerSide player)
 	// Temporary condition, this will then depend on the game mode and level
 	if (getPlayerLeftScore() == 10 || getPlayerRightScore() == 10)
 	{
-		Game::flowManager->changeState(new GameOverState());
+		Game::flowManager->changeScene(new GameOverScene());
 	}
 }
 

@@ -45,19 +45,19 @@
     <ClInclude Include="src\managers\TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\states\GameOverState.h">
+    <ClInclude Include="src\scenes\GameOverScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\states\GameState.h">
+    <ClInclude Include="src\scenes\GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\states\MenuState.h">
+    <ClInclude Include="src\scenes\MenuScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\states\PauseState.h">
+    <ClInclude Include="src\scenes\PauseScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\states\PlayState.h">
+    <ClInclude Include="src\scenes\PlayScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utilities\GameConstants.h">
@@ -104,16 +104,16 @@
     <ClCompile Include="src\managers\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\states\GameOverState.cpp">
+    <ClCompile Include="src\scenes\GameOverScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\states\MenuState.cpp">
+    <ClCompile Include="src\scenes\MenuScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\states\PauseState.cpp">
+    <ClCompile Include="src\scenes\PauseScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\states\PlayState.cpp">
+    <ClCompile Include="src\scenes\PlayScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game.cpp">
