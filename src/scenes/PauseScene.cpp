@@ -27,7 +27,7 @@ void PauseScene::handleInput()
 
 void PauseScene::update()
 {
-    // GameScene.h implementation, may be unnecessary
+    // Scene.h implementation, may be unnecessary
 }
 
 void PauseScene::render()

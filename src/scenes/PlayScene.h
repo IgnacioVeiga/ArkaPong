@@ -1,12 +1,12 @@
 #ifndef PLAY_SCENE_H
 #define PLAY_SCENE_H
 
-#include "GameScene.h"
+#include "Scene.h"
 #include "../entities/Ball.h"
 #include "../managers/CollisionManager.h"
 #include "../managers/TextManager.h"
 
-class PlayScene : public GameScene
+class PlayScene : public Scene
 {
 public:
 	PlayScene();

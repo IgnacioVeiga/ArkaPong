@@ -1,11 +1,11 @@
 #ifndef GAME_OVER_SCENE_H
 #define GAME_OVER_SCENE_H
 
-#include "GameScene.h"
+#include "Scene.h"
 #include "../managers/TextManager.h"
 #include "../managers/AudioManager.h"
 
-class GameOverScene : public GameScene
+class GameOverScene : public Scene
 {
 public:
     GameOverScene();

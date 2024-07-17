@@ -2,7 +2,7 @@
 #define MENU_SCENE_H
 
 #include "vector"
-#include "GameScene.h"
+#include "Scene.h"
 #include <string>
 #include "../managers/TextManager.h"
 #include "../managers/AudioManager.h"
@@ -13,7 +13,7 @@ struct MenuOption
     SDL_Rect rect;
 };
 
-class MenuScene : public GameScene
+class MenuScene : public Scene
 {
 private:
     TextManager *textManager;

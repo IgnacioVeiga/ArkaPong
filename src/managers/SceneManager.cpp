@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include <iostream>
 
-SceneManager::SceneManager(GameScene* newScene) {
+SceneManager::SceneManager(Scene* newScene) {
     currentScene = newScene;
 }
 
@@ -13,7 +13,7 @@ SceneManager::~SceneManager()
     }
 }
 
-void SceneManager::changeScene(GameScene *newScene)
+void SceneManager::changeScene(Scene *newScene)
 {
     if (currentScene)
     {

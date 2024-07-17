@@ -48,7 +48,7 @@
     <ClInclude Include="src\scenes\GameOverScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\GameScene.h">
+    <ClInclude Include="src\scenes\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\scenes\MenuScene.h">

@@ -22,7 +22,7 @@ GameOverScene::~GameOverScene()
 
 void GameOverScene::handleInput()
 {
-	// GameScene.h implementation, may be unnecessary
+	// Scene.h implementation, may be unnecessary
 }
 
 void GameOverScene::update()

@@ -1,18 +1,18 @@
 #ifndef SCENE_MANAGER_H
 #define SCENE_MANAGER_H
 
-#include "../scenes/GameScene.h"
+#include "../scenes/Scene.h"
 
 class SceneManager
 {
 private:
-    GameScene *currentScene;
+    Scene *currentScene;
 
 public:
-    SceneManager(GameScene* newScene);
+    SceneManager(Scene* newScene);
     ~SceneManager();
 
-    void changeScene(GameScene *newScene);
+    void changeScene(Scene *newScene);
     void handleInput();
     void update();
     void render();
