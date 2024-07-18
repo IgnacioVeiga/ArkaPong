@@ -129,5 +129,3 @@ private:
         return std::static_pointer_cast<ComponentArray<T>>(componentArrays[typeName]);
     }
 };
-
-extern ComponentManager componentManager; // Declaración externa

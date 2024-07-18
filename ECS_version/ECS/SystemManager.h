@@ -37,11 +37,11 @@ public:
         }
     }
 
-    void RenderSystems(SDL_Renderer *renderer)
+    void RenderSystems()
     {
         for (auto &[type, system] : systems)
         {
-            system->Render(renderer);
+            system->Render();
         }
     }
 

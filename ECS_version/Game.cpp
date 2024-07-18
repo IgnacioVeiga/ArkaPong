@@ -1,13 +1,15 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
+#include <string>
 
 #include "Game.h"
 #include "GameScene.h"
+#include "GameConstants.h"
 #include "SceneManager.h"
 
-SDL_Renderer* Game::renderer = nullptr;
-SceneManager* Game::sceneManager = nullptr;
-SDL_Window* Game::window = nullptr;
+SDL_Renderer *Game::renderer = nullptr;
+SceneManager *Game::sceneManager = nullptr;
+SDL_Window *Game::window = nullptr;
 bool Game::game_on = true;
 
 bool Game::Init_SDL()
@@ -59,8 +61,9 @@ bool Game::Init_SDL()
 }
 void Game::Run()
 {
-    GameScene* gameScene = new GameScene();
-    sceneManager.LoadScene(gameScene);
+    sceneManager = new SceneManager();
+    sceneManager->AddScene("GameScene", std::make_unique<GameScene>());
+    sceneManager->LoadScene("GameScene");
 
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
@@ -81,10 +84,8 @@ void Game::Run()
             }
         }
 
-        //sceneManager.Update(1.0f / 60.0f);
-        //SDL_RenderClear(renderer);
-        //sceneManager.Render(renderer);
-        //SDL_RenderPresent(renderer);
+        sceneManager->Update(1.0f / 60.0f);
+        sceneManager->Render(renderer);
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)
