@@ -10,36 +10,25 @@ class SceneManager
 public:
     SceneManager() = default;
 
-    void AddScene(const std::string &name, std::unique_ptr<Scene> scene)
+    void Add(const std::string &name, std::unique_ptr<Scene> scene)
     {
         scenes[name] = std::move(scene);
     }
 
-    void LoadScene(const std::string &name)
+    void Init(const std::string &name)
     {
         currentScene = scenes[name].get();
         if (currentScene)
         {
-            currentScene->Load();
+            currentScene->Init();
         }
     }
 
-    void Update(float deltaTime)
+    void Update()
     {
         if (currentScene)
         {
-            currentScene->Update(deltaTime);
-        }
-    }
-
-    void Render(SDL_Renderer* renderer)
-    {
-        if (currentScene)
-        {
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL_RenderClear(renderer);
-            currentScene->Render();
-            SDL_RenderPresent(renderer);
+            currentScene->Update();
         }
     }
 

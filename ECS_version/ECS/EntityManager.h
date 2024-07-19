@@ -1,63 +1,68 @@
 #pragma once
+
 #include <queue>
 #include <array>
+#include <cassert>
 #include "Entity.h"
-#include <stdexcept>
 
 class EntityManager
 {
 public:
-    EntityManager()
-    {
-        for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
-        {
-            availableEntities.push(entity);
-        }
-    }
+	EntityManager()
+	{
+		// Initialize the queue with all possible entity IDs
+		for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
+		{
+			mAvailableEntities.push(entity);
+		}
+	}
 
-    Entity CreateEntity()
-    {
-        if (livingEntityCount >= MAX_ENTITIES)
-        {
-            throw std::runtime_error("Too many entities in existence.");
-        }
-        Entity id = availableEntities.front();
-        availableEntities.pop();
-        ++livingEntityCount;
-        return id;
-    }
+	Entity CreateEntity()
+	{
+		assert(mLivingEntityCount < MAX_ENTITIES && "Too many entities in existence.");
 
-    void DestroyEntity(Entity entity)
-    {
-        if (entity >= MAX_ENTITIES)
-        {
-            throw std::runtime_error("Entity out of range.");
-        }
-        signatures[entity].reset();
-        availableEntities.push(entity);
-        --livingEntityCount;
-    }
+		// Take an ID from the front of the queue
+		Entity id = mAvailableEntities.front();
+		mAvailableEntities.pop();
+		++mLivingEntityCount;
+		return id;
+	}
 
-    void SetSignature(Entity entity, Signature signature)
-    {
-        if (entity >= MAX_ENTITIES)
-        {
-            throw std::runtime_error("Entity out of range.");
-        }
-        signatures[entity] = signature;
-    }
+	void DestroyEntity(Entity entity)
+	{
+		assert(entity < MAX_ENTITIES && "Entity out of range.");
 
-    Signature GetSignature(Entity entity)
-    {
-        if (entity >= MAX_ENTITIES)
-        {
-            throw std::runtime_error("Entity out of range.");
-        }
-        return signatures[entity];
-    }
+		// Invalidate the destroyed entity's signature
+		mSignatures[entity].reset();
+
+		// Put the destroyed ID at the back of the queue
+		mAvailableEntities.push(entity);
+		--mLivingEntityCount;
+	}
+
+	void SetSignature(Entity entity, Signature signature)
+	{
+		assert(entity < MAX_ENTITIES && "Entity out of range.");
+
+		// Put this entity's signature into the array
+		mSignatures[entity] = signature;
+	}
+
+	Signature GetSignature(Entity entity)
+	{
+		assert(entity < MAX_ENTITIES && "Entity out of range.");
+
+		// Get this entity's signature from the array
+		return mSignatures[entity];
+	}
 
 private:
-    std::queue<Entity> availableEntities{};
-    std::array<Signature, MAX_ENTITIES> signatures{};
-    std::uint32_t livingEntityCount{};
+	// Queue of unused entity IDs
+	std::queue<Entity> mAvailableEntities{};
+
+	// Array of signatures where the index corresponds to the entity ID
+	std::array<Signature, MAX_ENTITIES> mSignatures{};
+
+	// Total living entities - used to keep limits on how many exist
+	uint32_t mLivingEntityCount{};
 };

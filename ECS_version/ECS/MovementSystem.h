@@ -1,13 +1,22 @@
 #pragma once
 
-#include "System.h"
+#include "Coordinator.h"
 #include "PositionComponent.h"
+#include "../GameConstants.h"
+
+extern Coordinator gCoordinator;
 
 class MovementSystem : public System
 {
 public:
-    void Update(float deltaTime) override { }
+    void Init() { }
 
-	// System.h implementation, may be unnecessary
-    void Render() override { }
+    void Update(float deltaTime)
+    {
+        for (auto const &entity : mEntities)
+        {
+            auto &positionComponent = gCoordinator.GetComponent<PositionComponent>(entity);
+            // TODO: update position
+        }
+    }
 };

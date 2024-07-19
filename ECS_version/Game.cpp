@@ -3,10 +3,18 @@
 #include <string>
 
 #include "Game.h"
-#include "GameScene.h"
 #include "GameConstants.h"
 #include "SceneManager.h"
+#include "GameScene.h"
 
+#include "ECS/Entity.h"
+#include "ECS/Coordinator.h"
+#include "ECS/PositionComponent.h"
+#include "ECS/MovementSystem.h"
+#include "ECS/RenderComponent.h"
+#include "ECS/RenderSystem.h"
+
+Coordinator gCoordinator;
 SDL_Renderer *Game::renderer = nullptr;
 SceneManager *Game::sceneManager = nullptr;
 SDL_Window *Game::window = nullptr;
@@ -59,11 +67,32 @@ bool Game::Init_SDL()
 
     return true;
 }
+
 void Game::Run()
-{
+{   
+    gCoordinator.Init();
+    gCoordinator.RegisterComponent<PositionComponent>();
+    gCoordinator.RegisterComponent<RenderComponent>();
+
+    auto movementSystem = gCoordinator.RegisterSystem<MovementSystem>();
+    {
+        Signature signature;
+        signature.set(gCoordinator.GetComponentType<PositionComponent>());
+        gCoordinator.SetSystemSignature<MovementSystem>(signature);
+    }
+    movementSystem->Init();
+
+    auto renderSystem = gCoordinator.RegisterSystem<RenderSystem>();
+    {
+        Signature signature;
+        signature.set(gCoordinator.GetComponentType<RenderComponent>());
+        gCoordinator.SetSystemSignature<RenderSystem>(signature);
+    }
+    renderSystem->Init();
+
     sceneManager = new SceneManager();
-    sceneManager->AddScene("GameScene", std::make_unique<GameScene>());
-    sceneManager->LoadScene("GameScene");
+    sceneManager->Add("GameScene", std::make_unique<GameScene>());
+    sceneManager->Init("GameScene");
 
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
@@ -84,8 +113,9 @@ void Game::Run()
             }
         }
 
-        sceneManager->Update(1.0f / 60.0f);
-        sceneManager->Render(renderer);
+        movementSystem->Update(frameTime);
+        renderSystem->Update();
+        sceneManager->Update();
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)

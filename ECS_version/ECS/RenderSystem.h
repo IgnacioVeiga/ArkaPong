@@ -1,12 +1,23 @@
 #pragma once
 
-#include "System.h"
+#include <SDL2/SDL.h>
+#include "Coordinator.h"
+#include "RenderComponent.h"
+#include "../GameConstants.h"
+
+extern Coordinator gCoordinator;
 
 class RenderSystem : public System
 {
 public:
-	// System.h implementation, may be unnecessary
-    void Update(float deltaTime) override { }
+    void Init() {}
 
-    void Render() override { }
+    void Update()
+    {
+        for (auto const &entity : mEntities)
+        {
+            auto &renderComponent = gCoordinator.GetComponent<RenderComponent>(entity);
+            // TODO: render with SDL2
+        }
+    }
 };

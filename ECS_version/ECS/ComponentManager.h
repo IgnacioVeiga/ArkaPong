@@ -1,8 +1,9 @@
 #pragma once
+
 #include <unordered_map>
 #include <memory>
 #include <array>
-#include <stdexcept>
+#include <cassert>
 #include "Entity.h"
 
 class IComponentArray
@@ -18,58 +19,66 @@ class ComponentArray : public IComponentArray
 public:
     void InsertData(Entity entity, T component)
     {
-        if (entityToIndexMap.find(entity) != entityToIndexMap.end())
-        {
-            throw std::runtime_error("Component added to same entity more than once.");
-        }
-        size_t newIndex = size;
-        entityToIndexMap[entity] = newIndex;
-        indexToEntityMap[newIndex] = entity;
-        componentArray[newIndex] = component;
-        ++size;
+        assert(mEntityToIndexMap.find(entity) == mEntityToIndexMap.end() && "Component added to same entity more than once.");
+
+        // Put new entry at end and update the maps
+        size_t newIndex = mSize;
+        mEntityToIndexMap[entity] = newIndex;
+        mIndexToEntityMap[newIndex] = entity;
+        mComponentArray[newIndex] = component;
+        ++mSize;
     }
 
     void RemoveData(Entity entity)
     {
-        if (entityToIndexMap.find(entity) == entityToIndexMap.end())
-        {
-            throw std::runtime_error("Removing non-existent component.");
-        }
-        size_t indexOfRemovedEntity = entityToIndexMap[entity];
-        size_t indexOfLastElement = size - 1;
-        componentArray[indexOfRemovedEntity] = componentArray[indexOfLastElement];
+        assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Removing non-existent component.");
 
-        Entity entityOfLastElement = indexToEntityMap[indexOfLastElement];
-        entityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
-        indexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;
+        // Copy element at end into deleted element's place to maintain density
+        size_t indexOfRemovedEntity = mEntityToIndexMap[entity];
+        size_t indexOfLastElement = mSize - 1;
+        mComponentArray[indexOfRemovedEntity] = mComponentArray[indexOfLastElement];
 
-        entityToIndexMap.erase(entity);
-        indexToEntityMap.erase(indexOfLastElement);
-        --size;
+        // Update map to point to moved spot
+        Entity entityOfLastElement = mIndexToEntityMap[indexOfLastElement];
+        mEntityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
+        mIndexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;
+        mEntityToIndexMap.erase(entity);
+        mIndexToEntityMap.erase(indexOfLastElement);
+        --mSize;
     }
 
     T &GetData(Entity entity)
     {
-        if (entityToIndexMap.find(entity) == entityToIndexMap.end())
-        {
-            throw std::runtime_error("Retrieving non-existent component.");
-        }
-        return componentArray[entityToIndexMap[entity]];
+        assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Retrieving non-existent component.");
+
+        // Return a reference to the entity's component
+        return mComponentArray[mEntityToIndexMap[entity]];
     }
 
     void EntityDestroyed(Entity entity) override
     {
-        if (entityToIndexMap.find(entity) != entityToIndexMap.end())
+        if (mEntityToIndexMap.find(entity) != mEntityToIndexMap.end())
         {
+            // Remove the entity's component if it existed
             RemoveData(entity);
         }
     }
 
 private:
-    std::array<T, MAX_ENTITIES> componentArray{};
-    std::unordered_map<Entity, size_t> entityToIndexMap{};
-    std::unordered_map<size_t, Entity> indexToEntityMap{};
-    size_t size{};
+    // The packed array of components (of generic type T),
+    // set to a specified maximum amount, matching the maximum number
+    // of entities allowed to exist simultaneously, so that each entity
+    // has a unique spot.
+    std::array<T, MAX_ENTITIES> mComponentArray;
+
+    // Map from an entity ID to an array index.
+    std::unordered_map<Entity, size_t> mEntityToIndexMap;
+
+    // Map from an array index to an entity ID.
+    std::unordered_map<size_t, Entity> mIndexToEntityMap;
+
+    // Total size of valid entries in the array.
+    size_t mSize;
 };
 
 class ComponentManager
@@ -79,38 +88,54 @@ public:
     void RegisterComponent()
     {
         const char *typeName = typeid(T).name();
-        componentTypes[typeName] = nextComponentType++;
-        componentArrays[typeName] = std::make_shared<ComponentArray<T>>();
+
+        assert(mComponentTypes.find(typeName) == mComponentTypes.end() && "Registering component type more than once.");
+
+        // Add this component type to the component type map
+        mComponentTypes.insert({typeName, mNextComponentType});
+
+        // Create a ComponentArray pointer and add it to the component arrays map
+        mComponentArrays.insert({typeName, std::make_shared<ComponentArray<T>>()});
+
+        // Increment the value so that the next component registered will be different
+        ++mNextComponentType;
     }
 
     template <typename T>
     ComponentType GetComponentType()
     {
         const char *typeName = typeid(T).name();
-        return componentTypes[typeName];
+        assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "Component not registered before use.");
+        // Return this component's type - used for creating signatures
+        return mComponentTypes[typeName];
     }
 
     template <typename T>
     void AddComponent(Entity entity, T component)
     {
+        // Add a component to the array for an entity
         GetComponentArray<T>()->InsertData(entity, component);
     }
 
     template <typename T>
     void RemoveComponent(Entity entity)
     {
+        // Remove a component from the array for an entity
         GetComponentArray<T>()->RemoveData(entity);
     }
 
     template <typename T>
     T &GetComponent(Entity entity)
     {
+        // Get a reference to a component from the array for an entity
         return GetComponentArray<T>()->GetData(entity);
     }
 
     void EntityDestroyed(Entity entity)
     {
-        for (auto const &pair : componentArrays)
+        // Notify each component array that an entity has been destroyed
+        // If it has a component for that entity, it will remove it
+        for (auto const &pair : mComponentArrays)
         {
             auto const &component = pair.second;
             component->EntityDestroyed(entity);
@@ -118,14 +143,21 @@ public:
     }
 
 private:
-    std::unordered_map<const char *, ComponentType> componentTypes{};
-    std::unordered_map<const char *, std::shared_ptr<IComponentArray>> componentArrays{};
-    ComponentType nextComponentType{};
+    // Map from type string pointer to a component type
+    std::unordered_map<const char *, ComponentType> mComponentTypes{};
 
+    // Map from type string pointer to a component array
+    std::unordered_map<const char *, std::shared_ptr<IComponentArray>> mComponentArrays{};
+
+    // The component type to be assigned to the next registered component - starting at 0
+    ComponentType mNextComponentType{};
+
+    // Convenience function to get the statically casted pointer to the ComponentArray of type T.
     template <typename T>
     std::shared_ptr<ComponentArray<T>> GetComponentArray()
     {
         const char *typeName = typeid(T).name();
-        return std::static_pointer_cast<ComponentArray<T>>(componentArrays[typeName]);
+        assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "Component not registered before use.");
+        return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays[typeName]);
     }
 };

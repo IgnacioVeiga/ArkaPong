@@ -1,8 +1,10 @@
 #pragma once
 
-class System {
+#include <set>
+#include "Entity.h"
+
+class System
+{
 public:
-    virtual ~System() = default;
-    virtual void Update(float deltaTime) = 0;
-    virtual void Render() = 0;
+    std::set<Entity> mEntities;
 };
