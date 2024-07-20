@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ComponentManager.h"
-#include "EntityManager.h"
-#include "SystemManager.h"
+#include "Component/ComponentManager.h"
+#include "Entity/EntityManager.h"
+#include "System/SystemManager.h"
 
 class Coordinator
 {
@@ -78,6 +78,12 @@ public:
     void SetSystemSignature(Signature signature)
     {
         mSystemManager->SetSignature<T>(signature);
+    }
+
+    template <typename T>
+    std::shared_ptr<T> GetSystem()
+    {
+        return mSystemManager->GetSystem<T>();
     }
 
 private:

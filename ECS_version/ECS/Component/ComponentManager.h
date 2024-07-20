@@ -4,7 +4,7 @@
 #include <memory>
 #include <array>
 #include <cassert>
-#include "Entity.h"
+#include "../Entity/Entity.h"
 
 class IComponentArray
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <set>
-#include "Entity.h"
+#include "../Entity/Entity.h"
 
 class System
 {

@@ -4,15 +4,10 @@
 
 #include "Game.h"
 #include "GameConstants.h"
-#include "SceneManager.h"
-#include "GameScene.h"
+#include "Scenes/SceneManager.h"
+#include "Scenes/GameScene.h"
 
-#include "ECS/Entity.h"
 #include "ECS/Coordinator.h"
-#include "ECS/PositionComponent.h"
-#include "ECS/MovementSystem.h"
-#include "ECS/RenderComponent.h"
-#include "ECS/RenderSystem.h"
 
 Coordinator gCoordinator;
 SDL_Renderer *Game::renderer = nullptr;
@@ -69,40 +64,23 @@ bool Game::Init_SDL()
 }
 
 void Game::Run()
-{   
+{
     gCoordinator.Init();
-    gCoordinator.RegisterComponent<PositionComponent>();
-    gCoordinator.RegisterComponent<RenderComponent>();
-
-    auto movementSystem = gCoordinator.RegisterSystem<MovementSystem>();
-    {
-        Signature signature;
-        signature.set(gCoordinator.GetComponentType<PositionComponent>());
-        gCoordinator.SetSystemSignature<MovementSystem>(signature);
-    }
-    movementSystem->Init();
-
-    auto renderSystem = gCoordinator.RegisterSystem<RenderSystem>();
-    {
-        Signature signature;
-        signature.set(gCoordinator.GetComponentType<RenderComponent>());
-        gCoordinator.SetSystemSignature<RenderSystem>(signature);
-    }
-    renderSystem->Init();
-
-    sceneManager = new SceneManager();
-    sceneManager->Add("GameScene", std::make_unique<GameScene>());
+    sceneManager = new SceneManager(&gCoordinator);
+    sceneManager->Add("GameScene", std::make_unique<GameScene>(&gCoordinator));
     sceneManager->Init("GameScene");
 
     const int FPS = 60;
+    // target time per frame in milliseconds
     const int frameDelay = 1000 / FPS;
 
     Uint32 frameStart;
-    int frameTime;
+    Uint32 frameTime;
 
     SDL_Event event;
     while (Game::game_on)
     {
+        // Frame start time
         frameStart = SDL_GetTicks();
 
         while (SDL_PollEvent(&event))
@@ -113,13 +91,17 @@ void Game::Run()
             }
         }
 
-        movementSystem->Update(frameTime);
-        renderSystem->Update();
-        sceneManager->Update();
-
+        // The game logic is updated and the frameTime is converted to seconds.
         frameTime = SDL_GetTicks() - frameStart;
+        sceneManager->Update(frameTime / 1000.0f);
+
+        // After updating and rendering the game, I recalculate the frameTime
+        frameTime = SDL_GetTicks() - frameStart;
+        
+        // SDL_Delay() is used to wait only if the current frame has completed faster than expected.
         if (frameDelay > frameTime)
         {
+            // Wait the necessary time to maintain constant FPS
             SDL_Delay(frameDelay - frameTime);
         }
     }

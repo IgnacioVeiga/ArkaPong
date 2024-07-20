@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include "SceneManager.h"
+#include "Scenes/SceneManager.h"
 
 class Game
 {

@@ -8,7 +8,7 @@
 class SceneManager
 {
 public:
-    SceneManager() = default;
+    SceneManager(Coordinator *coordinator) : coordinator(coordinator) {}
 
     void Add(const std::string &name, std::unique_ptr<Scene> scene)
     {
@@ -24,15 +24,16 @@ public:
         }
     }
 
-    void Update()
+    void Update(float deltaTime)
     {
         if (currentScene)
         {
-            currentScene->Update();
+            currentScene->Update(deltaTime);
         }
     }
 
 private:
     std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;
     Scene *currentScene = nullptr;
+    Coordinator *coordinator;
 };
