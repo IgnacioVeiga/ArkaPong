@@ -1,15 +1,9 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-#include <string>
-
 #include "Game.h"
-#include "GameConstants.h"
-#include "Scenes/SceneManager.h"
-#include "Scenes/GameScene.h"
+#include "utilities/GameConstants.h"
+#include "scenes/MenuScene.h"
 
-#include "ECS/Coordinator.h"
-
-Coordinator gCoordinator;
 SDL_Renderer *Game::renderer = nullptr;
 SceneManager *Game::sceneManager = nullptr;
 SDL_Window *Game::window = nullptr;
@@ -65,22 +59,19 @@ bool Game::Init_SDL()
 
 void Game::Run()
 {
-    gCoordinator.Init();
-    sceneManager = new SceneManager(&gCoordinator);
-    sceneManager->Add("GameScene", std::make_unique<GameScene>(&gCoordinator));
-    sceneManager->Init("GameScene");
+    Game::sceneManager = new SceneManager(
+        new MenuScene()
+    );
 
     const int FPS = 60;
-    // target time per frame in milliseconds
     const int frameDelay = 1000 / FPS;
 
     Uint32 frameStart;
-    Uint32 frameTime;
+    int frameTime;
 
     SDL_Event event;
     while (Game::game_on)
     {
-        // Frame start time
         frameStart = SDL_GetTicks();
 
         while (SDL_PollEvent(&event))
@@ -91,17 +82,13 @@ void Game::Run()
             }
         }
 
-        // The game logic is updated and the frameTime is converted to seconds.
-        frameTime = SDL_GetTicks() - frameStart;
-        sceneManager->Update(frameTime / 1000.0f);
+        Game::sceneManager->handleInput();
+        Game::sceneManager->update();
+        Game::sceneManager->render();
 
-        // After updating and rendering the game, I recalculate the frameTime
         frameTime = SDL_GetTicks() - frameStart;
-        
-        // SDL_Delay() is used to wait only if the current frame has completed faster than expected.
         if (frameDelay > frameTime)
         {
-            // Wait the necessary time to maintain constant FPS
             SDL_Delay(frameDelay - frameTime);
         }
     }

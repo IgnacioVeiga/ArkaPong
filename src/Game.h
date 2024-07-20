@@ -1,7 +1,7 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
-#include "managers/SceneManager.h"
+#include <SDL2/SDL.h>
+#include "Scenes/SceneManager.h"
 
 class Game
 {
@@ -10,12 +10,10 @@ public:
     void Run();
     void CleanUp();
 
-    static SDL_Renderer *renderer;
-    static SceneManager *sceneManager;
+    static SDL_Renderer* renderer;
+    static SceneManager* sceneManager;
     static bool game_on;
 
 private:
-    static SDL_Window *window;
+    static SDL_Window* window;
 };
-
-#endif

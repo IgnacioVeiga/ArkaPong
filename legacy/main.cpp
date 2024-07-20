@@ -4,7 +4,7 @@
 #include <time.h>
 #include "Game.h"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     srand(time(nullptr));
 
