@@ -6,6 +6,6 @@
 
 struct InputComponent
 {
-    std::unordered_map<std::string, SDL_Keycode> keyMappings;
-    std::unordered_map<SDL_Keycode, bool> keyStates;
+	std::unordered_map<std::string, SDL_Keycode> keyMappings;
+	std::unordered_map<SDL_Keycode, bool> keyStates;
 };

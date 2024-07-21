@@ -11,21 +11,21 @@ extern Coordinator gCoordinator;
 class InputSystem : public System
 {
 public:
-    void Init() {}
+	void Init() {}
 
-    void Update()
-    {
-        const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
-        for (auto const &entity : mEntities)
-        {
-            if (gCoordinator.HasComponent<InputComponent>(entity))
-            {
-                auto &inputComponent = gCoordinator.GetComponent<InputComponent>(entity);
-                for (auto &keyMapping : inputComponent.keyMappings)
-                {
-                    inputComponent.keyStates[keyMapping.second] = keyStates[keyMapping.second];
-                }
-            }
-        }
-    }
+	void Update()
+	{
+		const Uint8* keyStates = SDL_GetKeyboardState(NULL);
+		for (auto const& entity : mEntities)
+		{
+			if (gCoordinator.HasComponent<InputComponent>(entity))
+			{
+				auto& inputComponent = gCoordinator.GetComponent<InputComponent>(entity);
+				for (auto& keyMapping : inputComponent.keyMappings)
+				{
+					inputComponent.keyStates[keyMapping.second] = keyStates[keyMapping.second];
+				}
+			}
+		}
+	}
 };
