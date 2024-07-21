@@ -73,9 +73,7 @@ public:
         Entity ball = coordinator->CreateEntity();
         coordinator->AddComponent(
             ball,
-            PositionComponent{
-                .x = SCREEN_WIDTH / 2,
-                .y = SCREEN_HEIGHT / 2});
+            PositionComponent{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2});
         coordinator->AddComponent(
             ball,
             VelocityComponent{BALL_SPEED, BALL_SPEED});
@@ -91,9 +89,7 @@ public:
         Entity playerLeft = coordinator->CreateEntity();
         coordinator->AddComponent(
             playerLeft,
-            PositionComponent{
-                .x = PADDLE_OFFSET,
-                .y = SCREEN_HEIGHT / 2});
+            PositionComponent{PADDLE_OFFSET, SCREEN_HEIGHT / 2});
         coordinator->AddComponent(
             playerLeft,
             VelocityComponent{PADDLE_SPEED, PADDLE_SPEED});
@@ -111,9 +107,7 @@ public:
         Entity playerRight = coordinator->CreateEntity();
         coordinator->AddComponent(
             playerRight,
-            PositionComponent{
-                .x = SCREEN_WIDTH - PADDLE_OFFSET,
-                .y = SCREEN_HEIGHT / 2});
+            PositionComponent{SCREEN_WIDTH - PADDLE_OFFSET, SCREEN_HEIGHT / 2});
         coordinator->AddComponent(
             playerRight,
             VelocityComponent{PADDLE_SPEED, PADDLE_SPEED});
