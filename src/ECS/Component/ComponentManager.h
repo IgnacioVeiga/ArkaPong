@@ -11,6 +11,7 @@ class IComponentArray
 public:
     virtual ~IComponentArray() = default;
     virtual void EntityDestroyed(Entity entity) = 0;
+    virtual bool HasData(Entity entity) const = 0;
 };
 
 template <typename T>
@@ -62,6 +63,11 @@ public:
             // Remove the entity's component if it existed
             RemoveData(entity);
         }
+    }
+
+    bool HasData(Entity entity) const override
+    {
+        return mEntityToIndexMap.find(entity) != mEntityToIndexMap.end();
     }
 
 private:
@@ -140,6 +146,12 @@ public:
             auto const &component = pair.second;
             component->EntityDestroyed(entity);
         }
+    }
+
+    template <typename T>
+    bool HasComponent(Entity entity)
+    {
+        return mComponentArrays[typeid(T).name()]->HasData(entity);
     }
 
 private:

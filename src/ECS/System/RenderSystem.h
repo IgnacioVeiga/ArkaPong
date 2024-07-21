@@ -1,9 +1,11 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include "../../Game.h"
 #include "../Coordinator.h"
 #include "../Component/RenderComponent.h"
-#include "../GameConstants.h"
+#include "../Component/PositionComponent.h"
+#include "../../GameConstants.h"
 
 extern Coordinator gCoordinator;
 
@@ -20,7 +22,15 @@ public:
         for (auto const &entity : mEntities)
         {
             auto &renderComponent = gCoordinator.GetComponent<RenderComponent>(entity);
-            SDL_RenderCopyEx(Game::renderer, renderComponent.texture, &renderComponent.srcRect, &renderComponent.destRect, 0.0, nullptr, renderComponent.flip);
+            auto &positionComponent = gCoordinator.GetComponent<PositionComponent>(entity);
+
+            SDL_FRect destRect = {
+                positionComponent.x,
+                positionComponent.y,
+                renderComponent.destRect.w,
+                renderComponent.destRect.h};
+
+            SDL_RenderCopyExF(Game::renderer, renderComponent.texture, &renderComponent.srcRect, &destRect, 0.0, nullptr, renderComponent.flip);
         }
 
         SDL_RenderPresent(Game::renderer);

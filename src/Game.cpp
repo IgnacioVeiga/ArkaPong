@@ -1,12 +1,12 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
+#include <iostream>
 
 #include "Game.h"
 #include "GameConstants.h"
 #include "Scenes/SceneManager.h"
 #include "Scenes/GameScene.h"
-
 #include "ECS/Coordinator.h"
 
 Coordinator gCoordinator;
@@ -63,6 +63,7 @@ bool Game::Init_SDL()
     return true;
 }
 
+
 void Game::Run()
 {
     gCoordinator.Init();
@@ -93,12 +94,13 @@ void Game::Run()
 
         // The game logic is updated and the frameTime is converted to seconds.
         frameTime = SDL_GetTicks() - frameStart;
-        sceneManager->Update(frameTime / 1000.0f);
 
-        // After updating and rendering the game, I recalculate the frameTime
-        frameTime = SDL_GetTicks() - frameStart;
+        // TODO: fix this
+        // sceneManager->Update(frameTime / 1000.0f);
+        sceneManager->Update(1);
         
         // SDL_Delay() is used to wait only if the current frame has completed faster than expected.
+        frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)
         {
             // Wait the necessary time to maintain constant FPS

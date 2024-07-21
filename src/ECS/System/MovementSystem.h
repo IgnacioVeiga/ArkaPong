@@ -3,7 +3,8 @@
 #include "../Coordinator.h"
 #include "../Component/PositionComponent.h"
 #include "../Component/VelocityComponent.h"
-#include "../GameConstants.h"
+#include "../Component/InputComponent.h"
+#include "../../GameConstants.h"
 
 extern Coordinator gCoordinator;
 
@@ -18,9 +19,20 @@ public:
         {
             auto &positionComponent = gCoordinator.GetComponent<PositionComponent>(entity);
             auto &velocityComponent = gCoordinator.GetComponent<VelocityComponent>(entity);
-            
-            positionComponent.x += velocityComponent.x * deltaTime;
-            positionComponent.y += velocityComponent.y * deltaTime;
+
+            if (gCoordinator.HasComponent<InputComponent>(entity))
+            {
+                auto &inputComponent = gCoordinator.GetComponent<InputComponent>(entity);
+
+                if (inputComponent.keyStates[inputComponent.keyMappings["up"]])
+                {
+                    positionComponent.y -= velocityComponent.y * deltaTime;
+                }
+                if (inputComponent.keyStates[inputComponent.keyMappings["down"]])
+                {
+                    positionComponent.y += velocityComponent.y * deltaTime;
+                }
+            }
         }
     }
 };

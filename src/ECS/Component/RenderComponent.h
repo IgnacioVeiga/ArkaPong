@@ -6,6 +6,6 @@ struct RenderComponent
 {
     SDL_Texture *texture;
     SDL_Rect srcRect;
-    SDL_Rect destRect;
+    SDL_FRect destRect;
     SDL_RendererFlip flip;
 };

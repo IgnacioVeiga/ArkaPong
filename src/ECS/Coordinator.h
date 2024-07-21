@@ -67,6 +67,12 @@ public:
         return mComponentManager->GetComponentType<T>();
     }
 
+    template <typename T>
+    bool HasComponent(Entity entity)
+    {
+        return mComponentManager->HasComponent<T>(entity);
+    }
+
     // System methods
     template <typename T>
     std::shared_ptr<T> RegisterSystem()

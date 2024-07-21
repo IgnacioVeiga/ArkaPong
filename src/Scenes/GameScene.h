@@ -5,6 +5,7 @@
 #include "../Game.h"
 #include "../ECS/System/SystemManager.h"
 #include "../ECS/Coordinator.h"
+#include "../ECS/System/InputSystem.h"
 #include "../ECS/System/MovementSystem.h"
 #include "../ECS/System/RenderSystem.h"
 #include "../ECS/System/AudioSystem.h"
@@ -17,11 +18,20 @@ public:
 
     void Init() override
     {
+        coordinator->RegisterComponent<InputComponent>();
         coordinator->RegisterComponent<PositionComponent>();
         coordinator->RegisterComponent<VelocityComponent>();
         coordinator->RegisterComponent<RenderComponent>();
         coordinator->RegisterComponent<AudioComponent>();
         coordinator->RegisterComponent<TextComponent>();
+
+        auto inputSystem = coordinator->RegisterSystem<InputSystem>();
+        {
+            Signature signature;
+            signature.set(coordinator->GetComponentType<InputComponent>());
+            coordinator->SetSystemSignature<InputSystem>(signature);
+        }
+        inputSystem->Init();
 
         auto movementSystem = coordinator->RegisterSystem<MovementSystem>();
         {
@@ -94,6 +104,9 @@ public:
                 srcRectPaddle,
                 {PADDLE_OFFSET, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT},
                 SDL_FLIP_NONE});
+        coordinator->AddComponent(playerLeft, InputComponent{
+                                                  {{"up", SDL_SCANCODE_W}, {"down", SDL_SCANCODE_S}},
+                                                  {{SDL_SCANCODE_W, false}, {SDL_SCANCODE_S, false}}});
 
         Entity playerRight = coordinator->CreateEntity();
         coordinator->AddComponent(
@@ -111,10 +124,14 @@ public:
                 srcRectPaddle,
                 {SCREEN_WIDTH - PADDLE_OFFSET, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT},
                 SDL_FLIP_HORIZONTAL});
+        coordinator->AddComponent(playerRight, InputComponent{
+                                                   {{"up", SDL_SCANCODE_UP}, {"down", SDL_SCANCODE_DOWN}},
+                                                   {{SDL_SCANCODE_UP, false}, {SDL_SCANCODE_DOWN, false}}});
     };
 
     void Update(float deltaTime) override
     {
+        coordinator->GetSystem<InputSystem>()->Update();
         coordinator->GetSystem<MovementSystem>()->Update(deltaTime);
         coordinator->GetSystem<RenderSystem>()->Update();
         coordinator->GetSystem<AudioSystem>()->Update();
