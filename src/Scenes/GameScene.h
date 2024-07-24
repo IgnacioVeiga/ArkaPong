@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h>
 #include "Scene.h"
 #include "../Game.h"
-#include "../ECS/System/SystemManager.h"
 #include "../ECS/Coordinator.h"
 #include "../ECS/System/InputSystem.h"
 #include "../ECS/System/MovementSystem.h"
@@ -14,124 +13,128 @@
 class GameScene : public Scene
 {
 public:
-    GameScene(Coordinator *coordinator) : coordinator(coordinator) {}
-
     void Init() override
     {
-        coordinator->RegisterComponent<InputComponent>();
-        coordinator->RegisterComponent<PositionComponent>();
-        coordinator->RegisterComponent<VelocityComponent>();
-        coordinator->RegisterComponent<RenderComponent>();
-        coordinator->RegisterComponent<AudioComponent>();
-        coordinator->RegisterComponent<TextComponent>();
-
-        auto inputSystem = coordinator->RegisterSystem<InputSystem>();
-        {
-            Signature signature;
-            signature.set(coordinator->GetComponentType<InputComponent>());
-            coordinator->SetSystemSignature<InputSystem>(signature);
-        }
-        inputSystem->Init();
-
-        auto movementSystem = coordinator->RegisterSystem<MovementSystem>();
-        {
-            Signature signature;
-            signature.set(coordinator->GetComponentType<PositionComponent>());
-            coordinator->SetSystemSignature<MovementSystem>(signature);
-        }
-        movementSystem->Init();
-
-        auto renderSystem = coordinator->RegisterSystem<RenderSystem>();
-        {
-            Signature signature;
-            signature.set(coordinator->GetComponentType<RenderComponent>());
-            coordinator->SetSystemSignature<RenderSystem>(signature);
-        }
-        renderSystem->Init();
-
-        auto audioSystem = coordinator->RegisterSystem<AudioSystem>();
-        {
-            Signature signature;
-            signature.set(coordinator->GetComponentType<AudioComponent>());
-            coordinator->SetSystemSignature<AudioSystem>(signature);
-        }
-        audioSystem->Init();
-
-        auto textSystem = coordinator->RegisterSystem<TextSystem>();
-        {
-            Signature signature;
-            signature.set(coordinator->GetComponentType<TextComponent>());
-            coordinator->SetSystemSignature<TextSystem>(signature);
-        }
-        textSystem->Init();
-
         // TODO: replace for a method like TextureManager
         SDL_Surface *tempSurface = SDL_LoadBMP("assets/sprites/vaus.bmp");
         SDL_Texture *texture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
         SDL_FreeSurface(tempSurface);
 
-        Entity ball = coordinator->CreateEntity();
-        coordinator->AddComponent(
-            ball,
-            PositionComponent{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2});
-        coordinator->AddComponent(
-            ball,
-            VelocityComponent{BALL_SPEED, BALL_SPEED});
-        coordinator->AddComponent(
-            ball,
+        sceneEntities["Ball"] = Game::coordinator.CreateEntity();
+        Game::coordinator.AddComponent(
+            sceneEntities["Ball"],
+            PositionComponent{
+                SCREEN_WIDTH / 2, // X
+                SCREEN_HEIGHT / 2 // Y
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["Ball"],
+            VelocityComponent{
+                BALL_SPEED, // X
+                BALL_SPEED  // Y
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["Ball"],
             RenderComponent{
-                texture,
-                {42, 5, BALL_SIZE, BALL_SIZE},
-                {SCREEN_WIDTH / 2 - BALL_SIZE / 2, SCREEN_HEIGHT / 2 - BALL_SIZE / 2, BALL_SIZE, BALL_SIZE},
-                SDL_FLIP_NONE});
+                texture, // Texture
+                {
+                    // Source rectangle
+                    42,        // X
+                    5,         // Y
+                    BALL_SIZE, // W
+                    BALL_SIZE  // H
+                },
+                {
+                    // Destination rectangle
+                    SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
+                    SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
+                    BALL_SIZE,                         // W
+                    BALL_SIZE                          // H
+                },
+                SDL_FLIP_NONE // Flip
+            });
 
-        SDL_Rect srcRectPaddle = {0, 0, PADDLE_WIDTH, PADDLE_HEIGHT};
-        Entity playerLeft = coordinator->CreateEntity();
-        coordinator->AddComponent(
-            playerLeft,
-            PositionComponent{PADDLE_OFFSET, SCREEN_HEIGHT / 2});
-        coordinator->AddComponent(
-            playerLeft,
-            VelocityComponent{PADDLE_SPEED, PADDLE_SPEED});
-        coordinator->AddComponent(
-            playerLeft,
+        SDL_Rect srcRectPaddle = {
+            0,            // X
+            0,            // Y
+            PADDLE_WIDTH, // W
+            PADDLE_HEIGHT // H
+        };
+        sceneEntities["PlayerLeft"] = Game::coordinator.CreateEntity();
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerLeft"],
+            PositionComponent{
+                PADDLE_OFFSET,    // X
+                SCREEN_HEIGHT / 2 // Y
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerLeft"],
+            VelocityComponent{
+                PADDLE_SPEED, // X
+                PADDLE_SPEED  // Y
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerLeft"],
             RenderComponent{
-                texture,
-                srcRectPaddle,
-                {PADDLE_OFFSET, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT},
-                SDL_FLIP_NONE});
-        coordinator->AddComponent(playerLeft, InputComponent{
-                                                  {{"up", SDL_SCANCODE_W}, {"down", SDL_SCANCODE_S}},
-                                                  {{SDL_SCANCODE_W, false}, {SDL_SCANCODE_S, false}}});
+                texture,       // Texture
+                srcRectPaddle, // Source rectangle
+                {
+                    // Destination rectangle
+                    PADDLE_OFFSET,                         // X
+                    SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
+                    PADDLE_WIDTH,                          // W
+                    PADDLE_HEIGHT                          // H
+                },
+                SDL_FLIP_NONE // Flip
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerLeft"],
+            InputComponent{
+                {{"up", SDL_SCANCODE_W}, {"down", SDL_SCANCODE_S}}, // Key mappings
+                {{SDL_SCANCODE_W, false}, {SDL_SCANCODE_S, false}}  // Key states
+            });
 
-        Entity playerRight = coordinator->CreateEntity();
-        coordinator->AddComponent(
-            playerRight,
-            PositionComponent{SCREEN_WIDTH - PADDLE_OFFSET, SCREEN_HEIGHT / 2});
-        coordinator->AddComponent(
-            playerRight,
-            VelocityComponent{PADDLE_SPEED, PADDLE_SPEED});
-        coordinator->AddComponent(
-            playerRight,
+        sceneEntities["PlayerRight"] = Game::coordinator.CreateEntity();
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerRight"],
+            PositionComponent{
+                SCREEN_WIDTH - PADDLE_OFFSET, // X
+                SCREEN_HEIGHT / 2             // Y
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerRight"],
+            VelocityComponent{
+                PADDLE_SPEED, // X
+                PADDLE_SPEED  // Y
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerRight"],
             RenderComponent{
-                texture,
-                srcRectPaddle,
-                {SCREEN_WIDTH - PADDLE_OFFSET, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT},
-                SDL_FLIP_HORIZONTAL});
-        coordinator->AddComponent(playerRight, InputComponent{
-                                                   {{"up", SDL_SCANCODE_UP}, {"down", SDL_SCANCODE_DOWN}},
-                                                   {{SDL_SCANCODE_UP, false}, {SDL_SCANCODE_DOWN, false}}});
+                texture,       // Texture
+                srcRectPaddle, // Source rectangle
+                {
+                    // Destination rectangle
+                    SCREEN_WIDTH - PADDLE_OFFSET,          // X
+                    SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
+                    PADDLE_WIDTH,                          // W
+                    PADDLE_HEIGHT                          // H
+                },
+                SDL_FLIP_HORIZONTAL // Flip
+            });
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerRight"],
+            InputComponent{
+                {{"up", SDL_SCANCODE_UP}, {"down", SDL_SCANCODE_DOWN}}, // Key mappings
+                {{SDL_SCANCODE_UP, false}, {SDL_SCANCODE_DOWN, false}}  // Key states
+            });
     };
 
     void Update(float deltaTime) override
     {
-        coordinator->GetSystem<InputSystem>()->Update();
-        coordinator->GetSystem<MovementSystem>()->Update(deltaTime);
-        coordinator->GetSystem<RenderSystem>()->Update();
-        coordinator->GetSystem<AudioSystem>()->Update();
-        coordinator->GetSystem<TextSystem>()->Update();
+        Game::coordinator.GetSystem<InputSystem>()->Update();
+        Game::coordinator.GetSystem<MovementSystem>()->Update(deltaTime);
+        Game::coordinator.GetSystem<RenderSystem>()->Update();
+        Game::coordinator.GetSystem<AudioSystem>()->Update();
+        Game::coordinator.GetSystem<TextSystem>()->Update();
     };
-
-private:
-    Coordinator *coordinator;
 };

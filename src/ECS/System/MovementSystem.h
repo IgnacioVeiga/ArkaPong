@@ -6,23 +6,26 @@
 #include "../Component/InputComponent.h"
 #include "../../GameConstants.h"
 
-extern Coordinator gCoordinator;
-
 class MovementSystem : public System
 {
 public:
-    void Init() {}
+    void Init()
+    {
+        Signature signature;
+        signature.set(Game::coordinator.GetComponentType<PositionComponent>());
+        Game::coordinator.SetSystemSignature<MovementSystem>(signature);
+    }
 
     void Update(float deltaTime)
     {
         for (auto const &entity : mEntities)
         {
-            auto &positionComponent = gCoordinator.GetComponent<PositionComponent>(entity);
-            auto &velocityComponent = gCoordinator.GetComponent<VelocityComponent>(entity);
+            auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+            auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(entity);
 
-            if (gCoordinator.HasComponent<InputComponent>(entity))
+            if (Game::coordinator.HasComponent<InputComponent>(entity))
             {
-                auto &inputComponent = gCoordinator.GetComponent<InputComponent>(entity);
+                auto &inputComponent = Game::coordinator.GetComponent<InputComponent>(entity);
 
                 if (inputComponent.keyStates[inputComponent.keyMappings["up"]])
                 {

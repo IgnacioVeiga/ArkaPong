@@ -7,12 +7,15 @@
 #include "../Component/PositionComponent.h"
 #include "../../GameConstants.h"
 
-extern Coordinator gCoordinator;
-
 class RenderSystem : public System
 {
 public:
-    void Init() {}
+    void Init()
+    {
+        Signature signature;
+        signature.set(Game::coordinator.GetComponentType<RenderComponent>());
+        Game::coordinator.SetSystemSignature<RenderSystem>(signature);
+    }
 
     void Update()
     {
@@ -21,16 +24,25 @@ public:
 
         for (auto const &entity : mEntities)
         {
-            auto &renderComponent = gCoordinator.GetComponent<RenderComponent>(entity);
-            auto &positionComponent = gCoordinator.GetComponent<PositionComponent>(entity);
+            auto &renderComponent = Game::coordinator.GetComponent<RenderComponent>(entity);
+            auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
 
             SDL_FRect destRect = {
-                positionComponent.x,
-                positionComponent.y,
-                renderComponent.destRect.w,
-                renderComponent.destRect.h};
+                positionComponent.x,        // X
+                positionComponent.y,        // Y
+                renderComponent.destRect.w, // W
+                renderComponent.destRect.h  // H
+            };
 
-            SDL_RenderCopyExF(Game::renderer, renderComponent.texture, &renderComponent.srcRect, &destRect, 0.0, nullptr, renderComponent.flip);
+            SDL_RenderCopyExF(
+                Game::renderer,           // Renderer
+                renderComponent.texture,  // Texture
+                &renderComponent.srcRect, // Source rectangle
+                &destRect,                // Destination rectangle
+                0.0,                      // Angle
+                nullptr,                  // Center
+                renderComponent.flip      // Flip
+            );
         }
 
         SDL_RenderPresent(Game::renderer);

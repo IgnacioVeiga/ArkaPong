@@ -8,8 +8,6 @@
 class SceneManager
 {
 public:
-    SceneManager(Coordinator *coordinator) : coordinator(coordinator) {}
-
     void Add(const std::string &name, std::unique_ptr<Scene> scene)
     {
         scenes[name] = std::move(scene);
@@ -35,5 +33,4 @@ public:
 private:
     std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;
     Scene *currentScene = nullptr;
-    Coordinator *coordinator;
 };

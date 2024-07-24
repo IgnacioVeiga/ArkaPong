@@ -3,18 +3,21 @@
 #include "../Coordinator.h"
 #include "../Component/AudioComponent.h"
 
-extern Coordinator gCoordinator;
-
 class AudioSystem : public System
 {
 public:
-    void Init() {}
+    void Init()
+    {
+        Signature signature;
+        signature.set(Game::coordinator.GetComponentType<AudioComponent>());
+        Game::coordinator.SetSystemSignature<AudioSystem>(signature);
+    }
 
     void Update()
     {
         for (auto const &entity : mEntities)
         {
-            auto &audioComponent = gCoordinator.GetComponent<AudioComponent>(entity);
+            auto &audioComponent = Game::coordinator.GetComponent<AudioComponent>(entity);
 
             if (audioComponent.isPlaying)
             {

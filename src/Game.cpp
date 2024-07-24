@@ -7,9 +7,10 @@
 #include "GameConstants.h"
 #include "Scenes/SceneManager.h"
 #include "Scenes/GameScene.h"
+#include "Scenes/MainMenuScene.h"
 #include "ECS/Coordinator.h"
 
-Coordinator gCoordinator;
+Coordinator Game::coordinator;
 SDL_Renderer *Game::renderer = nullptr;
 SceneManager *Game::sceneManager = nullptr;
 SDL_Window *Game::window = nullptr;
@@ -63,13 +64,29 @@ bool Game::Init_SDL()
     return true;
 }
 
+void Game::Init_ECS()
+{
+    coordinator.Init();
+    coordinator.RegisterComponent<InputComponent>();
+    coordinator.RegisterComponent<PositionComponent>();
+    coordinator.RegisterComponent<VelocityComponent>();
+    coordinator.RegisterComponent<RenderComponent>();
+    coordinator.RegisterComponent<AudioComponent>();
+    coordinator.RegisterComponent<TextComponent>();
+
+    coordinator.RegisterSystem<InputSystem>()->Init();
+    coordinator.RegisterSystem<MovementSystem>()->Init();
+    coordinator.RegisterSystem<RenderSystem>()->Init();
+    coordinator.RegisterSystem<AudioSystem>()->Init();
+    coordinator.RegisterSystem<TextSystem>()->Init();
+}
 
 void Game::Run()
 {
-    gCoordinator.Init();
-    sceneManager = new SceneManager(&gCoordinator);
-    sceneManager->Add("GameScene", std::make_unique<GameScene>(&gCoordinator));
-    sceneManager->Init("GameScene");
+    sceneManager = new SceneManager();
+    sceneManager->Add("MainMenu", std::make_unique<MainMenuScene>());
+    sceneManager->Add("Game", std::make_unique<GameScene>());
+    sceneManager->Init("Game");
 
     const int FPS = 60;
     // target time per frame in milliseconds
@@ -79,7 +96,7 @@ void Game::Run()
     Uint32 frameTime;
 
     SDL_Event event;
-    while (Game::game_on)
+    while (game_on)
     {
         // Frame start time
         frameStart = SDL_GetTicks();
@@ -88,7 +105,7 @@ void Game::Run()
         {
             if (event.type == SDL_QUIT)
             {
-                Game::game_on = false;
+                game_on = false;
             }
         }
 
@@ -98,7 +115,7 @@ void Game::Run()
         // TODO: fix this
         // sceneManager->Update(frameTime / 1000.0f);
         sceneManager->Update(1);
-        
+
         // SDL_Delay() is used to wait only if the current frame has completed faster than expected.
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)
@@ -111,9 +128,9 @@ void Game::Run()
 
 void Game::CleanUp()
 {
-    if (Game::sceneManager)
+    if (sceneManager)
     {
-        delete Game::sceneManager;
+        delete sceneManager;
     }
     if (renderer)
     {

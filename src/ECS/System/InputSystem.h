@@ -6,26 +6,30 @@
 #include "../Coordinator.h"
 #include "../Component/InputComponent.h"
 
-extern Coordinator gCoordinator;
-
 class InputSystem : public System
 {
 public:
-	void Init() {}
+	void Init()
+	{
+        Signature signature;
+        signature.set(Game::coordinator.GetComponentType<InputComponent>());
+        Game::coordinator.SetSystemSignature<InputSystem>(signature);
+	}
 
 	void Update()
 	{
-		const Uint8* keyStates = SDL_GetKeyboardState(NULL);
-		for (auto const& entity : mEntities)
+		const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
+		for (auto const &entity : mEntities)
 		{
-			if (gCoordinator.HasComponent<InputComponent>(entity))
+			auto &inputComponent = Game::coordinator.GetComponent<InputComponent>(entity);
+			for (auto &keyMapping : inputComponent.keyMappings)
 			{
-				auto& inputComponent = gCoordinator.GetComponent<InputComponent>(entity);
-				for (auto& keyMapping : inputComponent.keyMappings)
-				{
-					inputComponent.keyStates[keyMapping.second] = keyStates[keyMapping.second];
-				}
+				inputComponent.keyStates[keyMapping.second] = keyStates[keyMapping.second];
 			}
+		}
+		if (keyStates[SDL_SCANCODE_ESCAPE])
+		{
+			Game::game_on = false;
 		}
 	}
 };

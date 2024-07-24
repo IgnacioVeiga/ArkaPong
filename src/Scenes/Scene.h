@@ -8,7 +8,6 @@ public:
     virtual ~Scene() = default;
     virtual void Init() = 0;
     virtual void Update(float deltaTime) = 0;
-
 protected:
-    Coordinator *coordinator;
+    std::unordered_map<std::string, Entity> sceneEntities;
 };
