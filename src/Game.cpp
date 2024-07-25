@@ -73,12 +73,14 @@ void Game::Init_ECS()
     coordinator.RegisterComponent<RenderComponent>();
     coordinator.RegisterComponent<AudioComponent>();
     coordinator.RegisterComponent<TextComponent>();
+    coordinator.RegisterComponent<CollisionComponent>();
 
     coordinator.RegisterSystem<InputSystem>()->Init();
     coordinator.RegisterSystem<MovementSystem>()->Init();
     coordinator.RegisterSystem<RenderSystem>()->Init();
     coordinator.RegisterSystem<AudioSystem>()->Init();
     coordinator.RegisterSystem<TextSystem>()->Init();
+    coordinator.RegisterSystem<CollisionSystem>()->Init();
 }
 
 void Game::Run()

@@ -89,6 +89,7 @@
   <ItemGroup>
     <ClInclude Include="src\ECS\Component\InputComponent.h" />
     <ClInclude Include="src\ECS\System\InputSystem.h" />
+    <ClInclude Include="src\SpatialHash.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameConstants.h" />
     <ClInclude Include="src\Scenes\GameScene.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="src\Scenes\SceneManager.h" />
     <ClInclude Include="src\ECS\Coordinator.h" />
     <ClInclude Include="src\ECS\Component\AudioComponent.h" />
+    <ClInclude Include="src\ECS\Component\CollisionComponent.h" />
     <ClInclude Include="src\ECS\Component\ComponentManager.h" />
     <ClInclude Include="src\ECS\Component\PositionComponent.h" />
     <ClInclude Include="src\ECS\Component\RenderComponent.h" />
@@ -104,6 +106,7 @@
     <ClInclude Include="src\ECS\Entity\Entity.h" />
     <ClInclude Include="src\ECS\Entity\EntityManager.h" />
     <ClInclude Include="src\ECS\System\AudioSystem.h" />
+    <ClInclude Include="src\ECS\System\CollisionSystem.h" />
     <ClInclude Include="src\ECS\System\MovementSystem.h" />
     <ClInclude Include="src\ECS\System\RenderSystem.h" />
     <ClInclude Include="src\ECS\System\System.h" />

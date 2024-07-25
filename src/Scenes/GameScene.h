@@ -9,6 +9,7 @@
 #include "../ECS/System/RenderSystem.h"
 #include "../ECS/System/AudioSystem.h"
 #include "../ECS/System/TextSystem.h"
+#include "../ECS/System/CollisionSystem.h"
 
 class GameScene : public Scene
 {
