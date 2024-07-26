@@ -5,7 +5,7 @@
 #include "../Coordinator.h"
 #include "../Component/RenderComponent.h"
 #include "../Component/PositionComponent.h"
-#include "../../GameConstants.h"
+#include "../../Utils/GameConstants.h"
 
 class RenderSystem : public System
 {

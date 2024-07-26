@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include "../../Game.h"
-#include "../../SpatialHash.h"
+#include "../../Utils/SpatialHash.h"
 #include "../Coordinator.h"
 #include "../Component/CollisionComponent.h"
 #include "../Component/PositionComponent.h"
@@ -72,7 +72,18 @@ private:
 
     void HandleCollision(Entity entityA, Entity entityB)
     {
-        // TODO: implement
+        auto &colliderA = Game::coordinator.GetComponent<CollisionComponent>(entityA);
+        auto &colliderB = Game::coordinator.GetComponent<CollisionComponent>(entityB);
+
+        for (auto &reaction : colliderA.reactions)
+        {
+            reaction.reaction(entityA, entityB);
+        }
+
+        for (auto &reaction : colliderB.reactions)
+        {
+            reaction.reaction(entityB, entityA);
+        }
     }
 
     SpatialHash spatialHash;

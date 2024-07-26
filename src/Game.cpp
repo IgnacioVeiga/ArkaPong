@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "Game.h"
-#include "GameConstants.h"
+#include "Utils/GameConstants.h"
 #include "Scenes/SceneManager.h"
 #include "Scenes/GameScene.h"
 #include "Scenes/MainMenuScene.h"

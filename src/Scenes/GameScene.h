@@ -54,6 +54,23 @@ public:
                 },
                 SDL_FLIP_NONE // Flip
             });
+        Game::coordinator.AddComponent(
+            sceneEntities["Ball"],
+            CollisionComponent{
+                {
+                    // Collider rectangle
+                    0,         // X
+                    0,         // Y
+                    BALL_SIZE, // W
+                    BALL_SIZE  // H
+                },
+                {
+                    // Trigger functions
+                    CollisionReaction(PlaySound),
+                    CollisionReaction(Bounce)
+                }
+            }
+        );
 
         SDL_Rect srcRectPaddle = {
             0,            // X
@@ -90,6 +107,11 @@ public:
             });
         Game::coordinator.AddComponent(
             sceneEntities["PlayerLeft"],
+            CollisionComponent{
+                {0, 0, PADDLE_WIDTH, PADDLE_HEIGHT},
+                {CollisionReaction(DestroyEntity)}});
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerLeft"],
             InputComponent{
                 {{"up", SDL_SCANCODE_W}, {"down", SDL_SCANCODE_S}}, // Key mappings
                 {{SDL_SCANCODE_W, false}, {SDL_SCANCODE_S, false}}  // Key states
@@ -124,6 +146,11 @@ public:
             });
         Game::coordinator.AddComponent(
             sceneEntities["PlayerRight"],
+            CollisionComponent{
+                {0, 0, PADDLE_WIDTH, PADDLE_HEIGHT},
+                {CollisionReaction(DestroyEntity)}});
+        Game::coordinator.AddComponent(
+            sceneEntities["PlayerRight"],
             InputComponent{
                 {{"up", SDL_SCANCODE_UP}, {"down", SDL_SCANCODE_DOWN}}, // Key mappings
                 {{SDL_SCANCODE_UP, false}, {SDL_SCANCODE_DOWN, false}}  // Key states
@@ -137,5 +164,6 @@ public:
         Game::coordinator.GetSystem<RenderSystem>()->Update();
         Game::coordinator.GetSystem<AudioSystem>()->Update();
         Game::coordinator.GetSystem<TextSystem>()->Update();
+        Game::coordinator.GetSystem<CollisionSystem>()->Update(deltaTime);
     };
 };

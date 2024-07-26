@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL2/SDL_pixels.h>
+
 inline const char *GAME_TITLE = "ArkaPong";
 inline const int SCREEN_WIDTH = 880;
 inline const int SCREEN_HEIGHT = 480;

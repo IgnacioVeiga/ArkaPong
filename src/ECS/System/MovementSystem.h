@@ -4,7 +4,7 @@
 #include "../Component/PositionComponent.h"
 #include "../Component/VelocityComponent.h"
 #include "../Component/InputComponent.h"
-#include "../../GameConstants.h"
+#include "../../Utils/GameConstants.h"
 
 class MovementSystem : public System
 {
