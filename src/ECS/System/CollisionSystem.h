@@ -45,6 +45,8 @@ public:
                 collider.collider.w,          // W
                 collider.collider.h           // H
             };
+             //SDL_SetRenderDrawColor(Game::renderer, 0, 255, 0, 255);
+             //SDL_RenderFillRect(Game::renderer, &rect);
             auto possibleCollisions = spatialHash.Retrieve(rect);
 
             for (auto const &otherEntity : possibleCollisions)

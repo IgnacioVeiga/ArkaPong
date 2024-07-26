@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Scenes\MainMenuScene.h" />
     <ClInclude Include="src\Utils\SpatialHash.h" />
     <ClInclude Include="src\Utils\GameConstants.h" />
     <ClInclude Include="src\Utils\CollisionReaction.h" />

@@ -36,6 +36,10 @@ public:
                     positionComponent.y += velocityComponent.y * deltaTime;
                 }
             }
+            else
+            {
+                positionComponent.x += velocityComponent.x * deltaTime;
+            }
         }
     }
 };

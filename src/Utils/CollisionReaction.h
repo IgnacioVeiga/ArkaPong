@@ -13,10 +13,16 @@ struct CollisionReaction
 
 void PlaySound(Entity entityA, Entity entityB)
 {
-    AudioComponent audioComp = Game::coordinator.GetComponent<AudioComponent>(entityA);
-    audioComp.isPlaying = true;
-    audioComp = Game::coordinator.GetComponent<AudioComponent>(entityB);
-    audioComp.isPlaying = true;
+    if (Game::coordinator.HasComponent<AudioComponent>(entityA))
+    {
+        AudioComponent audioComp = Game::coordinator.GetComponent<AudioComponent>(entityA);
+        audioComp.isPlaying = true;
+    }
+    if (Game::coordinator.HasComponent<AudioComponent>(entityB))
+    {
+        AudioComponent audioComp = Game::coordinator.GetComponent<AudioComponent>(entityB);
+        audioComp.isPlaying = true;
+    }
 }
 
 void DestroyEntity(Entity entityA, Entity entityB)
