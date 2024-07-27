@@ -18,9 +18,6 @@
     <ClInclude Include="src\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils\CollisionReaction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Utils\GameConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>

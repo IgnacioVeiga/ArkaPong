@@ -38,7 +38,14 @@ public:
             }
             else
             {
+                // Ball movement
                 positionComponent.x += velocityComponent.x * deltaTime;
+
+                // DEBUG: center ball
+                if (positionComponent.x > SCREEN_WIDTH || positionComponent.x < 0)
+                {
+                    positionComponent.x = SCREEN_WIDTH / 2;
+                }
             }
         }
     }

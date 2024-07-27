@@ -45,6 +45,25 @@ public:
             );
         }
 
+        DrawGrid(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
+
         SDL_RenderPresent(Game::renderer);
+    }
+
+    void DrawGrid(SDL_Renderer *renderer, int gridWidth, int gridHeight, int cellSize)
+    {
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE); // Color rojo para las líneas del grid
+
+        // Dibujar líneas verticales
+        for (int x = 0; x <= gridWidth; x += cellSize)
+        {
+            SDL_RenderDrawLine(renderer, x, 0, x, gridHeight);
+        }
+
+        // Dibujar líneas horizontales
+        for (int y = 0; y <= gridHeight; y += cellSize)
+        {
+            SDL_RenderDrawLine(renderer, 0, y, gridWidth, y);
+        }
     }
 };

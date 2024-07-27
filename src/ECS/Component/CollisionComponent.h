@@ -1,10 +1,18 @@
 #pragma once
 
-#include <vector>
-#include "../../Utils/CollisionReaction.h"
+#include <SDL2/SDL.h>
+
+enum class CollisionSide
+{
+    NONE,
+    RIGHT,
+    TOP,
+    BOTTOM,
+    LEFT
+};
 
 struct CollisionComponent
 {
     SDL_Rect collider;
-    std::vector<CollisionReaction> reactions;
+    CollisionSide collisionSide = CollisionSide::NONE;
 };

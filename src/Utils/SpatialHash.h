@@ -24,16 +24,40 @@ public:
 
     void Insert(Entity entity, SDL_Rect &collider)
     {
-        int cellX = collider.x / CELL_GRID_SIZE;
-        int cellY = collider.y / CELL_GRID_SIZE;
-        mHashTable[std::make_pair(cellX, cellY)].push_back(entity);
+        int startX = collider.x / CELL_GRID_SIZE;
+        int startY = collider.y / CELL_GRID_SIZE;
+        int endX = (collider.x + collider.w) / CELL_GRID_SIZE;
+        int endY = (collider.y + collider.h) / CELL_GRID_SIZE;
+
+        for (int x = startX; x <= endX; ++x)
+        {
+            for (int y = startY; y <= endY; ++y)
+            {
+                mHashTable[std::make_pair(x, y)].push_back(entity);
+            }
+        }
     }
 
     std::vector<Entity> Retrieve(SDL_Rect &collider)
     {
-        int cellX = collider.x / CELL_GRID_SIZE;
-        int cellY = collider.y / CELL_GRID_SIZE;
-        return mHashTable[std::make_pair(cellX, cellY)];
+        std::vector<Entity> entities;
+        int startX = collider.x / CELL_GRID_SIZE;
+        int startY = collider.y / CELL_GRID_SIZE;
+        int endX = (collider.x + collider.w) / CELL_GRID_SIZE;
+        int endY = (collider.y + collider.h) / CELL_GRID_SIZE;
+
+        for (int x = startX; x <= endX; ++x)
+        {
+            for (int y = startY; y <= endY; ++y)
+            {
+                auto cell = mHashTable.find(std::make_pair(x, y));
+                if (cell != mHashTable.end())
+                {
+                    entities.insert(entities.end(), cell->second.begin(), cell->second.end());
+                }
+            }
+        }
+        return entities;
     }
 
     void Clear()
