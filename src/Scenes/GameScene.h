@@ -27,14 +27,22 @@ public:
 			PADDLE_HEIGHT // H
 		};
 
+		// Load the tile texture
 		SDL_Texture* tileTexture = TextureManager::LoadTexture("assets/sprites/backgrounds.bmp");
-		int tileTextureWidth = 160; // Mosaic texture width
-		int tileTextureHeight = 32; // Mosaic texture height
+
+		// Tile texture dimensions
+		int tileTextureWidth = 160;
+		int tileTextureHeight = 32;
+
+		// Dimensions of each tile
 		int tileWidth = 32;
 		int tileHeight = 32;
-		int mapWidth = 26;  // Mosaic background map width
-		int mapHeight = 14; // Height of the background map in mosaics
-		std::vector<int> tiles(SCREEN_HEIGHT * SCREEN_WIDTH, 0);
+
+		// Dimensions of the tile map (how many tiles in width and height)
+		int mapWidth = SCREEN_WIDTH / tileWidth;
+		int mapHeight = SCREEN_HEIGHT / tileHeight;
+
+		std::vector<int> tiles(mapWidth * mapHeight, 0);
 		sceneEntities["TileBackground"] = CreateTileBackgroundEntity(tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles);
 
 #pragma region Ball
