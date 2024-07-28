@@ -7,6 +7,7 @@
 #include "../Component/PositionComponent.h"
 #include "../../Utils/GameConstants.h"
 
+// Rename to SpriteSystem?
 class RenderSystem : public System
 {
 public:
@@ -19,9 +20,6 @@ public:
 
     void Update()
     {
-        SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
-        SDL_RenderClear(Game::renderer);
-
         for (auto const &entity : mEntities)
         {
             auto &renderComponent = Game::coordinator.GetComponent<RenderComponent>(entity);
@@ -45,9 +43,8 @@ public:
             );
         }
 
+        // DEBUG, remove later
         DrawGrid(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
-
-        SDL_RenderPresent(Game::renderer);
     }
 
     void DrawGrid(SDL_Renderer *renderer, int gridWidth, int gridHeight, int cellSize)

@@ -74,6 +74,7 @@ void Game::Init_ECS()
     coordinator.RegisterComponent<AudioComponent>();
     coordinator.RegisterComponent<TextComponent>();
     coordinator.RegisterComponent<CollisionComponent>();
+    coordinator.RegisterComponent<TileBackgroundComponent>();
 
     coordinator.RegisterSystem<InputSystem>()->Init();
     coordinator.RegisterSystem<MovementSystem>()->Init();
@@ -81,6 +82,7 @@ void Game::Init_ECS()
     coordinator.RegisterSystem<AudioSystem>()->Init();
     coordinator.RegisterSystem<TextSystem>()->Init();
     coordinator.RegisterSystem<CollisionSystem>()->Init();
+    coordinator.RegisterSystem<TileBackgroundSystem>()->Init();
 }
 
 void Game::Run()
@@ -114,9 +116,14 @@ void Game::Run()
         // The game logic is updated and the frameTime is converted to seconds.
         frameTime = SDL_GetTicks() - frameStart;
 
+        SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
+        SDL_RenderClear(Game::renderer);
+
         // TODO: fix this
         // sceneManager->Update(frameTime / 1000.0f);
         sceneManager->Update(1);
+
+        SDL_RenderPresent(Game::renderer);
 
         // SDL_Delay() is used to wait only if the current frame has completed faster than expected.
         frameTime = SDL_GetTicks() - frameStart;

@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 
+// Rename to SpriteComponent?
 struct RenderComponent
 {
     SDL_Texture *texture;

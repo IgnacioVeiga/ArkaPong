@@ -87,6 +87,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ECS\Component\Background\ImageBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Component\Background\ParallaxBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Component\Background\ParallaxLayer.h" />
+    <ClInclude Include="src\ECS\Component\Background\SolidColorBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Component\Background\TileBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Entity\BackgroundEntity.h" />
+    <ClInclude Include="src\ECS\System\Background\ParallaxBackgroundSystem.h" />
+    <ClInclude Include="src\ECS\System\Background\ImageBackgroundSystem.h" />
+    <ClInclude Include="src\ECS\System\Background\SolidColorBackgroundSystem.h" />
+    <ClInclude Include="src\ECS\System\Background\TileBackgroundSystem.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
     <ClInclude Include="src\Utils\SpatialHash.h" />
@@ -113,6 +123,7 @@
     <ClInclude Include="src\ECS\System\System.h" />
     <ClInclude Include="src\ECS\System\SystemManager.h" />
     <ClInclude Include="src\ECS\System\TextSystem.h" />
+    <ClInclude Include="src\Utils\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
