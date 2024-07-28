@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "../Game.h"
 #include "../ECS/Coordinator.h"
-#include "../ECS/System/RenderSystem.h"
+#include "../ECS/System/SpriteSystem.h"
 #include "../ECS/System/InputSystem.h"
 #include "../ECS/System/AudioSystem.h"
 #include "../ECS/System/TextSystem.h"
@@ -20,7 +20,7 @@ public:
 
     void Update(float deltaTime) override
     {
-        Game::coordinator.GetSystem<RenderSystem>()->Update();
+        Game::coordinator.GetSystem<SpriteSystem>()->Update();
         Game::coordinator.GetSystem<InputSystem>()->Update();
         Game::coordinator.GetSystem<AudioSystem>()->Update();
         Game::coordinator.GetSystem<TextSystem>()->Update();

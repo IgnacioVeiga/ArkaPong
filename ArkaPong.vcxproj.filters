@@ -48,7 +48,7 @@
     <ClInclude Include="src\ECS\Component\PositionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Component\RenderComponent.h">
+    <ClInclude Include="src\ECS\Component\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\Component\TextComponent.h">
@@ -72,7 +72,7 @@
     <ClInclude Include="src\ECS\System\MovementSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\System\RenderSystem.h">
+    <ClInclude Include="src\ECS\System\SpriteSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\System\System.h">

@@ -6,7 +6,7 @@
 #include "../ECS/Coordinator.h"
 #include "../ECS/System/InputSystem.h"
 #include "../ECS/System/MovementSystem.h"
-#include "../ECS/System/RenderSystem.h"
+#include "../ECS/System/SpriteSystem.h"
 #include "../ECS/System/AudioSystem.h"
 #include "../ECS/System/CollisionSystem.h"
 #include "../ECS/System/TextSystem.h"
@@ -32,8 +32,8 @@ public:
 		int tileTextureHeight = 32; // Mosaic texture height
 		int tileWidth = 32;
 		int tileHeight = 32;
-		int mapWidth = 5;  // Mosaic background map width
-		int mapHeight = 5; // Height of the background map in mosaics
+		int mapWidth = 26;  // Mosaic background map width
+		int mapHeight = 14; // Height of the background map in mosaics
 		std::vector<int> tiles(SCREEN_HEIGHT * SCREEN_WIDTH, 0);
 		sceneEntities["TileBackground"] = CreateTileBackgroundEntity(tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles);
 
@@ -53,7 +53,7 @@ public:
 			});
 		Game::coordinator.AddComponent(
 			sceneEntities["Ball"],
-			RenderComponent{
+			SpriteComponent{
 				texture, // Texture
 				{
 				// Source rectangle
@@ -99,7 +99,7 @@ public:
 			});
 		Game::coordinator.AddComponent(
 			sceneEntities["PlayerLeft"],
-			RenderComponent{
+			SpriteComponent{
 				texture,	   // Texture
 				srcRectPaddle, // Source rectangle
 				{
@@ -145,7 +145,7 @@ public:
 			});
 		Game::coordinator.AddComponent(
 			sceneEntities["PlayerRight"],
-			RenderComponent{
+			SpriteComponent{
 				texture,	   // Texture
 				srcRectPaddle, // Source rectangle
 				{
@@ -181,7 +181,7 @@ public:
 		Game::coordinator.GetSystem<InputSystem>()->Update();
 		Game::coordinator.GetSystem<MovementSystem>()->Update(deltaTime);
 		Game::coordinator.GetSystem<TileBackgroundSystem>()->Update();
-		Game::coordinator.GetSystem<RenderSystem>()->Update();
+		Game::coordinator.GetSystem<SpriteSystem>()->Update();
 		Game::coordinator.GetSystem<AudioSystem>()->Update();
 		Game::coordinator.GetSystem<TextSystem>()->Update();
 		Game::coordinator.GetSystem<CollisionSystem>()->Update(deltaTime);

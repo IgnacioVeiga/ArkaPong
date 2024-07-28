@@ -70,7 +70,7 @@ void Game::Init_ECS()
     coordinator.RegisterComponent<InputComponent>();
     coordinator.RegisterComponent<PositionComponent>();
     coordinator.RegisterComponent<VelocityComponent>();
-    coordinator.RegisterComponent<RenderComponent>();
+    coordinator.RegisterComponent<SpriteComponent>();
     coordinator.RegisterComponent<AudioComponent>();
     coordinator.RegisterComponent<TextComponent>();
     coordinator.RegisterComponent<CollisionComponent>();
@@ -78,7 +78,7 @@ void Game::Init_ECS()
 
     coordinator.RegisterSystem<InputSystem>()->Init();
     coordinator.RegisterSystem<MovementSystem>()->Init();
-    coordinator.RegisterSystem<RenderSystem>()->Init();
+    coordinator.RegisterSystem<SpriteSystem>()->Init();
     coordinator.RegisterSystem<AudioSystem>()->Init();
     coordinator.RegisterSystem<TextSystem>()->Init();
     coordinator.RegisterSystem<CollisionSystem>()->Init();
