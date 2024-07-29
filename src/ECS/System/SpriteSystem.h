@@ -21,24 +21,24 @@ public:
     {
         for (auto const &entity : mEntities)
         {
-            auto &renderComponent = Game::coordinator.GetComponent<SpriteComponent>(entity);
+            auto &spriteComponent = Game::coordinator.GetComponent<SpriteComponent>(entity);
             auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
 
             SDL_FRect destRect = {
                 positionComponent.x,        // X
                 positionComponent.y,        // Y
-                renderComponent.destRect.w, // W
-                renderComponent.destRect.h  // H
+                spriteComponent.destRect.w, // W
+                spriteComponent.destRect.h  // H
             };
 
             SDL_RenderCopyExF(
                 Game::renderer,           // Renderer
-                renderComponent.texture,  // Texture
-                &renderComponent.srcRect, // Source rectangle
+                spriteComponent.texture,  // Texture
+                &spriteComponent.srcRect, // Source rectangle
                 &destRect,                // Destination rectangle
                 0.0,                      // Angle
                 nullptr,                  // Center
-                renderComponent.flip      // Flip
+                spriteComponent.flip      // Flip
             );
         }
 

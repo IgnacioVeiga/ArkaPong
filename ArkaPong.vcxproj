@@ -87,6 +87,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ECS\Entity\BallEntity.h" />
+    <ClInclude Include="src\ECS\Entity\PaddleEntity.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
     <ClInclude Include="src\Utils\SpatialHash.h" />

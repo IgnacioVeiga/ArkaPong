@@ -12,176 +12,18 @@
 #include "../ECS/System/TextSystem.h"
 #include "../ECS/System/Background/TileBackgroundSystem.h"
 #include "../ECS/Entity/BackgroundEntity.h"
-#include "../Utils/TextureManager.h"
+#include "../ECS/Entity/BallEntity.h"
+#include "../ECS/Entity/PaddleEntity.h"
 
 class GameScene : public Scene
 {
 public:
 	void Init() override
 	{
-		SDL_Texture* texture = TextureManager::LoadTexture("assets/sprites/vaus.bmp");
-		SDL_Rect srcRectPaddle = {
-			0,			  // X
-			0,			  // Y
-			PADDLE_WIDTH, // W
-			PADDLE_HEIGHT // H
-		};
-
-		// Load the tile texture
-		SDL_Texture* tileTexture = TextureManager::LoadTexture("assets/sprites/backgrounds.bmp");
-
-		// Tile texture dimensions
-		int tileTextureWidth = 160;
-		int tileTextureHeight = 32;
-
-		// Dimensions of each tile
-		int tileWidth = 32;
-		int tileHeight = 32;
-
-		// Dimensions of the tile map (how many tiles in width and height)
-		int mapWidth = SCREEN_WIDTH / tileWidth;
-		int mapHeight = SCREEN_HEIGHT / tileHeight;
-
-		std::vector<int> tiles(mapWidth * mapHeight, 0);
-		sceneEntities["TileBackground"] = CreateTileBackgroundEntity(tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles);
-
-#pragma region Ball
-		sceneEntities["Ball"] = Game::coordinator.CreateEntity();
-		Game::coordinator.AddComponent(
-			sceneEntities["Ball"],
-			PositionComponent{
-				SCREEN_WIDTH / 2, // X
-				SCREEN_HEIGHT / 2 // Y
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["Ball"],
-			VelocityComponent{
-				BALL_SPEED, // X
-				BALL_SPEED	// Y
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["Ball"],
-			SpriteComponent{
-				texture, // Texture
-				{
-				// Source rectangle
-				42,		   // X
-				5,		   // Y
-				BALL_SIZE, // W
-				BALL_SIZE  // H
-			},
-			{
-				// Destination rectangle
-				SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
-				SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
-				BALL_SIZE,						   // W
-				BALL_SIZE						   // H
-			},
-			SDL_FLIP_NONE // Flip
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["Ball"],
-			CollisionComponent{
-				{
-					// Collider rectangle
-					0,		   // X
-					0,		   // Y
-					BALL_SIZE, // W
-					BALL_SIZE  // H
-				} });
-#pragma endregion
-
-#pragma region PlayerLeft
-		sceneEntities["PlayerLeft"] = Game::coordinator.CreateEntity();
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerLeft"],
-			PositionComponent{
-				PADDLE_OFFSET,	  // X
-				SCREEN_HEIGHT / 2 // Y
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerLeft"],
-			VelocityComponent{
-				0,			 // X
-				PADDLE_SPEED // Y
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerLeft"],
-			SpriteComponent{
-				texture,	   // Texture
-				srcRectPaddle, // Source rectangle
-				{
-				// Destination rectangle
-				PADDLE_OFFSET,						   // X
-				SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
-				PADDLE_WIDTH,						   // W
-				PADDLE_HEIGHT						   // H
-			},
-			SDL_FLIP_NONE // Flip
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerLeft"],
-			CollisionComponent{
-				{
-					// Collider rectangle
-					0,			  // X
-					0,			  // Y
-					PADDLE_WIDTH, // W
-					PADDLE_HEIGHT // H
-				} });
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerLeft"],
-			InputComponent{
-				{{"up", SDL_SCANCODE_W}, {"down", SDL_SCANCODE_S}}, // Key mappings
-				{{SDL_SCANCODE_W, false}, {SDL_SCANCODE_S, false}}	// Key states
-			});
-#pragma endregion
-
-#pragma region PlayerRight
-		sceneEntities["PlayerRight"] = Game::coordinator.CreateEntity();
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerRight"],
-			PositionComponent{
-				SCREEN_WIDTH - PADDLE_OFFSET, // X
-				SCREEN_HEIGHT / 2			  // Y
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerRight"],
-			VelocityComponent{
-				0,			 // X
-				PADDLE_SPEED // Y
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerRight"],
-			SpriteComponent{
-				texture,	   // Texture
-				srcRectPaddle, // Source rectangle
-				{
-				// Destination rectangle
-				SCREEN_WIDTH - PADDLE_OFFSET,		   // X
-				SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2, // Y
-				PADDLE_WIDTH,						   // W
-				PADDLE_HEIGHT						   // H
-			},
-			SDL_FLIP_HORIZONTAL // Flip
-			});
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerRight"],
-			CollisionComponent{
-				{
-					// Collider rectangle
-					0,			  // X
-					0,			  // Y
-					PADDLE_WIDTH, // W
-					PADDLE_HEIGHT // H
-				} });
-		Game::coordinator.AddComponent(
-			sceneEntities["PlayerRight"],
-			InputComponent{
-				{{"up", SDL_SCANCODE_UP}, {"down", SDL_SCANCODE_DOWN}}, // Key mappings
-				{{SDL_SCANCODE_UP, false}, {SDL_SCANCODE_DOWN, false}}	// Key states
-			});
-#pragma endregion
+		sceneEntities["TileBackground"] = CreateTileBackgroundEntity();
+		sceneEntities["Ball"] = CreateBallEntity();
+		sceneEntities["PlayerLeft"] = CreatePaddleEntity(PlayerSide::PLAYER_LEFT);
+		sceneEntities["PlayerRight"] = CreatePaddleEntity(PlayerSide::PLAYER_RIGHT);
 	};
 
 	void Update(float deltaTime) override

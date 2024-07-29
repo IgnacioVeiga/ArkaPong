@@ -5,18 +5,6 @@
 #include "../../Component/Background/TileBackgroundComponent.h"
 #include "../../Component/PositionComponent.h"
 
-/*
-	Example of how to use:
-	SDL_Texture* tileTexture = TextureManager::LoadTexture("path/to/tile_texture.png");
-	int tileTextureWidth = 160; // Mosaic texture width
-	int tileTextureHeight = 32; // Mosaic texture height
-	int tileWidth = 32;
-	int tileHeight = 32;
-	int mapWidth = 5;  // Mosaic background map width
-	int mapHeight = 5; // Height of the background map in mosaics
-    std::vector<int> tiles(vector size, value to be used for all elements.);
-	Entity tileBackground = CreateTileBackgroundEntity(tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles);
-*/
 class TileBackgroundSystem : public System {
 public:
 	void Init() {
