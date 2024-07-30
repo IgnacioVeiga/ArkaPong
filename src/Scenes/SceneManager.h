@@ -20,6 +20,7 @@ public:
         {
             currentScene->Init();
         }
+        // TODO: cleanup the previous scene
     }
 
     void Update(float deltaTime)

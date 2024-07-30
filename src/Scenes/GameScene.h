@@ -14,6 +14,7 @@
 #include "../ECS/Entity/BackgroundEntity.h"
 #include "../ECS/Entity/BallEntity.h"
 #include "../ECS/Entity/PaddleEntity.h"
+#include "../ECS/Entity/TextEntity.h"
 
 class GameScene : public Scene
 {
@@ -24,6 +25,31 @@ public:
 		sceneEntities["Ball"] = CreateBallEntity();
 		sceneEntities["PlayerLeft"] = CreatePaddleEntity(PlayerSide::PLAYER_LEFT);
 		sceneEntities["PlayerRight"] = CreatePaddleEntity(PlayerSide::PLAYER_RIGHT);
+		sceneEntities["PL_Score"] = CreateTextEntity(
+			"P1: 0",
+			C_WHITE,
+			"assets/fonts/PressStart2P-vaV7.ttf",
+			16,
+			16,
+			16);
+
+		sceneEntities["PR_Score"] = CreateTextEntity(
+			"P2: 0",
+			C_WHITE,
+			"assets/fonts/PressStart2P-vaV7.ttf",
+			16,
+			SCREEN_WIDTH - 16,
+			16,
+			TextAlignment::RIGHT);
+
+		sceneEntities["DemoText"] = CreateTextEntity(
+			"Demo text",
+			C_GREEN,
+			"assets/fonts/PressStart2P-vaV7.ttf",
+			8,
+			SCREEN_WIDTH / 2,
+			SCREEN_HEIGHT - 16,
+			TextAlignment::CENTER);
 	};
 
 	void Update(float deltaTime) override
