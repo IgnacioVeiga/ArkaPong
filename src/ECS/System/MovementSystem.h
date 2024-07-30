@@ -22,6 +22,11 @@ public:
         {
             auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
             auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(entity);
+            
+            if (!Game::coordinator.HasComponent<VelocityComponent>(entity))
+            {
+                continue;
+            }
 
             if (Game::coordinator.HasComponent<InputComponent>(entity))
             {

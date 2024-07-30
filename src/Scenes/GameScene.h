@@ -4,18 +4,20 @@
 #include "Scene.h"
 #include "../Game.h"
 #include "../ECS/Coordinator.h"
-#include "../ECS/System/InputSystem.h"
-#include "../ECS/System/MovementSystem.h"
-#include "../ECS/System/SpriteSystem.h"
-#include "../ECS/System/AudioSystem.h"
-#include "../ECS/System/CollisionSystem.h"
-#include "../ECS/System/TextSystem.h"
-#include "../ECS/System/Background/TileBackgroundSystem.h"
 #include "../ECS/Entity/BackgroundEntity.h"
 #include "../ECS/Entity/BallEntity.h"
 #include "../ECS/Entity/PaddleEntity.h"
 #include "../ECS/Entity/TextEntity.h"
 #include "../ECS/Entity/AudioEntity.h"
+#include "../ECS/Entity/AnimatedEntity.h"
+#include "../ECS/System/InputSystem.h"
+#include "../ECS/System/MovementSystem.h"
+#include "../ECS/System/SpriteSystem.h"
+#include "../ECS/System/AnimationSystem.h"
+#include "../ECS/System/AudioSystem.h"
+#include "../ECS/System/CollisionSystem.h"
+#include "../ECS/System/TextSystem.h"
+#include "../ECS/System/Background/TileBackgroundSystem.h"
 
 class GameScene : public Scene
 {
@@ -52,6 +54,15 @@ public:
 			SCREEN_HEIGHT - 16,
 			TextAlignment::CENTER);
 		sceneEntities["BGM"] = CreateBGMEntity("assets/audio/bgm/round_start.wav");
+		sceneEntities["Enemy"] = CreateAnimatedEntity(
+			"assets/sprites/enemies.bmp",
+			8,
+			16,
+			16,
+			100,
+			true,
+			(SCREEN_WIDTH / 2) - 8,
+			16);
 	};
 
 	void Update(float deltaTime) override
@@ -63,5 +74,6 @@ public:
 		Game::coordinator.GetSystem<AudioSystem>()->Update();
 		Game::coordinator.GetSystem<TextSystem>()->Update();
 		Game::coordinator.GetSystem<CollisionSystem>()->Update(deltaTime);
+		Game::coordinator.GetSystem<AnimationSystem>()->Update();
 	};
 };
