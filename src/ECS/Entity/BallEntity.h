@@ -20,8 +20,8 @@ Entity CreateBallEntity()
 	Game::coordinator.AddComponent(
 		entity,
 		PositionComponent{
-			SCREEN_WIDTH / 2, // X
-			SCREEN_HEIGHT / 2 // Y
+			SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
+			SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
 		});
 	Game::coordinator.AddComponent(
 		entity,
@@ -42,10 +42,10 @@ Entity CreateBallEntity()
 		},
 		{
 			// Destination rectangle
-			SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
-			SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
-			BALL_SIZE,						   // W
-			BALL_SIZE						   // H
+			0,			// X
+			0,			// Y
+			BALL_SIZE,	// W
+			BALL_SIZE	// H
 		},
 		SDL_FLIP_NONE // Flip
 		});

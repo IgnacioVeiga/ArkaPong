@@ -27,7 +27,7 @@ Entity CreatePaddleEntity(PlayerSide side)
 		PADDLE_HEIGHT // H
 	};
 
-	float x_position = (side == PlayerSide::PLAYER_LEFT) ? PADDLE_OFFSET : SCREEN_WIDTH - PADDLE_OFFSET;
+	float x_position = (side == PlayerSide::PLAYER_LEFT) ? PADDLE_OFFSET : (SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH);
 	SDL_RendererFlip flip = (side == PlayerSide::PLAYER_LEFT) ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 	SDL_Keycode upKeyCode = (side == PlayerSide::PLAYER_LEFT) ? SDL_SCANCODE_W : SDL_SCANCODE_UP;
 	SDL_Keycode downKeyCode = (side == PlayerSide::PLAYER_LEFT) ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN;
@@ -36,8 +36,8 @@ Entity CreatePaddleEntity(PlayerSide side)
 	Game::coordinator.AddComponent(
 		entity,
 		PositionComponent{
-			x_position,			// X
-			SCREEN_HEIGHT / 2	// Y
+			x_position,								// X
+			SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2	// Y
 		});
 	Game::coordinator.AddComponent(
 		entity,
