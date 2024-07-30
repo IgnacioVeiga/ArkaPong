@@ -15,6 +15,7 @@
 #include "../ECS/Entity/BallEntity.h"
 #include "../ECS/Entity/PaddleEntity.h"
 #include "../ECS/Entity/TextEntity.h"
+#include "../ECS/Entity/AudioEntity.h"
 
 class GameScene : public Scene
 {
@@ -50,6 +51,7 @@ public:
 			SCREEN_WIDTH / 2,
 			SCREEN_HEIGHT - 16,
 			TextAlignment::CENTER);
+		sceneEntities["BGM"] = CreateBGMEntity("assets/audio/bgm/round_start.wav");
 	};
 
 	void Update(float deltaTime) override
