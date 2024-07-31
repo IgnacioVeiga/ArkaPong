@@ -9,9 +9,10 @@
 #include "../Component/Background/ImageBackgroundComponent.h"
 #include "../Component/Background/ParallaxBackgroundComponent.h"
 
-Entity CreateTileBackgroundEntity() {
+Entity CreateTileBackgroundEntity()
+{
 	// Load the tile texture
-	SDL_Texture* tileTexture = TextureManager::LoadTexture("assets/sprites/backgrounds.bmp");
+	SDL_Texture *tileTexture = TextureManager::LoadTexture(BGS_SPRITE_FILEPATH);
 
 	// Tile texture dimensions
 	int tileTextureWidth = 160;
@@ -28,24 +29,27 @@ Entity CreateTileBackgroundEntity() {
 	std::vector<int> tiles(mapWidth * mapHeight, 0);
 
 	Entity entity = Game::coordinator.CreateEntity();
-	Game::coordinator.AddComponent(entity, TileBackgroundComponent{ tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles });
+	Game::coordinator.AddComponent(entity, TileBackgroundComponent{tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles});
 	return entity;
 }
 
-Entity CreateSolidColorBackgroundEntity(SDL_Color color) {
+Entity CreateSolidColorBackgroundEntity(SDL_Color color)
+{
 	Entity entity = Game::coordinator.CreateEntity();
-	Game::coordinator.AddComponent(entity, SolidColorBackgroundComponent{ color });
+	Game::coordinator.AddComponent(entity, SolidColorBackgroundComponent{color});
 	return entity;
 }
 
-Entity CreateImageBackgroundEntity(SDL_Texture* imageTexture, int width, int height) {
+Entity CreateImageBackgroundEntity(SDL_Texture *imageTexture, int width, int height)
+{
 	Entity entity = Game::coordinator.CreateEntity();
-	Game::coordinator.AddComponent(entity, ImageBackgroundComponent{ imageTexture, width, height });
+	Game::coordinator.AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height});
 	return entity;
 }
 
-Entity CreateParallaxBackgroundEntity(std::vector<ParallaxLayer> layers) {
+Entity CreateParallaxBackgroundEntity(std::vector<ParallaxLayer> layers)
+{
 	Entity entity = Game::coordinator.CreateEntity();
-	Game::coordinator.AddComponent(entity, ParallaxBackgroundComponent{ layers });
+	Game::coordinator.AddComponent(entity, ParallaxBackgroundComponent{layers});
 	return entity;
 }

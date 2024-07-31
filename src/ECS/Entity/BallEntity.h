@@ -13,7 +13,7 @@
 
 Entity CreateBallEntity()
 {
-	SDL_Texture* texture = TextureManager::LoadTexture("assets/sprites/vaus.bmp");
+	SDL_Texture* texture = TextureManager::LoadTexture(VAUS_SPRITE_FILEPATH);
 
 	Entity entity = Game::coordinator.CreateEntity();
 

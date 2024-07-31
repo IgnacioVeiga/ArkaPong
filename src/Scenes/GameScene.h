@@ -33,7 +33,7 @@ public:
 		sceneEntities["PL_Score"] = CreateTextEntity(
 			"P1: 0",
 			C_WHITE,
-			"assets/fonts/PressStart2P-vaV7.ttf",
+			RETRO_FONT_FILEPATH,
 			16,
 			16,
 			16);
@@ -41,7 +41,7 @@ public:
 		sceneEntities["PR_Score"] = CreateTextEntity(
 			"P2: 0",
 			C_WHITE,
-			"assets/fonts/PressStart2P-vaV7.ttf",
+			RETRO_FONT_FILEPATH,
 			16,
 			SCREEN_WIDTH - 16,
 			16,
@@ -50,14 +50,14 @@ public:
 		sceneEntities["DemoText"] = CreateTextEntity(
 			"Demo text",
 			C_GREEN,
-			"assets/fonts/PressStart2P-vaV7.ttf",
+			RETRO_FONT_FILEPATH,
 			8,
 			SCREEN_WIDTH / 2,
 			SCREEN_HEIGHT - 16,
 			TextAlignment::CENTER);
-		sceneEntities["BGM"] = CreateBGMEntity("assets/audio/bgm/round_start.wav");
+		sceneEntities["BGM"] = CreateBGMEntity(ROUND_START_BGM_FILEPATH);
 		sceneEntities["Enemy"] = CreateAnimatedEntity(
-			"assets/sprites/enemies.bmp",
+			ENEMIES_SPRITE_FILEPATH,
 			8,
 			16,
 			16,

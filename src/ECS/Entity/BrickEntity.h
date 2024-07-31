@@ -11,14 +11,14 @@
 
 Entity CreateBrickEntity(float posX, float posY, int srcRectX = 0, int srcRectY = 0)
 {
-	SDL_Texture *texture = TextureManager::LoadTexture("assets/sprites/bricks.bmp");
+	SDL_Texture *texture = TextureManager::LoadTexture(BRICKS_SPRITE_FILEPATH);
 
 	Entity entity = Game::coordinator.CreateEntity();
 
 	Game::coordinator.AddComponent(
 		entity,
 		PositionComponent{
-			posX,	 // X
+			posX, // X
 			posY, // Y
 		});
 	Game::coordinator.AddComponent(
