@@ -6,6 +6,7 @@
 #include "../Coordinator.h"
 #include "../Component/CollisionComponent.h"
 #include "../Component/PositionComponent.h"
+#include "../Component/VelocityComponent.h"
 
 class CollisionSystem : public System
 {
@@ -14,6 +15,8 @@ public:
 	{
 		Signature signature;
 		signature.set(Game::coordinator.GetComponentType<CollisionComponent>());
+		signature.set(Game::coordinator.GetComponentType<PositionComponent>());
+		signature.set(Game::coordinator.GetComponentType<VelocityComponent>());
 		Game::coordinator.SetSystemSignature<CollisionSystem>(signature);
 	}
 

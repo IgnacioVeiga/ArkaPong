@@ -10,6 +10,7 @@
 #include "../ECS/Entity/TextEntity.h"
 #include "../ECS/Entity/AudioEntity.h"
 #include "../ECS/Entity/AnimatedEntity.h"
+#include "../ECS/Entity/BrickEntity.h"
 #include "../ECS/System/InputSystem.h"
 #include "../ECS/System/MovementSystem.h"
 #include "../ECS/System/SpriteSystem.h"
@@ -64,6 +65,18 @@ public:
 			true,
 			(SCREEN_WIDTH / 2) - 8,
 			16);
+		sceneEntities["BrickRed"] = CreateBrickEntity(
+			SCREEN_WIDTH / 2 - BRICK_WIDTH,	  // X
+			SCREEN_HEIGHT / 2 - BRICK_HEIGHT, // Y
+			0,								  // 0 = Normal, 9 = Iron, 18 = Gold
+			64								  // 0 = White, 64 = Red
+		);
+		sceneEntities["BrickIron"] = CreateBrickEntity(
+			SCREEN_WIDTH / 2 + BRICK_WIDTH,	  // X
+			SCREEN_HEIGHT / 2 + BRICK_HEIGHT, // Y
+			0,								  // 0 = Normal, 9 = Iron, 18 = Gold
+			32								  // 0 = White, ..., 64 = Red, ...
+		);
 	};
 
 	void Update(float deltaTime) override

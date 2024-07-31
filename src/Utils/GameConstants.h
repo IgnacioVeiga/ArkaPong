@@ -16,6 +16,9 @@ inline const int PADDLE_OFFSET = 32;
 inline const int PADDLE_WIDTH = 8;
 inline const int PADDLE_HEIGHT = 32;
 
+inline const int BRICK_WIDTH = 8;
+inline const int BRICK_HEIGHT = 16;
+
 inline const int CELL_GRID_SIZE = 64;
 
 inline const SDL_Color C_WHITE = {255, 255, 255, 255};
