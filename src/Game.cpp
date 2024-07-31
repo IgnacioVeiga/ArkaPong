@@ -76,6 +76,7 @@ void Game::Init_ECS()
     coordinator.RegisterComponent<CollisionComponent>();
     coordinator.RegisterComponent<TileBackgroundComponent>();
     coordinator.RegisterComponent<AnimationComponent>();
+    coordinator.RegisterComponent<MovementScriptComponent>();
 
     coordinator.RegisterSystem<InputSystem>()->Init();
     coordinator.RegisterSystem<MovementSystem>()->Init();
@@ -85,6 +86,7 @@ void Game::Init_ECS()
     coordinator.RegisterSystem<CollisionSystem>()->Init();
     coordinator.RegisterSystem<TileBackgroundSystem>()->Init();
     coordinator.RegisterSystem<AnimationSystem>()->Init();
+    coordinator.RegisterSystem<MovementScriptSystem>()->Init();
 }
 
 void Game::Run()

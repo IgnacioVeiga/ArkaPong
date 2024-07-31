@@ -13,6 +13,7 @@ public:
     {
         Signature signature;
         signature.set(Game::coordinator.GetComponentType<PositionComponent>());
+        signature.set(Game::coordinator.GetComponentType<VelocityComponent>());
         Game::coordinator.SetSystemSignature<MovementSystem>(signature);
     }
 
@@ -22,11 +23,6 @@ public:
         {
             auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
             auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(entity);
-            
-            if (!Game::coordinator.HasComponent<VelocityComponent>(entity))
-            {
-                continue;
-            }
 
             if (Game::coordinator.HasComponent<InputComponent>(entity))
             {
