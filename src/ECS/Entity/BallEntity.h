@@ -15,6 +15,13 @@ Entity CreateBallEntity()
 {
 	SDL_Texture* texture = TextureManager::LoadTexture(VAUS_SPRITE_FILEPATH);
 
+	// Find another way to get a random velocity direction
+	float velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
+	// velY is not always the same
+	int factor = rand() % BALL_SPEED + 1;
+	// Up or down (random)
+	float velY = (rand() % 2 == 0 ? -factor : factor);
+
 	Entity entity = Game::coordinator.CreateEntity();
 
 	Game::coordinator.AddComponent(
@@ -26,8 +33,8 @@ Entity CreateBallEntity()
 	Game::coordinator.AddComponent(
 		entity,
 		VelocityComponent{
-			BALL_SPEED, // X
-			BALL_SPEED	// Y
+			velX,	// X
+			velY	// Y
 		});
 	Game::coordinator.AddComponent(
 		entity,
