@@ -7,7 +7,7 @@
 #include "../../Utils/Events.h"
 #include "../Component/AnimationComponent.h"
 #include "../Component/SpriteComponent.h"
-#include "../Component/MovementScriptComponent.h"
+#include "../Component/PathComponent.h"
 
 Entity CreateAnimatedEntity(const std::string& texturePath, int frameCount, int frameWidth, int frameHeight, int animationSpeed, bool loop, float posX, float posY)
 {
@@ -41,7 +41,7 @@ Entity CreateAnimatedEntity(const std::string& texturePath, int frameCount, int 
 			true            // isPlaying
 		});
 
-	std::shared_ptr<BaseMovementScript> movementScript = std::make_shared<CircularMovementScript>(
+	std::shared_ptr<BasePath> movementScript = std::make_shared<CircularPath>(
 		(SCREEN_WIDTH / 2) - 8,		// Center X
 		(SCREEN_HEIGHT / 2) - 8,	// Center Y
 		64.0f,						// Radius
@@ -50,11 +50,11 @@ Entity CreateAnimatedEntity(const std::string& texturePath, int frameCount, int 
 
 	//std::shared_ptr<BaseMovementScript> movementScript = std::make_shared<LinearMovementScript>(50.0f, 0.0f);
 
-	std::vector<MovementEvent> events = {
+	std::vector<PathEvent> events = {
 		/*{posX + 100, posY, TriggerAction}*/
 	};
 
-	Game::coordinator.AddComponent(entity, MovementScriptComponent{ movementScript, events });
+	Game::coordinator.AddComponent(entity, PathComponent{ movementScript, events });
 
 	return entity;
 }

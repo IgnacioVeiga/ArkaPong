@@ -88,14 +88,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Component\AnimationComponent.h" />
-    <ClInclude Include="src\ECS\Component\MovementScriptComponent.h" />
+    <ClInclude Include="src\ECS\Component\PathComponent.h" />
     <ClInclude Include="src\ECS\Entity\AnimatedEntity.h" />
     <ClInclude Include="src\ECS\Entity\AudioEntity.h" />
     <ClInclude Include="src\ECS\Entity\BallEntity.h" />
     <ClInclude Include="src\ECS\Entity\PaddleEntity.h" />
     <ClInclude Include="src\ECS\Entity\TextEntity.h" />
     <ClInclude Include="src\ECS\System\AnimationSystem.h" />
-    <ClInclude Include="src\ECS\System\MovementScriptSystem.h" />
+    <ClInclude Include="src\ECS\System\PathSystem.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
     <ClInclude Include="src\Utils\AudioManager.h" />

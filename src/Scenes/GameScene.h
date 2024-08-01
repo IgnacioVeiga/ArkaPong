@@ -18,7 +18,7 @@
 #include "../ECS/System/AudioSystem.h"
 #include "../ECS/System/CollisionSystem.h"
 #include "../ECS/System/TextSystem.h"
-#include "../ECS/System/MovementScriptSystem.h"
+#include "../ECS/System/PathSystem.h"
 #include "../ECS/System/Background/TileBackgroundSystem.h"
 
 class GameScene : public Scene
@@ -89,6 +89,6 @@ public:
 		Game::coordinator.GetSystem<TextSystem>()->Update();
 		Game::coordinator.GetSystem<CollisionSystem>()->Update(deltaTime);
 		Game::coordinator.GetSystem<AnimationSystem>()->Update();
-		Game::coordinator.GetSystem<MovementScriptSystem>()->Update();
+		Game::coordinator.GetSystem<PathSystem>()->Update();
 	};
 };

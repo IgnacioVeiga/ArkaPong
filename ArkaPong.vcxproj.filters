@@ -153,10 +153,10 @@
     <ClInclude Include="src\Utils\FontManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Component\MovementScriptComponent.h">
+    <ClInclude Include="src\ECS\Component\PathComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\System\MovementScriptSystem.h">
+    <ClInclude Include="src\ECS\System\PathSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils\Events.h">
