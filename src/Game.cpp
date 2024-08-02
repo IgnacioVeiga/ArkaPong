@@ -75,6 +75,7 @@ void Game::Init_ECS()
     coordinator.RegisterComponent<TextComponent>();
     coordinator.RegisterComponent<CollisionComponent>();
     coordinator.RegisterComponent<TileBackgroundComponent>();
+    coordinator.RegisterComponent<SolidColorBackgroundComponent>();
     coordinator.RegisterComponent<AnimationComponent>();
     coordinator.RegisterComponent<PathComponent>();
 
@@ -85,6 +86,7 @@ void Game::Init_ECS()
     coordinator.RegisterSystem<TextSystem>()->Init();
     coordinator.RegisterSystem<CollisionSystem>()->Init();
     coordinator.RegisterSystem<TileBackgroundSystem>()->Init();
+    coordinator.RegisterSystem<SolidColorBackgroundSystem>()->Init();
     coordinator.RegisterSystem<AnimationSystem>()->Init();
     coordinator.RegisterSystem<PathSystem>()->Init();
 }
@@ -94,7 +96,7 @@ void Game::Run()
     sceneManager = new SceneManager();
     sceneManager->Add("MainMenu", std::make_unique<MainMenuScene>());
     sceneManager->Add("Game", std::make_unique<GameScene>());
-    sceneManager->Init("Game");
+    sceneManager->Init("MainMenu");
 
     const int FPS = 60;
     // target time per frame in milliseconds
