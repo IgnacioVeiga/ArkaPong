@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-enum class CollisionSide
+enum class Side
 {
     NONE,
     RIGHT,
@@ -14,5 +14,5 @@ enum class CollisionSide
 struct CollisionComponent
 {
     SDL_Rect collider;
-    CollisionSide collisionSide = CollisionSide::NONE;
+    Side collisionSide = Side::NONE;
 };

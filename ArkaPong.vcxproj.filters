@@ -42,7 +42,7 @@
     <ClInclude Include="src\ECS\Component\CollisionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Component\ComponentManager.h">
+    <ClInclude Include="src\ECS\ComponentManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\Component\PositionComponent.h">
@@ -60,7 +60,7 @@
     <ClInclude Include="src\ECS\Entity\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Entity\EntityManager.h">
+    <ClInclude Include="src\ECS\EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\System\AudioSystem.h">
@@ -78,7 +78,7 @@
     <ClInclude Include="src\ECS\System\System.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\System\SystemManager.h">
+    <ClInclude Include="src\ECS\SystemManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\System\TextSystem.h">
@@ -160,6 +160,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils\Events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECS\Entity\BrickEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

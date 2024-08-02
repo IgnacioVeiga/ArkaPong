@@ -101,13 +101,13 @@ private:
 		{
 			// Horizontal collision
 			velA.x = -velA.x;
-			colA.collisionSide = fromLeft ? CollisionSide::LEFT : CollisionSide::RIGHT;
+			colA.collisionSide = fromLeft ? Side::LEFT : Side::RIGHT;
 		}
 		else if (fabs(minOverlapX) < fabs(minOverlapY))
 		{
 			// Vertical collision
 			velA.y = -velA.y;
-			colA.collisionSide = fromTop ? CollisionSide::TOP : CollisionSide::BOTTOM;
+			colA.collisionSide = fromTop ? Side::TOP : Side::BOTTOM;
 		}
 	}
 

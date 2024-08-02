@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Component/ComponentManager.h"
-#include "Entity/EntityManager.h"
-#include "System/SystemManager.h"
+#include "ComponentManager.h"
+#include "EntityManager.h"
+#include "SystemManager.h"
 
 class Coordinator
 {

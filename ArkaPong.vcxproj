@@ -92,6 +92,7 @@
     <ClInclude Include="src\ECS\Entity\AnimatedEntity.h" />
     <ClInclude Include="src\ECS\Entity\AudioEntity.h" />
     <ClInclude Include="src\ECS\Entity\BallEntity.h" />
+    <ClInclude Include="src\ECS\Entity\BrickEntity.h" />
     <ClInclude Include="src\ECS\Entity\PaddleEntity.h" />
     <ClInclude Include="src\ECS\Entity\TextEntity.h" />
     <ClInclude Include="src\ECS\System\AnimationSystem.h" />
@@ -114,14 +115,14 @@
     <ClInclude Include="src\ECS\Component\Background\TileBackgroundComponent.h" />
     <ClInclude Include="src\ECS\Component\AudioComponent.h" />
     <ClInclude Include="src\ECS\Component\CollisionComponent.h" />
-    <ClInclude Include="src\ECS\Component\ComponentManager.h" />
+    <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Component\InputComponent.h" />
     <ClInclude Include="src\ECS\Component\PositionComponent.h" />
     <ClInclude Include="src\ECS\Component\SpriteComponent.h" />
     <ClInclude Include="src\ECS\Component\TextComponent.h" />
     <ClInclude Include="src\ECS\Component\VelocityComponent.h" />
     <ClInclude Include="src\ECS\Entity\Entity.h" />
-    <ClInclude Include="src\ECS\Entity\EntityManager.h" />
+    <ClInclude Include="src\ECS\EntityManager.h" />
     <ClInclude Include="src\ECS\Entity\BackgroundEntity.h" />
     <ClInclude Include="src\ECS\System\Background\ParallaxBackgroundSystem.h" />
     <ClInclude Include="src\ECS\System\Background\ImageBackgroundSystem.h" />
@@ -133,7 +134,7 @@
     <ClInclude Include="src\ECS\System\MovementSystem.h" />
     <ClInclude Include="src\ECS\System\SpriteSystem.h" />
     <ClInclude Include="src\ECS\System\System.h" />
-    <ClInclude Include="src\ECS\System\SystemManager.h" />
+    <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\ECS\System\TextSystem.h" />
     <ClInclude Include="src\Utils\TextureManager.h" />
   </ItemGroup>
