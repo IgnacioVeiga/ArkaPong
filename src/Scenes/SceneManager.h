@@ -20,18 +20,76 @@ public:
         {
             currentScene->Init();
         }
-        // TODO: cleanup the previous scene
     }
 
     void Update(float deltaTime)
     {
-        if (currentScene)
+        if (currentScene && !isPaused)
         {
             currentScene->Update(deltaTime);
         }
     }
 
+    void ChangeScene(const std::string &name)
+    {
+        if (currentScene)
+        {
+            currentScene->Cleanup();
+        }
+
+        if (scenes.find(name) != scenes.end())
+        {
+            currentScene = scenes[name].get();
+            if (currentScene)
+            {
+                currentScene->Init();
+            }
+        }
+    }
+
+    void RemoveScene(const std::string &name)
+    {
+        if (scenes.find(name) != scenes.end())
+        {
+            scenes.erase(name);
+        }
+    }
+
+    void PauseScene()
+    {
+        isPaused = true;
+    }
+
+    void ResumeScene()
+    {
+        isPaused = false;
+    }
+
+    Scene *GetCurrentScene() const
+    {
+        return currentScene;
+    }
+
+    bool SaveScene(const std::string &name, const std::string &filepath)
+    {
+        if (scenes.find(name) != scenes.end())
+        {
+            return scenes[name]->SaveState(filepath);
+        }
+        return false;
+    }
+
+    bool LoadScene(const std::string &name, const std::string &filepath)
+    {
+        if (scenes.find(name) != scenes.end())
+        {
+            return scenes[name]->LoadState(filepath);
+        }
+        return false;
+    }
+
 private:
     std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;
     Scene *currentScene = nullptr;
+    bool isPaused = false;
 };

@@ -90,5 +90,44 @@ public:
 		Game::coordinator.GetSystem<CollisionSystem>()->Update(deltaTime);
 		Game::coordinator.GetSystem<AnimationSystem>()->Update();
 		Game::coordinator.GetSystem<PathSystem>()->Update();
+		
+		// TODO: use the input system
+		const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
+		if (keyStates[SDL_SCANCODE_BACKSPACE])
+		{
+			Game::sceneManager->ChangeScene("MainMenu");
+		}
 	};
+
+	void Cleanup() override
+	{
+		// Clean up entities and other resources
+		for (const auto &entityPair : sceneEntities)
+		{
+			Game::coordinator.DestroyEntity(entityPair.second);
+		}
+		sceneEntities.clear();
+	}
+
+	void Pause() override
+	{
+		// Pause logic
+	}
+
+	void Resume() override
+	{
+		// Resume logic
+	}
+
+	bool SaveState(const std::string &filepath) override
+	{
+		// Serialize the scene state to a file
+		return true;
+	}
+
+	bool LoadState(const std::string &filepath) override
+	{
+		// Deserialize the scene state from a file
+		return true;
+	}
 };
