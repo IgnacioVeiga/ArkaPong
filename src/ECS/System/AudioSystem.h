@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Game.h"
+#include "../../Game.h"
 #include "../Coordinator.h"
 #include "../Component/AudioComponent.h"
-#include "../Utils/AudioManager.h"
+#include "../../Utils/AudioManager.h"
 
 class AudioSystem : public System
 {

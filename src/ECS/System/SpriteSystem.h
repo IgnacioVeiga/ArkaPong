@@ -43,7 +43,7 @@ public:
         }
 
         // DEBUG, remove later
-        // DrawGrid(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
+        DrawGrid(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
     }
 
     void DrawGrid(SDL_Renderer *renderer, int gridWidth, int gridHeight, int cellSize)

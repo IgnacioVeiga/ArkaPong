@@ -5,6 +5,7 @@
 #include "../Component/VelocityComponent.h"
 #include "../Component/InputComponent.h"
 #include "../../Utils/GameConstants.h"
+#include "../../Utils/Events.h"
 
 class MovementSystem : public System
 {
@@ -38,32 +39,15 @@ public:
 					/*positionComponent.y += velocityComponent.y * deltaTime;*/
 					positionComponent.y = std::min(static_cast<int>(SCREEN_HEIGHT - PADDLE_HEIGHT), static_cast<int>(positionComponent.y + velocityComponent.y * deltaTime));
 				}
-			}
-			else
-			{
-				// Ball movement
-				positionComponent.x += velocityComponent.x * deltaTime;
-				positionComponent.y += velocityComponent.y * deltaTime;
 
-				// DEBUG: center ball
-				if (positionComponent.x > SCREEN_WIDTH || positionComponent.x < 0)
-				{
-					positionComponent.x = SCREEN_WIDTH / 2;
-					positionComponent.y = SCREEN_HEIGHT / 2;
-
-					// TODO: repeated code (BallEntity.h)
-					velocityComponent.x = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
-					// vel Y is not always the same
-					int factor = rand() % BALL_SPEED + 1;
-					// Up or down (random)
-					velocityComponent.y = (rand() % 2 == 0 ? -factor : factor);
-				}
-				if (positionComponent.y > SCREEN_HEIGHT || positionComponent.y < 0)
-				{
-					velocityComponent.y = -velocityComponent.y;
-				}
-				
+				continue;
 			}
+
+			// No-gravity movement
+			positionComponent.x += velocityComponent.x * deltaTime;
+			positionComponent.y += velocityComponent.y * deltaTime;
+
+			CheckOutOfBounds(entity);
 		}
 	}
 };

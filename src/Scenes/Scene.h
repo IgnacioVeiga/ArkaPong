@@ -9,7 +9,7 @@ public:
     virtual ~Scene() = default;
     virtual void Init() = 0;
     virtual void Update(float deltaTime) = 0;
-    virtual void Cleanup() = 0; // New method to clean up the scene
+    virtual void Cleanup() = 0;
     virtual void Pause() = 0;
     virtual void Resume() = 0;
     virtual bool SaveState(const std::string &filepath) = 0;

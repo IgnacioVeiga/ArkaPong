@@ -39,8 +39,8 @@ public:
 		int rows, cols;
 		iss >> rows >> cols;
 
-		float startX = (SCREEN_WIDTH / 2) - (cols * BRICK_WIDTH); // Starting X position
-		float startY = PADDLE_OFFSET;							  // Starting Y position
+		float startX = (SCREEN_WIDTH / 2) - (cols / 2 * BRICK_WIDTH);
+		float startY = PADDLE_OFFSET;
 		int row = 0;
 
 		while (std::getline(infile, line) && row < rows)
@@ -56,8 +56,8 @@ public:
 				sceneEntities["BrickR" + std::to_string(row) + "C" + std::to_string(col)] = CreateBrickEntity(
 					startX + col * BRICK_WIDTH,	 // X
 					startY + row * BRICK_HEIGHT, // Y
-					0,							 // Block type
-					blockType					 // Color (or any other parameter you want to set)
+					blockType,
+					0
 				);
 				// }
 				++col;
@@ -94,15 +94,15 @@ public:
 			SCREEN_HEIGHT - 16,
 			TextAlignment::CENTER);
 		sceneEntities["BGM"] = CreateBGMEntity(ROUND_START_BGM_FILEPATH);
-		// sceneEntities["Enemy"] = CreateAnimatedEntity(
-		// 	ENEMIES_SPRITE_FILEPATH,
-		// 	8,
-		// 	16,
-		// 	16,
-		// 	100,
-		// 	true,
-		// 	(SCREEN_WIDTH / 2) - 8,
-		// 	16);
+		 sceneEntities["Enemy"] = CreateAnimatedEntity(
+		 	ENEMIES_SPRITE_FILEPATH,
+		 	8,
+		 	16,
+		 	16,
+		 	100,
+		 	true,
+		 	(SCREEN_WIDTH / 2) - 8,
+		 	16);
 	};
 
 	void Update(float deltaTime) override
@@ -118,7 +118,7 @@ public:
 		Game::coordinator.GetSystem<PathSystem>()->Update();
 
 		// TODO: use the input system
-		const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
+		const Uint8* keyStates = SDL_GetKeyboardState(NULL);
 		if (keyStates[SDL_SCANCODE_BACKSPACE])
 		{
 			Game::sceneManager->ChangeScene("MainMenu");
@@ -128,7 +128,7 @@ public:
 	void Cleanup() override
 	{
 		// Clean up entities and other resources
-		for (const auto &entityPair : sceneEntities)
+		for (const auto& entityPair : sceneEntities)
 		{
 			Game::coordinator.DestroyEntity(entityPair.second);
 		}
@@ -145,13 +145,13 @@ public:
 		// Resume logic
 	}
 
-	bool SaveState(const std::string &filepath) override
+	bool SaveState(const std::string& filepath) override
 	{
 		// Serialize the scene state to a file
 		return true;
 	}
 
-	bool LoadState(const std::string &filepath) override
+	bool LoadState(const std::string& filepath) override
 	{
 		// Deserialize the scene state from a file
 		return true;
