@@ -39,8 +39,8 @@ public:
 		int rows, cols;
 		iss >> rows >> cols;
 
-		float startX = SCREEN_WIDTH / 2; // Starting X position
-		float startY = PADDLE_OFFSET;	 // Starting Y position
+		float startX = (SCREEN_WIDTH / 2) - (cols * BRICK_WIDTH); // Starting X position
+		float startY = PADDLE_OFFSET;							  // Starting Y position
 		int row = 0;
 
 		while (std::getline(infile, line) && row < rows)

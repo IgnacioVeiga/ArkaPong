@@ -4,7 +4,7 @@
 
 #pragma region window
 inline const char *GAME_TITLE = "ArkaPong";
-inline const int SCREEN_WIDTH = 640;
+inline const int SCREEN_WIDTH = 512;
 inline const int SCREEN_HEIGHT = 320;
 inline const int AUDIO_FREQUENCY = 44100;
 #pragma endregion window

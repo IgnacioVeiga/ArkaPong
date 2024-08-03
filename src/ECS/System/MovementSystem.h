@@ -46,8 +46,7 @@ public:
 				positionComponent.y += velocityComponent.y * deltaTime;
 
 				// DEBUG: center ball
-				if (positionComponent.x > SCREEN_WIDTH || positionComponent.x < 0
-					|| positionComponent.y > SCREEN_HEIGHT || positionComponent.y < 0)
+				if (positionComponent.x > SCREEN_WIDTH || positionComponent.x < 0)
 				{
 					positionComponent.x = SCREEN_WIDTH / 2;
 					positionComponent.y = SCREEN_HEIGHT / 2;
@@ -59,6 +58,11 @@ public:
 					// Up or down (random)
 					velocityComponent.y = (rand() % 2 == 0 ? -factor : factor);
 				}
+				if (positionComponent.y > SCREEN_HEIGHT || positionComponent.y < 0)
+				{
+					velocityComponent.y = -velocityComponent.y;
+				}
+				
 			}
 		}
 	}
