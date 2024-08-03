@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <fstream>
+#include <sstream>
 #include "Scene.h"
 #include "../Game.h"
 #include "../ECS/Coordinator.h"
@@ -27,6 +29,42 @@ public:
 	void Init() override
 	{
 		sceneEntities["TileBackground"] = CreateTileBackgroundEntity();
+
+		std::ifstream infile("assets/levels/1.txt");
+		std::string line;
+
+		// Read the first line for rows and columns
+		std::getline(infile, line);
+		std::istringstream iss(line);
+		int rows, cols;
+		iss >> rows >> cols;
+
+		float startX = SCREEN_WIDTH / 2; // Starting X position
+		float startY = PADDLE_OFFSET;	 // Starting Y position
+		int row = 0;
+
+		while (std::getline(infile, line) && row < rows)
+		{
+			std::istringstream iss(line);
+			int col = 0;
+			int blockType;
+			while (iss >> blockType && col < cols)
+			{
+				// TODO: Ignore empty spaces
+				// if (blockType != 0)
+				// {
+				sceneEntities["BrickR" + std::to_string(row) + "C" + std::to_string(col)] = CreateBrickEntity(
+					startX + col * BRICK_WIDTH,	 // X
+					startY + row * BRICK_HEIGHT, // Y
+					0,							 // Block type
+					blockType					 // Color (or any other parameter you want to set)
+				);
+				// }
+				++col;
+			}
+			++row;
+		}
+
 		sceneEntities["Ball"] = CreateBallEntity();
 		sceneEntities["PlayerLeft"] = CreatePaddleEntity(PlayerSide::PLAYER_LEFT);
 		sceneEntities["PlayerRight"] = CreatePaddleEntity(PlayerSide::PLAYER_RIGHT);
@@ -56,27 +94,15 @@ public:
 			SCREEN_HEIGHT - 16,
 			TextAlignment::CENTER);
 		sceneEntities["BGM"] = CreateBGMEntity(ROUND_START_BGM_FILEPATH);
-		sceneEntities["Enemy"] = CreateAnimatedEntity(
-			ENEMIES_SPRITE_FILEPATH,
-			8,
-			16,
-			16,
-			100,
-			true,
-			(SCREEN_WIDTH / 2) - 8,
-			16);
-		sceneEntities["BrickRed"] = CreateBrickEntity(
-			SCREEN_WIDTH / 2 - BRICK_WIDTH,	  // X
-			SCREEN_HEIGHT / 2 - BRICK_HEIGHT, // Y
-			0,								  // 0 = Normal, 9 = Iron, 18 = Gold
-			64								  // 0 = White, 64 = Red
-		);
-		sceneEntities["BrickIron"] = CreateBrickEntity(
-			SCREEN_WIDTH / 2 + BRICK_WIDTH,	  // X
-			SCREEN_HEIGHT / 2 + BRICK_HEIGHT, // Y
-			0,								  // 0 = Normal, 9 = Iron, 18 = Gold
-			32								  // 0 = White, ..., 64 = Red, ...
-		);
+		// sceneEntities["Enemy"] = CreateAnimatedEntity(
+		// 	ENEMIES_SPRITE_FILEPATH,
+		// 	8,
+		// 	16,
+		// 	16,
+		// 	100,
+		// 	true,
+		// 	(SCREEN_WIDTH / 2) - 8,
+		// 	16);
 	};
 
 	void Update(float deltaTime) override
@@ -90,7 +116,7 @@ public:
 		Game::coordinator.GetSystem<CollisionSystem>()->Update(deltaTime);
 		Game::coordinator.GetSystem<AnimationSystem>()->Update();
 		Game::coordinator.GetSystem<PathSystem>()->Update();
-		
+
 		// TODO: use the input system
 		const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
 		if (keyStates[SDL_SCANCODE_BACKSPACE])
