@@ -45,21 +45,20 @@ public:
 
 		while (std::getline(infile, line) && row < rows)
 		{
+
 			std::istringstream iss(line);
 			int col = 0;
-			int blockType;
+			int blockType = 0;
 			while (iss >> blockType && col < cols)
 			{
-				// TODO: Ignore empty spaces
-				// if (blockType != 0)
-				// {
-				sceneEntities["BrickR" + std::to_string(row) + "C" + std::to_string(col)] = CreateBrickEntity(
-					startX + col * BRICK_WIDTH,	 // X
-					startY + row * BRICK_HEIGHT, // Y
-					blockType,
-					0
-				);
-				// }
+				// 0 = None
+				if (blockType != 0)
+				{
+					sceneEntities["BrickR" + std::to_string(row) + "C" + std::to_string(col)] = CreateBrickEntity(
+						startX + col * BRICK_WIDTH,	 // X
+						startY + row * BRICK_HEIGHT, // Y
+						blockType);
+				}
 				++col;
 			}
 			++row;
@@ -94,15 +93,15 @@ public:
 			SCREEN_HEIGHT - 16,
 			TextAlignment::CENTER);
 		sceneEntities["BGM"] = CreateBGMEntity(ROUND_START_BGM_FILEPATH);
-		 sceneEntities["Enemy"] = CreateAnimatedEntity(
-		 	ENEMIES_SPRITE_FILEPATH,
-		 	8,
-		 	16,
-		 	16,
-		 	100,
-		 	true,
-		 	(SCREEN_WIDTH / 2) - 8,
-		 	16);
+		sceneEntities["Enemy"] = CreateAnimatedEntity(
+			ENEMIES_SPRITE_FILEPATH,
+			8,
+			16,
+			16,
+			100,
+			true,
+			(SCREEN_WIDTH / 2) - 8,
+			16);
 	};
 
 	void Update(float deltaTime) override
@@ -118,7 +117,7 @@ public:
 		Game::coordinator.GetSystem<PathSystem>()->Update();
 
 		// TODO: use the input system
-		const Uint8* keyStates = SDL_GetKeyboardState(NULL);
+		const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
 		if (keyStates[SDL_SCANCODE_BACKSPACE])
 		{
 			Game::sceneManager->ChangeScene("MainMenu");
@@ -128,7 +127,7 @@ public:
 	void Cleanup() override
 	{
 		// Clean up entities and other resources
-		for (const auto& entityPair : sceneEntities)
+		for (const auto &entityPair : sceneEntities)
 		{
 			Game::coordinator.DestroyEntity(entityPair.second);
 		}
@@ -145,13 +144,13 @@ public:
 		// Resume logic
 	}
 
-	bool SaveState(const std::string& filepath) override
+	bool SaveState(const std::string &filepath) override
 	{
 		// Serialize the scene state to a file
 		return true;
 	}
 
-	bool LoadState(const std::string& filepath) override
+	bool LoadState(const std::string &filepath) override
 	{
 		// Deserialize the scene state from a file
 		return true;

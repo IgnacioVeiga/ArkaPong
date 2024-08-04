@@ -8,10 +8,14 @@
 #include "../Component/CollisionComponent.h"
 #include "../../Utils/GameConstants.h"
 #include "../../Utils/TextureManager.h"
+#include "../../Utils/BrickUtils.h"
 
-Entity CreateBrickEntity(float posX, float posY, int srcRectX = 0, int srcRectY = 0)
+Entity CreateBrickEntity(float posX, float posY, int brickType)
 {
 	SDL_Texture *texture = TextureManager::LoadTexture(BRICKS_SPRITE_FILEPATH);
+
+	BrickType type = static_cast<BrickType>(brickType);
+	SDL_Rect srcRect = GetBrickSrcRect(type);
 
 	Entity entity = Game::coordinator.CreateEntity();
 
@@ -25,13 +29,7 @@ Entity CreateBrickEntity(float posX, float posY, int srcRectX = 0, int srcRectY 
 		entity,
 		SpriteComponent{
 			texture, // Texture
-			{
-				// Source rectangle
-				srcRectX,	 // X
-				srcRectY,	 // Y
-				BRICK_WIDTH, // W
-				BRICK_HEIGHT // H
-			},
+			srcRect,
 			{
 				// Destination rectangle
 				0,			 // X
