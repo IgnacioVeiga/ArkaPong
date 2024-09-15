@@ -4,68 +4,20 @@
 #include <iostream>
 
 #include "Game.h"
-#include "Utils/GameConstants.h"
 #include "Scenes/SceneManager.h"
 #include "Scenes/GameScene.h"
 #include "Scenes/MainMenuScene.h"
 #include "ECS/Coordinator.h"
 
 Coordinator Game::coordinator;
-SDL_Renderer *Game::renderer = nullptr;
+Window Game::window;
 SceneManager *Game::sceneManager = nullptr;
-SDL_Window *Game::window = nullptr;
 bool Game::game_on = true;
 
-bool Game::Init_SDL()
+bool Game::Init()
 {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
-    {
-        SDL_Log("SDL2 initialization failed: %s", SDL_GetError());
-        return false;
-    }
+    if (!window.Init()) return false;
 
-    if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
-    {
-        SDL_Log("SDL2_mixer initialization failed: %s", Mix_GetError());
-        return false;
-    }
-
-    if (TTF_Init() == -1)
-    {
-        SDL_Log("SDL2_ttf initialization failed: %s", TTF_GetError());
-        return false;
-    }
-
-    window = SDL_CreateWindow(
-        GAME_TITLE,
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
-        SDL_WINDOW_SHOWN);
-
-    renderer = SDL_CreateRenderer(
-        window,
-        -1,
-        SDL_RENDERER_ACCELERATED);
-
-    if (!window)
-    {
-        SDL_Log("Failed to create window: %s", SDL_GetError());
-        return false;
-    }
-
-    if (!renderer)
-    {
-        SDL_Log("Failed to create renderer: %s", SDL_GetError());
-        return false;
-    }
-
-    return true;
-}
-
-void Game::Init_ECS()
-{
     coordinator.Init();
     coordinator.RegisterComponent<InputComponent>();
     coordinator.RegisterComponent<PositionComponent>();
@@ -89,6 +41,8 @@ void Game::Init_ECS()
     coordinator.RegisterSystem<SolidColorBackgroundSystem>()->Init();
     coordinator.RegisterSystem<AnimationSystem>()->Init();
     coordinator.RegisterSystem<PathSystem>()->Init();
+
+    return true;
 }
 
 void Game::Run()
@@ -122,14 +76,14 @@ void Game::Run()
         // The game logic is updated and the frameTime is converted to seconds.
         frameTime = SDL_GetTicks() - frameStart;
 
-        SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
-        SDL_RenderClear(Game::renderer);
+        SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 255);
+        SDL_RenderClear(window.GetRenderer());
 
         // TODO: fix this
         // sceneManager->Update(frameTime / 1000.0f);
         sceneManager->Update(1);
 
-        SDL_RenderPresent(Game::renderer);
+        SDL_RenderPresent(window.GetRenderer());
 
         // SDL_Delay() is used to wait only if the current frame has completed faster than expected.
         frameTime = SDL_GetTicks() - frameStart;
@@ -143,19 +97,5 @@ void Game::Run()
 
 void Game::CleanUp()
 {
-    if (sceneManager)
-    {
-        delete sceneManager;
-    }
-    if (renderer)
-    {
-        SDL_DestroyRenderer(renderer);
-    }
-    if (window)
-    {
-        SDL_DestroyWindow(window);
-    }
-    TTF_Quit();
-    Mix_CloseAudio();
-    SDL_Quit();
+    window.CleanUp();
 }

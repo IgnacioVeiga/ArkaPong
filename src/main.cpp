@@ -10,8 +10,7 @@ int main(int argc, char* argv[])
 
     Game game;
 
-    if (!game.Init_SDL()) return 1;
-    game.Init_ECS();
+    if (!game.Init()) return 1;
     game.Run();
     game.CleanUp();
 

@@ -25,7 +25,7 @@ public:
             return nullptr;
         }
 
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(Game::renderer, surface);
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(Game::window.GetRenderer(), surface);
         SDL_FreeSurface(surface);
 
         if (!texture)

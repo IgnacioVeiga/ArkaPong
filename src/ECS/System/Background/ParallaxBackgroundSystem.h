@@ -16,7 +16,8 @@
 */
 class ParallaxBackgroundSystem : public System {
 public:
-    void Init() {
+    void Init()
+    {
         Signature signature;
         signature.set(Game::coordinator.GetComponentType<ParallaxBackgroundComponent>());
         Game::coordinator.SetSystemSignature<ParallaxBackgroundSystem>(signature);
@@ -27,7 +28,7 @@ public:
             auto& bg = Game::coordinator.GetComponent<ParallaxBackgroundComponent>(entity);
             for (auto& layer : bg.layers) {
                 SDL_Rect dstRect = { static_cast<int>(-cameraX * layer.scrollSpeed), static_cast<int>(-cameraY * layer.scrollSpeed), SCREEN_WIDTH, SCREEN_HEIGHT };
-                SDL_RenderCopy(Game::renderer, layer.layerTexture, nullptr, &dstRect);
+                SDL_RenderCopy(Game::window.GetRenderer(), layer.layerTexture, nullptr, &dstRect);
             }
         }
     }

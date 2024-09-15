@@ -12,7 +12,8 @@
 */
 class ImageBackgroundSystem : public System {
 public:
-	void Init() {
+	void Init()
+	{
 		Signature signature;
 		signature.set(Game::coordinator.GetComponentType<ImageBackgroundComponent>());
 		Game::coordinator.SetSystemSignature<ImageBackgroundSystem>(signature);
@@ -22,7 +23,7 @@ public:
 		for (auto const& entity : mEntities) {
 			auto& bg = Game::coordinator.GetComponent<ImageBackgroundComponent>(entity);
 			SDL_Rect dstRect = { (SCREEN_WIDTH - bg.width) / 2, (SCREEN_HEIGHT - bg.height) / 2, bg.width, bg.height };
-			SDL_RenderCopy(Game::renderer, bg.imageTexture, nullptr, &dstRect);
+			SDL_RenderCopy(Game::window.GetRenderer(), bg.imageTexture, nullptr, &dstRect);
 		}
 	}
 };

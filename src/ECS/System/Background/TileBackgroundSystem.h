@@ -7,11 +7,12 @@
 
 class TileBackgroundSystem : public System {
 public:
-	void Init() {
-		Signature signature;
-		signature.set(Game::coordinator.GetComponentType<TileBackgroundComponent>());
-		Game::coordinator.SetSystemSignature<TileBackgroundSystem>(signature);
-	}
+    void Init()
+    {
+        Signature signature;
+        signature.set(Game::coordinator.GetComponentType<TileBackgroundComponent>());
+        Game::coordinator.SetSystemSignature<TileBackgroundSystem>(signature);
+    }
 
     void Update()
     {
@@ -37,7 +38,7 @@ public:
                     destRect.w = bg.tileWidth;
                     destRect.h = bg.tileHeight;
 
-                    SDL_RenderCopyF(Game::renderer, bg.tileTexture, &srcRect, &destRect);
+                    SDL_RenderCopyF(Game::window.GetRenderer(), bg.tileTexture, &srcRect, &destRect);
                 }
             }
         }

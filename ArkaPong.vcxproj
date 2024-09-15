@@ -100,6 +100,7 @@
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Scenes\MainMenuScene.h" />
     <ClInclude Include="src\Utils\AudioManager.h" />
+    <ClInclude Include="src\Utils\BrickUtils.h" />
     <ClInclude Include="src\Utils\Events.h" />
     <ClInclude Include="src\Utils\FontManager.h" />
     <ClInclude Include="src\Utils\SpatialHash.h" />
@@ -137,10 +138,12 @@
     <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\ECS\System\TextSystem.h" />
     <ClInclude Include="src\Utils\TextureManager.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
