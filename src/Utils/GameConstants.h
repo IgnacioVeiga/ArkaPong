@@ -10,7 +10,7 @@ inline const int AUDIO_FREQUENCY = 44100;
 #pragma endregion window
 
 #pragma region entities
-inline const int BALL_SPEED = 5;
+inline const int BALL_SPEED = 2;
 inline const int BALL_SIZE = 5;
 
 inline const int PADDLE_SPEED = 5;
