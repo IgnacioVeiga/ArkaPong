@@ -17,7 +17,7 @@ bool Window::Init()
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (!renderer) return false;
     
-    SetWindowMode(0, false, true);
+    SetWindowMode(0, false, false);
 
 	return true;
 }
@@ -63,5 +63,5 @@ void Window::SetWindowMode(int resolutionIndex, bool fullscreen, bool borderless
     }
 
     // Adjust the renderer to the new size if necessary
-    SDL_RenderSetLogicalSize(renderer, width, height);
+    SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
