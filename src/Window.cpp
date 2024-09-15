@@ -49,10 +49,9 @@ void Window::SetWindowMode(int resolutionIndex, bool fullscreen, bool borderless
         windowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;  // Borderless fullscreen
     }
 
-    // Cambiar el tamaño de la ventana
     SDL_SetWindowSize(window, width, height);
 
-    // Cambiar el modo de ventana (pantalla completa o ventana)
+    // Fullscreen or window
     if (fullscreen) {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     }
@@ -60,9 +59,9 @@ void Window::SetWindowMode(int resolutionIndex, bool fullscreen, bool borderless
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
     }
     else {
-        SDL_SetWindowFullscreen(window, 0);  // Volver al modo ventana
+        SDL_SetWindowFullscreen(window, 0);  // Window mode
     }
 
-    // Ajustar el renderizador al nuevo tamaño si es necesario
+    // Adjust the renderer to the new size if necessary
     SDL_RenderSetLogicalSize(renderer, width, height);
 }
