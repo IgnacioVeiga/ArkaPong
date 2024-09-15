@@ -23,46 +23,59 @@ public:
 	void Update(float deltaTime)
 	{
 		spatialHash.Clear();
-		for (auto const& entity : mEntities)
+		PopulateSpatialHash();
+
+		for (const auto &entity : mEntities)
 		{
-			CollisionComponent& collisionComponent = Game::coordinator.GetComponent<CollisionComponent>(entity);
-			PositionComponent& positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
-
-			collisionComponent.collider.x = static_cast<int>(positionComponent.x);
-			collisionComponent.collider.y = static_cast<int>(positionComponent.y);
-
-			spatialHash.Insert(entity, collisionComponent.collider);
+			CheckEntityCollisions(entity);
 		}
 
-		for (auto const& entity : mEntities)
+		// TODO: test collision
+	}
+
+private:
+	void PopulateSpatialHash()
+	{
+		for (const auto &entity : mEntities)
 		{
-			CollisionComponent& collisionComponent = Game::coordinator.GetComponent<CollisionComponent>(entity);
-			PositionComponent& positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+			auto &collisionComponent = Game::coordinator.GetComponent<CollisionComponent>(entity);
+			auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
 
-			collisionComponent.collider.x = static_cast<int>(positionComponent.x);
-			collisionComponent.collider.y = static_cast<int>(positionComponent.y);
+			UpdateColliderPosition(positionComponent, collisionComponent);
+			spatialHash.Insert(entity, collisionComponent.collider);
+		}
+	}
 
-			std::vector<Entity> possibleCollisions = spatialHash.Retrieve(collisionComponent.collider);
+	void UpdateColliderPosition(PositionComponent &position, CollisionComponent &collision)
+	{
+		collision.collider.x = static_cast<int>(position.x);
+		collision.collider.y = static_cast<int>(position.y);
+	}
 
-			for (auto const& otherEntity : possibleCollisions)
+	void CheckEntityCollisions(Entity entity)
+	{
+		auto &collisionComponent = Game::coordinator.GetComponent<CollisionComponent>(entity);
+		auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+
+		std::vector<Entity> possibleCollisions = spatialHash.Retrieve(collisionComponent.collider);
+
+		for (const auto &otherEntity : possibleCollisions)
+		{
+			if (entity != otherEntity && CheckCollision(
+											 positionComponent,
+											 collisionComponent,
+											 Game::coordinator.GetComponent<PositionComponent>(otherEntity),
+											 Game::coordinator.GetComponent<CollisionComponent>(otherEntity)))
 			{
-				if (entity != otherEntity && CheckCollision(
-					positionComponent,
-					collisionComponent,
-					Game::coordinator.GetComponent<PositionComponent>(otherEntity),
-					Game::coordinator.GetComponent<CollisionComponent>(otherEntity)))
-				{
-					HandleCollision(entity, otherEntity);
-				}
+				HandleCollision(entity, otherEntity);
 			}
 		}
 	}
 
-private:
-	bool CheckCollision(PositionComponent& posA, CollisionComponent& colA, PositionComponent& posB, CollisionComponent& colB)
+	bool CheckCollision(const PositionComponent &posA, const CollisionComponent &colA, const PositionComponent &posB, const CollisionComponent &colB)
 	{
-		SDL_Rect rectA = { static_cast<int>(posA.x), static_cast<int>(posA.y), colA.collider.w, colA.collider.h };
-		SDL_Rect rectB = { static_cast<int>(posB.x), static_cast<int>(posB.y), colB.collider.w, colB.collider.h };
+		SDL_Rect rectA = {static_cast<int>(posA.x), static_cast<int>(posA.y), colA.collider.w, colA.collider.h};
+		SDL_Rect rectB = {static_cast<int>(posB.x), static_cast<int>(posB.y), colB.collider.w, colB.collider.h};
 
 		return SDL_HasIntersection(&rectA, &rectB);
 	}
@@ -103,7 +116,7 @@ private:
 			velA.x = -velA.x;
 			colA.collisionSide = fromLeft ? Side::LEFT : Side::RIGHT;
 		}
-		else if (fabs(minOverlapX) < fabs(minOverlapY))
+		else
 		{
 			// Vertical collision
 			velA.y = -velA.y;
