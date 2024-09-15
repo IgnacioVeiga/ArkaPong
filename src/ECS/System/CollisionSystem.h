@@ -86,6 +86,7 @@ private:
 		Bounce(entityA, entityB);
 	}
 
+	// TODO: refactor or fix, the paddle should not reverse the velY
 	void Bounce(Entity entityA, Entity entityB)
 	{
 		auto& velA = Game::coordinator.GetComponent<VelocityComponent>(entityA);
