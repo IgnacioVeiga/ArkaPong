@@ -14,7 +14,7 @@ class Window
 public:
 	bool Init();
 	void CleanUp();
-	void SetWindowMode(int resolutionIndex, bool fullscreen, bool borderless);
+	void SetWindowMode(int resolutionIndex, Uint32 flags);
 
 	SDL_Window* GetWindow() const { return window; }
 	SDL_Renderer* GetRenderer() const { return renderer; }
