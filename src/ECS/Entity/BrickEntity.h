@@ -48,7 +48,10 @@ Entity CreateBrickEntity(float posX, float posY, int brickType)
 				0,			 // Y
 				BRICK_WIDTH, // W
 				BRICK_HEIGHT // H
-			}});
+			},
+			ColliderType::STATIC
+		}
+	);
 
 	return entity;
 }

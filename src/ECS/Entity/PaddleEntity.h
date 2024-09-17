@@ -55,7 +55,8 @@ Entity CreatePaddleEntity(PlayerSide side)
 				0,			  // Y
 				PADDLE_WIDTH, // W
 				PADDLE_HEIGHT // H
-			}
+			},
+			ColliderType::STATIC
 		}
 	);
 	Game::coordinator.AddComponent(

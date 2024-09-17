@@ -11,8 +11,15 @@ enum class Side
     LEFT
 };
 
+enum class ColliderType
+{
+    STATIC, // Ex:  Walls, bricks, etc.
+    DYNAMIC // Ex:  Ball
+};
+
 struct CollisionComponent
 {
     SDL_Rect collider;
+    ColliderType type = ColliderType::DYNAMIC;
     Side collisionSide = Side::NONE;
 };

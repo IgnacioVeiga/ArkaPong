@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <vector>
 #include "../../Game.h"
 #include "../../Utils/SpatialHash.h"
 #include "../Coordinator.h"
@@ -29,8 +30,6 @@ public:
 		{
 			CheckEntityCollisions(entity);
 		}
-
-		// TODO: test collision
 	}
 
 private:
@@ -61,18 +60,19 @@ private:
 
 		for (const auto &otherEntity : possibleCollisions)
 		{
-			if (entity != otherEntity && CheckCollision(
-											 positionComponent,
-											 collisionComponent,
-											 Game::coordinator.GetComponent<PositionComponent>(otherEntity),
-											 Game::coordinator.GetComponent<CollisionComponent>(otherEntity)))
+			// Only process once per cycle
+			if (entity != otherEntity && entity < otherEntity &&
+				CheckCollision(positionComponent, collisionComponent,
+							   Game::coordinator.GetComponent<PositionComponent>(otherEntity),
+							   Game::coordinator.GetComponent<CollisionComponent>(otherEntity)))
 			{
 				HandleCollision(entity, otherEntity);
 			}
 		}
 	}
 
-	bool CheckCollision(const PositionComponent &posA, const CollisionComponent &colA, const PositionComponent &posB, const CollisionComponent &colB)
+	bool CheckCollision(const PositionComponent &posA, const CollisionComponent &colA,
+						const PositionComponent &posB, const CollisionComponent &colB)
 	{
 		SDL_Rect rectA = {static_cast<int>(posA.x), static_cast<int>(posA.y), colA.collider.w, colA.collider.h};
 		SDL_Rect rectB = {static_cast<int>(posB.x), static_cast<int>(posB.y), colB.collider.w, colB.collider.h};
@@ -82,19 +82,33 @@ private:
 
 	void HandleCollision(Entity entityA, Entity entityB)
 	{
-		// Placeholder for collision handling logic, example:
-		Bounce(entityA, entityB);
+		auto &colA = Game::coordinator.GetComponent<CollisionComponent>(entityA);
+		auto &colB = Game::coordinator.GetComponent<CollisionComponent>(entityB);
+
+		// Only reacts the entity with a Dynamic collider type
+		if (colA.type == ColliderType::DYNAMIC && colB.type == ColliderType::DYNAMIC)
+		{
+			Bounce(entityA, entityB);
+			Bounce(entityB, entityA);
+		}
+		else if (colA.type == ColliderType::DYNAMIC && colB.type == ColliderType::STATIC)
+		{
+			Bounce(entityA, entityB);
+		}
+		else if (colA.type == ColliderType::STATIC && colB.type == ColliderType::DYNAMIC)
+		{
+			Bounce(entityB, entityA);
+		}
 	}
 
-	// TODO: refactor or fix, the paddle should not reverse the velY
 	void Bounce(Entity entityA, Entity entityB)
 	{
-		auto& velA = Game::coordinator.GetComponent<VelocityComponent>(entityA);
-		auto& posA = Game::coordinator.GetComponent<PositionComponent>(entityA);
-		auto& colA = Game::coordinator.GetComponent<CollisionComponent>(entityA);
+		auto &velA = Game::coordinator.GetComponent<VelocityComponent>(entityA);
+		auto &posA = Game::coordinator.GetComponent<PositionComponent>(entityA);
+		auto &colA = Game::coordinator.GetComponent<CollisionComponent>(entityA);
 
-		auto& posB = Game::coordinator.GetComponent<PositionComponent>(entityB);
-		auto& colB = Game::coordinator.GetComponent<CollisionComponent>(entityB);
+		auto &posB = Game::coordinator.GetComponent<PositionComponent>(entityB);
+		auto &colB = Game::coordinator.GetComponent<CollisionComponent>(entityB);
 
 		// Calculate overlap on each side of the collision
 		float overlapLeft = (posA.x + colA.collider.w) - posB.x;
