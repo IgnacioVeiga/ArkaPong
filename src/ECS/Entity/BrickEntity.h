@@ -25,6 +25,15 @@ Entity CreateBrickEntity(float posX, float posY, int brickType)
 			posX, // X
 			posY, // Y
 		});
+
+	// This should be unnecessary!
+	Game::coordinator.AddComponent(
+		entity,
+		VelocityComponent{
+			0,	// X
+			0	// Y
+		});
+
 	Game::coordinator.AddComponent(
 		entity,
 		SpriteComponent{

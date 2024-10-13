@@ -37,7 +37,7 @@ SDL_Rect GetBrickSrcRect(BrickType brickType)
 
     if (brickType == BrickType::None)
     {
-        // May be unnecesary
+        // This should be unnecessary!
         srcRect = {0, 0, 0, 0};
     }
     else if (brickTypeMap.find(brickType) != brickTypeMap.end())
