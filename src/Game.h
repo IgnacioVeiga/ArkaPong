@@ -1,21 +1,18 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
-#include "managers/SceneManager.h"
+#include <SDL2/SDL.h>
+#include "Scenes/SceneManager.h"
+#include "Window.h"
 
 class Game
 {
 public:
-    bool Init_SDL();
+    bool Init();
     void Run();
     void CleanUp();
 
-    static SDL_Renderer *renderer;
+    static Window window;
+    static Coordinator coordinator;
     static SceneManager *sceneManager;
     static bool game_on;
-
-private:
-    static SDL_Window *window;
 };
-
-#endif

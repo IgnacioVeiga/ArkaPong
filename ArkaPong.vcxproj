@@ -87,51 +87,69 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\entities\Ball.h" />
-    <ClInclude Include="src\entities\Entity.h" />
-    <ClInclude Include="src\entities\Paddle.h" />
-    <ClInclude Include="src\entities\Texture.h" />
+    <ClInclude Include="src\ECS\Component\AnimationComponent.h" />
+    <ClInclude Include="src\ECS\Component\PathComponent.h" />
+    <ClInclude Include="src\ECS\Entity\AnimatedEntity.h" />
+    <ClInclude Include="src\ECS\Entity\AudioEntity.h" />
+    <ClInclude Include="src\ECS\Entity\BallEntity.h" />
+    <ClInclude Include="src\ECS\Entity\BrickEntity.h" />
+    <ClInclude Include="src\ECS\Entity\PaddleEntity.h" />
+    <ClInclude Include="src\ECS\Entity\TextEntity.h" />
+    <ClInclude Include="src\ECS\System\AnimationSystem.h" />
+    <ClInclude Include="src\ECS\System\PathSystem.h" />
     <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\managers\AudioManager.h" />
-    <ClInclude Include="src\managers\CollisionManager.h" />
-    <ClInclude Include="src\managers\SceneManager.h" />
-    <ClInclude Include="src\managers\InputManager.h" />
-    <ClInclude Include="src\managers\ScoreManager.h" />
-    <ClInclude Include="src\managers\TextManager.h" />
-    <ClInclude Include="src\managers\TextureManager.h" />
-    <ClInclude Include="src\scenes\GameOverScene.h" />
-    <ClInclude Include="src\scenes\Scene.h" />
-    <ClInclude Include="src\scenes\MenuScene.h" />
-    <ClInclude Include="src\scenes\PauseScene.h" />
-    <ClInclude Include="src\scenes\PlayScene.h" />
-    <ClInclude Include="src\utilities\AudioParams.h" />
-    <ClInclude Include="src\utilities\GameConstants.h" />
-    <ClInclude Include="src\utilities\TextParams.h" />
+    <ClInclude Include="src\Scenes\MainMenuScene.h" />
+    <ClInclude Include="src\Utils\AudioManager.h" />
+    <ClInclude Include="src\Utils\BrickUtils.h" />
+    <ClInclude Include="src\Utils\Events.h" />
+    <ClInclude Include="src\Utils\FontManager.h" />
+    <ClInclude Include="src\Utils\SpatialHash.h" />
+    <ClInclude Include="src\Utils\Constants.h" />
+    <ClInclude Include="src\Utils\Enums.h" />
+    <ClInclude Include="src\Scenes\GameScene.h" />
+    <ClInclude Include="src\Scenes\Scene.h" />
+    <ClInclude Include="src\Scenes\SceneManager.h" />
+    <ClInclude Include="src\ECS\Coordinator.h" />
+    <ClInclude Include="src\ECS\Component\Background\ImageBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Component\Background\ParallaxBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Component\Background\ParallaxLayer.h" />
+    <ClInclude Include="src\ECS\Component\Background\SolidColorBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Component\Background\TileBackgroundComponent.h" />
+    <ClInclude Include="src\ECS\Component\AudioComponent.h" />
+    <ClInclude Include="src\ECS\Component\CollisionComponent.h" />
+    <ClInclude Include="src\ECS\ComponentManager.h" />
+    <ClInclude Include="src\ECS\Component\InputComponent.h" />
+    <ClInclude Include="src\ECS\Component\PositionComponent.h" />
+    <ClInclude Include="src\ECS\Component\SpriteComponent.h" />
+    <ClInclude Include="src\ECS\Component\TextComponent.h" />
+    <ClInclude Include="src\ECS\Component\VelocityComponent.h" />
+    <ClInclude Include="src\ECS\Entity\Entity.h" />
+    <ClInclude Include="src\ECS\EntityManager.h" />
+    <ClInclude Include="src\ECS\Entity\BackgroundEntity.h" />
+    <ClInclude Include="src\ECS\System\Background\ParallaxBackgroundSystem.h" />
+    <ClInclude Include="src\ECS\System\Background\ImageBackgroundSystem.h" />
+    <ClInclude Include="src\ECS\System\Background\SolidColorBackgroundSystem.h" />
+    <ClInclude Include="src\ECS\System\Background\TileBackgroundSystem.h" />
+    <ClInclude Include="src\ECS\System\AudioSystem.h" />
+    <ClInclude Include="src\ECS\System\CollisionSystem.h" />
+    <ClInclude Include="src\ECS\System\InputSystem.h" />
+    <ClInclude Include="src\ECS\System\MovementSystem.h" />
+    <ClInclude Include="src\ECS\System\SpriteSystem.h" />
+    <ClInclude Include="src\ECS\System\System.h" />
+    <ClInclude Include="src\ECS\SystemManager.h" />
+    <ClInclude Include="src\ECS\System\TextSystem.h" />
+    <ClInclude Include="src\Utils\TextureManager.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\entities\Ball.cpp" />
-    <ClCompile Include="src\entities\Paddle.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\managers\AudioManager.cpp" />
-    <ClCompile Include="src\managers\CollisionManager.cpp" />
-    <ClCompile Include="src\managers\SceneManager.cpp" />
-    <ClCompile Include="src\managers\InputManager.cpp" />
-    <ClCompile Include="src\managers\ScoreManager.cpp" />
-    <ClCompile Include="src\managers\TextManager.cpp" />
-    <ClCompile Include="src\managers\TextureManager.cpp" />
-    <ClCompile Include="src\scenes\GameOverScene.cpp" />
-    <ClCompile Include="src\scenes\MenuScene.cpp" />
-    <ClCompile Include="src\scenes\PauseScene.cpp" />
-    <ClCompile Include="src\scenes\PlayScene.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="vcpkg.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
