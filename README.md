@@ -40,7 +40,7 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
    cmake -B build
    cmake --build build
    ```
-    - Windows: Use Microsoft Visual Studio 2022 to build and run.
+    - Windows: Use Microsoft Visual Studio 2022 to build and run (using CMake in this case may give you an error when searching for SDL2 libraries, use VCPKG instead.).
 
 3. Finally check the build folder, the executable should be accompanied by the “assets” folder in order to run.
 
