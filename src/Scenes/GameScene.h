@@ -65,8 +65,8 @@ public:
 		}
 
 		sceneEntities["Ball"] = CreateBallEntity();
-		sceneEntities["PlayerLeft"] = CreatePaddleEntity(PlayerSide::PLAYER_LEFT);
-		sceneEntities["PlayerRight"] = CreatePaddleEntity(PlayerSide::PLAYER_RIGHT);
+		sceneEntities["PlayerLeft"] = CreatePaddleEntity(Side::LEFT);
+		sceneEntities["PlayerRight"] = CreatePaddleEntity(Side::RIGHT);
 		sceneEntities["PL_Score"] = CreateTextEntity(
 			"P1: 0",
 			C_WHITE,

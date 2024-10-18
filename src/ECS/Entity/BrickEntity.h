@@ -6,9 +6,14 @@
 #include "../Component/PositionComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/CollisionComponent.h"
-#include "../../Utils/GameConstants.h"
+#include "../../Utils/Constants.h"
 #include "../../Utils/TextureManager.h"
 #include "../../Utils/BrickUtils.h"
+
+auto brickCollisionCallback = [](Entity self, Entity other)
+{
+	// TODO: logic “destroy or not” here.
+};
 
 Entity CreateBrickEntity(float posX, float posY, int brickType)
 {
@@ -25,15 +30,6 @@ Entity CreateBrickEntity(float posX, float posY, int brickType)
 			posX, // X
 			posY, // Y
 		});
-
-	// This should be unnecessary!
-	Game::coordinator.AddComponent(
-		entity,
-		VelocityComponent{
-			0,	// X
-			0	// Y
-		});
-
 	Game::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
@@ -58,9 +54,7 @@ Entity CreateBrickEntity(float posX, float posY, int brickType)
 				BRICK_WIDTH, // W
 				BRICK_HEIGHT // H
 			},
-			ColliderType::STATIC
-		}
-	);
+			brickCollisionCallback});
 
 	return entity;
 }

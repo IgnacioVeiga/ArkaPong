@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
-#include "Utils/GameConstants.h"
+#include "Utils/Constants.h"
 
 struct Resolution {
 	int width;

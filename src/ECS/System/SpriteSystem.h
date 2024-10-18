@@ -5,7 +5,7 @@
 #include "../Coordinator.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/PositionComponent.h"
-#include "../../Utils/GameConstants.h"
+#include "../../Utils/Constants.h"
 
 class SpriteSystem : public System
 {

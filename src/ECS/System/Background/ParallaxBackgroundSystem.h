@@ -2,7 +2,7 @@
 
 #include "../../../Game.h"
 #include "../../Coordinator.h"
-#include "../../../Utils/GameConstants.h"
+#include "../../../Utils/Constants.h"
 #include "../../Component/Background/ParallaxBackgroundComponent.h"
 
 /*

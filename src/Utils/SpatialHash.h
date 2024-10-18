@@ -4,7 +4,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "ECS/Entity/Entity.h"
-#include "GameConstants.h"
+#include "Constants.h"
 
 struct pair_hash
 {

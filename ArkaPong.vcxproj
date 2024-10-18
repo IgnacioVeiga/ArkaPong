@@ -104,7 +104,8 @@
     <ClInclude Include="src\Utils\Events.h" />
     <ClInclude Include="src\Utils\FontManager.h" />
     <ClInclude Include="src\Utils\SpatialHash.h" />
-    <ClInclude Include="src\Utils\GameConstants.h" />
+    <ClInclude Include="src\Utils\Constants.h" />
+    <ClInclude Include="src\Utils\Enums.h" />
     <ClInclude Include="src\Scenes\GameScene.h" />
     <ClInclude Include="src\Scenes\Scene.h" />
     <ClInclude Include="src\Scenes\SceneManager.h" />

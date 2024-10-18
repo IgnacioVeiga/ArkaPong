@@ -2,22 +2,8 @@
 
 #include <unordered_map>
 #include <SDL2/SDL_rect.h>
-#include "GameConstants.h"
-
-enum class BrickType
-{
-    None = 0, // Empty space
-    White = 1,
-    Salmon = 2,
-    LightBlue = 3,
-    Green = 4,
-    Red = 5,
-    Blue = 6,
-    Pink = 7,
-    Orange = 8,
-    Iron = 9,
-    Gold = 10
-};
+#include "Constants.h"
+#include "Enums.h"
 
 std::unordered_map<BrickType, std::pair<int, int>> brickTypeMap = {
     {BrickType::White, {0, 0}},

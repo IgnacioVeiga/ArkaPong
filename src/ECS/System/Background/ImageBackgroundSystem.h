@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../Utils/GameConstants.h"
+#include "../../../Utils/Constants.h"
 #include "../../../Game.h"
 #include "../../Coordinator.h"
 #include "../../Component/Background/ImageBackgroundComponent.h"
