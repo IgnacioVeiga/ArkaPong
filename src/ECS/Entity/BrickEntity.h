@@ -12,7 +12,7 @@
 
 auto brickCollisionCallback = [](Entity self, Entity other)
 {
-	// TODO: logic “destroy or not” here.
+	Game::coordinator.MarkEntityForDeletion(self);
 };
 
 Entity CreateBrickEntity(float posX, float posY, int brickType)

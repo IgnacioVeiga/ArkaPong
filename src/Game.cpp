@@ -81,6 +81,7 @@ void Game::Run()
 
         // TODO: fix this
         // sceneManager->Update(frameTime / 1000.0f);
+        coordinator.ProcessPendingDeletions();
         sceneManager->Update(1);
 
         SDL_RenderPresent(window.GetRenderer());

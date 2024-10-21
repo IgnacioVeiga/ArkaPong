@@ -28,6 +28,17 @@ public:
         mSystemManager->EntityDestroyed(entity);
     }
 
+    void MarkEntityForDeletion(Entity entity) {
+        entitiesToDelete.push_back(entity);
+    }
+
+    void ProcessPendingDeletions() {
+        for (Entity entity : entitiesToDelete) {
+            DestroyEntity(entity);
+        }
+        entitiesToDelete.clear();
+    }
+
     // Component methods
     template <typename T>
     void RegisterComponent()
@@ -93,6 +104,8 @@ public:
     }
 
 private:
+    std::vector<Entity> entitiesToDelete;
+
     std::unique_ptr<EntityManager> mEntityManager;
     std::unique_ptr<ComponentManager> mComponentManager;
     std::unique_ptr<SystemManager> mSystemManager;
