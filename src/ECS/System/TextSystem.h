@@ -82,13 +82,13 @@ private:
 
 		switch (textComponent.alignment)
 		{
-		case TextAlignment::CENTER:
+		case Side::CENTER:
 			renderRect.x -= renderRect.w / 2;
 			break;
-		case TextAlignment::RIGHT:
+		case Side::RIGHT:
 			renderRect.x -= renderRect.w;
 			break;
-		case TextAlignment::LEFT:
+		case Side::LEFT:
 		default:
 			break;
 		}

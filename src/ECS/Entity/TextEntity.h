@@ -6,7 +6,7 @@
 #include "../../Game.h"
 #include "../Component/TextComponent.h"
 
-Entity CreateTextEntity(const std::string &text, const SDL_Color &color, const std::string &fontPath, int fontSize, int x, int y, TextAlignment alignment = TextAlignment::LEFT)
+Entity CreateTextEntity(const std::string &text, const SDL_Color &color, const std::string &fontPath, int fontSize, int x, int y, Side alignment = Side::LEFT)
 {
     TTF_Font *font = FontManager::GetFont(fontPath, fontSize);
     Entity entity = Game::coordinator.CreateEntity();

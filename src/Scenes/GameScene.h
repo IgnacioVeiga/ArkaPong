@@ -82,7 +82,7 @@ public:
 			16,
 			SCREEN_WIDTH - 16,
 			16,
-			TextAlignment::RIGHT);
+			Side::RIGHT);
 
 		sceneEntities["DemoText"] = CreateTextEntity(
 			"Demo text",
@@ -91,7 +91,7 @@ public:
 			8,
 			SCREEN_WIDTH / 2,
 			SCREEN_HEIGHT - 16,
-			TextAlignment::CENTER);
+			Side::CENTER);
 		sceneEntities["BGM"] = CreateBGMEntity(ROUND_START_BGM_FILEPATH);
 		sceneEntities["Enemy"] = CreateAnimatedEntity(
 			ENEMIES_SPRITE_FILEPATH,

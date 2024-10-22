@@ -25,7 +25,7 @@ public:
             24,
             SCREEN_WIDTH / 2,
             PADDLE_OFFSET,
-            TextAlignment::CENTER);
+            Side::CENTER);
 
         // TODO: add menu options
         sceneEntities["Menu"] = CreateTextEntity(
@@ -35,7 +35,7 @@ public:
             16,
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2,
-            TextAlignment::CENTER);
+            Side::CENTER);
 
         sceneEntities["Footer"] = CreateTextEntity(
             "pre-alpha 2024",
@@ -44,7 +44,7 @@ public:
             8,
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT - PADDLE_OFFSET,
-            TextAlignment::CENTER);
+            Side::CENTER);
     };
 
     void Update(float deltaTime) override
