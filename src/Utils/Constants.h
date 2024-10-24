@@ -4,22 +4,22 @@
 
 #pragma region window
 inline const char *GAME_TITLE = "ArkaPong";
-inline const int SCREEN_WIDTH = 512;
-inline const int SCREEN_HEIGHT = 320;
-inline const int AUDIO_FREQUENCY = 44100;
+constexpr int SCREEN_WIDTH = 512;
+constexpr int SCREEN_HEIGHT = 320;
+constexpr int AUDIO_FREQUENCY = 44100;
 #pragma endregion window
 
 #pragma region entities
-inline const int BALL_SPEED = 2;
-inline const int BALL_SIZE = 5;
+constexpr int BALL_SPEED = 2;
+constexpr int BALL_SIZE = 5;
 
-inline const int PADDLE_SPEED = 5;
-inline const int PADDLE_OFFSET = 32;
-inline const int PADDLE_WIDTH = 8;
-inline const int PADDLE_HEIGHT = 32;
+constexpr int PADDLE_SPEED = 5;
+constexpr int PADDLE_OFFSET = 32;
+constexpr int PADDLE_WIDTH = 8;
+constexpr int PADDLE_HEIGHT = 32;
 
-inline const int BRICK_WIDTH = 8;
-inline const int BRICK_HEIGHT = 16;
+constexpr int BRICK_WIDTH = 8;
+constexpr int BRICK_HEIGHT = 16;
 #pragma endregion entities
 
 #pragma region colors
@@ -63,4 +63,6 @@ inline const char *VAUS_SPRITE_FILEPATH = "assets/sprites/vaus.bmp";
 inline const char *WALLS_SPRITE_FILEPATH = "assets/sprites/walls.bmp";
 #pragma endregion assets
 
-inline const int CELL_GRID_SIZE = 64;
+constexpr int CELL_GRID_SIZE = 64;
+
+constexpr Uint32 DEBOUNCE_TIME = 2; // In milliseconds.

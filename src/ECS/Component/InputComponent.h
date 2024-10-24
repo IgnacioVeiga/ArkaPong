@@ -1,11 +1,15 @@
 #pragma once
 
-#include <unordered_map>
-#include <string>
 #include <SDL2/SDL.h>
+
+struct InputBehavior
+{
+	SDL_Keycode keyMap;
+	std::function<void(Entity self)> keyBehavior;
+};
 
 struct InputComponent
 {
-	std::unordered_map<std::string, SDL_Keycode> keyMappings;
-	std::unordered_map<SDL_Keycode, bool> keyStates;
+	std::vector<InputBehavior> keyMappings;
+	std::unordered_map<SDL_Keycode, Uint32> lastKeyPressTime;
 };

@@ -4,7 +4,6 @@
 #include "../Coordinator.h"
 #include "../../Game.h"
 #include "../../Utils/TextureManager.h"
-#include "../../Utils/Events.h"
 #include "../Component/AnimationComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/PathComponent.h"
