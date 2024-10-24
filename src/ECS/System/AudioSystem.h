@@ -21,23 +21,22 @@ public:
         {
             auto &audioComponent = Game::coordinator.GetComponent<AudioComponent>(entity);
 
-            if (audioComponent.isPlaying)
-            {
-                if (audioComponent.type == AudioType::SFX)
-                {
-                    Mix_Chunk *chunk = AudioManager::LoadChunk(audioComponent.audioPath);
-                    int channel = audioComponent.channel == -1 ? Mix_PlayChannel(-1, chunk, audioComponent.loop ? -1 : 0)
-                                                               : Mix_PlayChannel(audioComponent.channel, chunk, audioComponent.loop ? -1 : 0);
-                }
-                else if (audioComponent.type == AudioType::BGM)
-                {
-                    Mix_Music *music = AudioManager::LoadMusic(audioComponent.audioPath);
-                    Mix_PlayMusic(music, audioComponent.loop ? -1 : 1);
-                }
+            if (!audioComponent.isPlaying)
+                continue;
 
-                // Reset after playing
-                audioComponent.isPlaying = false;
+            if (audioComponent.type == AudioType::SFX && (audioComponent.channel == -1 || !Mix_Playing(audioComponent.channel)))
+            {
+                Mix_Chunk *chunk = AudioManager::LoadChunk(audioComponent.audioPath);
+                audioComponent.channel = Mix_PlayChannel(-1, chunk, audioComponent.loop ? -1 : 0);
             }
+            else if (audioComponent.type == AudioType::BGM && !Mix_PlayingMusic())
+            {
+                Mix_Music *music = AudioManager::LoadMusic(audioComponent.audioPath);
+                Mix_PlayMusic(music, audioComponent.loop ? -1 : 1);
+            }
+
+            // Reset after playing
+            audioComponent.isPlaying = false;
         }
     }
 };
