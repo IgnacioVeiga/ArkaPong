@@ -66,14 +66,20 @@ private:
 				if (entity == otherEntity || entity >= otherEntity)
 					continue;
 
-				auto &otherCollisionComponent = Game::coordinator.GetComponent<CollisionComponent>(otherEntity).collider;
-
-				if (SDL_HasIntersection(&collisionComponent.collider, &otherCollisionComponent))
+				if (CheckCollision(entity, otherEntity))
 				{
 					collisions.emplace_back(entity, otherEntity);
 				}
 			}
 		}
+	}
+
+	bool CheckCollision(Entity entityA, Entity entityB)
+	{
+		auto &colliderA = Game::coordinator.GetComponent<CollisionComponent>(entityA).collider;
+		auto &colliderB = Game::coordinator.GetComponent<CollisionComponent>(entityB).collider;
+
+		return SDL_HasIntersection(&colliderA, &colliderB);
 	}
 
 	void ResolveCollision(Entity entityA, Entity entityB)

@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include "ECS/Entity/Entity.h"
 #include "Constants.h"
+#include <unordered_set>
 
 struct pair_hash
 {
@@ -38,9 +39,9 @@ public:
         }
     }
 
-    std::vector<Entity> Retrieve(SDL_Rect &collider)
+    std::vector<Entity> Retrieve(const SDL_Rect &collider)
     {
-        std::vector<Entity> entities;
+        std::unordered_set<Entity> uniqueEntities;
         int startX = collider.x / CELL_GRID_SIZE;
         int startY = collider.y / CELL_GRID_SIZE;
         int endX = (collider.x + collider.w) / CELL_GRID_SIZE;
@@ -50,14 +51,14 @@ public:
         {
             for (int y = startY; y <= endY; ++y)
             {
-                auto cell = mHashTable.find(std::make_pair(x, y));
+                auto cell = mHashTable.find({x, y});
                 if (cell != mHashTable.end())
                 {
-                    entities.insert(entities.end(), cell->second.begin(), cell->second.end());
+                    uniqueEntities.insert(cell->second.begin(), cell->second.end());
                 }
             }
         }
-        return entities;
+        return {uniqueEntities.begin(), uniqueEntities.end()};
     }
 
     void Clear()
