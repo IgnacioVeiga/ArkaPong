@@ -8,54 +8,76 @@
 class SceneManager
 {
 public:
-    void Add(const std::string &name, std::unique_ptr<Scene> scene)
+    void Add(const std::string& name, std::unique_ptr<Scene> scene)
     {
         scenes[name] = std::move(scene);
     }
 
-    void Init(const std::string &name)
+    // Initiate multiple scenes
+    void Init(const std::string& name)
     {
-        currentScene = scenes[name].get();
-        if (currentScene)
+        if (scenes.find(name) != scenes.end())
         {
-            currentScene->Init();
+            Scene* newScene = scenes[name].get();
+            newScene->Init();
+            activeScenes.push_back(newScene);
         }
     }
 
+    // Update all active scenes
     void Update(float deltaTime)
     {
-        if (currentScene)
+        for (auto& scene : activeScenes)
         {
-            currentScene->Update(deltaTime);
+            scene->Update(deltaTime);
         }
     }
 
-    void ChangeScene(const std::string &name)
+    // Switch to a new scene, replacing all the current ones.
+    void ChangeScene(const std::string& name)
     {
-        if (currentScene)
-        {
-            currentScene->Cleanup();
-        }
+        CleanupActiveScenes();
+        Init(name);
+    }
 
+    // Add a new scene without removing the previous ones
+    void PushScene(const std::string& name)
+    {
         if (scenes.find(name) != scenes.end())
         {
-            currentScene = scenes[name].get();
-            if (currentScene)
-            {
-                currentScene->Init();
-            }
+            Scene* newScene = scenes[name].get();
+            newScene->Init();
+            activeScenes.push_back(newScene); // Añadir a la lista sin borrar las otras
         }
     }
 
-    void RemoveScene(const std::string &name)
+    // Remove last scene
+    void PopScene()
     {
-        if (scenes.find(name) != scenes.end())
+        if (!activeScenes.empty())
         {
-            scenes.erase(name);
+            Scene* scene = activeScenes.back();
+            scene->Cleanup();
+            activeScenes.pop_back();
         }
+    }
+
+    // Remove a scene by name
+    void RemoveScene(const std::string& name)
+    {
+        scenes.erase(name);
     }
 
 private:
     std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;
-    Scene *currentScene = nullptr;
+    std::vector<Scene*> activeScenes;
+
+    void CleanupActiveScenes()
+    {
+        for (auto& scene : activeScenes)
+        {
+            scene->Cleanup();
+        }
+        activeScenes.clear();
+    }
 };
