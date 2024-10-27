@@ -58,8 +58,7 @@ private:
 
 	void ResetEntityPositionAndVelocity(TransformComponent &transformComponent, VelocityComponent &velocityComponent)
 	{
-		transformComponent.position.x = SCREEN_WIDTH / 2;
-		transformComponent.position.y = SCREEN_HEIGHT / 2;
+		transformComponent.position = Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
 		velocityComponent.x = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
 		int factor = rand() % BALL_SPEED + 1;

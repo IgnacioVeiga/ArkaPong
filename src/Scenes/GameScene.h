@@ -68,8 +68,8 @@ public:
 			C_WHITE,
 			RETRO_FONT_FILEPATH,
 			16,
-			16,
-			16);
+			Vec2(16, 16)
+		);
 
 		CreateTextEntity(
 			"PlayerRightScore",
@@ -78,8 +78,7 @@ public:
 			C_WHITE,
 			RETRO_FONT_FILEPATH,
 			16,
-			SCREEN_WIDTH - 16,
-			16,
+			Vec2(SCREEN_WIDTH - 16, 16),
 			Side::RIGHT);
 
 		CreateTextEntity(
@@ -89,8 +88,7 @@ public:
 			C_GREEN,
 			RETRO_FONT_FILEPATH,
 			8,
-			SCREEN_WIDTH / 2,
-			SCREEN_HEIGHT - 16,
+			Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 16),
 			Side::CENTER);
 		CreateBGMEntity("BGM", "Game", ROUND_START_BGM_FILEPATH);
 		CreateAnimatedEntity(

@@ -29,11 +29,11 @@ public:
 			auto& transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
 
 			if (pathComponent.path) {
-				pathComponent.path->UpdatePosition(transformComponent.position.x, transformComponent.position.y, deltaTime);
+				pathComponent.path->UpdatePosition(transformComponent.position, deltaTime);
 			}
 
 			for (const auto& event : pathComponent.events) {
-				if (transformComponent.position.x == event.triggerX && transformComponent.position.y == event.triggerY) {
+				if (transformComponent.position == event.trigger) {
 					event.action(entity);
 				}
 			}

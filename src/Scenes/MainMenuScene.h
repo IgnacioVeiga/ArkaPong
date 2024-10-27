@@ -21,8 +21,7 @@ public:
             C_WHITE,
             RETRO_FONT_FILEPATH,
             24,
-            SCREEN_WIDTH / 2,
-            PADDLE_OFFSET,
+            Vec2(SCREEN_WIDTH / 2, PADDLE_OFFSET),
             Side::CENTER);
 
         // TODO: add menu options
@@ -33,8 +32,7 @@ public:
             C_WHITE,
             RETRO_FONT_FILEPATH,
             16,
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2,
+            Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2),
             Side::CENTER);
 
         CreateTextEntity(
@@ -44,8 +42,7 @@ public:
             C_GRAY,
             RETRO_FONT_FILEPATH,
             8,
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT - PADDLE_OFFSET,
+            Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT - PADDLE_OFFSET),
             Side::CENTER);
     };
 

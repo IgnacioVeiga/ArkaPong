@@ -8,16 +8,16 @@
 class BasePath {
 public:
 	virtual ~BasePath() = default;
-	virtual void UpdatePosition(float& x, float& y, float deltaTime) = 0;
+	virtual void UpdatePosition(Vec2& pos, float deltaTime) = 0;
 };
 
 // Example of a linear path script
 class LinearPath : public BasePath {
 public:
 	LinearPath(float velocityX, float velocityY) : velocityX(velocityX), velocityY(velocityY) {}
-	void UpdatePosition(float& x, float& y, float deltaTime) override {
-		x += velocityX * deltaTime;
-		y += velocityY * deltaTime;
+	void UpdatePosition(Vec2& pos, float deltaTime) override {
+		pos.x += velocityX * deltaTime;
+		pos.y += velocityY * deltaTime;
 	}
 private:
 	float velocityX;
@@ -29,10 +29,10 @@ class CircularPath : public BasePath {
 public:
 	CircularPath(float centerX, float centerY, float radius, float speed)
 		: centerX(centerX), centerY(centerY), radius(radius), speed(speed), angle(0.0f) {}
-	void UpdatePosition(float& x, float& y, float deltaTime) override {
+	void UpdatePosition(Vec2& pos, float deltaTime) override {
 		angle += speed * deltaTime;
-		x = centerX + radius * cos(angle);
-		y = centerY + radius * sin(angle);
+		pos.x = centerX + radius * cos(angle);
+		pos.y = centerY + radius * sin(angle);
 	}
 private:
 	float centerX;
@@ -48,11 +48,11 @@ public:
 	LinearInterpolationPath(float startX, float startY, float endX, float endY, float duration)
 		: startX(startX), startY(startY), endX(endX), endY(endY), duration(duration), elapsedTime(0.0f) {}
 
-	void UpdatePosition(float& x, float& y, float deltaTime) override {
+	void UpdatePosition(Vec2& pos, float deltaTime) override {
 		elapsedTime += deltaTime;
 		float t = std::min(elapsedTime / duration, 1.0f);
-		x = startX + t * (endX - startX);
-		y = startY + t * (endY - startY);
+		pos.x = startX + t * (endX - startX);
+		pos.y = startY + t * (endY - startY);
 	}
 
 private:
@@ -64,12 +64,12 @@ public:
 	BezierCurvePath(std::vector<std::pair<float, float>> controlPoints, float duration)
 		: controlPoints(controlPoints), duration(duration), elapsedTime(0.0f) {}
 
-	void UpdatePosition(float& x, float& y, float deltaTime) override {
+	void UpdatePosition(Vec2& pos, float deltaTime) override {
 		elapsedTime += deltaTime;
 		float t = std::min(elapsedTime / duration, 1.0f);
 		auto point = CalculateBezierPoint(t);
-		x = point.first;
-		y = point.second;
+		pos.x = point.first;
+		pos.y = point.second;
 	}
 
 private:
@@ -96,8 +96,7 @@ private:
 
 // Structure to define a motion event that follows a trajectory
 struct PathEvent {
-	float triggerX;
-	float triggerY;
+	Vec2 trigger;
 
 	// Action to execute when event triggers
 	std::function<void(Entity)> action;

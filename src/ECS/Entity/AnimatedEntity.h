@@ -44,11 +44,7 @@ void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const
 		1.0f						// Speed
 	);
 
-	//std::shared_ptr<BaseMovementScript> movementScript = std::make_shared<LinearMovementScript>(50.0f, 0.0f);
-
-	std::vector<PathEvent> events = {
-		/*{posX + 100, posY, TriggerAction}*/
-	};
+	std::vector<PathEvent> events = {};
 
 	Game::coordinator.AddComponent(entity, PathComponent{ movementScript, events });
 }

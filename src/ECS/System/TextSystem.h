@@ -28,9 +28,9 @@ public:
 
 			if (textComponent.texture)
 			{
-				SDL_Rect renderRect = GetAlignedRect(textComponent);
+				SDL_Rect renderRect = GetAlignedRect(entity, textComponent);
 				SDL_RenderCopy(
-					Game::window.GetRenderer(), // Renderer
+					Game::window.GetRenderer(),		// Renderer
 					textComponent.texture,			// Texture
 					NULL,							// Source rectangle
 					&renderRect						// Destination Rectangle
@@ -70,16 +70,23 @@ private:
 		SDL_FreeSurface(surface);
 	}
 
-	SDL_Rect GetAlignedRect(const TextComponent& textComponent)
+	SDL_Rect GetAlignedRect(Entity entity, TextComponent& textComponent)
 	{
-		SDL_Rect renderRect;
-		renderRect.w = 0;
-		renderRect.h = 0;
+		SDL_Rect renderRect{ 0, 0, 0, 0 };
 		SDL_QueryTexture(textComponent.texture, NULL, NULL, &renderRect.w, &renderRect.h);
 
-		renderRect.x = textComponent.x;
-		renderRect.y = textComponent.y;
+		// Check if the entity has a TransformComponent
+		Vec2 finalPosition = textComponent.position;
+		if (Game::coordinator.HasComponent<TransformComponent>(entity))
+		{
+			auto& transform = Game::coordinator.GetComponent<TransformComponent>(entity);
+			finalPosition = transform.position + textComponent.position; // Add relative position
+		}
 
+		renderRect.x = finalPosition.x;
+		renderRect.y = finalPosition.y;
+
+		// Handle alignment
 		switch (textComponent.alignment)
 		{
 		case Side::CENTER:
@@ -92,6 +99,7 @@ private:
 		default:
 			break;
 		}
+
 		return renderRect;
 	}
 };

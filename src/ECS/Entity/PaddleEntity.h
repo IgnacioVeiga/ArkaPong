@@ -8,35 +8,37 @@
 #include "../Component/SpriteComponent.h"
 #include "../Component/CollisionComponent.h"
 #include "../Component/InputComponent.h"
+#include "../Component/TextComponent.h"
 #include "../../Utils/Constants.h"
 #include "../../Utils/Enums.h"
 #include "../../Utils/TextureManager.h"
+#include "../../Utils/FontManager.h"
 #include <vector>
 
 auto paddleCollisionCallback = [](Entity self, Entity other)
-{
-	// TODO: do collision logic with walls, enemies or something like that.
-};
+	{
+		// TODO: do collision logic with walls, enemies or something like that.
+	};
 
 auto goUpCallback = [](Entity self)
-{
-	auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
-	auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(self);
+	{
+		auto& transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
+		auto& velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(self);
 
-	transformComponent.position.y = std::max(0.0f, transformComponent.position.y - velocityComponent.y);
-};
+		transformComponent.position.y = std::max(0.0f, transformComponent.position.y - velocityComponent.y);
+	};
 
 auto goDownCallback = [](Entity self)
-{
-	auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
-	auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(self);
+	{
+		auto& transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
+		auto& velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(self);
 
-	transformComponent.position.y = std::min(static_cast<float>(SCREEN_HEIGHT - PADDLE_HEIGHT), transformComponent.position.y + velocityComponent.y);
-};
+		transformComponent.position.y = std::min(static_cast<float>(SCREEN_HEIGHT - PADDLE_HEIGHT), transformComponent.position.y + velocityComponent.y);
+	};
 
 void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side side)
 {
-	SDL_Texture *texture = TextureManager::LoadTexture(VAUS_SPRITE_FILEPATH);
+	SDL_Texture* texture = TextureManager::LoadTexture(VAUS_SPRITE_FILEPATH);
 	SDL_Rect srcRectPaddle = {
 		0,			  // X
 		0,			  // Y
@@ -52,13 +54,13 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 
 	std::vector<InputBehavior> keyMappings = {
 		{upKeyCode, goUpCallback},
-		{downKeyCode, goDownCallback}};
+		{downKeyCode, goDownCallback} };
 
 	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 	Game::coordinator.AddComponent(
 		entity,
 		TransformComponent{
-			Vec2(x_position, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2)});
+			Vec2(x_position, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2) });
 	Game::coordinator.AddComponent(
 		entity,
 		VelocityComponent{
@@ -71,13 +73,13 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 			texture,	   // Texture
 			srcRectPaddle, // Source rectangle
 			{
-				// Destination rectangle
-				0,			  // X
-				0,			  // Y
-				PADDLE_WIDTH, // W
-				PADDLE_HEIGHT // H
-			},
-			flip});
+			// Destination rectangle
+			0,			  // X
+			0,			  // Y
+			PADDLE_WIDTH, // W
+			PADDLE_HEIGHT // H
+		},
+		flip });
 	Game::coordinator.AddComponent(
 		entity,
 		CollisionComponent{
@@ -88,8 +90,8 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 				PADDLE_WIDTH, // W
 				PADDLE_HEIGHT // H
 			},
-			paddleCollisionCallback});
+			paddleCollisionCallback });
 	Game::coordinator.AddComponent(
 		entity,
-		InputComponent{keyMappings});
+		InputComponent{ keyMappings });
 }
