@@ -4,7 +4,7 @@
 #include "../../Game.h"
 #include "../Coordinator.h"
 #include "../Component/SpriteComponent.h"
-#include "../Component/PositionComponent.h"
+#include "../Component/TransformComponent.h"
 #include "../../Utils/Constants.h"
 
 class SpriteSystem : public System
@@ -19,26 +19,26 @@ public:
 
 	void Update()
 	{
-		for (auto const& entity : mEntities)
+		for (auto const &entity : mEntities)
 		{
-			auto& spriteComponent = Game::coordinator.GetComponent<SpriteComponent>(entity);
-			auto& positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+			auto &spriteComponent = Game::coordinator.GetComponent<SpriteComponent>(entity);
+			auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
 
 			SDL_FRect destRect = {
-				positionComponent.x,        // X
-				positionComponent.y,        // Y
-				spriteComponent.destRect.w, // W
-				spriteComponent.destRect.h  // H
+				transformComponent.position.x, // X
+				transformComponent.position.y, // Y
+				spriteComponent.destRect.w,	   // W
+				spriteComponent.destRect.h	   // H
 			};
 
 			SDL_RenderCopyExF(
 				Game::window.GetRenderer(), // Renderer
-				spriteComponent.texture,        // Texture
-				&spriteComponent.srcRect,       // Source rectangle
-				&destRect,                      // Destination rectangle
-				0.0,                            // Angle
-				nullptr,                        // Center
-				spriteComponent.flip            // Flip
+				spriteComponent.texture,	// Texture
+				&spriteComponent.srcRect,	// Source rectangle
+				&destRect,					// Destination rectangle
+				0.0,						// Angle
+				nullptr,					// Center
+				spriteComponent.flip		// Flip
 			);
 		}
 
@@ -46,7 +46,7 @@ public:
 		DrawGrid(Game::window.GetRenderer(), SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
 	}
 
-	void DrawGrid(SDL_Renderer* renderer, int gridWidth, int gridHeight, int cellSize)
+	void DrawGrid(SDL_Renderer *renderer, int gridWidth, int gridHeight, int cellSize)
 	{
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		for (int x = 0; x <= gridWidth; x += cellSize)

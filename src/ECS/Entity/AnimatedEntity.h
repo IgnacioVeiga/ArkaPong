@@ -15,10 +15,7 @@ void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const
 	SDL_Texture* texture = TextureManager::LoadTexture(texturePath.c_str());
 	Game::coordinator.AddComponent(
 		entity,
-		PositionComponent{
-			posX, // X
-			posY  // Y
-		});
+		TransformComponent{Vec2(posX, posY)});
 	Game::coordinator.AddComponent(
 		entity,
 		SpriteComponent{

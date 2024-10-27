@@ -3,7 +3,7 @@
 #include "../../../Game.h"
 #include "../../Coordinator.h"
 #include "../../Component/Background/TileBackgroundComponent.h"
-#include "../../Component/PositionComponent.h"
+#include "../../Component/TransformComponent.h"
 
 class TileBackgroundSystem : public System {
 public:

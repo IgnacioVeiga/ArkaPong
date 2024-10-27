@@ -120,8 +120,9 @@
     <ClInclude Include="src\ECS\Component\AudioComponent.h" />
     <ClInclude Include="src\ECS\Component\CollisionComponent.h" />
     <ClInclude Include="src\ECS\ComponentManager.h" />
+    <ClInclude Include="src\ECS\Component\BaseComponent.h" />
     <ClInclude Include="src\ECS\Component\InputComponent.h" />
-    <ClInclude Include="src\ECS\Component\PositionComponent.h" />
+    <ClInclude Include="src\ECS\Component\TransformComponent.h" />
     <ClInclude Include="src\ECS\Component\SpriteComponent.h" />
     <ClInclude Include="src\ECS\Component\TextComponent.h" />
     <ClInclude Include="src\ECS\Component\VelocityComponent.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="src\ECS\System\Background\SolidColorBackgroundSystem.h" />
     <ClInclude Include="src\ECS\System\Background\TileBackgroundSystem.h" />
     <ClInclude Include="src\ECS\System\AudioSystem.h" />
+    <ClInclude Include="src\ECS\System\BaseSystem.h" />
     <ClInclude Include="src\ECS\System\CollisionSystem.h" />
     <ClInclude Include="src\ECS\System\InputSystem.h" />
     <ClInclude Include="src\ECS\System\MovementSystem.h" />
@@ -141,6 +143,7 @@
     <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\ECS\System\TextSystem.h" />
     <ClInclude Include="src\Utils\TextureManager.h" />
+    <ClInclude Include="src\Utils\Vec2.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>

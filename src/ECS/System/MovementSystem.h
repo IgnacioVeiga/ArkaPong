@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Coordinator.h"
-#include "../Component/PositionComponent.h"
+#include "../Component/TransformComponent.h"
 #include "../Component/VelocityComponent.h"
 #include "../../Utils/Constants.h"
 #include <algorithm>
@@ -12,7 +12,7 @@ public:
 	void Init()
 	{
 		Signature signature;
-		signature.set(Game::coordinator.GetComponentType<PositionComponent>());
+		signature.set(Game::coordinator.GetComponentType<TransformComponent>());
 		signature.set(Game::coordinator.GetComponentType<VelocityComponent>());
 		Game::coordinator.SetSystemSignature<MovementSystem>(signature);
 	}
@@ -33,33 +33,33 @@ public:
 private:
 	void UpdateEntityMovement(Entity entity, float deltaTime)
 	{
-		auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+		auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
 		auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(entity);
 
-		positionComponent.x += velocityComponent.x * deltaTime;
-		positionComponent.y += velocityComponent.y * deltaTime;
+		transformComponent.position.x += velocityComponent.x * deltaTime;
+		transformComponent.position.y += velocityComponent.y * deltaTime;
 	}
 
 	void CheckOutOfBounds(Entity entity)
 	{
-		auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+		auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
 		auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(entity);
 
-		if (positionComponent.x > SCREEN_WIDTH || positionComponent.x < 0)
+		if (transformComponent.position.x > SCREEN_WIDTH || transformComponent.position.x < 0)
 		{
-			ResetEntityPositionAndVelocity(positionComponent, velocityComponent);
+			ResetEntityPositionAndVelocity(transformComponent, velocityComponent);
 		}
 
-		if (positionComponent.y > SCREEN_HEIGHT || positionComponent.y < 0)
+		if (transformComponent.position.y > SCREEN_HEIGHT || transformComponent.position.y < 0)
 		{
 			velocityComponent.y = -velocityComponent.y;
 		}
 	}
 
-	void ResetEntityPositionAndVelocity(PositionComponent &positionComponent, VelocityComponent &velocityComponent)
+	void ResetEntityPositionAndVelocity(TransformComponent &transformComponent, VelocityComponent &velocityComponent)
 	{
-		positionComponent.x = SCREEN_WIDTH / 2;
-		positionComponent.y = SCREEN_HEIGHT / 2;
+		transformComponent.position.x = SCREEN_WIDTH / 2;
+		transformComponent.position.y = SCREEN_HEIGHT / 2;
 
 		velocityComponent.x = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
 		int factor = rand() % BALL_SPEED + 1;

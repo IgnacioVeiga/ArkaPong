@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "../Coordinator.h"
 #include "../../Game.h"
-#include "../Component/PositionComponent.h"
+#include "../Component/TransformComponent.h"
 #include "../Component/VelocityComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/CollisionComponent.h"
@@ -14,17 +14,17 @@
 auto ballCollisionCallback = [](Entity self, Entity other)
 {
 	auto &velSelf = Game::coordinator.GetComponent<VelocityComponent>(self);
-	auto &posSelf = Game::coordinator.GetComponent<PositionComponent>(self);
+	auto &posSelf = Game::coordinator.GetComponent<TransformComponent>(self);
 	auto &colSelf = Game::coordinator.GetComponent<CollisionComponent>(self);
 
-	auto &posOther = Game::coordinator.GetComponent<PositionComponent>(other);
+	auto &posOther = Game::coordinator.GetComponent<TransformComponent>(other);
 	auto &colOther = Game::coordinator.GetComponent<CollisionComponent>(other);
 
 	// Calculate overlap on each side of the collision
-	float overlapLeft = (posSelf.x + colSelf.collider.w) - posOther.x;
-	float overlapRight = (posOther.x + colOther.collider.w) - posSelf.x;
-	float overlapTop = (posSelf.y + colSelf.collider.h) - posOther.y;
-	float overlapBottom = (posOther.y + colOther.collider.h) - posSelf.y;
+	float overlapLeft = (posSelf.position.x + colSelf.collider.w) - posOther.position.x;
+	float overlapRight = (posOther.position.x + colOther.collider.w) - posSelf.position.x;
+	float overlapTop = (posSelf.position.y + colSelf.collider.h) - posOther.position.y;
+	float overlapBottom = (posOther.position.y + colOther.collider.h) - posSelf.position.y;
 
 	// Determine which side the collision is coming from
 	bool fromLeft = fabs(overlapLeft) < fabs(overlapRight);
@@ -40,14 +40,14 @@ auto ballCollisionCallback = [](Entity self, Entity other)
 		// Horizontal collision
 		velSelf.x = -velSelf.x;
 		// Separate the ball by a small amount
-		posSelf.x += fromLeft ? -minOverlapX : minOverlapX;
+		posSelf.position.x += fromLeft ? -minOverlapX : minOverlapX;
 	}
 	else
 	{
 		// Vertical collision
 		velSelf.y = -velSelf.y;
 		// Separate the ball by a small amount
-		posSelf.y += fromTop ? -minOverlapY : minOverlapY;
+		posSelf.position.y += fromTop ? -minOverlapY : minOverlapY;
 	}
 };
 
@@ -66,10 +66,9 @@ void CreateBallEntity(std::string entity_name, std::string scene_name)
 
 	Game::coordinator.AddComponent(
 		entity,
-		PositionComponent{
-			SCREEN_WIDTH / 2 - BALL_SIZE / 2,  // X
-			SCREEN_HEIGHT / 2 - BALL_SIZE / 2, // Y
-		});
+		TransformComponent{
+			Vec2(SCREEN_WIDTH / 2 - BALL_SIZE / 2,
+				 SCREEN_HEIGHT / 2 - BALL_SIZE / 2)});
 	Game::coordinator.AddComponent(
 		entity,
 		VelocityComponent{

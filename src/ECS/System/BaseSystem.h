@@ -25,7 +25,7 @@ public:
 		Game::coordinator.SetSystemSignature<BaseSystem>(signature);
 
 		Game::coordinator.RegisterComponent<InputComponent>();
-		Game::coordinator.RegisterComponent<PositionComponent>();
+		Game::coordinator.RegisterComponent<TransformComponent>();
 		Game::coordinator.RegisterComponent<VelocityComponent>();
 		Game::coordinator.RegisterComponent<SpriteComponent>();
 		Game::coordinator.RegisterComponent<AudioComponent>();

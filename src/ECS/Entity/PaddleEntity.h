@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "../Coordinator.h"
 #include "../../Game.h"
-#include "../Component/PositionComponent.h"
+#include "../Component/TransformComponent.h"
 #include "../Component/VelocityComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/CollisionComponent.h"
@@ -20,18 +20,18 @@ auto paddleCollisionCallback = [](Entity self, Entity other)
 
 auto goUpCallback = [](Entity self)
 {
-	auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(self);
+	auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
 	auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(self);
 
-	positionComponent.y = std::max(0.0f, positionComponent.y - velocityComponent.y);
+	transformComponent.position.y = std::max(0.0f, transformComponent.position.y - velocityComponent.y);
 };
 
 auto goDownCallback = [](Entity self)
 {
-	auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(self);
+	auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
 	auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(self);
 
-	positionComponent.y = std::min(static_cast<float>(SCREEN_HEIGHT - PADDLE_HEIGHT), positionComponent.y + velocityComponent.y);
+	transformComponent.position.y = std::min(static_cast<float>(SCREEN_HEIGHT - PADDLE_HEIGHT), transformComponent.position.y + velocityComponent.y);
 };
 
 void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side side)
@@ -57,10 +57,8 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 	Game::coordinator.AddComponent(
 		entity,
-		PositionComponent{
-			x_position,							  // X
-			SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2 // Y
-		});
+		TransformComponent{
+			Vec2(x_position, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2)});
 	Game::coordinator.AddComponent(
 		entity,
 		VelocityComponent{

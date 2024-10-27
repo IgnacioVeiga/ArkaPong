@@ -2,7 +2,7 @@
 
 #include "../../Game.h"
 #include "../Coordinator.h"
-#include "../Component/PositionComponent.h"
+#include "../Component/TransformComponent.h"
 #include "../Component/PathComponent.h"
 #include <chrono>
 
@@ -11,7 +11,7 @@ public:
 	void Init() {
 		Signature signature;
 		signature.set(Game::coordinator.GetComponentType<PathComponent>());
-		signature.set(Game::coordinator.GetComponentType<PositionComponent>());
+		signature.set(Game::coordinator.GetComponentType<TransformComponent>());
 		Game::coordinator.SetSystemSignature<PathSystem>(signature);
 	}
 
@@ -26,14 +26,14 @@ public:
 
 		for (auto const& entity : mEntities) {
 			auto& pathComponent = Game::coordinator.GetComponent<PathComponent>(entity);
-			auto& positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+			auto& transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
 
 			if (pathComponent.path) {
-				pathComponent.path->UpdatePosition(positionComponent.x, positionComponent.y, deltaTime);
+				pathComponent.path->UpdatePosition(transformComponent.position.x, transformComponent.position.y, deltaTime);
 			}
 
 			for (const auto& event : pathComponent.events) {
-				if (positionComponent.x == event.triggerX && positionComponent.y == event.triggerY) {
+				if (transformComponent.position.x == event.triggerX && transformComponent.position.y == event.triggerY) {
 					event.action(entity);
 				}
 			}

@@ -6,7 +6,7 @@
 #include "../../Utils/SpatialHash.h"
 #include "../Coordinator.h"
 #include "../Component/CollisionComponent.h"
-#include "../Component/PositionComponent.h"
+#include "../Component/TransformComponent.h"
 
 class CollisionSystem : public System
 {
@@ -15,7 +15,7 @@ public:
 	{
 		Signature signature;
 		signature.set(Game::coordinator.GetComponentType<CollisionComponent>());
-		signature.set(Game::coordinator.GetComponentType<PositionComponent>());
+		signature.set(Game::coordinator.GetComponentType<TransformComponent>());
 		Game::coordinator.SetSystemSignature<CollisionSystem>(signature);
 	}
 
@@ -41,17 +41,17 @@ private:
 		for (const auto &entity : mEntities)
 		{
 			auto &collisionComponent = Game::coordinator.GetComponent<CollisionComponent>(entity);
-			auto &positionComponent = Game::coordinator.GetComponent<PositionComponent>(entity);
+			auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
 
-			UpdateColliderPosition(collisionComponent, positionComponent);
+			UpdateColliderPosition(collisionComponent, transformComponent);
 			spatialHash.Insert(entity, collisionComponent.collider);
 		}
 	}
 
-	void UpdateColliderPosition(CollisionComponent &collisionComponent, PositionComponent &positionComponent)
+	void UpdateColliderPosition(CollisionComponent &collisionComponent, TransformComponent &transformComponent)
 	{
-		collisionComponent.collider.x = static_cast<int>(positionComponent.x);
-		collisionComponent.collider.y = static_cast<int>(positionComponent.y);
+		collisionComponent.collider.x = static_cast<int>(transformComponent.position.x);
+		collisionComponent.collider.y = static_cast<int>(transformComponent.position.y);
 	}
 
 	void DetectCollisions(std::vector<std::pair<Entity, Entity>> &collisions)

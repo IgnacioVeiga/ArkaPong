@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "../Coordinator.h"
 #include "../../Game.h"
-#include "../Component/PositionComponent.h"
+#include "../Component/TransformComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/CollisionComponent.h"
 #include "../../Utils/Constants.h"
@@ -26,10 +26,7 @@ void CreateBrickEntity(std::string entity_name, std::string scene_name, float po
 
 	Game::coordinator.AddComponent(
 		entity,
-		PositionComponent{
-			posX, // X
-			posY, // Y
-		});
+		TransformComponent{Vec2(posX, posY)});
 	Game::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
