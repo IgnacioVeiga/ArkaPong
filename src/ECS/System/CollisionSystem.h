@@ -19,7 +19,7 @@ public:
 		Game::coordinator.SetSystemSignature<CollisionSystem>(signature);
 	}
 
-	void Update(float deltaTime)
+	void Update()
 	{
 		spatialHash.Clear();
 		PopulateSpatialHash();

@@ -9,7 +9,7 @@
 #include "../Component/Background/ImageBackgroundComponent.h"
 #include "../Component/Background/ParallaxBackgroundComponent.h"
 
-Entity CreateTileBackgroundEntity()
+void CreateTileBackgroundEntity(std::string entity_name, std::string scene_name)
 {
 	// Load the tile texture
 	SDL_Texture *tileTexture = TextureManager::LoadTexture(BGS_SPRITE_FILEPATH);
@@ -28,28 +28,24 @@ Entity CreateTileBackgroundEntity()
 
 	std::vector<int> tiles(mapWidth * mapHeight, 0);
 
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 	Game::coordinator.AddComponent(entity, TileBackgroundComponent{tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles});
-	return entity;
 }
 
-Entity CreateSolidColorBackgroundEntity(SDL_Color color)
+void CreateSolidColorBackgroundEntity(std::string entity_name, std::string scene_name, SDL_Color color)
 {
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 	Game::coordinator.AddComponent(entity, SolidColorBackgroundComponent{color});
-	return entity;
 }
 
-Entity CreateImageBackgroundEntity(SDL_Texture *imageTexture, int width, int height)
+void CreateImageBackgroundEntity(std::string entity_name, std::string scene_name, SDL_Texture *imageTexture, int width, int height)
 {
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 	Game::coordinator.AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height});
-	return entity;
 }
 
-Entity CreateParallaxBackgroundEntity(std::vector<ParallaxLayer> layers)
+void CreateParallaxBackgroundEntity(std::string entity_name, std::string scene_name, std::vector<ParallaxLayer> layers)
 {
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 	Game::coordinator.AddComponent(entity, ParallaxBackgroundComponent{layers});
-	return entity;
 }

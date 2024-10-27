@@ -14,7 +14,4 @@ public:
     virtual void Resume() = 0;
     virtual bool SaveState(const std::string &filepath) = 0;
     virtual bool LoadState(const std::string &filepath) = 0;
-
-protected:
-    std::unordered_map<std::string, Entity> sceneEntities;
 };

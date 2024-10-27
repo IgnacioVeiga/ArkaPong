@@ -8,9 +8,9 @@
 #include "../Component/SpriteComponent.h"
 #include "../Component/PathComponent.h"
 
-Entity CreateAnimatedEntity(const std::string& texturePath, int frameCount, int frameWidth, int frameHeight, int animationSpeed, bool loop, float posX, float posY)
+void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const std::string& texturePath, int frameCount, int frameWidth, int frameHeight, int animationSpeed, bool loop, float posX, float posY)
 {
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 
 	SDL_Texture* texture = TextureManager::LoadTexture(texturePath.c_str());
 	Game::coordinator.AddComponent(
@@ -54,6 +54,4 @@ Entity CreateAnimatedEntity(const std::string& texturePath, int frameCount, int 
 	};
 
 	Game::coordinator.AddComponent(entity, PathComponent{ movementScript, events });
-
-	return entity;
 }

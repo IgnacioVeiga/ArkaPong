@@ -51,7 +51,7 @@ auto ballCollisionCallback = [](Entity self, Entity other)
 	}
 };
 
-Entity CreateBallEntity()
+void CreateBallEntity(std::string entity_name, std::string scene_name)
 {
 	SDL_Texture *texture = TextureManager::LoadTexture(VAUS_SPRITE_FILEPATH);
 
@@ -62,7 +62,7 @@ Entity CreateBallEntity()
 	// Up or down (random)
 	float velY = (rand() % 2 == 0 ? -factor : factor);
 
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 
 	Game::coordinator.AddComponent(
 		entity,
@@ -101,6 +101,4 @@ Entity CreateBallEntity()
 		CollisionComponent{
 			{0, 0, BALL_SIZE, BALL_SIZE},
 			ballCollisionCallback});
-
-	return entity;
 }

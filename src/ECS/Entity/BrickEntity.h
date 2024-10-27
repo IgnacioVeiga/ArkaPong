@@ -15,14 +15,14 @@ auto brickCollisionCallback = [](Entity self, Entity other)
 	Game::coordinator.MarkEntityForDeletion(self);
 };
 
-Entity CreateBrickEntity(float posX, float posY, int brickType)
+void CreateBrickEntity(std::string entity_name, std::string scene_name, float posX, float posY, int brickType)
 {
 	SDL_Texture *texture = TextureManager::LoadTexture(BRICKS_SPRITE_FILEPATH);
 
 	BrickType type = static_cast<BrickType>(brickType);
 	SDL_Rect srcRect = GetBrickSrcRect(type);
 
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 
 	Game::coordinator.AddComponent(
 		entity,
@@ -55,6 +55,4 @@ Entity CreateBrickEntity(float posX, float posY, int brickType)
 				BRICK_HEIGHT // H
 			},
 			brickCollisionCallback});
-
-	return entity;
 }

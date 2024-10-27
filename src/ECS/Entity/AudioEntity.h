@@ -6,9 +6,9 @@
 #include "../../Utils/AudioManager.h"
 #include "../Component/AudioComponent.h"
 
-Entity CreateSFXEntity(const std::string &path, bool loop = false, int channel = -1)
+void CreateSFXEntity(std::string entity_name, std::string scene_name, const std::string &path, bool loop = false, int channel = -1)
 {
-    Entity entity = Game::coordinator.CreateEntity();
+    Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
     Game::coordinator.AddComponent(
         entity,
         AudioComponent{
@@ -18,12 +18,11 @@ Entity CreateSFXEntity(const std::string &path, bool loop = false, int channel =
             loop,
             channel // -1 for automatic channel assignment
         });
-    return entity;
 }
 
-Entity CreateBGMEntity(const std::string &path, bool loop = false)
+void CreateBGMEntity(std::string entity_name, std::string scene_name, const std::string &path, bool loop = false)
 {
-    Entity entity = Game::coordinator.CreateEntity();
+    Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
     Game::coordinator.AddComponent(
         entity,
         AudioComponent{
@@ -33,5 +32,4 @@ Entity CreateBGMEntity(const std::string &path, bool loop = false)
             loop,
             -1 // BGM does not use channels
         });
-    return entity;
 }

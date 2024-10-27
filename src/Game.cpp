@@ -16,32 +16,12 @@ bool Game::game_on = true;
 
 bool Game::Init()
 {
-    if (!window.Init()) return false;
+    if (!window.Init())
+        return false;
 
     coordinator.Init();
-    coordinator.RegisterComponent<InputComponent>();
-    coordinator.RegisterComponent<PositionComponent>();
-    coordinator.RegisterComponent<VelocityComponent>();
-    coordinator.RegisterComponent<SpriteComponent>();
-    coordinator.RegisterComponent<AudioComponent>();
-    coordinator.RegisterComponent<TextComponent>();
-    coordinator.RegisterComponent<CollisionComponent>();
-    coordinator.RegisterComponent<TileBackgroundComponent>();
-    coordinator.RegisterComponent<SolidColorBackgroundComponent>();
-    coordinator.RegisterComponent<AnimationComponent>();
-    coordinator.RegisterComponent<PathComponent>();
-
-    coordinator.RegisterSystem<InputSystem>()->Init();
-    coordinator.RegisterSystem<MovementSystem>()->Init();
-    coordinator.RegisterSystem<SpriteSystem>()->Init();
-    coordinator.RegisterSystem<AudioSystem>()->Init();
-    coordinator.RegisterSystem<TextSystem>()->Init();
-    coordinator.RegisterSystem<CollisionSystem>()->Init();
-    coordinator.RegisterSystem<TileBackgroundSystem>()->Init();
-    coordinator.RegisterSystem<SolidColorBackgroundSystem>()->Init();
-    coordinator.RegisterSystem<AnimationSystem>()->Init();
-    coordinator.RegisterSystem<PathSystem>()->Init();
-
+    coordinator.RegisterComponent<BaseComponent>();
+    coordinator.RegisterSystem<BaseSystem>()->Init();
     return true;
 }
 
@@ -81,7 +61,6 @@ void Game::Run()
 
         // TODO: fix this
         // sceneManager->Update(frameTime / 1000.0f);
-        coordinator.ProcessPendingDeletions();
         sceneManager->Update(1);
 
         SDL_RenderPresent(window.GetRenderer());

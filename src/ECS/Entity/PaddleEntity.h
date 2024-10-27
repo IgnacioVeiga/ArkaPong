@@ -34,7 +34,7 @@ auto goDownCallback = [](Entity self)
 	positionComponent.y = std::min(static_cast<float>(SCREEN_HEIGHT - PADDLE_HEIGHT), positionComponent.y + velocityComponent.y);
 };
 
-Entity CreatePaddleEntity(Side side)
+void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side side)
 {
 	SDL_Texture *texture = TextureManager::LoadTexture(VAUS_SPRITE_FILEPATH);
 	SDL_Rect srcRectPaddle = {
@@ -54,7 +54,7 @@ Entity CreatePaddleEntity(Side side)
 		{upKeyCode, goUpCallback},
 		{downKeyCode, goDownCallback}};
 
-	Entity entity = Game::coordinator.CreateEntity();
+	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 	Game::coordinator.AddComponent(
 		entity,
 		PositionComponent{
@@ -94,6 +94,4 @@ Entity CreatePaddleEntity(Side side)
 	Game::coordinator.AddComponent(
 		entity,
 		InputComponent{keyMappings});
-
-	return entity;
 }

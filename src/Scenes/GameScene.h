@@ -13,22 +13,14 @@
 #include "../ECS/Entity/AudioEntity.h"
 #include "../ECS/Entity/AnimatedEntity.h"
 #include "../ECS/Entity/BrickEntity.h"
-#include "../ECS/System/InputSystem.h"
-#include "../ECS/System/MovementSystem.h"
-#include "../ECS/System/SpriteSystem.h"
-#include "../ECS/System/AnimationSystem.h"
-#include "../ECS/System/AudioSystem.h"
-#include "../ECS/System/CollisionSystem.h"
-#include "../ECS/System/TextSystem.h"
-#include "../ECS/System/PathSystem.h"
-#include "../ECS/System/Background/TileBackgroundSystem.h"
+#include "../ECS/System/BaseSystem.h"
 
 class GameScene : public Scene
 {
 public:
 	void Init() override
 	{
-		sceneEntities["TileBackground"] = CreateTileBackgroundEntity();
+		CreateTileBackgroundEntity("TileBG", "Game");
 
 		std::ifstream infile("assets/levels/1.txt");
 		std::string line;
@@ -54,7 +46,9 @@ public:
 				// 0 = None
 				if (blockType != 0)
 				{
-					sceneEntities["BrickR" + std::to_string(row) + "C" + std::to_string(col)] = CreateBrickEntity(
+					CreateBrickEntity(
+						"BrickR" + std::to_string(row) + "C" + std::to_string(col),
+						"Game",
 						startX + col * BRICK_WIDTH,	 // X
 						startY + row * BRICK_HEIGHT, // Y
 						blockType);
@@ -64,10 +58,12 @@ public:
 			++row;
 		}
 
-		sceneEntities["Ball"] = CreateBallEntity();
-		sceneEntities["PlayerLeft"] = CreatePaddleEntity(Side::LEFT);
-		sceneEntities["PlayerRight"] = CreatePaddleEntity(Side::RIGHT);
-		sceneEntities["PL_Score"] = CreateTextEntity(
+		CreateBallEntity("Ball", "Game");
+		CreatePaddleEntity("PlayerLeft", "Game", Side::LEFT);
+		CreatePaddleEntity("PlayerRight", "Game", Side::RIGHT);
+		CreateTextEntity(
+			"PlayerLeftScore",
+			"Game",
 			"P1: 0",
 			C_WHITE,
 			RETRO_FONT_FILEPATH,
@@ -75,7 +71,9 @@ public:
 			16,
 			16);
 
-		sceneEntities["PR_Score"] = CreateTextEntity(
+		CreateTextEntity(
+			"PlayerRightScore",
+			"Game",
 			"P2: 0",
 			C_WHITE,
 			RETRO_FONT_FILEPATH,
@@ -84,7 +82,9 @@ public:
 			16,
 			Side::RIGHT);
 
-		sceneEntities["DemoText"] = CreateTextEntity(
+		CreateTextEntity(
+			"DemoText",
+			"Game",
 			"Demo text",
 			C_GREEN,
 			RETRO_FONT_FILEPATH,
@@ -92,8 +92,10 @@ public:
 			SCREEN_WIDTH / 2,
 			SCREEN_HEIGHT - 16,
 			Side::CENTER);
-		sceneEntities["BGM"] = CreateBGMEntity(ROUND_START_BGM_FILEPATH);
-		sceneEntities["Enemy"] = CreateAnimatedEntity(
+		CreateBGMEntity("BGM", "Game", ROUND_START_BGM_FILEPATH);
+		CreateAnimatedEntity(
+			"Enemy",
+			"Game",
 			ENEMIES_SPRITE_FILEPATH,
 			8,
 			16,
@@ -106,15 +108,7 @@ public:
 
 	void Update(float deltaTime) override
 	{
-		Game::coordinator.GetSystem<InputSystem>()->Update();
-		Game::coordinator.GetSystem<MovementSystem>()->Update(deltaTime);
-		Game::coordinator.GetSystem<TileBackgroundSystem>()->Update();
-		Game::coordinator.GetSystem<SpriteSystem>()->Update();
-		Game::coordinator.GetSystem<AudioSystem>()->Update();
-		Game::coordinator.GetSystem<TextSystem>()->Update();
-		Game::coordinator.GetSystem<CollisionSystem>()->Update(deltaTime);
-		Game::coordinator.GetSystem<AnimationSystem>()->Update();
-		Game::coordinator.GetSystem<PathSystem>()->Update();
+		Game::coordinator.GetSystem<BaseSystem>()->Update(deltaTime);
 
 		// TODO: use the input system
 		const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
@@ -126,12 +120,7 @@ public:
 
 	void Cleanup() override
 	{
-		// Clean up entities and other resources
-		for (const auto &entityPair : sceneEntities)
-		{
-			Game::coordinator.DestroyEntity(entityPair.second);
-		}
-		sceneEntities.clear();
+		Game::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene("Game");
 	}
 
 	void Pause() override

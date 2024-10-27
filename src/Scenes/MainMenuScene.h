@@ -4,21 +4,19 @@
 #include "Scene.h"
 #include "../Game.h"
 #include "../ECS/Coordinator.h"
-#include "../ECS/System/SpriteSystem.h"
-#include "../ECS/System/InputSystem.h"
-#include "../ECS/System/AudioSystem.h"
-#include "../ECS/System/TextSystem.h"
-#include "../ECS/System/Background/SolidColorBackgroundSystem.h"
+#include "../ECS/System/BaseSystem.h"
 
 class MainMenuScene : public Scene
 {
 public:
     void Init() override
     {
-        sceneEntities["BlackBackground"] = CreateSolidColorBackgroundEntity(C_BLACK);
+        CreateSolidColorBackgroundEntity("BlackBG", "MainMenu", C_BLACK);
 
         // TODO: use a sprite as title
-        sceneEntities["Title"] = CreateTextEntity(
+        CreateTextEntity(
+            "Title",
+            "MainMenu",
             GAME_TITLE,
             C_WHITE,
             RETRO_FONT_FILEPATH,
@@ -28,7 +26,9 @@ public:
             Side::CENTER);
 
         // TODO: add menu options
-        sceneEntities["Menu"] = CreateTextEntity(
+        CreateTextEntity(
+            "Menu",
+            "MainMenu",
             "Press ENTER",
             C_WHITE,
             RETRO_FONT_FILEPATH,
@@ -37,7 +37,9 @@ public:
             SCREEN_HEIGHT / 2,
             Side::CENTER);
 
-        sceneEntities["Footer"] = CreateTextEntity(
+        CreateTextEntity(
+            "Footer",
+            "MainMenu",
             "pre-alpha 2024",
             C_GRAY,
             RETRO_FONT_FILEPATH,
@@ -49,8 +51,7 @@ public:
 
     void Update(float deltaTime) override
     {
-        Game::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
-        Game::coordinator.GetSystem<TextSystem>()->Update();
+        Game::coordinator.GetSystem<BaseSystem>()->Update(deltaTime);
 
         // TODO: use the input system
         const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
@@ -62,12 +63,7 @@ public:
 
     void Cleanup() override
     {
-        // Clean up entities and other resources
-        for (const auto &entityPair : sceneEntities)
-        {
-            Game::coordinator.DestroyEntity(entityPair.second);
-        }
-        sceneEntities.clear();
+        Game::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene("MainMenu");
     }
 
     void Pause() override

@@ -3,6 +3,7 @@
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "SystemManager.h"
+#include "Component/BaseComponent.h"
 
 class Coordinator
 {
@@ -16,9 +17,17 @@ public:
     }
 
     // Entity methods
-    Entity CreateEntity()
+    Entity CreateEntity(std::string entity_name, std::string scene_name, std::string tag = "", std::string sub_tag = "")
     {
-        return mEntityManager->CreateEntity();
+        Entity entity = mEntityManager->CreateEntity();
+        AddComponent<BaseComponent>(
+            entity,
+            {true,
+             entity_name,
+             scene_name,
+             tag,
+             sub_tag});
+        return entity;
     }
 
     void DestroyEntity(Entity entity)
@@ -28,12 +37,15 @@ public:
         mSystemManager->EntityDestroyed(entity);
     }
 
-    void MarkEntityForDeletion(Entity entity) {
+    void MarkEntityForDeletion(Entity entity)
+    {
         entitiesToDelete.push_back(entity);
     }
 
-    void ProcessPendingDeletions() {
-        for (Entity entity : entitiesToDelete) {
+    void ProcessPendingDeletions()
+    {
+        for (Entity entity : entitiesToDelete)
+        {
             DestroyEntity(entity);
         }
         entitiesToDelete.clear();
