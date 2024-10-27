@@ -65,26 +65,4 @@ public:
     {
         Game::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene("MainMenu");
     }
-
-    void Pause() override
-    {
-        // Pause logic
-    }
-
-    void Resume() override
-    {
-        // Resume logic
-    }
-
-    bool SaveState(const std::string &filepath) override
-    {
-        // Serialize the scene state to a file
-        return true;
-    }
-
-    bool LoadState(const std::string &filepath) override
-    {
-        // Deserialize the scene state from a file
-        return true;
-    }
 };

@@ -24,7 +24,7 @@ public:
 
     void Update(float deltaTime)
     {
-        if (currentScene && !isPaused)
+        if (currentScene)
         {
             currentScene->Update(deltaTime);
         }
@@ -55,41 +55,7 @@ public:
         }
     }
 
-    void PauseScene()
-    {
-        isPaused = true;
-    }
-
-    void ResumeScene()
-    {
-        isPaused = false;
-    }
-
-    Scene *GetCurrentScene() const
-    {
-        return currentScene;
-    }
-
-    bool SaveScene(const std::string &name, const std::string &filepath)
-    {
-        if (scenes.find(name) != scenes.end())
-        {
-            return scenes[name]->SaveState(filepath);
-        }
-        return false;
-    }
-
-    bool LoadScene(const std::string &name, const std::string &filepath)
-    {
-        if (scenes.find(name) != scenes.end())
-        {
-            return scenes[name]->LoadState(filepath);
-        }
-        return false;
-    }
-
 private:
     std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;
     Scene *currentScene = nullptr;
-    bool isPaused = false;
 };
