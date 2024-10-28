@@ -1,9 +1,10 @@
 #pragma once
 
-#include <cstddef>
 #include <SDL2/SDL_rect.h>
+#include <cstddef>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "CoreConstants.h"
 #include "../Entity/Entity.h"

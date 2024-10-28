@@ -1,5 +1,9 @@
 #pragma once
 
+#include <SDL2/SDL_ttf.h>
+#include "../Utils/Vec2.h"
+#include "../Utils/CoreEnums.h"
+
 struct TextComponent
 {
     std::string text;

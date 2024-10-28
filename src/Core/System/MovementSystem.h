@@ -1,5 +1,8 @@
 #pragma once
 
+#include "System.h"
+#include "../../Game/Utils/GameConstants.h"
+
 class MovementSystem : public System
 {
 public:
@@ -54,6 +57,7 @@ private:
 	{
 		transformComponent.position = Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
+		// TODO: this is a ball behavior, should not be here
 		velocityComponent.x = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
 		int factor = rand() % BALL_SPEED + 1;
 		velocityComponent.y = (rand() % 2 == 0 ? -factor : factor);

@@ -6,6 +6,7 @@
 #include <typeindex>
 #include <typeinfo>
 #include <cassert>
+#include "../System/System.h"
 
 class SystemManager
 {

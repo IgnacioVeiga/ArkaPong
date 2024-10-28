@@ -1,5 +1,7 @@
 #pragma once
+
 #include "../Component/Background/ParallaxLayer.h"
+#include "../Manager/TextureManager.h"
 
 void CreateTileBackgroundEntity(std::string entity_name, std::string scene_name)
 {

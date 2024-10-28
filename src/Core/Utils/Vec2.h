@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdexcept>
+
 class Vec2
 {
 public:

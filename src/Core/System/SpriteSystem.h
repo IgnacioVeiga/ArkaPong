@@ -1,5 +1,7 @@
 #pragma once
 
+#include "System.h"
+
 class SpriteSystem : public System
 {
 public:

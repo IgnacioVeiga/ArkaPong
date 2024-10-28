@@ -13,19 +13,7 @@
 #include "Game/Scenes/MainMenuScene.h"
 #include "Game/Scenes/GameScene.h"
 
-int main(int argc, char* argv[])
-{
-	srand(time(nullptr));
-
-	if (!Init()) return 1;
-
-	Run();
-	CleanUp();
-
-	return 0;
-}
-
-static bool Init()
+bool Init()
 {
 	if (!Game::window.Init())
 		return false;
@@ -36,7 +24,7 @@ static bool Init()
 	return true;
 }
 
-static void Run()
+void Run()
 {
 	Game::scene_manager.Add("MainMenu", std::make_unique<MainMenuScene>());
 	Game::scene_manager.Add("Game", std::make_unique<GameScene>());
@@ -80,7 +68,19 @@ static void Run()
 	}
 }
 
-static void CleanUp()
+void CleanUp()
 {
 	Game::window.CleanUp();
+}
+
+int main(int argc, char* argv[])
+{
+	srand(time(nullptr));
+
+	if (!Init()) return 1;
+
+	Run();
+	CleanUp();
+
+	return 0;
 }

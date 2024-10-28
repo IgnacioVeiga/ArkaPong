@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Utils/SpatialHash.h"
+
 class CollisionSystem : public System
 {
 public:

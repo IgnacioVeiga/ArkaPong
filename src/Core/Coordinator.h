@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Entity/Entity.h"
+#include "Component/BaseComponent.h"
 #include "Manager/EntityManager.h"
 #include "Manager/ComponentManager.h"
 #include "Manager/SystemManager.h"

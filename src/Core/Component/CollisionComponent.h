@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 struct CollisionComponent
 {
     SDL_Rect collider;
