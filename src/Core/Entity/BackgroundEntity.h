@@ -3,10 +3,10 @@
 #include "../Component/Background/ParallaxLayer.h"
 #include "../Manager/TextureManager.h"
 
-void CreateTileBackgroundEntity(std::string entity_name, std::string scene_name)
+void CreateTileBackgroundEntity(std::string entity_name, std::string scene_name, std::string texture_filepath)
 {
 	// Load the tile texture
-	SDL_Texture *tileTexture = TextureManager::LoadTexture(BGS_SPRITE_FILEPATH);
+	SDL_Texture *tileTexture = TextureManager::LoadTexture(texture_filepath);
 
 	// Tile texture dimensions
 	int tileTextureWidth = 160;

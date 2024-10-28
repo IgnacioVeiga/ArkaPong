@@ -42,6 +42,7 @@ private:
 		auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
 		auto &velocityComponent = Game::coordinator.GetComponent<VelocityComponent>(entity);
 
+		// TODO: Define what should happen via a callback, for now this has the behavior of the ball.
 		if (transformComponent.position.x > SCREEN_WIDTH || transformComponent.position.x < 0)
 		{
 			ResetEntityPositionAndVelocity(transformComponent, velocityComponent);
@@ -56,8 +57,6 @@ private:
 	void ResetEntityPositionAndVelocity(TransformComponent &transformComponent, VelocityComponent &velocityComponent)
 	{
 		transformComponent.position = Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
-		// TODO: this is a ball behavior, should not be here
 		velocityComponent.x = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
 		int factor = rand() % BALL_SPEED + 1;
 		velocityComponent.y = (rand() % 2 == 0 ? -factor : factor);

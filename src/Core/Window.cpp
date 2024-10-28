@@ -5,9 +5,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
 
-#include "../ArkaPong/Utils/GameConstants.h"
-
-bool Window::Init()
+bool Window::Init(const char* title)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 		return false;
@@ -18,7 +16,7 @@ bool Window::Init()
 
 	Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE; // Resizable flag included
 
-	window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
 	if (!window)
 		return false;
 

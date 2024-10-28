@@ -13,7 +13,7 @@ struct Resolution {
 class Window
 {
 public:
-	bool Init();
+	bool Init(const char* title);
 	void CleanUp();
 	void SetWindowMode(int resolutionIndex, Uint32 flags);
 

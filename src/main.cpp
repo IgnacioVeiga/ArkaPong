@@ -16,7 +16,7 @@
 
 bool Init()
 {
-	if (!Game::window.Init())
+	if (!Game::window.Init(GAME_TITLE))
 		return false;
 
 	Game::coordinator.Init();

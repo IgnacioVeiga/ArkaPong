@@ -15,7 +15,7 @@ class GameScene : public Scene
 public:
 	void Init() override
 	{
-		CreateTileBackgroundEntity("TileBG", "Game");
+		CreateTileBackgroundEntity("TileBG", "Game", BGS_SPRITE_FILEPATH);
 
 		std::ifstream infile("assets/levels/1.txt");
 		std::string line;
