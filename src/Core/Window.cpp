@@ -5,7 +5,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
 
-#include "../Game/Utils/GameConstants.h"
+#include "../ArkaPong/Utils/GameConstants.h"
 
 bool Window::Init()
 {

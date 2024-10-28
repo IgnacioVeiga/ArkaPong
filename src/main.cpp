@@ -10,8 +10,9 @@
 #include "Core/Game.h"
 #include "Core/Component/BaseComponent.h"
 #include "Core/System/BaseSystem.h"
-#include "Game/Scenes/MainMenuScene.h"
-#include "Game/Scenes/GameScene.h"
+
+#include "ArkaPong/Scenes/MainMenuScene.h"
+#include "ArkaPong/Scenes/GameScene.h"
 
 bool Init()
 {

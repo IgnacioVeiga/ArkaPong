@@ -2,7 +2,7 @@
 
 #include <functional>
 #include "../Utils/GameEnums.h"
-#include "../BrickUtils.h"
+#include "../Utils/BrickUtils.h"
 
 auto brickCollisionCallback = [](Entity self, Entity other)
 {

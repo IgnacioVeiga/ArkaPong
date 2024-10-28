@@ -149,14 +149,14 @@
     
     <ClInclude Include="src\Core\Window.h" />
     
-    <ClInclude Include="src\Game\BrickUtils.h" />
-    <ClInclude Include="src\Game\Entities\BallEntity.h" />
-    <ClInclude Include="src\Game\Entities\BrickEntity.h" />
-    <ClInclude Include="src\Game\Entities\PaddleEntity.h" />
-    <ClInclude Include="src\Game\Scenes\GameScene.h" />
-    <ClInclude Include="src\Game\Scenes\MainMenuScene.h" />
-    <ClInclude Include="src\Game\Utils\GameConstants.h" />
-    <ClInclude Include="src\Game\Utils\GameEnums.h" />
+    <ClInclude Include="src\ArkaPong\Entities\BallEntity.h" />
+    <ClInclude Include="src\ArkaPong\Entities\BrickEntity.h" />
+    <ClInclude Include="src\ArkaPong\Entities\PaddleEntity.h" />
+    <ClInclude Include="src\ArkaPong\Scenes\GameScene.h" />
+    <ClInclude Include="src\ArkaPong\Scenes\MainMenuScene.h" />
+    <ClInclude Include="src\ArkaPong\Utils\BrickUtils.h" />
+    <ClInclude Include="src\ArkaPong\Utils\GameConstants.h" />
+    <ClInclude Include="src\ArkaPong\Utils\GameEnums.h" />
 </ItemGroup>
 <ItemGroup>
     <ClCompile Include="src\main.cpp" />

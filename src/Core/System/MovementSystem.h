@@ -1,7 +1,7 @@
 #pragma once
 
 #include "System.h"
-#include "../../Game/Utils/GameConstants.h"
+#include "../../ArkaPong/Utils/GameConstants.h"
 
 class MovementSystem : public System
 {
