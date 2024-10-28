@@ -10,6 +10,7 @@
 #include "../Component/Background/Background.h"
 #include "../Component/AnimationComponent.h"
 #include "../Component/PathComponent.h"
+#include "../Component/RigidBodyComponent.h"
 
 #include "InputSystem.h"
 #include "MovementSystem.h"
@@ -20,6 +21,7 @@
 #include "Background/Background.h"
 #include "AnimationSystem.h"
 #include "PathSystem.h"
+#include "PhysicsSystem.h"
 #include "System.h"
 
 class BaseSystem : public System
@@ -46,6 +48,7 @@ public:
 		
 		Game::coordinator.RegisterComponent<AnimationComponent>();
 		Game::coordinator.RegisterComponent<PathComponent>();
+		Game::coordinator.RegisterComponent<RigidBodyComponent>();
 
 		Game::coordinator.RegisterSystem<InputSystem>()->Init();
 		Game::coordinator.RegisterSystem<MovementSystem>()->Init();
@@ -61,6 +64,7 @@ public:
 
 		Game::coordinator.RegisterSystem<AnimationSystem>()->Init();
 		Game::coordinator.RegisterSystem<PathSystem>()->Init();
+		Game::coordinator.RegisterSystem<PhysicsSystem>()->Init();
 	}
 
 	void Update(float deltaTime)
@@ -77,6 +81,7 @@ public:
 		Game::coordinator.GetSystem<CollisionSystem>()->Update();
 		Game::coordinator.GetSystem<AnimationSystem>()->Update();
 		Game::coordinator.GetSystem<PathSystem>()->Update();
+		Game::coordinator.GetSystem<PhysicsSystem>()->Update(deltaTime);
 	}
 
 	void DestroyEntitiesByName(std::string entity_name)

@@ -19,5 +19,7 @@ constexpr auto FONT_XL = 32;
 
 constexpr auto CELL_GRID_SIZE = 64;
 
+constexpr auto GRAVITY = 9.81f;
+
 // In milliseconds
 constexpr auto DEBOUNCE_TIME = 5;

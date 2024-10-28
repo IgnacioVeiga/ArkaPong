@@ -1,6 +1,5 @@
 #pragma once
 
-#include "System.h"
 #include "../../ArkaPong/Utils/GameConstants.h"
 
 class MovementSystem : public System
