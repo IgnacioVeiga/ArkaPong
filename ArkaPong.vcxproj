@@ -88,78 +88,86 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
+<ItemGroup>
     <ClInclude Include="src\Core\Component\AnimationComponent.h" />
+    <ClInclude Include="src\Core\Component\AudioComponent.h" />
     <ClInclude Include="src\Core\Component\Background\Background.h" />
-    <ClInclude Include="src\Core\Component\PathComponent.h" />
-    <ClInclude Include="src\Core\Entity\AnimatedEntity.h" />
-    <ClInclude Include="src\Core\Entity\AudioEntity.h" />
-    <ClInclude Include="src\Core\System\Background\Background.h" />
-    <ClInclude Include="src\Game\Entities\BallEntity.h" />
-    <ClInclude Include="src\Game\Entities\BrickEntity.h" />
-    <ClInclude Include="src\Game\Entities\PaddleEntity.h" />
-    <ClInclude Include="src\Core\Entity\TextEntity.h" />
-    <ClInclude Include="src\Core\System\AnimationSystem.h" />
-    <ClInclude Include="src\Core\System\PathSystem.h" />
-    <ClInclude Include="src\Core\Game.h" />
-    <ClInclude Include="src\Game\Scenes\MainMenuScene.h" />
-    <ClInclude Include="src\Core\Manager\AudioManager.h" />
-    <ClInclude Include="src\Game\BrickUtils.h" />
-    <ClInclude Include="src\Game\Utils\GameConstants.h" />
-    <ClInclude Include="src\Game\Utils\GameEnums.h" />
-    <ClInclude Include="src\Utils\Events.h" />
-    <ClInclude Include="src\Core\Manager\FontManager.h" />
-    <ClInclude Include="src\Core\Utils\SpatialHash.h" />
-    <ClInclude Include="src\Core\Utils\CoreConstants.h" />
-    <ClInclude Include="src\Core\Utils\CoreEnums.h" />
-    <ClInclude Include="src\Game\Scenes\GameScene.h" />
-    <ClInclude Include="src\Core\Scene.h" />
-    <ClInclude Include="src\Core\Manager\SceneManager.h" />
-    <ClInclude Include="src\Core\Coordinator.h" />
     <ClInclude Include="src\Core\Component\Background\ImageBackgroundComponent.h" />
     <ClInclude Include="src\Core\Component\Background\ParallaxBackgroundComponent.h" />
     <ClInclude Include="src\Core\Component\Background\ParallaxLayer.h" />
     <ClInclude Include="src\Core\Component\Background\SolidColorBackgroundComponent.h" />
     <ClInclude Include="src\Core\Component\Background\TileBackgroundComponent.h" />
-    <ClInclude Include="src\Core\Component\AudioComponent.h" />
-    <ClInclude Include="src\Core\Component\CollisionComponent.h" />
-    <ClInclude Include="src\Core\Manager\ComponentManager.h" />
     <ClInclude Include="src\Core\Component\BaseComponent.h" />
+    <ClInclude Include="src\Core\Component\CollisionComponent.h" />
     <ClInclude Include="src\Core\Component\InputComponent.h" />
-    <ClInclude Include="src\Core\Component\TransformComponent.h" />
+    <ClInclude Include="src\Core\Component\PathComponent.h" />
     <ClInclude Include="src\Core\Component\SpriteComponent.h" />
     <ClInclude Include="src\Core\Component\TextComponent.h" />
+    <ClInclude Include="src\Core\Component\TransformComponent.h" />
     <ClInclude Include="src\Core\Component\VelocityComponent.h" />
-    <ClInclude Include="src\Core\Entity\Entity.h" />
-    <ClInclude Include="src\Core\Manager\EntityManager.h" />
+    
+    <ClInclude Include="src\Core\Entity\AnimatedEntity.h" />
+    <ClInclude Include="src\Core\Entity\AudioEntity.h" />
     <ClInclude Include="src\Core\Entity\BackgroundEntity.h" />
-    <ClInclude Include="src\Core\System\Background\ParallaxBackgroundSystem.h" />
+    <ClInclude Include="src\Core\Entity\Entity.h" />
+    <ClInclude Include="src\Core\Entity\TextEntity.h" />
+    
+    <ClInclude Include="src\Core\Game.h" />
+    
+    <ClInclude Include="src\Core\Manager\AudioManager.h" />
+    <ClInclude Include="src\Core\Manager\ComponentManager.h" />
+    <ClInclude Include="src\Core\Manager\EntityManager.h" />
+    <ClInclude Include="src\Core\Manager\FontManager.h" />
+    <ClInclude Include="src\Core\Manager\SceneManager.h" />
+    <ClInclude Include="src\Core\Manager\SystemManager.h" />
+    <ClInclude Include="src\Core\Manager\TextureManager.h" />
+    
+    <ClInclude Include="src\Core\Scene.h" />
+    
+    <ClInclude Include="src\Core\System\AnimationSystem.h" />
+    <ClInclude Include="src\Core\System\AudioSystem.h" />
+    <ClInclude Include="src\Core\System\Background\Background.h" />
     <ClInclude Include="src\Core\System\Background\ImageBackgroundSystem.h" />
+    <ClInclude Include="src\Core\System\Background\ParallaxBackgroundSystem.h" />
     <ClInclude Include="src\Core\System\Background\SolidColorBackgroundSystem.h" />
     <ClInclude Include="src\Core\System\Background\TileBackgroundSystem.h" />
-    <ClInclude Include="src\Core\System\AudioSystem.h" />
     <ClInclude Include="src\Core\System\BaseSystem.h" />
     <ClInclude Include="src\Core\System\CollisionSystem.h" />
     <ClInclude Include="src\Core\System\InputSystem.h" />
     <ClInclude Include="src\Core\System\MovementSystem.h" />
+    <ClInclude Include="src\Core\System\PathSystem.h" />
     <ClInclude Include="src\Core\System\SpriteSystem.h" />
     <ClInclude Include="src\Core\System\System.h" />
-    <ClInclude Include="src\Core\Manager\SystemManager.h" />
     <ClInclude Include="src\Core\System\TextSystem.h" />
-    <ClInclude Include="src\Core\Manager\TextureManager.h" />
+    
+    <ClInclude Include="src\Core\Coordinator.h" />
+    
+    <ClInclude Include="src\Core\Utils\CoreConstants.h" />
+    <ClInclude Include="src\Core\Utils\CoreEnums.h" />
+    <ClInclude Include="src\Core\Utils\SpatialHash.h" />
     <ClInclude Include="src\Core\Utils\Vec2.h" />
+    
     <ClInclude Include="src\Core\Window.h" />
-  </ItemGroup>
-  <ItemGroup>
+    
+    <ClInclude Include="src\Game\BrickUtils.h" />
+    <ClInclude Include="src\Game\Entities\BallEntity.h" />
+    <ClInclude Include="src\Game\Entities\BrickEntity.h" />
+    <ClInclude Include="src\Game\Entities\PaddleEntity.h" />
+    <ClInclude Include="src\Game\Scenes\GameScene.h" />
+    <ClInclude Include="src\Game\Scenes\MainMenuScene.h" />
+    <ClInclude Include="src\Game\Utils\GameConstants.h" />
+    <ClInclude Include="src\Game\Utils\GameEnums.h" />
+</ItemGroup>
+<ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+</ItemGroup>
+<ItemGroup>
     <None Include="CMakeLists.txt" />
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="vcpkg.json" />
-  </ItemGroup>
+</ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
