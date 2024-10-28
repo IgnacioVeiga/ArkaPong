@@ -29,6 +29,18 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
   - Linux: GCC, Clang or any compatible with ``CMakeLists.txt``.
 - On Windows you can use VCPKG to download SDL2 packages.
 
+### How set VCPKG_ROOT?
+- Windows:
+  You can set the VCPKG_ROOT variable as follows:
+  Open “Control Panel” → “System” → “Advanced System Settings”.
+  Under “Environment Variables”, create a new environment variable with the name VCPKGG_ROOT and the value of the vcpkg installation path (for example, C:/vcpkg).
+
+- Linux:
+  ``` sh
+  export VCPKG_ROOT=$HOME/vcpkg
+  ```
+  You can add this to the .bashrc or .zshrc file so that it is applied every time you open a terminal.
+
 ### Build
 1. Download source code or clone the repository with Git
    ```sh
