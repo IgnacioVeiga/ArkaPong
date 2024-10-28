@@ -47,7 +47,7 @@ public:
         {
             Scene* newScene = scenes[name].get();
             newScene->Init();
-            activeScenes.push_back(newScene); // Añadir a la lista sin borrar las otras
+            activeScenes.push_back(newScene);
         }
     }
 
