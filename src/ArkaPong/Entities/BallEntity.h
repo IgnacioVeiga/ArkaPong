@@ -4,18 +4,17 @@
 
 auto ballCollisionCallback = [](Entity self, Entity other)
 {
-	auto &velSelf = Game::coordinator.GetComponent<VelocityComponent>(self);
-	auto &posSelf = Game::coordinator.GetComponent<TransformComponent>(self);
-	auto &colSelf = Game::coordinator.GetComponent<CollisionComponent>(self);
+	auto &transform_self = Game::coordinator.GetComponent<TransformComponent>(self);
+	auto &rigidbody_self = Game::coordinator.GetComponent<RigidBodyComponent>(self);
 
-	auto &posOther = Game::coordinator.GetComponent<TransformComponent>(other);
-	auto &colOther = Game::coordinator.GetComponent<CollisionComponent>(other);
+	auto &transform_other = Game::coordinator.GetComponent<TransformComponent>(other);
+	auto &rigidbody_other = Game::coordinator.GetComponent<RigidBodyComponent>(other);
 
 	// Calculate overlap on each side of the collision
-	float overlapLeft = (posSelf.position.x + colSelf.collider.w) - posOther.position.x;
-	float overlapRight = (posOther.position.x + colOther.collider.w) - posSelf.position.x;
-	float overlapTop = (posSelf.position.y + colSelf.collider.h) - posOther.position.y;
-	float overlapBottom = (posOther.position.y + colOther.collider.h) - posSelf.position.y;
+	float overlapLeft = (transform_self.position.x + rigidbody_self.collider.w) - transform_other.position.x;
+	float overlapRight = (transform_other.position.x + rigidbody_other.collider.w) - transform_self.position.x;
+	float overlapTop = (transform_self.position.y + rigidbody_self.collider.h) - transform_other.position.y;
+	float overlapBottom = (transform_other.position.y + rigidbody_other.collider.h) - transform_self.position.y;
 
 	// Determine which side the collision is coming from
 	bool fromLeft = fabs(overlapLeft) < fabs(overlapRight);
@@ -26,19 +25,28 @@ auto ballCollisionCallback = [](Entity self, Entity other)
 	float minOverlapY = fromTop ? overlapTop : overlapBottom;
 
 	// Determine whether the collision is horizontal or vertical
-	if (fabs(minOverlapX) < fabs(minOverlapY) || fabs(minOverlapX) == fabs(minOverlapY))
+	if (fabs(minOverlapX) < fabs(minOverlapY))
 	{
 		// Horizontal collision
-		velSelf.x = -velSelf.x;
+		rigidbody_self.velocity.x = -rigidbody_self.velocity.x;
 		// Separate the ball by a small amount
-		posSelf.position.x += fromLeft ? -minOverlapX : minOverlapX;
+		transform_self.position.x += fromLeft ? -minOverlapX : minOverlapX;
+	}
+	else if (fabs(minOverlapX) > fabs(minOverlapY))
+	{
+		// Vertical collision
+		rigidbody_self.velocity.y = -rigidbody_self.velocity.y;
+		// Separate the ball by a small amount
+		transform_self.position.y += fromTop ? -minOverlapY : minOverlapY;
 	}
 	else
 	{
-		// Vertical collision
-		velSelf.y = -velSelf.y;
+		// Diagonal collision
+		rigidbody_self.velocity.x = -rigidbody_self.velocity.x;
+		rigidbody_self.velocity.y = -rigidbody_self.velocity.y;
 		// Separate the ball by a small amount
-		posSelf.position.y += fromTop ? -minOverlapY : minOverlapY;
+		transform_self.position.y += fromTop ? -minOverlapY : minOverlapY;
+		transform_self.position.x += fromLeft ? -minOverlapX : minOverlapX;
 	}
 };
 
@@ -52,6 +60,7 @@ void CreateBallEntity(std::string entity_name, std::string scene_name)
 	int factor = rand() % BALL_SPEED + 1;
 	// Up or down (random)
 	float velY = (rand() % 2 == 0 ? -factor : factor);
+	Vec2 velocity = Vec2(velX, velY);
 
 	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
 
@@ -60,12 +69,6 @@ void CreateBallEntity(std::string entity_name, std::string scene_name)
 		TransformComponent{
 			Vec2(SCREEN_WIDTH / 2 - BALL_SIZE / 2,
 				 SCREEN_HEIGHT / 2 - BALL_SIZE / 2)});
-	Game::coordinator.AddComponent(
-		entity,
-		VelocityComponent{
-			velX, // X
-			velY  // Y
-		});
 	Game::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
@@ -88,7 +91,12 @@ void CreateBallEntity(std::string entity_name, std::string scene_name)
 		});
 	Game::coordinator.AddComponent(
 		entity,
-		CollisionComponent{
-			{0, 0, BALL_SIZE, BALL_SIZE},
+		RigidBodyComponent{
+			{0, 0, BALL_SIZE, BALL_SIZE}, // Collider
+			velocity,
+			Vec2(0, 0), // Acceleration
+			1.0f,		// Mass
+			false,		// Is static?
+			false,		// Use gravity?
 			ballCollisionCallback});
 }

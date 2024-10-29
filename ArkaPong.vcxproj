@@ -98,14 +98,12 @@
     <ClInclude Include="src\Core\Component\Background\SolidColorBackgroundComponent.h" />
     <ClInclude Include="src\Core\Component\Background\TileBackgroundComponent.h" />
     <ClInclude Include="src\Core\Component\BaseComponent.h" />
-    <ClInclude Include="src\Core\Component\CollisionComponent.h" />
     <ClInclude Include="src\Core\Component\InputComponent.h" />
     <ClInclude Include="src\Core\Component\PathComponent.h" />
     <ClInclude Include="src\Core\Component\RigidBodyComponent.h" />
     <ClInclude Include="src\Core\Component\SpriteComponent.h" />
     <ClInclude Include="src\Core\Component\TextComponent.h" />
     <ClInclude Include="src\Core\Component\TransformComponent.h" />
-    <ClInclude Include="src\Core\Component\VelocityComponent.h" />
     
     <ClInclude Include="src\Core\Entity\AnimatedEntity.h" />
     <ClInclude Include="src\Core\Entity\AudioEntity.h" />
@@ -133,9 +131,7 @@
     <ClInclude Include="src\Core\System\Background\SolidColorBackgroundSystem.h" />
     <ClInclude Include="src\Core\System\Background\TileBackgroundSystem.h" />
     <ClInclude Include="src\Core\System\BaseSystem.h" />
-    <ClInclude Include="src\Core\System\CollisionSystem.h" />
     <ClInclude Include="src\Core\System\InputSystem.h" />
-    <ClInclude Include="src\Core\System\MovementSystem.h" />
     <ClInclude Include="src\Core\System\PathSystem.h" />
     <ClInclude Include="src\Core\System\PhysicsSystem.h" />
     <ClInclude Include="src\Core\System\SpriteSystem.h" />

@@ -2,22 +2,18 @@
 
 #include "../Component/InputComponent.h"
 #include "../Component/TransformComponent.h"
-#include "../Component/VelocityComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/AudioComponent.h"
 #include "../Component/TextComponent.h"
-#include "../Component/CollisionComponent.h"
 #include "../Component/Background/Background.h"
 #include "../Component/AnimationComponent.h"
 #include "../Component/PathComponent.h"
 #include "../Component/RigidBodyComponent.h"
 
 #include "InputSystem.h"
-#include "MovementSystem.h"
 #include "SpriteSystem.h"
 #include "AudioSystem.h"
 #include "TextSystem.h"
-#include "CollisionSystem.h"
 #include "Background/Background.h"
 #include "AnimationSystem.h"
 #include "PathSystem.h"
@@ -35,11 +31,9 @@ public:
 
 		Game::coordinator.RegisterComponent<InputComponent>();
 		Game::coordinator.RegisterComponent<TransformComponent>();
-		Game::coordinator.RegisterComponent<VelocityComponent>();
 		Game::coordinator.RegisterComponent<SpriteComponent>();
 		Game::coordinator.RegisterComponent<AudioComponent>();
 		Game::coordinator.RegisterComponent<TextComponent>();
-		Game::coordinator.RegisterComponent<CollisionComponent>();
 
 		Game::coordinator.RegisterComponent<ImageBackgroundComponent>();
 		Game::coordinator.RegisterComponent<ParallaxBackgroundComponent>();
@@ -51,11 +45,9 @@ public:
 		Game::coordinator.RegisterComponent<RigidBodyComponent>();
 
 		Game::coordinator.RegisterSystem<InputSystem>()->Init();
-		Game::coordinator.RegisterSystem<MovementSystem>()->Init();
 		Game::coordinator.RegisterSystem<SpriteSystem>()->Init();
 		Game::coordinator.RegisterSystem<AudioSystem>()->Init();
 		Game::coordinator.RegisterSystem<TextSystem>()->Init();
-		Game::coordinator.RegisterSystem<CollisionSystem>()->Init();
 
 		Game::coordinator.RegisterSystem<ImageBackgroundSystem>()->Init();
 		Game::coordinator.RegisterSystem<ParallaxBackgroundSystem>()->Init();
@@ -72,13 +64,11 @@ public:
         Game::coordinator.ProcessPendingDeletions();
 
 		Game::coordinator.GetSystem<InputSystem>()->Update();
-		Game::coordinator.GetSystem<MovementSystem>()->Update(deltaTime);
 		Game::coordinator.GetSystem<TileBackgroundSystem>()->Update();
 		Game::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
 		Game::coordinator.GetSystem<SpriteSystem>()->Update();
 		Game::coordinator.GetSystem<AudioSystem>()->Update();
 		Game::coordinator.GetSystem<TextSystem>()->Update();
-		Game::coordinator.GetSystem<CollisionSystem>()->Update();
 		Game::coordinator.GetSystem<AnimationSystem>()->Update();
 		Game::coordinator.GetSystem<PathSystem>()->Update();
 		Game::coordinator.GetSystem<PhysicsSystem>()->Update(deltaTime);

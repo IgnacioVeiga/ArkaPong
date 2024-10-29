@@ -37,13 +37,12 @@ void CreateBrickEntity(std::string entity_name, std::string scene_name, float po
 		});
 	Game::coordinator.AddComponent(
 		entity,
-		CollisionComponent{
-			{
-				// Collider rectangle
-				0,			 // X
-				0,			 // Y
-				BRICK_WIDTH, // W
-				BRICK_HEIGHT // H
-			},
+		RigidBodyComponent{
+			{0, 0, BRICK_WIDTH, BRICK_HEIGHT}, // Collider
+			Vec2(0, 0),						   // Velocity
+			Vec2(0, 0),						   // Acceleration
+			1.0f,							   // Mass
+			true,							   // Is static?
+			false,							   // Use gravity?
 			brickCollisionCallback});
 }
