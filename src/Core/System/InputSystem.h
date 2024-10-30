@@ -22,7 +22,7 @@ public:
 			for (auto &keyMapping : inputComponent.keyMappings)
 			{
 				Uint32 lastPressTime = inputComponent.lastKeyPressTime[keyMapping.keyMap];
-				if (keyStates[keyMapping.keyMap] && (currentTime - lastPressTime >= DEBOUNCE_TIME))
+				if (keyStates[keyMapping.keyMap] && (currentTime - lastPressTime >= inputComponent.debounce_time))
 				{
 					keyMapping.keyBehavior(entity);
 

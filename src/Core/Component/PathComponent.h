@@ -6,16 +6,16 @@
 class BasePath {
 public:
 	virtual ~BasePath() = default;
-	virtual void UpdatePosition(Vec2& pos, float deltaTime) = 0;
+	virtual void UpdatePosition(Vec2& pos, float delta_time) = 0;
 };
 
 // Example of a linear path script
 class LinearPath : public BasePath {
 public:
 	LinearPath(float velocityX, float velocityY) : velocityX(velocityX), velocityY(velocityY) {}
-	void UpdatePosition(Vec2& pos, float deltaTime) override {
-		pos.x += velocityX * deltaTime;
-		pos.y += velocityY * deltaTime;
+	void UpdatePosition(Vec2& pos, float delta_time) override {
+		pos.x += velocityX * delta_time;
+		pos.y += velocityY * delta_time;
 	}
 private:
 	float velocityX;
@@ -27,8 +27,8 @@ class CircularPath : public BasePath {
 public:
 	CircularPath(float centerX, float centerY, float radius, float speed)
 		: centerX(centerX), centerY(centerY), radius(radius), speed(speed), angle(0.0f) {}
-	void UpdatePosition(Vec2& pos, float deltaTime) override {
-		angle += speed * deltaTime;
+	void UpdatePosition(Vec2& pos, float delta_time) override {
+		angle += speed * delta_time;
 		pos.x = centerX + radius * cos(angle);
 		pos.y = centerY + radius * sin(angle);
 	}
@@ -46,8 +46,8 @@ public:
 	LinearInterpolationPath(float startX, float startY, float endX, float endY, float duration)
 		: startX(startX), startY(startY), endX(endX), endY(endY), duration(duration), elapsedTime(0.0f) {}
 
-	void UpdatePosition(Vec2& pos, float deltaTime) override {
-		elapsedTime += deltaTime;
+	void UpdatePosition(Vec2& pos, float delta_time) override {
+		elapsedTime += delta_time;
 		float t = std::min(elapsedTime / duration, 1.0f);
 		pos.x = startX + t * (endX - startX);
 		pos.y = startY + t * (endY - startY);
@@ -62,8 +62,8 @@ public:
 	BezierCurvePath(std::vector<std::pair<float, float>> controlPoints, float duration)
 		: controlPoints(controlPoints), duration(duration), elapsedTime(0.0f) {}
 
-	void UpdatePosition(Vec2& pos, float deltaTime) override {
-		elapsedTime += deltaTime;
+	void UpdatePosition(Vec2& pos, float delta_time) override {
+		elapsedTime += delta_time;
 		float t = std::min(elapsedTime / duration, 1.0f);
 		auto point = CalculateBezierPoint(t);
 		pos.x = point.first;

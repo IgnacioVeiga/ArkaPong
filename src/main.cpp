@@ -22,66 +22,51 @@ bool Init()
 	Game::coordinator.Init();
 	Game::coordinator.RegisterComponent<BaseComponent>();
 	Game::coordinator.RegisterSystem<BaseSystem>()->Init();
+
+	Game::scene_manager.Add("MainMenu", std::make_unique<MainMenuScene>());
+	Game::scene_manager.Add("Game", std::make_unique<GameScene>());
+	Game::scene_manager.Init("MainMenu");
 	return true;
 }
 
 void Run()
 {
-	Game::scene_manager.Add("MainMenu", std::make_unique<MainMenuScene>());
-	Game::scene_manager.Add("Game", std::make_unique<GameScene>());
-	Game::scene_manager.Init("MainMenu");
-
-	const int FPS = 60;
-	// target time per frame in milliseconds
-	const int frameDelay = 1000 / FPS;
-
-	Uint32 frameStart;
-	Uint32 frameTime;
+	Uint32 last_frame_time = SDL_GetTicks();
+	float delta_time;
 
 	SDL_Event event;
 	while (Game::game_on)
 	{
-		frameStart = SDL_GetTicks();
+		Uint32 current_frame_time = SDL_GetTicks();
+		delta_time = (current_frame_time - last_frame_time) / 1000.0f;
+		last_frame_time = current_frame_time;
+
+		if (delta_time <= 0) delta_time = 0.001f;
 
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_QUIT)
-			{
-				Game::game_on = false;
-			}
+			if (event.type == SDL_QUIT) Game::game_on = false;
 		}
-
-		frameTime = SDL_GetTicks() - frameStart;
-		// TODO: fix this
-		// float delta_time = frameTime / 1000.0f;
-		float delta_time = 1.0f;
 
 		SDL_SetRenderDrawColor(Game::window.GetRenderer(), 0, 0, 0, 255);
 		SDL_RenderClear(Game::window.GetRenderer());
 
+		Game::coordinator.GetSystem<BaseSystem>()->Update();
 		Game::scene_manager.Update(delta_time);
 
 		SDL_RenderPresent(Game::window.GetRenderer());
-
-		// SDL_Delay() is used to wait only if the current frame has completed faster than expected.
-		frameTime = SDL_GetTicks() - frameStart;
-		if (frameDelay > frameTime) SDL_Delay(frameDelay - frameTime);
 	}
 }
 
-void CleanUp()
-{
-	Game::window.CleanUp();
-}
-
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	srand(time(nullptr));
 
-	if (!Init()) return 1;
+	if (!Init())
+		return 1;
 
 	Run();
-	CleanUp();
+	Game::window.CleanUp();
 
 	return 0;
 }

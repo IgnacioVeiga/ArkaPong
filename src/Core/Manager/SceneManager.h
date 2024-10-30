@@ -23,11 +23,11 @@ public:
     }
 
     // Update all active scenes
-    void Update(float deltaTime)
-    {
+    void Update(float delta_time)
+    {   
         for (auto& scene : activeScenes)
         {
-            scene->Update(deltaTime);
+            scene->Update(delta_time);
         }
     }
 

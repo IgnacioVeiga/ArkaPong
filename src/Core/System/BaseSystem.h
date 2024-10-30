@@ -59,19 +59,9 @@ public:
 		Game::coordinator.RegisterSystem<PhysicsSystem>()->Init();
 	}
 
-	void Update(float deltaTime)
+	void Update()
 	{
         Game::coordinator.ProcessPendingDeletions();
-
-		Game::coordinator.GetSystem<InputSystem>()->Update();
-		Game::coordinator.GetSystem<TileBackgroundSystem>()->Update();
-		Game::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
-		Game::coordinator.GetSystem<SpriteSystem>()->Update();
-		Game::coordinator.GetSystem<AudioSystem>()->Update();
-		Game::coordinator.GetSystem<TextSystem>()->Update();
-		Game::coordinator.GetSystem<AnimationSystem>()->Update();
-		Game::coordinator.GetSystem<PathSystem>()->Update();
-		Game::coordinator.GetSystem<PhysicsSystem>()->Update(deltaTime);
 	}
 
 	void DestroyEntitiesByName(std::string entity_name)

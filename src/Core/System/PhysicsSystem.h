@@ -17,7 +17,7 @@ public:
         Game::coordinator.SetSystemSignature<PhysicsSystem>(signature);
     }
 
-    void Update(float deltaTime)
+    void Update(float delta_time)
     {
         spatialHash.Clear();
         PopulateSpatialHash();
@@ -26,7 +26,7 @@ public:
         for (auto const &entity : mEntities)
         {
             auto &rigidBody = Game::coordinator.GetComponent<RigidBodyComponent>(entity);
-            if (!rigidBody.isStatic) ApplyPhysics(entity, deltaTime);
+            if (!rigidBody.isStatic) ApplyPhysics(entity, delta_time);
 
 			CheckOutOfBounds(entity);
         }
@@ -41,7 +41,7 @@ public:
     }
 
 private:
-    void ApplyPhysics(Entity entity, float deltaTime)
+    void ApplyPhysics(Entity entity, float delta_time)
     {
         auto &rigidBody = Game::coordinator.GetComponent<RigidBodyComponent>(entity);
         auto &transform = Game::coordinator.GetComponent<TransformComponent>(entity);
@@ -49,12 +49,12 @@ private:
         // Gravity
         if (rigidBody.useGravity)
         {
-            rigidBody.acceleration.y += GRAVITY * deltaTime;
+            rigidBody.acceleration.y += GRAVITY * delta_time;
         }
 
         // Update velocity and position using acceleration
-        rigidBody.velocity += rigidBody.acceleration * deltaTime;
-        transform.position += rigidBody.velocity * deltaTime;
+        rigidBody.velocity += rigidBody.acceleration * delta_time;
+        transform.position += rigidBody.velocity * delta_time;
 
         // Reset acceleration for the next cycle
         rigidBody.acceleration = Vec2(0.0f, 0.0f);

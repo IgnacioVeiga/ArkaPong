@@ -76,5 +76,5 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 			paddleCollisionCallback});
 	Game::coordinator.AddComponent(
 		entity,
-		InputComponent{keyMappings});
+		InputComponent{keyMappings, 5});
 }

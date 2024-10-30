@@ -45,9 +45,13 @@ public:
             Side::CENTER);
     };
 
-    void Update(float deltaTime) override
+    void Update(float delta_time) override
     {
-        Game::coordinator.GetSystem<BaseSystem>()->Update(deltaTime);
+		Game::coordinator.GetSystem<AudioSystem>()->Update();
+		Game::coordinator.GetSystem<InputSystem>()->Update();
+		Game::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
+		Game::coordinator.GetSystem<SpriteSystem>()->Update();
+		Game::coordinator.GetSystem<TextSystem>()->Update();
 
         // TODO: use the input system
         const Uint8 *keyStates = SDL_GetKeyboardState(NULL);

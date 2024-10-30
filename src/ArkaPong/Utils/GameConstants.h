@@ -2,10 +2,10 @@
 
 constexpr auto GAME_TITLE = "ArkaPong";
 
-constexpr auto BALL_SPEED = 2;
+constexpr auto BALL_SPEED = 128;
 constexpr auto BALL_SIZE = 5;
 
-constexpr auto PADDLE_SPEED = 5;
+constexpr auto PADDLE_SPEED = 8;
 constexpr auto PADDLE_OFFSET = 32;
 constexpr auto PADDLE_WIDTH = 8;
 constexpr auto PADDLE_HEIGHT = 32;

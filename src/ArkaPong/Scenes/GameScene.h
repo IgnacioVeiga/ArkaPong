@@ -99,9 +99,16 @@ public:
 			16);
 	};
 
-	void Update(float deltaTime) override
+	void Update(float delta_time) override
 	{
-		Game::coordinator.GetSystem<BaseSystem>()->Update(deltaTime);
+		Game::coordinator.GetSystem<AnimationSystem>()->Update();
+		Game::coordinator.GetSystem<AudioSystem>()->Update();
+		Game::coordinator.GetSystem<InputSystem>()->Update();
+		Game::coordinator.GetSystem<TileBackgroundSystem>()->Update();
+		Game::coordinator.GetSystem<PathSystem>()->Update(delta_time);
+		Game::coordinator.GetSystem<PhysicsSystem>()->Update(delta_time);
+		Game::coordinator.GetSystem<SpriteSystem>()->Update();
+		Game::coordinator.GetSystem<TextSystem>()->Update();
 
 		// TODO: use the input system
 		const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
