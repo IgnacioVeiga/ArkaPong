@@ -26,7 +26,7 @@ public:
 		int rows, cols;
 		iss >> rows >> cols;
 
-		float startX = (SCREEN_WIDTH / 2) - (cols / 2 * BRICK_WIDTH);
+		float startX = (SCREEN_WIDTH / 2.0f) - (cols / 2.0f * BRICK_WIDTH);
 		float startY = PADDLE_OFFSET;
 		int row = 0;
 

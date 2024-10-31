@@ -82,8 +82,8 @@ private:
 			finalPosition = transform.position + textComponent.position; // Add relative position
 		}
 
-		renderRect.x = finalPosition.x;
-		renderRect.y = finalPosition.y;
+		renderRect.x = static_cast<int>(finalPosition.x);
+		renderRect.y = static_cast<int>(finalPosition.y);
 
 		// Handle alignment
 		switch (textComponent.alignment)

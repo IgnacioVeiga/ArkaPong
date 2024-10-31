@@ -14,14 +14,11 @@ public:
     void Update()
     {
         using namespace std::chrono;
-        // Get the current time
         auto now = steady_clock::now();
-        // Store the last time we updated the animations
         static auto lastTime = now;
 
         for (auto const &entity : mEntities)
         {
-            // Get the animation and sprite components of the entity
             auto &animComponent = Game::coordinator.GetComponent<AnimationComponent>(entity);
             auto &spriteComponent = Game::coordinator.GetComponent<SpriteComponent>(entity);
 
@@ -30,16 +27,13 @@ public:
                 continue;
 
             // Calculate the elapsed time since the last update
-            animComponent.elapsedTime += duration_cast<milliseconds>(now - lastTime).count();
-            // Update the lastTime to now
+            animComponent.elapsedTime += static_cast<int>(duration_cast<milliseconds>(now - lastTime).count());
             lastTime = now;
 
             // Check if it's time to update the animation frame
             if (animComponent.elapsedTime >= animComponent.animationSpeed)
             {
-                // Reset elapsed time
                 animComponent.elapsedTime = 0;
-                // Move to the next frame
                 animComponent.currentFrame++;
 
                 // If we reached the end of the animation

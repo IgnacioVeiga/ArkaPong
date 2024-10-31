@@ -14,7 +14,7 @@
 #include "ArkaPong/Scenes/MainMenuScene.h"
 #include "ArkaPong/Scenes/GameScene.h"
 
-bool Init()
+static bool Init()
 {
 	if (!Game::window.Init(GAME_TITLE))
 		return false;
@@ -29,7 +29,7 @@ bool Init()
 	return true;
 }
 
-void Run()
+static void Run()
 {
 	Uint32 last_frame_time = SDL_GetTicks();
 	float delta_time;
@@ -60,7 +60,7 @@ void Run()
 
 int main(int argc, char *argv[])
 {
-	srand(time(nullptr));
+	srand(static_cast<Uint32>(time(nullptr)));
 
 	if (!Init())
 		return 1;

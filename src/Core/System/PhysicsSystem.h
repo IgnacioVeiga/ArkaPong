@@ -74,8 +74,8 @@ private:
 
     void UpdateColliderPosition(RigidBodyComponent &rigidBody, TransformComponent &transform)
     {
-        rigidBody.collider.x = static_cast<int>(transform.position.x);
-        rigidBody.collider.y = static_cast<int>(transform.position.y);
+        rigidBody.collider.x = transform.position.x;
+        rigidBody.collider.y = transform.position.y;
     }
 
     void DetectCollisions(std::vector<std::pair<Entity, Entity>> &collisions)
@@ -103,7 +103,7 @@ private:
         auto &colliderA = Game::coordinator.GetComponent<RigidBodyComponent>(entityA).collider;
         auto &colliderB = Game::coordinator.GetComponent<RigidBodyComponent>(entityB).collider;
 
-        return SDL_HasIntersection(&colliderA, &colliderB);
+        return SDL_HasIntersectionF(&colliderA, &colliderB);
     }
 
     void ResolveCollision(Entity entityA, Entity entityB)
@@ -147,12 +147,13 @@ private:
 		}
 	}
 
+    // Duplicated code
     // TODO: move to ball entity as callback maybe
 	void ResetEntityPositionAndVelocity(TransformComponent &transformComponent, RigidBodyComponent &rigidBodyComponent)
 	{
 		transformComponent.position = Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 		rigidBodyComponent.velocity.x = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
-		int factor = rand() % BALL_SPEED + 1;
+		float factor = static_cast<float>(rand() % static_cast<int>(BALL_SPEED) + 1);
 		rigidBodyComponent.velocity.y = (rand() % 2 == 0 ? -factor : factor);
 	}
 

@@ -25,12 +25,12 @@ class SpatialHash
 public:
     SpatialHash() {}
 
-    void Insert(Entity entity, SDL_Rect &collider)
+    void Insert(Entity entity, SDL_FRect &collider)
     {
-        int startX = collider.x / CELL_GRID_SIZE;
-        int startY = collider.y / CELL_GRID_SIZE;
-        int endX = (collider.x + collider.w) / CELL_GRID_SIZE;
-        int endY = (collider.y + collider.h) / CELL_GRID_SIZE;
+        int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
+        int startY = static_cast<int>(collider.y / CELL_GRID_SIZE);
+        int endX = static_cast<int>((collider.x + collider.w) / CELL_GRID_SIZE);
+        int endY = static_cast<int>((collider.y + collider.h) / CELL_GRID_SIZE);
 
         for (int x = startX; x <= endX; ++x)
         {
@@ -41,13 +41,13 @@ public:
         }
     }
 
-    std::vector<Entity> Retrieve(const SDL_Rect &collider)
+    std::vector<Entity> Retrieve(const SDL_FRect &collider)
     {
         std::unordered_set<Entity> uniqueEntities;
-        int startX = collider.x / CELL_GRID_SIZE;
-        int startY = collider.y / CELL_GRID_SIZE;
-        int endX = (collider.x + collider.w) / CELL_GRID_SIZE;
-        int endY = (collider.y + collider.h) / CELL_GRID_SIZE;
+        int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
+        int startY = static_cast<int>(collider.y / CELL_GRID_SIZE);
+        int endX = static_cast<int>((collider.x + collider.w) / CELL_GRID_SIZE);
+        int endY = static_cast<int>((collider.y + collider.h) / CELL_GRID_SIZE);
 
         for (int x = startX; x <= endX; ++x)
         {

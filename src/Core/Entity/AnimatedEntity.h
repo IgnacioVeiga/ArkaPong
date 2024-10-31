@@ -7,7 +7,7 @@ void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const
 	SDL_Texture* texture = TextureManager::LoadTexture(texturePath.c_str());
 	Game::coordinator.AddComponent(
 		entity,
-		TransformComponent{Vec2(posX, posY)});
+		TransformComponent{ Vec2(posX, posY) });
 	Game::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
@@ -20,20 +20,20 @@ void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const
 		entity,
 		AnimationComponent{
 			0,              // currentFrame
-			frameCount,     // frameCount
-			frameWidth,     // frameWidth
-			frameHeight,    // frameHeight
-			animationSpeed, // animationSpeed
+			frameCount,
+			frameWidth,
+			frameHeight,
+			animationSpeed,
 			0,              // elapsedTime
-			loop,           // loop
+			loop,
 			true            // isPlaying
 		});
 
 	std::shared_ptr<BasePath> movementScript = std::make_shared<CircularPath>(
-		(SCREEN_WIDTH / 2) - 8,		// Center X
-		(SCREEN_HEIGHT / 2) - 8,	// Center Y
-		64.0f,						// Radius
-		1.0f						// Speed
+		(SCREEN_WIDTH / 2.0f) - 8.0f,	// Center X
+		(SCREEN_HEIGHT / 2.0f) - 8.0f,	// Center Y
+		64.0f,							// Radius
+		1.0f							// Speed
 	);
 
 	std::vector<PathEvent> events = {};

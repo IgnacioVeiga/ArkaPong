@@ -57,7 +57,7 @@ void CreateBallEntity(std::string entity_name, std::string scene_name)
 	// Find another way to get a random velocity direction
 	float velX = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
 	// velY is not always the same
-	int factor = rand() % BALL_SPEED + 1;
+	float factor = static_cast<float>(rand() % static_cast<int>(BALL_SPEED) + 1);
 	// Up or down (random)
 	float velY = (rand() % 2 == 0 ? -factor : factor);
 	Vec2 velocity = Vec2(velX, velY);

@@ -15,7 +15,7 @@ public:
         {
             auto& bg = Game::coordinator.GetComponent<TileBackgroundComponent>(entity);
             SDL_Rect srcRect{};
-            SDL_FRect destRect{};
+            SDL_Rect destRect{};
 
             int tilesPerRow = bg.tileTextureWidth / bg.tileWidth;
             for (int y = 0; y < bg.mapHeight; ++y)
@@ -33,7 +33,7 @@ public:
                     destRect.w = bg.tileWidth;
                     destRect.h = bg.tileHeight;
 
-                    SDL_RenderCopyF(Game::window.GetRenderer(), bg.tileTexture, &srcRect, &destRect);
+                    SDL_RenderCopy(Game::window.GetRenderer(), bg.tileTexture, &srcRect, &destRect);
                 }
             }
         }

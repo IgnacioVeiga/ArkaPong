@@ -79,8 +79,9 @@ private:
 		float x = 0.0f, y = 0.0f;
 		int n = controlPoints.size() - 1;
 		for (int i = 0; i <= n; ++i) {
-			float binomialCoeff = Factorial(n) / (Factorial(i) * Factorial(n - i));
-			float powerTerm = std::pow(1 - t, n - i) * std::pow(t, i);
+			float binomialCoeff = static_cast<float>(Factorial(n) / (Factorial(i) * Factorial(n - i)));
+			float powerTerm = static_cast<float>(std::pow(1 - t, n - i) * std::pow(t, i));
+
 			x += binomialCoeff * powerTerm * controlPoints[i].first;
 			y += binomialCoeff * powerTerm * controlPoints[i].second;
 		}

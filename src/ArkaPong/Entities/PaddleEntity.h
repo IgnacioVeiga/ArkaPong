@@ -34,7 +34,7 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 		PADDLE_HEIGHT // H
 	};
 
-	float x_position = (side == Side::LEFT) ? PADDLE_OFFSET : (SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH);
+	int x_position = (side == Side::LEFT) ? PADDLE_OFFSET : (SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH);
 	SDL_RendererFlip flip = (side == Side::LEFT) ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 
 	SDL_Keycode upKeyCode = (side == Side::LEFT) ? SDL_SCANCODE_W : SDL_SCANCODE_UP;
@@ -50,7 +50,7 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 	Game::coordinator.AddComponent(
 		entity,
 		TransformComponent{
-			Vec2(x_position, SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2)});
+			Vec2(static_cast<float>(x_position), SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2)});
 	Game::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
