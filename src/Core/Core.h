@@ -4,7 +4,7 @@
 #include "Manager/SceneManager.h"
 #include "Window.h"
 
-namespace Game
+namespace Core
 {
 	static Coordinator coordinator;
 	static SceneManager scene_manager;

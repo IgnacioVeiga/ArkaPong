@@ -6,8 +6,8 @@ public:
 	void Init()
 	{
 		Signature signature{};
-		signature.set(Game::coordinator.GetComponentType<InputComponent>());
-		Game::coordinator.SetSystemSignature<InputSystem>(signature);
+		signature.set(Core::coordinator.GetComponentType<InputComponent>());
+		Core::coordinator.SetSystemSignature<InputSystem>(signature);
 	}
 
 	void Update()
@@ -17,7 +17,7 @@ public:
 
 		for (auto const &entity : mEntities)
 		{
-			auto &inputComponent = Game::coordinator.GetComponent<InputComponent>(entity);
+			auto &inputComponent = Core::coordinator.GetComponent<InputComponent>(entity);
 
 			for (auto &keyMapping : inputComponent.keyMappings)
 			{
@@ -33,7 +33,7 @@ public:
 
 		if (keyStates[SDL_SCANCODE_ESCAPE])
 		{
-			Game::game_on = false;
+			Core::game_on = false;
 		}
 	}
 };

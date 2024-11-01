@@ -2,8 +2,8 @@
 
 void CreateSFXEntity(std::string entity_name, std::string scene_name, const std::string &path, bool loop = false, int channel = -1)
 {
-    Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
-    Game::coordinator.AddComponent(
+    Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+    Core::coordinator.AddComponent(
         entity,
         AudioComponent{
             path,
@@ -16,8 +16,8 @@ void CreateSFXEntity(std::string entity_name, std::string scene_name, const std:
 
 void CreateBGMEntity(std::string entity_name, std::string scene_name, const std::string &path, bool loop = false)
 {
-    Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
-    Game::coordinator.AddComponent(
+    Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+    Core::coordinator.AddComponent(
         entity,
         AudioComponent{
             path,

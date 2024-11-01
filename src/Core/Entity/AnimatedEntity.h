@@ -1,14 +1,14 @@
 #pragma once
 
-void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const std::string& texturePath, int frameCount, int frameWidth, int frameHeight, int animationSpeed, bool loop, float posX, float posY)
+void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const std::string& texturePath, int frameCount, int frameWidth, int frameHeight, int animationSpeed, bool loop, Vec2 pos)
 {
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
 
 	SDL_Texture* texture = TextureManager::LoadTexture(texturePath.c_str());
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
-		TransformComponent{ Vec2(posX, posY) });
-	Game::coordinator.AddComponent(
+		TransformComponent{ pos });
+	Core::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
 			texture,
@@ -16,7 +16,7 @@ void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const
 			{0, 0, static_cast<float>(frameWidth), static_cast<float>(frameHeight)},
 			SDL_FLIP_NONE });
 
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		AnimationComponent{
 			0,              // currentFrame
@@ -38,5 +38,5 @@ void CreateAnimatedEntity(std::string entity_name, std::string scene_name, const
 
 	std::vector<PathEvent> events = {};
 
-	Game::coordinator.AddComponent(entity, PathComponent{ movementScript, events });
+	Core::coordinator.AddComponent(entity, PathComponent{ movementScript, events });
 }

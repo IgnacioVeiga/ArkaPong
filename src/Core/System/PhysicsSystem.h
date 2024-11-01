@@ -12,9 +12,9 @@ public:
     void Init()
     {
         Signature signature{};
-        signature.set(Game::coordinator.GetComponentType<RigidBodyComponent>());
-        signature.set(Game::coordinator.GetComponentType<TransformComponent>());
-        Game::coordinator.SetSystemSignature<PhysicsSystem>(signature);
+        signature.set(Core::coordinator.GetComponentType<RigidBodyComponent>());
+        signature.set(Core::coordinator.GetComponentType<TransformComponent>());
+        Core::coordinator.SetSystemSignature<PhysicsSystem>(signature);
     }
 
     void Update(float delta_time)
@@ -25,7 +25,7 @@ public:
         // Update movement of non-static entities
         for (auto const &entity : mEntities)
         {
-            auto &rigidBody = Game::coordinator.GetComponent<RigidBodyComponent>(entity);
+            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
             if (!rigidBody.isStatic) ApplyPhysics(entity, delta_time);
 
 			CheckOutOfBounds(entity);
@@ -43,8 +43,8 @@ public:
 private:
     void ApplyPhysics(Entity entity, float delta_time)
     {
-        auto &rigidBody = Game::coordinator.GetComponent<RigidBodyComponent>(entity);
-        auto &transform = Game::coordinator.GetComponent<TransformComponent>(entity);
+        auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
+        auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
 
         // Gravity
         if (rigidBody.useGravity)
@@ -64,8 +64,8 @@ private:
     {
         for (const auto &entity : mEntities)
         {
-            auto &rigidBody = Game::coordinator.GetComponent<RigidBodyComponent>(entity);
-            auto &transform = Game::coordinator.GetComponent<TransformComponent>(entity);
+            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
+            auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
             
             UpdateColliderPosition(rigidBody, transform);
             spatialHash.Insert(entity, rigidBody.collider);
@@ -82,7 +82,7 @@ private:
     {
         for (const auto &entity : mEntities)
         {
-            auto &rigidBody = Game::coordinator.GetComponent<RigidBodyComponent>(entity);
+            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
             std::vector<Entity> possibleCollisions = spatialHash.Retrieve(rigidBody.collider);
 
             for (const auto &otherEntity : possibleCollisions)
@@ -100,16 +100,16 @@ private:
 
     bool CheckCollision(Entity entityA, Entity entityB)
     {
-        auto &colliderA = Game::coordinator.GetComponent<RigidBodyComponent>(entityA).collider;
-        auto &colliderB = Game::coordinator.GetComponent<RigidBodyComponent>(entityB).collider;
+        auto &colliderA = Core::coordinator.GetComponent<RigidBodyComponent>(entityA).collider;
+        auto &colliderB = Core::coordinator.GetComponent<RigidBodyComponent>(entityB).collider;
 
         return SDL_HasIntersectionF(&colliderA, &colliderB);
     }
 
     void ResolveCollision(Entity entityA, Entity entityB)
     {
-        auto &rigidBodyA = Game::coordinator.GetComponent<RigidBodyComponent>(entityA);
-        auto &rigidBodyB = Game::coordinator.GetComponent<RigidBodyComponent>(entityB);
+        auto &rigidBodyA = Core::coordinator.GetComponent<RigidBodyComponent>(entityA);
+        auto &rigidBodyB = Core::coordinator.GetComponent<RigidBodyComponent>(entityB);
 
         // // Resolving the collision for non-static bodies
         // // TODO: Should use the same logic of "onCollision" callback of the ball entity?
@@ -132,8 +132,8 @@ private:
 
     	void CheckOutOfBounds(Entity entity)
 	{
-		auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
-		auto &rigidBodyComponent = Game::coordinator.GetComponent<RigidBodyComponent>(entity);
+		auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(entity);
+		auto &rigidBodyComponent = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
 
 		// TODO: Define what should happen via a callback, for now this has the behavior of the ball.
 		if (transformComponent.position.x > SCREEN_WIDTH || transformComponent.position.x < 0)

@@ -9,15 +9,15 @@ public:
     void Init()
     {
         Signature signature{};
-        signature.set(Game::coordinator.GetComponentType<AudioComponent>());
-        Game::coordinator.SetSystemSignature<AudioSystem>(signature);
+        signature.set(Core::coordinator.GetComponentType<AudioComponent>());
+        Core::coordinator.SetSystemSignature<AudioSystem>(signature);
     }
 
     void Update()
     {
         for (auto const &entity : mEntities)
         {
-            auto &audioComponent = Game::coordinator.GetComponent<AudioComponent>(entity);
+            auto &audioComponent = Core::coordinator.GetComponent<AudioComponent>(entity);
 
             if (!audioComponent.isPlaying)
                 continue;

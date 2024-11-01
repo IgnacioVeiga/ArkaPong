@@ -26,52 +26,52 @@ public:
 	void Init()
 	{
 		Signature signature{};
-		signature.set(Game::coordinator.GetComponentType<BaseComponent>());
-		Game::coordinator.SetSystemSignature<BaseSystem>(signature);
+		signature.set(Core::coordinator.GetComponentType<BaseComponent>());
+		Core::coordinator.SetSystemSignature<BaseSystem>(signature);
 
-		Game::coordinator.RegisterComponent<InputComponent>();
-		Game::coordinator.RegisterComponent<TransformComponent>();
-		Game::coordinator.RegisterComponent<SpriteComponent>();
-		Game::coordinator.RegisterComponent<AudioComponent>();
-		Game::coordinator.RegisterComponent<TextComponent>();
+		Core::coordinator.RegisterComponent<InputComponent>();
+		Core::coordinator.RegisterComponent<TransformComponent>();
+		Core::coordinator.RegisterComponent<SpriteComponent>();
+		Core::coordinator.RegisterComponent<AudioComponent>();
+		Core::coordinator.RegisterComponent<TextComponent>();
 
-		Game::coordinator.RegisterComponent<ImageBackgroundComponent>();
-		Game::coordinator.RegisterComponent<ParallaxBackgroundComponent>();
-		Game::coordinator.RegisterComponent<SolidColorBackgroundComponent>();
-		Game::coordinator.RegisterComponent<TileBackgroundComponent>();
+		Core::coordinator.RegisterComponent<ImageBackgroundComponent>();
+		Core::coordinator.RegisterComponent<ParallaxBackgroundComponent>();
+		Core::coordinator.RegisterComponent<SolidColorBackgroundComponent>();
+		Core::coordinator.RegisterComponent<TileBackgroundComponent>();
 		
-		Game::coordinator.RegisterComponent<AnimationComponent>();
-		Game::coordinator.RegisterComponent<PathComponent>();
-		Game::coordinator.RegisterComponent<RigidBodyComponent>();
+		Core::coordinator.RegisterComponent<AnimationComponent>();
+		Core::coordinator.RegisterComponent<PathComponent>();
+		Core::coordinator.RegisterComponent<RigidBodyComponent>();
 
-		Game::coordinator.RegisterSystem<InputSystem>()->Init();
-		Game::coordinator.RegisterSystem<SpriteSystem>()->Init();
-		Game::coordinator.RegisterSystem<AudioSystem>()->Init();
-		Game::coordinator.RegisterSystem<TextSystem>()->Init();
+		Core::coordinator.RegisterSystem<InputSystem>()->Init();
+		Core::coordinator.RegisterSystem<SpriteSystem>()->Init();
+		Core::coordinator.RegisterSystem<AudioSystem>()->Init();
+		Core::coordinator.RegisterSystem<TextSystem>()->Init();
 
-		Game::coordinator.RegisterSystem<ImageBackgroundSystem>()->Init();
-		Game::coordinator.RegisterSystem<ParallaxBackgroundSystem>()->Init();
-		Game::coordinator.RegisterSystem<SolidColorBackgroundSystem>()->Init();
-		Game::coordinator.RegisterSystem<TileBackgroundSystem>()->Init();
+		Core::coordinator.RegisterSystem<ImageBackgroundSystem>()->Init();
+		Core::coordinator.RegisterSystem<ParallaxBackgroundSystem>()->Init();
+		Core::coordinator.RegisterSystem<SolidColorBackgroundSystem>()->Init();
+		Core::coordinator.RegisterSystem<TileBackgroundSystem>()->Init();
 
-		Game::coordinator.RegisterSystem<AnimationSystem>()->Init();
-		Game::coordinator.RegisterSystem<PathSystem>()->Init();
-		Game::coordinator.RegisterSystem<PhysicsSystem>()->Init();
+		Core::coordinator.RegisterSystem<AnimationSystem>()->Init();
+		Core::coordinator.RegisterSystem<PathSystem>()->Init();
+		Core::coordinator.RegisterSystem<PhysicsSystem>()->Init();
 	}
 
 	void Update()
 	{
-        Game::coordinator.ProcessPendingDeletions();
+        Core::coordinator.ProcessPendingDeletions();
 	}
 
 	void DestroyEntitiesByName(std::string entity_name)
 	{
 		for (auto const &entity : mEntities)
 		{
-			auto &baseComponent = Game::coordinator.GetComponent<BaseComponent>(entity);
+			auto &baseComponent = Core::coordinator.GetComponent<BaseComponent>(entity);
 			if (baseComponent.entity_name == entity_name)
 			{
-				Game::coordinator.MarkEntityForDeletion(entity);
+				Core::coordinator.MarkEntityForDeletion(entity);
 			}
 		}
 	}
@@ -80,10 +80,10 @@ public:
 	{
 		for (auto const &entity : mEntities)
 		{
-			auto &baseComponent = Game::coordinator.GetComponent<BaseComponent>(entity);
+			auto &baseComponent = Core::coordinator.GetComponent<BaseComponent>(entity);
 			if (baseComponent.scene_name == scene_name)
 			{
-				Game::coordinator.MarkEntityForDeletion(entity);
+				Core::coordinator.MarkEntityForDeletion(entity);
 			}
 		}
 	}
@@ -92,10 +92,10 @@ public:
 	{
 		for (auto const &entity : mEntities)
 		{
-			auto &baseComponent = Game::coordinator.GetComponent<BaseComponent>(entity);
+			auto &baseComponent = Core::coordinator.GetComponent<BaseComponent>(entity);
 			if (baseComponent.tag == tag)
 			{
-				Game::coordinator.MarkEntityForDeletion(entity);
+				Core::coordinator.MarkEntityForDeletion(entity);
 			}
 		}
 	}
@@ -104,10 +104,10 @@ public:
 	{
 		for (auto const &entity : mEntities)
 		{
-			auto &baseComponent = Game::coordinator.GetComponent<BaseComponent>(entity);
+			auto &baseComponent = Core::coordinator.GetComponent<BaseComponent>(entity);
 			if (baseComponent.sub_tag == sub_tag)
 			{
-				Game::coordinator.MarkEntityForDeletion(entity);
+				Core::coordinator.MarkEntityForDeletion(entity);
 			}
 		}
 	}

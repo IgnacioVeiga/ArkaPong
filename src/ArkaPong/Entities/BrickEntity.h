@@ -6,22 +6,22 @@
 
 auto brickCollisionCallback = [](Entity self, Entity other)
 {
-	Game::coordinator.MarkEntityForDeletion(self);
+	Core::coordinator.MarkEntityForDeletion(self);
 };
 
-void CreateBrickEntity(std::string entity_name, std::string scene_name, float posX, float posY, int brickType)
+void CreateBrickEntity(std::string entity_name, std::string scene_name, Vec2 pos, int brickType)
 {
 	SDL_Texture *texture = TextureManager::LoadTexture(BRICKS_SPRITE_FILEPATH);
 
 	BrickType type = static_cast<BrickType>(brickType);
 	SDL_Rect srcRect = GetBrickSrcRect(type);
 
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
 
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
-		TransformComponent{Vec2(posX, posY)});
-	Game::coordinator.AddComponent(
+		TransformComponent{ pos });
+	Core::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
 			texture, // Texture
@@ -35,7 +35,7 @@ void CreateBrickEntity(std::string entity_name, std::string scene_name, float po
 			},
 			SDL_FLIP_NONE // Flip
 		});
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		RigidBodyComponent{
 			{0, 0, BRICK_WIDTH, BRICK_HEIGHT}, // Collider

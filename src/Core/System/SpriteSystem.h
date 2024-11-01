@@ -6,17 +6,17 @@ public:
 	void Init()
 	{
 		Signature signature{};
-		signature.set(Game::coordinator.GetComponentType<SpriteComponent>());
-		signature.set(Game::coordinator.GetComponentType<TransformComponent>());
-		Game::coordinator.SetSystemSignature<SpriteSystem>(signature);
+		signature.set(Core::coordinator.GetComponentType<SpriteComponent>());
+		signature.set(Core::coordinator.GetComponentType<TransformComponent>());
+		Core::coordinator.SetSystemSignature<SpriteSystem>(signature);
 	}
 
 	void Update()
 	{
 		for (auto const &entity : mEntities)
 		{
-			auto &spriteComponent = Game::coordinator.GetComponent<SpriteComponent>(entity);
-			auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(entity);
+			auto &spriteComponent = Core::coordinator.GetComponent<SpriteComponent>(entity);
+			auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(entity);
 
 			SDL_FRect destRect = {
 				transformComponent.position.x, // X
@@ -26,7 +26,7 @@ public:
 			};
 
 			SDL_RenderCopyExF(
-				Game::window.GetRenderer(), // Renderer
+				Core::window.GetRenderer(), // Renderer
 				spriteComponent.texture,	// Texture
 				&spriteComponent.srcRect,	// Source rectangle
 				&destRect,					// Destination rectangle
@@ -37,7 +37,7 @@ public:
 		}
 
 		// DEBUG, remove later
-		DrawGrid(Game::window.GetRenderer(), SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
+		DrawGrid(Core::window.GetRenderer(), SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
 	}
 
 	void DrawGrid(SDL_Renderer *renderer, int gridWidth, int gridHeight, int cellSize)

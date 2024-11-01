@@ -7,9 +7,9 @@
 void CreateTextEntity(std::string entity_name, std::string scene_name, const std::string &text, const SDL_Color &color, const std::string &fontPath, int fontSize, Vec2 pos, Side alignment = Side::LEFT)
 {
     TTF_Font *font = FontManager::GetFont(fontPath, fontSize);
-    Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
+    Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
 
-    Game::coordinator.AddComponent(
+    Core::coordinator.AddComponent(
         entity,
         TextComponent{
             text,

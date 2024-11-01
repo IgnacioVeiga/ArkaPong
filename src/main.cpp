@@ -7,66 +7,53 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_render.h>
 
-#include "Core/Game.h"
+#include "Core/Core.h"
 #include "Core/Component/BaseComponent.h"
 #include "Core/System/BaseSystem.h"
 
 #include "ArkaPong/Scenes/MainMenuScene.h"
 #include "ArkaPong/Scenes/GameScene.h"
 
-static bool Init()
+int main(int argc, char *argv[])
 {
-	if (!Game::window.Init(GAME_TITLE))
-		return false;
+	srand(static_cast<Uint32>(time(nullptr)));
 
-	Game::coordinator.Init();
-	Game::coordinator.RegisterComponent<BaseComponent>();
-	Game::coordinator.RegisterSystem<BaseSystem>()->Init();
+	if (!Core::window.Init(DEFAULT_GAME_TITLE))
+		return 1;
 
-	Game::scene_manager.Add("MainMenu", std::make_unique<MainMenuScene>());
-	Game::scene_manager.Add("Game", std::make_unique<GameScene>());
-	Game::scene_manager.Init("MainMenu");
-	return true;
-}
+	Core::coordinator.Init();
+	Core::coordinator.RegisterComponent<BaseComponent>();
+	Core::coordinator.RegisterSystem<BaseSystem>()->Init();
 
-static void Run()
-{
+	Core::scene_manager.Add(TITLE_SCENE, std::make_unique<MainMenuScene>());
+	Core::scene_manager.Add(ROUND_SCENE, std::make_unique<GameScene>());
+	Core::scene_manager.Init(TITLE_SCENE);
+
 	Uint32 last_frame_time = SDL_GetTicks();
 	float delta_time;
-
 	SDL_Event event;
-	while (Game::game_on)
+
+	while (Core::game_on)
 	{
 		Uint32 current_frame_time = SDL_GetTicks();
 		delta_time = (current_frame_time - last_frame_time) / 1000.0f;
 		last_frame_time = current_frame_time;
 
-		if (delta_time <= 0) delta_time = 0.001f;
-
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_QUIT) Game::game_on = false;
+			if (event.type == SDL_QUIT)
+				Core::game_on = false;
 		}
 
-		SDL_SetRenderDrawColor(Game::window.GetRenderer(), 0, 0, 0, 255);
-		SDL_RenderClear(Game::window.GetRenderer());
+		SDL_SetRenderDrawColor(Core::window.GetRenderer(), 0, 0, 0, 255);
+		SDL_RenderClear(Core::window.GetRenderer());
 
-		Game::coordinator.GetSystem<BaseSystem>()->Update();
-		Game::scene_manager.Update(delta_time);
+		Core::coordinator.GetSystem<BaseSystem>()->Update();
+		Core::scene_manager.Update(delta_time);
 
-		SDL_RenderPresent(Game::window.GetRenderer());
+		SDL_RenderPresent(Core::window.GetRenderer());
 	}
-}
 
-int main(int argc, char *argv[])
-{
-	srand(static_cast<Uint32>(time(nullptr)));
-
-	if (!Init())
-		return 1;
-
-	Run();
-	Game::window.CleanUp();
-
+	Core::window.CleanUp();
 	return 0;
 }

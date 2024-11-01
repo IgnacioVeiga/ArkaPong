@@ -6,9 +6,9 @@ public:
     void Init()
     {
         Signature signature{};
-        signature.set(Game::coordinator.GetComponentType<AnimationComponent>());
-        signature.set(Game::coordinator.GetComponentType<SpriteComponent>());
-        Game::coordinator.SetSystemSignature<AnimationSystem>(signature);
+        signature.set(Core::coordinator.GetComponentType<AnimationComponent>());
+        signature.set(Core::coordinator.GetComponentType<SpriteComponent>());
+        Core::coordinator.SetSystemSignature<AnimationSystem>(signature);
     }
 
     void Update()
@@ -19,8 +19,8 @@ public:
 
         for (auto const &entity : mEntities)
         {
-            auto &animComponent = Game::coordinator.GetComponent<AnimationComponent>(entity);
-            auto &spriteComponent = Game::coordinator.GetComponent<SpriteComponent>(entity);
+            auto &animComponent = Core::coordinator.GetComponent<AnimationComponent>(entity);
+            auto &spriteComponent = Core::coordinator.GetComponent<SpriteComponent>(entity);
 
             // Skip if the animation is not playing
             if (!animComponent.isPlaying)

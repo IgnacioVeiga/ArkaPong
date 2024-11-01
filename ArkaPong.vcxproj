@@ -111,7 +111,7 @@
     <ClInclude Include="src\Core\Entity\Entity.h" />
     <ClInclude Include="src\Core\Entity\TextEntity.h" />
     
-    <ClInclude Include="src\Core\Game.h" />
+    <ClInclude Include="src\Core\Core.h" />
     
     <ClInclude Include="src\Core\Manager\AudioManager.h" />
     <ClInclude Include="src\Core\Manager\ComponentManager.h" />

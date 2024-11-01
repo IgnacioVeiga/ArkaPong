@@ -9,15 +9,15 @@ public:
 	void Init()
 	{
 		Signature signature;
-		signature.set(Game::coordinator.GetComponentType<TextComponent>());
-		Game::coordinator.SetSystemSignature<TextSystem>(signature);
+		signature.set(Core::coordinator.GetComponentType<TextComponent>());
+		Core::coordinator.SetSystemSignature<TextSystem>(signature);
 	}
 
 	void Update()
 	{
 		for (auto const& entity : mEntities)
 		{
-			auto& textComponent = Game::coordinator.GetComponent<TextComponent>(entity);
+			auto& textComponent = Core::coordinator.GetComponent<TextComponent>(entity);
 
 			if (textComponent.dirty)
 			{
@@ -29,7 +29,7 @@ public:
 			{
 				SDL_Rect renderRect = GetAlignedRect(entity, textComponent);
 				SDL_RenderCopy(
-					Game::window.GetRenderer(),		// Renderer
+					Core::window.GetRenderer(),		// Renderer
 					textComponent.texture,			// Texture
 					NULL,							// Source rectangle
 					&renderRect						// Destination Rectangle
@@ -59,7 +59,7 @@ private:
 			return;
 		}
 
-		textComponent.texture = SDL_CreateTextureFromSurface(Game::window.GetRenderer(), surface);
+		textComponent.texture = SDL_CreateTextureFromSurface(Core::window.GetRenderer(), surface);
 
 		if (!textComponent.texture)
 		{
@@ -76,9 +76,9 @@ private:
 
 		// Check if the entity has a TransformComponent
 		Vec2 finalPosition = textComponent.position;
-		if (Game::coordinator.HasComponent<TransformComponent>(entity))
+		if (Core::coordinator.HasComponent<TransformComponent>(entity))
 		{
-			auto& transform = Game::coordinator.GetComponent<TransformComponent>(entity);
+			auto& transform = Core::coordinator.GetComponent<TransformComponent>(entity);
 			finalPosition = transform.position + textComponent.position; // Add relative position
 		}
 

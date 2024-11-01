@@ -22,24 +22,24 @@ void CreateTileBackgroundEntity(std::string entity_name, std::string scene_name,
 
 	std::vector<int> tiles(mapWidth * mapHeight, 0);
 
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
-	Game::coordinator.AddComponent(entity, TileBackgroundComponent{tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles});
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+	Core::coordinator.AddComponent(entity, TileBackgroundComponent{tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight, mapWidth, mapHeight, tiles});
 }
 
 void CreateSolidColorBackgroundEntity(std::string entity_name, std::string scene_name, SDL_Color color)
 {
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
-	Game::coordinator.AddComponent(entity, SolidColorBackgroundComponent{color});
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+	Core::coordinator.AddComponent(entity, SolidColorBackgroundComponent{color});
 }
 
 void CreateImageBackgroundEntity(std::string entity_name, std::string scene_name, SDL_Texture *imageTexture, int width, int height)
 {
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
-	Game::coordinator.AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height});
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+	Core::coordinator.AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height});
 }
 
 void CreateParallaxBackgroundEntity(std::string entity_name, std::string scene_name, std::vector<ParallaxLayer> layers)
 {
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
-	Game::coordinator.AddComponent(entity, ParallaxBackgroundComponent{layers});
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+	Core::coordinator.AddComponent(entity, ParallaxBackgroundComponent{layers});
 }

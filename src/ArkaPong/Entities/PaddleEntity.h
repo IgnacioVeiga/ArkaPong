@@ -10,16 +10,16 @@ auto paddleCollisionCallback = [](Entity self, Entity other)
 
 auto goUpCallback = [](Entity self)
 {
-	auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
-	auto &rigidBodyComponent = Game::coordinator.GetComponent<RigidBodyComponent>(self);
+	auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(self);
+	auto &rigidBodyComponent = Core::coordinator.GetComponent<RigidBodyComponent>(self);
 
 	transformComponent.position.y = std::max(0.0f, transformComponent.position.y - rigidBodyComponent.velocity.y);
 };
 
 auto goDownCallback = [](Entity self)
 {
-	auto &transformComponent = Game::coordinator.GetComponent<TransformComponent>(self);
-	auto &rigidBodyComponent = Game::coordinator.GetComponent<RigidBodyComponent>(self);
+	auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(self);
+	auto &rigidBodyComponent = Core::coordinator.GetComponent<RigidBodyComponent>(self);
 
 	transformComponent.position.y = std::min(static_cast<float>(SCREEN_HEIGHT - PADDLE_HEIGHT), transformComponent.position.y + rigidBodyComponent.velocity.y);
 };
@@ -46,12 +46,12 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 
 	Vec2 velocity = Vec2(0, PADDLE_SPEED);
 
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
-	Game::coordinator.AddComponent(
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+	Core::coordinator.AddComponent(
 		entity,
 		TransformComponent{
 			Vec2(static_cast<float>(x_position), SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2)});
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
 			texture,	   // Texture
@@ -64,7 +64,7 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 				PADDLE_HEIGHT // H
 			},
 			flip});
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		RigidBodyComponent{
 			{0, 0, PADDLE_WIDTH, PADDLE_HEIGHT}, // Collider
@@ -74,7 +74,7 @@ void CreatePaddleEntity(std::string entity_name, std::string scene_name, Side si
 			true,		// Is it static? Yes, because it only moves vertically
 			false,		// Use gravity?
 			paddleCollisionCallback});
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		InputComponent{keyMappings, 5});
 }

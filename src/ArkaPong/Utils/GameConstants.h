@@ -1,6 +1,6 @@
 #pragma once
 
-constexpr auto GAME_TITLE = "ArkaPong";
+constexpr auto DEFAULT_GAME_TITLE = "ArkaPong";
 
 constexpr auto BALL_SPEED = 128.0f;
 constexpr auto BALL_SIZE = 5;
@@ -42,3 +42,8 @@ constexpr auto ENEMIES_SPRITE_FILEPATH = "assets/sprites/enemies.bmp";
 constexpr auto POWER_UPS_SPRITE_FILEPATH = "assets/sprites/powerups.bmp";
 constexpr auto VAUS_SPRITE_FILEPATH = "assets/sprites/vaus.bmp";
 constexpr auto WALLS_SPRITE_FILEPATH = "assets/sprites/walls.bmp";
+
+constexpr auto LEVEL_1 = "assets/levels/1.txt";
+
+constexpr auto TITLE_SCENE = "Title";
+constexpr auto ROUND_SCENE = "Round";

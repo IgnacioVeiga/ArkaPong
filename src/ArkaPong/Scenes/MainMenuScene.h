@@ -10,13 +10,13 @@ class MainMenuScene : public Scene
 public:
     void Init() override
     {
-        CreateSolidColorBackgroundEntity("BlackBG", "MainMenu", C_BLACK);
+        CreateSolidColorBackgroundEntity("BlackBG", TITLE_SCENE, C_BLACK);
 
         // TODO: use a sprite as title
         CreateTextEntity(
             "Title",
-            "MainMenu",
-            GAME_TITLE,
+            TITLE_SCENE,
+            DEFAULT_GAME_TITLE,
             C_WHITE,
             RETRO_FONT_FILEPATH,
             FONT_L,
@@ -26,7 +26,7 @@ public:
         // TODO: add menu options
         CreateTextEntity(
             "Menu",
-            "MainMenu",
+            TITLE_SCENE,
             "Press ENTER",
             C_WHITE,
             RETRO_FONT_FILEPATH,
@@ -36,7 +36,7 @@ public:
 
         CreateTextEntity(
             "Footer",
-            "MainMenu",
+            TITLE_SCENE,
             "pre-alpha 2024",
             C_GRAY,
             RETRO_FONT_FILEPATH,
@@ -47,22 +47,22 @@ public:
 
     void Update(float delta_time) override
     {
-		Game::coordinator.GetSystem<AudioSystem>()->Update();
-		Game::coordinator.GetSystem<InputSystem>()->Update();
-		Game::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
-		Game::coordinator.GetSystem<SpriteSystem>()->Update();
-		Game::coordinator.GetSystem<TextSystem>()->Update();
+		Core::coordinator.GetSystem<AudioSystem>()->Update();
+		Core::coordinator.GetSystem<InputSystem>()->Update();
+		Core::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
+		Core::coordinator.GetSystem<SpriteSystem>()->Update();
+		Core::coordinator.GetSystem<TextSystem>()->Update();
 
         // TODO: use the input system
         const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
         if (keyStates[SDL_SCANCODE_RETURN])
         {
-            Game::scene_manager.ChangeScene("Game");
+            Core::scene_manager.ChangeScene(ROUND_SCENE);
         }
     };
 
     void Cleanup() override
     {
-        Game::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene("MainMenu");
+        Core::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene(TITLE_SCENE);
     }
 };

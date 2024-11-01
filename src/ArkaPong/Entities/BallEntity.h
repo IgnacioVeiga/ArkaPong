@@ -4,11 +4,11 @@
 
 auto ballCollisionCallback = [](Entity self, Entity other)
 {
-	auto &transform_self = Game::coordinator.GetComponent<TransformComponent>(self);
-	auto &rigidbody_self = Game::coordinator.GetComponent<RigidBodyComponent>(self);
+	auto &transform_self = Core::coordinator.GetComponent<TransformComponent>(self);
+	auto &rigidbody_self = Core::coordinator.GetComponent<RigidBodyComponent>(self);
 
-	auto &transform_other = Game::coordinator.GetComponent<TransformComponent>(other);
-	auto &rigidbody_other = Game::coordinator.GetComponent<RigidBodyComponent>(other);
+	auto &transform_other = Core::coordinator.GetComponent<TransformComponent>(other);
+	auto &rigidbody_other = Core::coordinator.GetComponent<RigidBodyComponent>(other);
 
 	// Calculate overlap on each side of the collision
 	float overlapLeft = (transform_self.position.x + rigidbody_self.collider.w) - transform_other.position.x;
@@ -62,14 +62,14 @@ void CreateBallEntity(std::string entity_name, std::string scene_name)
 	float velY = (rand() % 2 == 0 ? -factor : factor);
 	Vec2 velocity = Vec2(velX, velY);
 
-	Entity entity = Game::coordinator.CreateEntity(entity_name, scene_name);
+	Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
 
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		TransformComponent{
 			Vec2(SCREEN_WIDTH / 2 - BALL_SIZE / 2,
 				 SCREEN_HEIGHT / 2 - BALL_SIZE / 2)});
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		SpriteComponent{
 			texture, // Texture
@@ -89,7 +89,7 @@ void CreateBallEntity(std::string entity_name, std::string scene_name)
 			},
 			SDL_FLIP_NONE // Flip
 		});
-	Game::coordinator.AddComponent(
+	Core::coordinator.AddComponent(
 		entity,
 		RigidBodyComponent{
 			{0, 0, BALL_SIZE, BALL_SIZE}, // Collider
