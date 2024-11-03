@@ -4,50 +4,7 @@
 
 auto ballCollisionCallback = [](Entity self, Entity other)
 {
-	auto &transform_self = Core::coordinator.GetComponent<TransformComponent>(self);
-	auto &rigidbody_self = Core::coordinator.GetComponent<RigidBodyComponent>(self);
-
-	auto &transform_other = Core::coordinator.GetComponent<TransformComponent>(other);
-	auto &rigidbody_other = Core::coordinator.GetComponent<RigidBodyComponent>(other);
-
-	// Calculate overlap on each side of the collision
-	float overlapLeft = (transform_self.position.x + rigidbody_self.collider.w) - transform_other.position.x;
-	float overlapRight = (transform_other.position.x + rigidbody_other.collider.w) - transform_self.position.x;
-	float overlapTop = (transform_self.position.y + rigidbody_self.collider.h) - transform_other.position.y;
-	float overlapBottom = (transform_other.position.y + rigidbody_other.collider.h) - transform_self.position.y;
-
-	// Determine which side the collision is coming from
-	bool fromLeft = fabs(overlapLeft) < fabs(overlapRight);
-	bool fromTop = fabs(overlapTop) < fabs(overlapBottom);
-
-	// Find the minimum overlap in the X and Y axes
-	float minOverlapX = fromLeft ? overlapLeft : overlapRight;
-	float minOverlapY = fromTop ? overlapTop : overlapBottom;
-
-	// Determine whether the collision is horizontal or vertical
-	if (fabs(minOverlapX) < fabs(minOverlapY))
-	{
-		// Horizontal collision
-		rigidbody_self.velocity.x = -rigidbody_self.velocity.x;
-		// Separate the ball by a small amount
-		transform_self.position.x += fromLeft ? -minOverlapX : minOverlapX;
-	}
-	else if (fabs(minOverlapX) > fabs(minOverlapY))
-	{
-		// Vertical collision
-		rigidbody_self.velocity.y = -rigidbody_self.velocity.y;
-		// Separate the ball by a small amount
-		transform_self.position.y += fromTop ? -minOverlapY : minOverlapY;
-	}
-	else
-	{
-		// Diagonal collision
-		rigidbody_self.velocity.x = -rigidbody_self.velocity.x;
-		rigidbody_self.velocity.y = -rigidbody_self.velocity.y;
-		// Separate the ball by a small amount
-		transform_self.position.y += fromTop ? -minOverlapY : minOverlapY;
-		transform_self.position.x += fromLeft ? -minOverlapX : minOverlapX;
-	}
+	// TODO: bounce sfx sound
 };
 
 void CreateBallEntity(std::string entity_name, std::string scene_name)
