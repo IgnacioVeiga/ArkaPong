@@ -1,9 +1,10 @@
 #pragma once
 
+#include <memory>
 #include "../Utils/CoreConstants.h"
+#include "../Utils/CollisionDetection.h"
+#include "../Utils/QuadTree.h"
 #include "../Utils/SpatialHash.h"
-// Should not be here
-#include "../../ArkaPong/Utils/GameConstants.h"
 #include "../../third_party/json.hpp"
 
 class PhysicsSystem : public System
@@ -15,12 +16,25 @@ public:
         signature.set(Core::coordinator.GetComponentType<RigidBodyComponent>());
         signature.set(Core::coordinator.GetComponentType<TransformComponent>());
         Core::coordinator.SetSystemSignature<PhysicsSystem>(signature);
+
+        std::string collisionMethod = config["physics"]["collision_method"];
+        if (collisionMethod == "quadtree")
+        {
+            collisionDetection = std::make_unique<QuadTree>();
+        }
+        else if (collisionMethod == "spatial_hash")
+        {
+            collisionDetection = std::make_unique<SpatialHash>();
+        }
+
+        gravity = config["physics"]["gravity"];
+        std::cout << "Using " << collisionMethod << std::endl;
     }
 
     void Update(float delta_time)
     {
-        spatialHash.Clear();
-        PopulateSpatialHash();
+        collisionDetection->Clear();
+        PopulateCollisionDetection();
 
         // Update movement of non-static entities
         for (auto const &entity : mEntities)
@@ -35,48 +49,28 @@ public:
         // List possible collisions and resolve
         std::vector<std::pair<Entity, Entity>> collisions;
         DetectCollisions(collisions);
+        // collisionDetection->GetPotentialCollisions(collisions);
         for (const auto &pair : collisions)
         {
+            std::cout << "Collision detected between entities: " << pair.first << " and " << pair.second << std::endl;
             ResolveCollision(pair.first, pair.second);
         }
     }
 
 private:
-    void ApplyPhysics(Entity entity, float delta_time)
+    void PopulateCollisionDetection()
     {
-        auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
-        auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
-
-        // Gravity
-        if (rigidBody.useGravity)
+        for (auto const &entity : mEntities)
         {
-            rigidBody.acceleration.y += GRAVITY * delta_time;
-        }
-
-        // Update velocity and position using acceleration
-        rigidBody.velocity += rigidBody.acceleration * delta_time;
-        transform.position += rigidBody.velocity * delta_time;
-
-        // Reset acceleration for the next cycle
-        rigidBody.acceleration = Vec2(0.0f, 0.0f);
-    }
-
-    void PopulateSpatialHash()
-    {
-        for (const auto &entity : mEntities)
-        {
-            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
             auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
+            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
 
-            UpdateColliderPosition(rigidBody, transform);
-            spatialHash.Insert(entity, rigidBody.collider);
+            // Update collider position
+            rigidBody.collider.x = transform.position.x;
+            rigidBody.collider.y = transform.position.y;
+
+            collisionDetection->Insert(entity, transform.position, rigidBody.collider);
         }
-    }
-
-    void UpdateColliderPosition(RigidBodyComponent &rigidBody, TransformComponent &transform)
-    {
-        rigidBody.collider.x = transform.position.x;
-        rigidBody.collider.y = transform.position.y;
     }
 
     void DetectCollisions(std::vector<std::pair<Entity, Entity>> &collisions)
@@ -84,7 +78,7 @@ private:
         for (const auto &entity : mEntities)
         {
             auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
-            std::vector<Entity> possibleCollisions = spatialHash.Retrieve(rigidBody.collider);
+            std::vector<Entity> possibleCollisions = collisionDetection->Retrieve(rigidBody.collider);
 
             for (const auto &otherEntity : possibleCollisions)
             {
@@ -99,6 +93,21 @@ private:
                 }
             }
         }
+    }
+
+    void ApplyPhysics(Entity entity, float delta_time)
+    {
+        auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
+        auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
+
+        if (rigidBody.useGravity)
+        {
+            rigidBody.acceleration.y += gravity * delta_time;
+        }
+
+        rigidBody.velocity += rigidBody.acceleration * delta_time;
+        transform.position += rigidBody.velocity * delta_time;
+        rigidBody.acceleration = Vec2(0.0f, 0.0f);
     }
 
     void ResolveCollision(Entity entityA, Entity entityB)
@@ -167,34 +176,25 @@ private:
         }
     }
 
-    // Destroy entity?
+    // Depends, the entity can be destroyed, teleported, etc.
+    // TODO: use callbacks or events for this
     void CheckOutOfBounds(Entity entity)
     {
         auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(entity);
         auto &rigidBodyComponent = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
 
-        // TODO: use a trigger rectangle
+        // Teleports to the center of the screen
         if (transformComponent.position.x > SCREEN_WIDTH || transformComponent.position.x < 0)
         {
-            ResetEntityPositionAndVelocity(transformComponent, rigidBodyComponent);
+            transformComponent.position = Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
         }
-
-        // TODO: use walls instead
+        // Bounce vertically
         if ((transformComponent.position.y + rigidBodyComponent.collider.h) > SCREEN_HEIGHT || transformComponent.position.y < 0)
         {
             rigidBodyComponent.velocity.y = -rigidBodyComponent.velocity.y;
         }
     }
 
-    // Duplicated code
-    // TODO: remove later
-    void ResetEntityPositionAndVelocity(TransformComponent &transformComponent, RigidBodyComponent &rigidBodyComponent)
-    {
-        transformComponent.position = Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-        rigidBodyComponent.velocity.x = (rand() % 2 == 0 ? -BALL_SPEED : BALL_SPEED);
-        float factor = static_cast<float>(rand() % static_cast<int>(BALL_SPEED) + 1);
-        rigidBodyComponent.velocity.y = (rand() % 2 == 0 ? -factor : factor);
-    }
-
-    SpatialHash spatialHash;
+    std::unique_ptr<CollisionDetection> collisionDetection;
+    float gravity = 9.81f; // Configurable gravity
 };

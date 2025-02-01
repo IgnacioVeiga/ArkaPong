@@ -5,7 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-
+#include "CollisionDetection.h"
 #include "CoreConstants.h"
 #include "../Entity/Entity.h"
 
@@ -20,12 +20,12 @@ struct pair_hash
     }
 };
 
-class SpatialHash
+class SpatialHash : public CollisionDetection
 {
 public:
     SpatialHash() {}
 
-    void Insert(Entity entity, SDL_FRect &collider)
+    void Insert(Entity entity, Vec2 position, SDL_FRect collider) override
     {
         int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
         int startY = static_cast<int>(collider.y / CELL_GRID_SIZE);
@@ -41,7 +41,7 @@ public:
         }
     }
 
-    std::vector<Entity> Retrieve(const SDL_FRect &collider)
+    std::vector<Entity> Retrieve(const SDL_FRect &collider) override
     {
         std::unordered_set<Entity> uniqueEntities;
         int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
@@ -63,10 +63,30 @@ public:
         return {uniqueEntities.begin(), uniqueEntities.end()};
     }
 
-    void Clear()
+    void Clear() override
     {
         mHashTable.clear();
     }
+
+    // void GetPotentialCollisions(std::vector<std::pair<Entity, Entity>> &collisions) override
+    // {
+    //     for (const auto &cell : mHashTable)
+    //     {
+    //         const auto &entities = cell.second;
+    //         for (size_t i = 0; i < entities.size(); ++i)
+    //         {
+    //             for (size_t j = i + 1; j < entities.size(); ++j)
+    //             {
+    //                 auto &colliderA = Core::coordinator.GetComponent<RigidBodyComponent>(entities[i]).collider;
+    //                 auto &colliderB = Core::coordinator.GetComponent<RigidBodyComponent>(entities[j]).collider;
+    //                 if (SDL_HasIntersectionF(&colliderA, &colliderB))
+    //                 {
+    //                     collisions.push_back({entities[i], entities[j]});
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
 private:
     std::unordered_map<std::pair<int, int>, std::vector<Entity>, pair_hash> mHashTable;
