@@ -1,0 +1,11 @@
+{
+    "window": {
+        "width": 512,
+        "height": 320,
+        "title": "ArkaPong"
+    },
+    "physics": {
+        "collision_method": "spatial_hash",
+        "gravity": 9.81
+    }
+}

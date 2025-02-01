@@ -66,3 +66,9 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/assets"
         "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
+
+# Copy the config.json file to where the executable is after the build.
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        "${CMAKE_SOURCE_DIR}/config.json"
+        "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config.json")

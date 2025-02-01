@@ -2,14 +2,14 @@
 
 #include "../Utils/CoreConstants.h"
 #include "../Utils/SpatialHash.h"
-
 // Should not be here
 #include "../../ArkaPong/Utils/GameConstants.h"
+#include "../../third_party/json.hpp"
 
 class PhysicsSystem : public System
 {
 public:
-    void Init()
+    void Init(const nlohmann::json &config)
     {
         Signature signature{};
         signature.set(Core::coordinator.GetComponentType<RigidBodyComponent>());

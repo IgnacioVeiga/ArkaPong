@@ -13,17 +13,22 @@
 
 #include "ArkaPong/Scenes/MainMenuScene.h"
 #include "ArkaPong/Scenes/GameScene.h"
+#include "third_party/json.hpp"
 
 int main(int argc, char *argv[])
 {
 	srand(static_cast<Uint32>(time(nullptr)));
+
+	std::ifstream configFile("config.json");
+	nlohmann::json config;
+	configFile >> config;
 
 	if (!Core::window.Init(DEFAULT_GAME_TITLE))
 		return 1;
 
 	Core::coordinator.Init();
 	Core::coordinator.RegisterComponent<BaseComponent>();
-	Core::coordinator.RegisterSystem<BaseSystem>()->Init();
+	Core::coordinator.RegisterSystem<BaseSystem>()->Init(config);
 
 	Core::scene_manager.Add(TITLE_SCENE, std::make_unique<MainMenuScene>());
 	Core::scene_manager.Add(ROUND_SCENE, std::make_unique<GameScene>());

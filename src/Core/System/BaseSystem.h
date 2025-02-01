@@ -23,7 +23,7 @@
 class BaseSystem : public System
 {
 public:
-	void Init()
+    void Init(const nlohmann::json& config)
 	{
 		Signature signature{};
 		signature.set(Core::coordinator.GetComponentType<BaseComponent>());
@@ -56,7 +56,7 @@ public:
 
 		Core::coordinator.RegisterSystem<AnimationSystem>()->Init();
 		Core::coordinator.RegisterSystem<PathSystem>()->Init();
-		Core::coordinator.RegisterSystem<PhysicsSystem>()->Init();
+		Core::coordinator.RegisterSystem<PhysicsSystem>()->Init(config);
 	}
 
 	void Update()
