@@ -142,6 +142,8 @@
     
     <ClInclude Include="src\Core\Utils\CoreConstants.h" />
     <ClInclude Include="src\Core\Utils\CoreEnums.h" />
+    <ClInclude Include="src\Core\Utils\CollisionDetection.h" />
+    <ClInclude Include="src\Core\Utils\QuadTree.h" />
     <ClInclude Include="src\Core\Utils\SpatialHash.h" />
     <ClInclude Include="src\Core\Utils\Vec2.h" />
     
@@ -165,6 +167,7 @@
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="vcpkg.json" />
+    <None Include="config.json" />
 </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
