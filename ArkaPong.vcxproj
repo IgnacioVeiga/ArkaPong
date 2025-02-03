@@ -133,6 +133,7 @@
     <ClInclude Include="src\Core\System\System.h" />
     <ClInclude Include="src\Core\System\TextSystem.h" />
     <ClInclude Include="src\Core\Coordinator.h" />
+    <ClInclude Include="src\Core\Utils\Configuration.h" />
     <ClInclude Include="src\Core\Utils\CoreConstants.h" />
     <ClInclude Include="src\Core\Utils\CoreEnums.h" />
     <ClInclude Include="src\Core\Utils\CollisionDetection.h" />

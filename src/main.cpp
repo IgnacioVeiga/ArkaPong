@@ -8,20 +8,21 @@
 #include <SDL2/SDL_render.h>
 
 #include "Core/Core.h"
+#include "Core/Utils/Configuration.h"
 #include "Core/Component/BaseComponent.h"
 #include "Core/System/BaseSystem.h"
 
 #include "ArkaPong/Scenes/MainMenuScene.h"
 #include "ArkaPong/Scenes/GameScene.h"
-#include "third_party/json.hpp"
 
 int main(int argc, char *argv[])
 {
 	srand(static_cast<Uint32>(time(nullptr)));
 
-	std::ifstream configFile("config.json");
-	nlohmann::json config;
-	configFile >> config;
+	json config = readConfig();
+	json defaultConfig = getDefaultConfig();
+	mergeConfig(config, defaultConfig);
+	std::cout << config.dump(4) << std::endl;
 
 	if (!Core::window.Init(DEFAULT_GAME_TITLE))
 		return 1;

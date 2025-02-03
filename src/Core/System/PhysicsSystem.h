@@ -196,5 +196,5 @@ private:
     }
 
     std::unique_ptr<CollisionDetection> collisionDetection;
-    float gravity = 9.81f; // Configurable gravity
+    float gravity;
 };
