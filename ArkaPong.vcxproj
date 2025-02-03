@@ -88,7 +88,7 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-<ItemGroup>
+  <ItemGroup>
     <ClInclude Include="src\Core\Component\AnimationComponent.h" />
     <ClInclude Include="src\Core\Component\AudioComponent.h" />
     <ClInclude Include="src\Core\Component\Background\Background.h" />
@@ -104,15 +104,12 @@
     <ClInclude Include="src\Core\Component\SpriteComponent.h" />
     <ClInclude Include="src\Core\Component\TextComponent.h" />
     <ClInclude Include="src\Core\Component\TransformComponent.h" />
-    
     <ClInclude Include="src\Core\Entity\AnimatedEntity.h" />
     <ClInclude Include="src\Core\Entity\AudioEntity.h" />
     <ClInclude Include="src\Core\Entity\BackgroundEntity.h" />
     <ClInclude Include="src\Core\Entity\Entity.h" />
     <ClInclude Include="src\Core\Entity\TextEntity.h" />
-    
     <ClInclude Include="src\Core\Core.h" />
-    
     <ClInclude Include="src\Core\Manager\AudioManager.h" />
     <ClInclude Include="src\Core\Manager\ComponentManager.h" />
     <ClInclude Include="src\Core\Manager\EntityManager.h" />
@@ -120,9 +117,7 @@
     <ClInclude Include="src\Core\Manager\SceneManager.h" />
     <ClInclude Include="src\Core\Manager\SystemManager.h" />
     <ClInclude Include="src\Core\Manager\TextureManager.h" />
-    
     <ClInclude Include="src\Core\Scene.h" />
-    
     <ClInclude Include="src\Core\System\AnimationSystem.h" />
     <ClInclude Include="src\Core\System\AudioSystem.h" />
     <ClInclude Include="src\Core\System\Background\Background.h" />
@@ -137,18 +132,14 @@
     <ClInclude Include="src\Core\System\SpriteSystem.h" />
     <ClInclude Include="src\Core\System\System.h" />
     <ClInclude Include="src\Core\System\TextSystem.h" />
-    
     <ClInclude Include="src\Core\Coordinator.h" />
-    
     <ClInclude Include="src\Core\Utils\CoreConstants.h" />
     <ClInclude Include="src\Core\Utils\CoreEnums.h" />
     <ClInclude Include="src\Core\Utils\CollisionDetection.h" />
     <ClInclude Include="src\Core\Utils\QuadTree.h" />
     <ClInclude Include="src\Core\Utils\SpatialHash.h" />
     <ClInclude Include="src\Core\Utils\Vec2.h" />
-    
     <ClInclude Include="src\Core\Window.h" />
-    
     <ClInclude Include="src\ArkaPong\Entities\BallEntity.h" />
     <ClInclude Include="src\ArkaPong\Entities\BrickEntity.h" />
     <ClInclude Include="src\ArkaPong\Entities\PaddleEntity.h" />
@@ -157,18 +148,20 @@
     <ClInclude Include="src\ArkaPong\Utils\BrickUtils.h" />
     <ClInclude Include="src\ArkaPong\Utils\GameConstants.h" />
     <ClInclude Include="src\ArkaPong\Utils\GameEnums.h" />
-</ItemGroup>
-<ItemGroup>
+    <ClInclude Include="src\third_party\json.hpp" />
+    <ClInclude Include="src\third_party\json_fwd.hpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
-</ItemGroup>
-<ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="CMakeLists.txt" />
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="vcpkg.json" />
     <None Include="config.json" />
-</ItemGroup>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
