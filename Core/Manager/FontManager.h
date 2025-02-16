@@ -3,7 +3,12 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
+
+#if defined(_MSC_VER)
 #include <SDL_ttf.h>
+#else
+#include <SDL2/SDL_ttf.h>
+#endif
 
 class FontManager
 {

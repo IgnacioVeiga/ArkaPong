@@ -2,7 +2,12 @@
 
 #include <iostream>
 #include <unordered_map>
+
+#if defined(_MSC_VER)
 #include <SDL_mixer.h>
+#else
+#include <SDL2/SDL_mixer.h>
+#endif
 
 class AudioManager
 {

@@ -1,8 +1,15 @@
 #include "Window.h"
 
 #include <SDL2/SDL.h>
+
+#if defined(_MSC_VER)
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#else
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
+#endif
+
 #include <iostream>
 
 bool Window::Init(const char* title)
