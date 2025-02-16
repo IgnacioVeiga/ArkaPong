@@ -46,20 +46,15 @@ if(NOT SDL2_FOUND OR NOT SDL2_MIXER_FOUND OR NOT SDL2_TTF_FOUND)
         )
         FetchContent_MakeAvailable(SDL2_ttf)
     endif()
-
-    # Set the include directories
-    set(SDL2_INCLUDE_DIRS ${sdl2_SOURCE_DIR}/include)
-    set(SDL2_MIXER_INCLUDE_DIRS ${sdl2_mixer_SOURCE_DIR}/include)
-    set(SDL2_TTF_INCLUDE_DIRS ${sdl2_ttf_SOURCE_DIR}/include)
 endif()
 
 include_directories(
-    ${SDL2_INCLUDE_DIRS}
-    ${SDL2_MIXER_INCLUDE_DIRS}
-    ${SDL2_TTF_INCLUDE_DIRS}
+    ${SDL2_SOURCE_DIR}/include
+    ${SDL2_mixer_SOURCE_DIR}/include
+    ${SDL2_ttf_SOURCE_DIR}/include
 )
 
 # Add subdirectories
 add_subdirectory(Core)
 add_subdirectory(ArkaPong)
-add_subdirectory(Frontend)
+#add_subdirectory(Frontend)
