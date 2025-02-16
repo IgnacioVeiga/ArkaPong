@@ -24,7 +24,7 @@ if(NOT SDL2_FOUND OR NOT SDL2_MIXER_FOUND OR NOT SDL2_TTF_FOUND)
         FetchContent_Declare(
             SDL2
             GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-            GIT_TAG release-2.30.8
+            GIT_TAG release-2.32.0
         )
         FetchContent_MakeAvailable(SDL2)
     endif()
@@ -33,7 +33,7 @@ if(NOT SDL2_FOUND OR NOT SDL2_MIXER_FOUND OR NOT SDL2_TTF_FOUND)
         FetchContent_Declare(
             SDL2_mixer
             GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
-            GIT_TAG release-2.8.0
+            GIT_TAG release-2.8.1
         )
         FetchContent_MakeAvailable(SDL2_mixer)
     endif()
@@ -42,7 +42,7 @@ if(NOT SDL2_FOUND OR NOT SDL2_MIXER_FOUND OR NOT SDL2_TTF_FOUND)
         FetchContent_Declare(
             SDL2_ttf
             GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
-            GIT_TAG release-2.22.0
+            GIT_TAG release-2.24.0
         )
         FetchContent_MakeAvailable(SDL2_ttf)
     endif()
