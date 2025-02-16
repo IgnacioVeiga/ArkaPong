@@ -8,5 +8,4 @@ target_include_directories(Frontend PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR} 
     ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui-docking 
     ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui-docking/backends
-    ${SDL2_SOURCE_DIR}/include
 )

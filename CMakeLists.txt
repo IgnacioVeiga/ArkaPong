@@ -49,9 +49,9 @@ if(NOT SDL2_FOUND OR NOT SDL2_MIXER_FOUND OR NOT SDL2_TTF_FOUND)
 endif()
 
 include_directories(
-    ${SDL2_SOURCE_DIR}/include
-    ${SDL2_mixer_SOURCE_DIR}/include
-    ${SDL2_ttf_SOURCE_DIR}/include
+    ${SDL2_INCLUDE_DIRS}
+    ${SDL2_MIXER_INCLUDE_DIRS}
+    ${SDL2_TTF_INCLUDE_DIRS}
 )
 
 # Add subdirectories
