@@ -15,7 +15,7 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
 ![PONG](https://www.retrogames.cz/games/530/Pong-gameplay.gif)
 
 ### ArkaPong
-![ArkaPong](https://github.com/user-attachments/assets/f7697ab0-1de1-4eb9-8d81-cf737ea8a39a)
+// TODO: add a new gif
 
 ### Prerequisites
 - [Git](https://git-scm.com/) (optional)
@@ -47,12 +47,12 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
    git clone https://github.com/IgnacioVeiga/ArkaPong.git
    cd ArkaPong
    ```
-2. - Linux: Use CMake (check the ``CMakeLists.txt`` file) and run:
+2. - Linux: Use CMake (check the ``CMakeLists.txt`` files) and run:
    ``` sh
    cmake -B build
    cmake --build build
    ```
-    - Windows: Use Microsoft Visual Studio 2022 to build and run (using CMake in this case may give you an error when searching for SDL2 libraries, use VCPKG instead.).
+    - Windows: (TODO: UPDATE THIS) Use Microsoft Visual Studio 2022 to build and run (using CMake in this case may give you an error when searching for SDL2 libraries, use VCPKG instead.).
 
 3. Finally check the build folder, the executable should be accompanied by the “assets” folder in order to run.
 
