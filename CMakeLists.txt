@@ -57,4 +57,4 @@ include_directories(
 # Add subdirectories
 add_subdirectory(Core)
 add_subdirectory(ArkaPong)
-#add_subdirectory(Frontend)
+add_subdirectory(Frontend)
