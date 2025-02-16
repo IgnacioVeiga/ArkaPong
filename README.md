@@ -22,10 +22,10 @@ ArkaPong is a hybrid game combining the classic "Arkanoid" (from NES) with "Pong
 - [Git](https://git-scm.com/) (optional)
 - [CMake](https://cmake.org/download/) (not required for Windows)
 - Libraries (Each one should be downloaded automatically, check the <a href="CMakeLists.txt">CMakeLists.txt</a> file):
-  - [SDL2](https://github.com/libsdl-org/SDL) (2.30.x)
-  - [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer) (2.8.x)
-  - [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf) (2.22.x)
-- A compiler for C++ 17 (Tested with MSVC v143-VS 2022, GCC and Clang).
+  - [SDL2](https://github.com/libsdl-org/SDL) (2.32.0)
+  - [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer) (2.8.1)
+  - [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf) (2.24.0)
+- A compiler for C++ 17 (Tested with MSVC v143-VS 2022 and Clang).
 
 ### Build
 1. Download source code or clone the repository with Git
