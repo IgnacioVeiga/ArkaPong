@@ -20,6 +20,111 @@
 #error This backend requires SDL 2.0.17+ because of SDL_RenderGeometry() function
 #endif
 
+void SetupEntitiesAndScenesWindow(ImGuiIO &io) {
+    ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
+    ImGui::Begin("Entities and Scenes", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+    if (ImGui::BeginTabBar("EntitiesAndScenesTabBar")) {
+        if (ImGui::BeginTabItem("Entities")) {
+            ImGui::Selectable("Entity 1");
+            ImGui::Selectable("Entity 2");
+            ImGui::Selectable("Entity 3");
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Scenes")) {
+            ImGui::Text("Scenes");
+            ImGui::Selectable("Scene 1");
+            ImGui::Selectable("Scene 2");
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
+    ImGui::End();
+}
+
+void SetupSceneWindow(ImGuiIO &io, SDL_Renderer *renderer) {
+    ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.25f, 0), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
+    ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+    SDL_Rect viewport = {static_cast<int>(io.DisplaySize.x * 0.25f), 0, static_cast<int>(io.DisplaySize.x * 0.5f), static_cast<int>(io.DisplaySize.y * 0.75f)};
+    SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
+    SDL_RenderFillRect(renderer, &viewport);
+    ImGui::End();
+}
+
+void SetupComponentsWindow(ImGuiIO &io) {
+    static float pos_x = 0.0f;
+    static float pos_y = 0.0f;
+    static float scale_x = 1.0f;
+    static float scale_y = 1.0f;
+    static float rotation = 0.0f;
+
+    ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.75f, 0), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
+    ImGui::Begin("Components", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    if (ImGui::CollapsingHeader("Base")) {
+        ImGui::Text("Tags");
+        ImGui::SetNextItemWidth(100);
+        static char buf1[32] = "";
+        ImGui::InputText("Tag", buf1, 32);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(100);
+        static char buf2[32] = "";
+        ImGui::InputText("SubTag", buf2, 32);
+
+        static uint8_t entityId = 1;
+        ImGui::Text("Id = %d", entityId);
+    }
+
+    ImGui::Separator();
+
+    if (ImGui::CollapsingHeader("Transform")) {
+        ImGui::Text("Position");
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputFloat("X##pos_x", &pos_x, 0.1f);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputFloat("Y##pos_y", &pos_y, 0.1f);
+
+        ImGui::Text("Scale");
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputFloat("X##scale_x", &scale_x, 0.1f);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputFloat("Y##scale_y", &scale_y, 0.1f);
+
+        ImGui::Text("Rotation");
+        ImGui::SetNextItemWidth(200);
+        ImGui::SliderFloat("Deg", &rotation, 0.0f, 360.0f);
+    }
+    ImGui::End();
+}
+
+void SetupScriptExplorerWindow(ImGuiIO &io) {
+    ImGui::SetNextWindowPos(ImVec2(0, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
+    ImGui::Begin("Script Explorer", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::Text("Script Manager");
+    ImGui::Selectable("Script 1");
+    ImGui::Selectable("Script 2");
+    ImGui::End();
+}
+
+void SetupConsoleWindow(ImGuiIO &io, bool &show_demo_window) {
+    ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
+    ImGui::Begin("Log", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::Text("Log");
+
+    ImGui::Separator();
+    ImGui::Checkbox("Demo Window", &show_demo_window);
+
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+    ImGui::End();
+}
+
 // Main code
 int main(int, char **)
 {
@@ -120,86 +225,11 @@ int main(int, char **)
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        {
-            ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-            ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
-            ImGui::Begin("Entities", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-            ImGui::Selectable("Entity 1");
-            ImGui::Selectable("Entity 2");
-            ImGui::Selectable("Entity 3");
-            ImGui::End();
-        }
-
-        {
-            ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.25f, 0), ImGuiCond_Always);
-            ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
-            ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-            ImGui::Text("Scene");
-            ImGui::End();
-        }
-
-        {
-            static float pos_x = 0.0f;
-            static float pos_y = 0.0f;
-            static float scale_x = 1.0f;
-            static float scale_y = 1.0f;
-            static float rotation = 0.0f;
-
-            ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.75f, 0), ImGuiCond_Always);
-            ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
-            ImGui::Begin("Components", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-            if (ImGui::CollapsingHeader("Base"))
-            {
-                ImGui::Text("Tags");
-                ImGui::SetNextItemWidth(100);
-                static char buf1[32] = "";
-                ImGui::InputText("Tag", buf1, 32);
-                ImGui::SameLine();
-                ImGui::SetNextItemWidth(100);
-                static char buf2[32] = "";
-                ImGui::InputText("SubTag", buf2, 32);
-
-                static uint8_t entityId = 1;
-                ImGui::Text("Id = %d", entityId);
-            }
-
-            ImGui::Separator();
-
-            if (ImGui::CollapsingHeader("Transform"))
-            {
-                ImGui::Text("Position");
-                ImGui::SetNextItemWidth(100);
-                ImGui::InputFloat("X##pos_x", &pos_x, 0.1f);
-                ImGui::SameLine();
-                ImGui::SetNextItemWidth(100);
-                ImGui::InputFloat("Y##pos_y", &pos_y, 0.1f);
-
-                ImGui::Text("Scale");
-                ImGui::SetNextItemWidth(100);
-                ImGui::InputFloat("X##scale_x", &scale_x, 0.1f);
-                ImGui::SameLine();
-                ImGui::SetNextItemWidth(100);
-                ImGui::InputFloat("Y##scale_y", &scale_y, 0.1f);
-
-                ImGui::Text("Rotation");
-                ImGui::SetNextItemWidth(200);
-                ImGui::SliderFloat("Deg", &rotation, 0.0f, 360.0f);
-            }
-            ImGui::End();
-
-            {
-                ImGui::SetNextWindowPos(ImVec2(0, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
-                ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
-                ImGui::Begin("Log", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-                ImGui::Text("Log");
-
-                ImGui::Separator();
-                ImGui::Checkbox("Demo Window", &show_demo_window);
-
-                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-                ImGui::End();
-            }
-        }
+        SetupEntitiesAndScenesWindow(io);
+        SetupSceneWindow(io, renderer);
+        SetupComponentsWindow(io);
+        SetupScriptExplorerWindow(io);
+        SetupConsoleWindow(io, show_demo_window);
 
         // Rendering
         ImGui::Render();
