@@ -13,17 +13,18 @@
 #include "ThirdParty/imgui-docking/imgui.h"
 #include "ThirdParty/imgui-docking/backends/imgui_impl_sdl2.h"
 #include "ThirdParty/imgui-docking/backends/imgui_impl_sdlrenderer2.h"
-#include <stdio.h>
+#include <cstdio>
 #include <SDL2/SDL.h>
 
 #if !SDL_VERSION_ATLEAST(2, 0, 17)
 #error This backend requires SDL 2.0.17+ because of SDL_RenderGeometry() function
 #endif
 
-void SetupEntitiesAndScenesWindow(ImGuiIO &io) {
+void SetupEntitiesAndScenesWindow(const ImGuiIO &io) {
     ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
-    ImGui::Begin("Entities and Scenes", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Entities and Scenes", nullptr,
+                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
     if (ImGui::BeginTabBar("EntitiesAndScenesTabBar")) {
         if (ImGui::BeginTabItem("Entities")) {
@@ -43,18 +44,21 @@ void SetupEntitiesAndScenesWindow(ImGuiIO &io) {
     ImGui::End();
 }
 
-void SetupSceneWindow(ImGuiIO &io, SDL_Renderer *renderer) {
+void SetupSceneWindow(const ImGuiIO &io, SDL_Renderer *renderer) {
     ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.25f, 0), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-    SDL_Rect viewport = {static_cast<int>(io.DisplaySize.x * 0.25f), 0, static_cast<int>(io.DisplaySize.x * 0.5f), static_cast<int>(io.DisplaySize.y * 0.75f)};
+    SDL_Rect viewport = {
+        static_cast<int>(io.DisplaySize.x * 0.25f), 0, static_cast<int>(io.DisplaySize.x * 0.5f),
+        static_cast<int>(io.DisplaySize.y * 0.75f)
+    };
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
     SDL_RenderFillRect(renderer, &viewport);
     ImGui::End();
 }
 
-void SetupComponentsWindow(ImGuiIO &io) {
+void SetupComponentsWindow(const ImGuiIO &io) {
     static float pos_x = 0.0f;
     static float pos_y = 0.0f;
     static float scale_x = 1.0f;
@@ -63,7 +67,8 @@ void SetupComponentsWindow(ImGuiIO &io) {
 
     ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.75f, 0), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
-    ImGui::Begin("Components", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Components", nullptr,
+                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
     if (ImGui::CollapsingHeader("Base")) {
         ImGui::Text("Tags");
         ImGui::SetNextItemWidth(100);
@@ -102,17 +107,18 @@ void SetupComponentsWindow(ImGuiIO &io) {
     ImGui::End();
 }
 
-void SetupScriptExplorerWindow(ImGuiIO &io) {
+void SetupScriptExplorerWindow(const ImGuiIO &io) {
     ImGui::SetNextWindowPos(ImVec2(0, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
-    ImGui::Begin("Script Explorer", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Script Explorer", nullptr,
+                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
     ImGui::Text("Script Manager");
     ImGui::Selectable("Script 1");
     ImGui::Selectable("Script 2");
     ImGui::End();
 }
 
-void SetupConsoleWindow(ImGuiIO &io, bool &show_demo_window) {
+void SetupConsoleWindow(const ImGuiIO &io, bool &show_demo_window) {
     ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
     ImGui::Begin("Log", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
@@ -126,11 +132,9 @@ void SetupConsoleWindow(ImGuiIO &io, bool &show_demo_window) {
 }
 
 // Main code
-int main(int, char **)
-{
+int main(int, char **) {
     // Setup SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
-    {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
         printf("Error: %s\n", SDL_GetError());
         return -1;
     }
@@ -141,16 +145,15 @@ int main(int, char **)
 #endif
 
     // Create window with SDL_Renderer graphics context
-    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    SDL_Window *window = SDL_CreateWindow("ArkaPong Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
-    if (window == nullptr)
-    {
+    constexpr auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_Window *window = SDL_CreateWindow("ArkaPong Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280,
+                                          720, window_flags);
+    if (window == nullptr) {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
         return -1;
     }
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
-    if (renderer == nullptr)
-    {
+    if (renderer == nullptr) {
         SDL_Log("Error creating SDL_Renderer!");
         return -1;
     }
@@ -162,10 +165,10 @@ int main(int, char **)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-    (void)io;
+    (void) io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -196,24 +199,22 @@ int main(int, char **)
 
     // Main loop
     bool done = false;
-    while (!done)
-    {
+    while (!done) {
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
         // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
         // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
+        while (SDL_PollEvent(&event)) {
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
                 done = true;
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID ==
+                SDL_GetWindowID(window))
                 done = true;
         }
-        if (SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED)
-        {
+        if (SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED) {
             SDL_Delay(10);
             continue;
         }
