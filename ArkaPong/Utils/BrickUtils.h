@@ -1,6 +1,6 @@
 #pragma once
 
-std::unordered_map<BrickType, std::pair<int, int>> brickTypeMap = {
+inline std::unordered_map<BrickType, std::pair<int, int>> brickTypeMap = {
     {BrickType::White, {0, 0}},
     {BrickType::Salmon, {8, 0}},
     {BrickType::LightBlue, {16, 0}},
@@ -12,7 +12,7 @@ std::unordered_map<BrickType, std::pair<int, int>> brickTypeMap = {
     {BrickType::Iron, {0, 16}},
     {BrickType::Gold, {0, 32}}};
 
-SDL_Rect GetBrickSrcRect(BrickType brickType)
+inline SDL_Rect GetBrickSrcRect(const BrickType brickType)
 {
     SDL_Rect srcRect = {0, 0, 0, 0};
     

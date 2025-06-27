@@ -5,11 +5,9 @@
 #include "../../Core/Utils/CoreEnums.h"
 #include "../Utils/GameConstants.h"
 
-class MainMenuScene : public Scene
-{
+class MainMenuScene final : public Scene {
 public:
-    void Init() override
-    {
+    void Init() override {
         CreateSolidColorBackgroundEntity("BlackBG", TITLE_SCENE, C_BLACK);
 
         // TODO: use a sprite as title
@@ -20,7 +18,7 @@ public:
             C_WHITE,
             RETRO_FONT_FILEPATH,
             FONT_L,
-            Vec2(SCREEN_WIDTH / 2, PADDLE_OFFSET),
+            Vec2(static_cast<float_t>(SCREEN_WIDTH) / 2, PADDLE_OFFSET),
             Side::CENTER);
 
         // TODO: add menu options
@@ -31,7 +29,7 @@ public:
             C_WHITE,
             RETRO_FONT_FILEPATH,
             FONT_M,
-            Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2),
+            Vec2(static_cast<float_t>(SCREEN_WIDTH) / 2, static_cast<float_t>(SCREEN_HEIGHT) / 2),
             Side::CENTER);
 
         CreateTextEntity(
@@ -41,28 +39,24 @@ public:
             C_GRAY,
             RETRO_FONT_FILEPATH,
             FONT_XS,
-            Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT - PADDLE_OFFSET),
+            Vec2(static_cast<float_t>(SCREEN_WIDTH) / 2, SCREEN_HEIGHT - PADDLE_OFFSET),
             Side::CENTER);
     };
 
-    void Update(float delta_time) override
-    {
-		Core::coordinator.GetSystem<AudioSystem>()->Update();
-		Core::coordinator.GetSystem<InputSystem>()->Update();
-		Core::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
-		Core::coordinator.GetSystem<SpriteSystem>()->Update();
-		Core::coordinator.GetSystem<TextSystem>()->Update();
+    void Update(float delta_time) override {
+        Core::coordinator.GetSystem<AudioSystem>()->Update();
+        Core::coordinator.GetSystem<InputSystem>()->Update();
+        Core::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
+        Core::coordinator.GetSystem<SpriteSystem>()->Update();
+        Core::coordinator.GetSystem<TextSystem>()->Update();
 
         // TODO: use the input system
-        const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
-        if (keyStates[SDL_SCANCODE_RETURN])
-        {
+        if (const Uint8 *keyStates = SDL_GetKeyboardState(nullptr); keyStates[SDL_SCANCODE_RETURN]) {
             Core::scene_manager.ChangeScene(ROUND_SCENE);
         }
     };
 
-    void Cleanup() override
-    {
+    void Cleanup() override {
         Core::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene(TITLE_SCENE);
     }
 };
