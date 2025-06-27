@@ -3,7 +3,7 @@
 #include <SDL2/SDL_render.h>
 
 struct TileBackgroundComponent {
-    SDL_Texture* tileTexture;
+    SDL_Texture *tileTexture;
 
     int tileTextureWidth;
     int tileTextureHeight;

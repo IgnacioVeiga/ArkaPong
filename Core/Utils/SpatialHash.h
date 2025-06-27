@@ -9,53 +9,43 @@
 #include "CoreConstants.h"
 #include "../Entity/Entity.h"
 
-struct pair_hash
-{
-    template <class T1, class T2>
-    std::size_t operator()(const std::pair<T1, T2> &p) const
-    {
+struct pair_hash {
+    template<class T1, class T2>
+    std::size_t operator()(const std::pair<T1, T2> &p) const {
         auto hash1 = std::hash<T1>{}(p.first);
         auto hash2 = std::hash<T2>{}(p.second);
         return hash1 ^ hash2;
     }
 };
 
-class SpatialHash : public CollisionDetection
-{
+class SpatialHash final : public CollisionDetection {
 public:
-    SpatialHash() {}
+    SpatialHash() {
+    }
 
-    void Insert(Entity entity, Vec2 position, SDL_FRect collider) override
-    {
-        int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
-        int startY = static_cast<int>(collider.y / CELL_GRID_SIZE);
-        int endX = static_cast<int>((collider.x + collider.w) / CELL_GRID_SIZE);
-        int endY = static_cast<int>((collider.y + collider.h) / CELL_GRID_SIZE);
+    void Insert(const Entity entity, Vec2 position, const SDL_FRect collider) override {
+        const int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
+        const int startY = static_cast<int>(collider.y / CELL_GRID_SIZE);
+        const int endX = static_cast<int>((collider.x + collider.w) / CELL_GRID_SIZE);
+        const int endY = static_cast<int>((collider.y + collider.h) / CELL_GRID_SIZE);
 
-        for (int x = startX; x <= endX; ++x)
-        {
-            for (int y = startY; y <= endY; ++y)
-            {
+        for (int x = startX; x <= endX; ++x) {
+            for (int y = startY; y <= endY; ++y) {
                 mHashTable[std::make_pair(x, y)].push_back(entity);
             }
         }
     }
 
-    std::vector<Entity> Retrieve(const SDL_FRect &collider) override
-    {
+    std::vector<Entity> Retrieve(const SDL_FRect &collider) override {
         std::unordered_set<Entity> uniqueEntities;
-        int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
-        int startY = static_cast<int>(collider.y / CELL_GRID_SIZE);
-        int endX = static_cast<int>((collider.x + collider.w) / CELL_GRID_SIZE);
-        int endY = static_cast<int>((collider.y + collider.h) / CELL_GRID_SIZE);
+        const int startX = static_cast<int>(collider.x / CELL_GRID_SIZE);
+        const int startY = static_cast<int>(collider.y / CELL_GRID_SIZE);
+        const int endX = static_cast<int>((collider.x + collider.w) / CELL_GRID_SIZE);
+        const int endY = static_cast<int>((collider.y + collider.h) / CELL_GRID_SIZE);
 
-        for (int x = startX; x <= endX; ++x)
-        {
-            for (int y = startY; y <= endY; ++y)
-            {
-                auto cell = mHashTable.find({x, y});
-                if (cell != mHashTable.end())
-                {
+        for (int x = startX; x <= endX; ++x) {
+            for (int y = startY; y <= endY; ++y) {
+                if (auto cell = mHashTable.find({x, y}); cell != mHashTable.end()) {
                     uniqueEntities.insert(cell->second.begin(), cell->second.end());
                 }
             }
@@ -63,24 +53,18 @@ public:
         return {uniqueEntities.begin(), uniqueEntities.end()};
     }
 
-    void Clear() override
-    {
+    void Clear() override {
         mHashTable.clear();
     }
 
-    // void GetPotentialCollisions(std::vector<std::pair<Entity, Entity>> &collisions) override
-    // {
-    //     for (const auto &cell : mHashTable)
-    //     {
+    // void GetPotentialCollisions(std::vector<std::pair<Entity, Entity> > &collisions) const override {
+    //     for (const auto &cell: mHashTable) {
     //         const auto &entities = cell.second;
-    //         for (size_t i = 0; i < entities.size(); ++i)
-    //         {
-    //             for (size_t j = i + 1; j < entities.size(); ++j)
-    //             {
+    //         for (size_t i = 0; i < entities.size(); ++i) {
+    //             for (size_t j = i + 1; j < entities.size(); ++j) {
     //                 auto &colliderA = Core::coordinator.GetComponent<RigidBodyComponent>(entities[i]).collider;
     //                 auto &colliderB = Core::coordinator.GetComponent<RigidBodyComponent>(entities[j]).collider;
-    //                 if (SDL_HasIntersectionF(&colliderA, &colliderB))
-    //                 {
+    //                 if (SDL_HasIntersectionF(&colliderA, &colliderB)) {
     //                     collisions.push_back({entities[i], entities[j]});
     //                 }
     //             }

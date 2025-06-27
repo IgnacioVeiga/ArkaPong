@@ -12,58 +12,55 @@
 
 #include <iostream>
 
-bool Window::Init(const char* title)
-{
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
-		return false;
-	if (TTF_Init() == -1)
-		return false;
-	if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
-		return false;
+bool Window::Init(const char *title) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
+        return false;
+    if (TTF_Init() == -1)
+        return false;
+    if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
+        return false;
 
-	Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
+    constexpr Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 
-	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
-	if (!window)
-		return false;
+    window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,
+                              windowFlags);
+    if (!window)
+        return false;
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (!renderer)
-		return false;
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!renderer)
+        return false;
 
-	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	return true;
+    return true;
 }
 
-void Window::CleanUp()
-{
-	if (renderer)
-		SDL_DestroyRenderer(renderer);
-	if (window)
-		SDL_DestroyWindow(window);
-	Mix_CloseAudio();
-	TTF_Quit();
-	SDL_Quit();
+void Window::CleanUp() const {
+    if (renderer)
+        SDL_DestroyRenderer(renderer);
+    if (window)
+        SDL_DestroyWindow(window);
+    Mix_CloseAudio();
+    TTF_Quit();
+    SDL_Quit();
 }
 
 // TODO: fix fullscreen mode in Linux, not working on KDE
-void Window::SetWindowMode(int resolutionIndex, Uint32 flags)
-{
-	if (resolutionIndex < 0 || resolutionIndex >= availableResolutions.size())
-	{
-		std::cerr << "Invalid resolution index" << std::endl;
-		return;
-	}
+void Window::SetWindowMode(const int resolutionIndex, const Uint32 flags) const {
+    if (resolutionIndex < 0 || resolutionIndex >= availableResolutions.size()) {
+        std::cerr << "Invalid resolution index" << std::endl;
+        return;
+    }
 
-	int width = availableResolutions[resolutionIndex].width;
-	int height = availableResolutions[resolutionIndex].height;
+    const int width = availableResolutions[resolutionIndex].width;
+    const int height = availableResolutions[resolutionIndex].height;
 
-	SDL_SetWindowSize(window, width, height);
-	SDL_SetWindowFullscreen(window, flags);
-	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_SetWindowSize(window, width, height);
+    SDL_SetWindowFullscreen(window, flags);
+    SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-//#ifdef __linux__
-//	SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
-//#endif
+    //#ifdef __linux__
+    //	SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
+    //#endif
 }

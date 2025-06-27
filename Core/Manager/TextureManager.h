@@ -4,21 +4,17 @@
 #include <string>
 #include <iostream>
 
-class TextureManager
-{
+class TextureManager {
 public:
-    static SDL_Texture *LoadTexture(const std::string &path)
-    {
+    static SDL_Texture *LoadTexture(const std::string &path) {
         // Check if texture is already loaded
-        if (textureMap.find(path) != textureMap.end())
-        {
+        if (textureMap.find(path) != textureMap.end()) {
             return textureMap[path];
         }
 
         // Load new texture if not found
         SDL_Surface *surface = SDL_LoadBMP(path.c_str());
-        if (!surface)
-        {
+        if (!surface) {
             std::cerr << "Error loading BMP: " << SDL_GetError() << std::endl;
             return nullptr;
         }
@@ -26,8 +22,7 @@ public:
         SDL_Texture *texture = SDL_CreateTextureFromSurface(Core::window.GetRenderer(), surface);
         SDL_FreeSurface(surface);
 
-        if (!texture)
-        {
+        if (!texture) {
             std::cerr << "Error creating texture: " << SDL_GetError() << std::endl;
             return nullptr;
         }
@@ -38,11 +33,9 @@ public:
         return texture;
     }
 
-    static void Clear()
-    {
+    static void Clear() {
         // Free all textures
-        for (auto &pair : textureMap)
-        {
+        for (const auto &pair: textureMap) {
             SDL_DestroyTexture(pair.second);
         }
         textureMap.clear();

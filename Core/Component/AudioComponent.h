@@ -2,14 +2,12 @@
 
 #include <string>
 
-enum class AudioType
-{
+enum class AudioType {
     SFX,
     BGM
 };
 
-struct AudioComponent
-{
+struct AudioComponent {
     std::string audioPath;
     AudioType type;
     bool isPlaying;

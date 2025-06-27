@@ -2,8 +2,7 @@
 
 #include <string>
 
-struct BaseComponent
-{
+struct BaseComponent {
     bool active;
     std::string entity_name;
     std::string scene_name;

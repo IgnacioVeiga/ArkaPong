@@ -7,10 +7,18 @@
 #include "../Core.h"
 #include "../Component/TextComponent.h"
 
-void CreateTextEntity(std::string entity_name, std::string scene_name, const std::string &text, const SDL_Color &color, const std::string &fontPath, int fontSize, Vec2 pos, Side alignment = Side::LEFT)
-{
+inline void CreateTextEntity(
+    const std::string &entity_name,
+    const std::string &scene_name,
+    const std::string &text,
+    const SDL_Color &color,
+    const std::string &fontPath,
+    const int fontSize,
+    const Vec2 pos,
+    const Side alignment = Side::LEFT
+) {
     TTF_Font *font = FontManager::GetFont(fontPath, fontSize);
-    Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
 
     Core::coordinator.AddComponent(
         entity,
@@ -20,6 +28,7 @@ void CreateTextEntity(std::string entity_name, std::string scene_name, const std
             font,
             pos,
             nullptr, // Initially, there is no texture
-            true,    // Needs to be updated
-            alignment});
+            true, // Needs to be updated
+            alignment
+        });
 }

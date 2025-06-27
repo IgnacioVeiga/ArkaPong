@@ -4,9 +4,14 @@
 #include "../Core.h"
 #include "../Component/AudioComponent.h"
 
-void CreateSFXEntity(std::string entity_name, std::string scene_name, const std::string &path, bool loop = false, int channel = -1)
-{
-    Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+inline void CreateSFXEntity(
+    const std::string &entity_name,
+    const std::string &scene_name,
+    const std::string &path,
+    const bool loop = false,
+    const int channel = -1
+) {
+    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
     Core::coordinator.AddComponent(
         entity,
         AudioComponent{
@@ -18,9 +23,13 @@ void CreateSFXEntity(std::string entity_name, std::string scene_name, const std:
         });
 }
 
-void CreateBGMEntity(std::string entity_name, std::string scene_name, const std::string &path, bool loop = false)
-{
-    Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+inline void CreateBGMEntity(
+    const std::string &entity_name,
+    const std::string &scene_name,
+    const std::string &path,
+    const bool loop = false
+) {
+    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
     Core::coordinator.AddComponent(
         entity,
         AudioComponent{

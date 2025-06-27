@@ -10,17 +10,13 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
-class FontManager
-{
+class FontManager {
 public:
-    static TTF_Font *GetFont(const std::string &path, int size)
-    {
-        std::string key = path + std::to_string(size);
-        if (fonts.find(key) == fonts.end())
-        {
+    static TTF_Font *GetFont(const std::string &path, int size) {
+        const std::string key = path + std::to_string(size);
+        if (fonts.find(key) == fonts.end()) {
             TTF_Font *font = TTF_OpenFont(path.c_str(), size);
-            if (!font)
-            {
+            if (!font) {
                 std::cerr << "Error loading font: " << TTF_GetError() << std::endl;
                 return nullptr;
             }
@@ -29,10 +25,8 @@ public:
         return fonts[key];
     }
 
-    static void Cleanup()
-    {
-        for (auto &pair : fonts)
-        {
+    static void Cleanup() {
+        for (const auto &pair: fonts) {
             TTF_CloseFont(pair.second);
         }
         fonts.clear();

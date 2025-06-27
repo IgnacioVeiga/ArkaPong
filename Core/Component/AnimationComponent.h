@@ -1,7 +1,6 @@
 #pragma once
 
-struct AnimationComponent
-{
+struct AnimationComponent {
     int currentFrame;
     int frameCount;
     int frameWidth;

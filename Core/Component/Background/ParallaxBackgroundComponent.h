@@ -3,5 +3,5 @@
 #include "ParallaxLayer.h"
 
 struct ParallaxBackgroundComponent {
-	std::vector<ParallaxLayer> layers;
+    std::vector<ParallaxLayer> layers;
 };

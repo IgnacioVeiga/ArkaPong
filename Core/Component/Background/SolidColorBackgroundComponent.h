@@ -1,5 +1,5 @@
 #pragma once
 
 struct SolidColorBackgroundComponent {
-	SDL_Color color;
+    SDL_Color color;
 };

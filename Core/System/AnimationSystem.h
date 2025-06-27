@@ -1,24 +1,20 @@
 #pragma once
 
-class AnimationSystem : public System
-{
+class AnimationSystem : public System {
 public:
-    void Init()
-    {
+    void Init() {
         Signature signature{};
         signature.set(Core::coordinator.GetComponentType<AnimationComponent>());
         signature.set(Core::coordinator.GetComponentType<SpriteComponent>());
         Core::coordinator.SetSystemSignature<AnimationSystem>(signature);
     }
 
-    void Update()
-    {
+    void Update() {
         using namespace std::chrono;
-        auto now = steady_clock::now();
+        const auto now = steady_clock::now();
         static auto lastTime = now;
 
-        for (auto const &entity : mEntities)
-        {
+        for (auto const &entity: mEntities) {
             auto &animComponent = Core::coordinator.GetComponent<AnimationComponent>(entity);
             auto &spriteComponent = Core::coordinator.GetComponent<SpriteComponent>(entity);
 
@@ -31,14 +27,12 @@ public:
             lastTime = now;
 
             // Check if it's time to update the animation frame
-            if (animComponent.elapsedTime >= animComponent.animationSpeed)
-            {
+            if (animComponent.elapsedTime >= animComponent.animationSpeed) {
                 animComponent.elapsedTime = 0;
                 animComponent.currentFrame++;
 
                 // If we reached the end of the animation
-                if (animComponent.currentFrame >= animComponent.frameCount)
-                {
+                if (animComponent.currentFrame >= animComponent.frameCount) {
                     // If looping, go back to the first frame, otherwise stay on the last frame
                     animComponent.currentFrame = animComponent.loop ? 0 : animComponent.frameCount - 1;
                 }

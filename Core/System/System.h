@@ -2,8 +2,7 @@
 
 #include <set>
 
-class System
-{
+class System {
 public:
     std::set<Entity> mEntities;
 };

@@ -2,8 +2,7 @@
 
 #include <SDL2/SDL_render.h>
 
-struct SpriteComponent
-{
+struct SpriteComponent {
     SDL_Texture *texture;
     SDL_Rect srcRect;
     SDL_FRect destRect;

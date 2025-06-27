@@ -18,4 +18,3 @@ constexpr auto FONT_L = 24;
 constexpr auto FONT_XL = 32;
 
 constexpr auto CELL_GRID_SIZE = 64;
-
