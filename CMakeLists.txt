@@ -24,7 +24,7 @@ if(NOT SDL2_FOUND OR NOT SDL2_MIXER_FOUND OR NOT SDL2_TTF_FOUND)
         FetchContent_Declare(
             SDL2
             GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-            GIT_TAG release-2.32.0
+            GIT_TAG release-2.32.8
         )
         FetchContent_MakeAvailable(SDL2)
     endif()
