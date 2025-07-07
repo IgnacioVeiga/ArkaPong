@@ -7,8 +7,8 @@
 #include "../Entities/BrickEntity.h"
 #include "../Entities/BallEntity.h"
 #include "../Entities/PaddleEntity.h"
-#include "../../Core/Entity/AudioEntity.h"
-#include "../../Core/Entity/AnimatedEntity.h"
+#include "Core/Entity/AudioEntity.h"
+#include "Core/Entity/AnimatedEntity.h"
 
 class GameScene final : public Scene {
 public:

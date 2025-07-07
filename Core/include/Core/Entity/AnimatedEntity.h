@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL_render.h>
 #include <string>
-#include "../Core.h"
+#include "../include/Core/Core.h"
 #include "../Manager/TextureManager.h"
 #include "../Component/TransformComponent.h"
 #include "../Component/SpriteComponent.h"

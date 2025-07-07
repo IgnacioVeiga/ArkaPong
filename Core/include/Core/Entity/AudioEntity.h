@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "../Core.h"
+#include "../include/Core/Core.h"
 #include "../Component/AudioComponent.h"
 
 inline void CreateSFXEntity(

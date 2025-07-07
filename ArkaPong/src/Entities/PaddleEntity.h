@@ -1,7 +1,7 @@
 #pragma once
 
 #include <functional>
-#include "../../Core/Manager/TextureManager.h"
+#include "Core/Manager/TextureManager.h"
 
 inline auto paddleCollisionCallback = [](Entity self, Entity other) {
     // TODO: do collision logic with walls, enemies or something like that.

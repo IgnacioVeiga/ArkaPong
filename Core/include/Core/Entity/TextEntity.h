@@ -4,7 +4,7 @@
 #include "../Manager/FontManager.h"
 #include "../Utils/Vec2.h"
 #include "../Utils/CoreEnums.h"
-#include "../Core.h"
+#include "../include/Core/Core.h"
 #include "../Component/TextComponent.h"
 
 inline void CreateTextEntity(

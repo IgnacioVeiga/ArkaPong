@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Core/Entity/BackgroundEntity.h"
-#include "../../Core/Entity/TextEntity.h"
-#include "../../Core/Utils/Vec2.h"
-#include "../../Core/Utils/CoreEnums.h"
+#include "Core/Entity/BackgroundEntity.h"
+#include "Core/Entity/TextEntity.h"
+#include "Core/Utils/Vec2.h"
+#include "Core/Utils/CoreEnums.h"
 #include "../Utils/GameConstants.h"
 
 class MainMenuScene final : public Scene {

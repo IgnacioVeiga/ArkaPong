@@ -1,4 +1,5 @@
-#include "Window.h"
+#include "Core/Window.h"
+#include "Core/Utils/CoreConstants.h"
 
 #include <SDL2/SDL.h>
 
