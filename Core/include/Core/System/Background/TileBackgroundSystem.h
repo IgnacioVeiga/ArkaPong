@@ -4,13 +4,13 @@ class TileBackgroundSystem : public System {
 public:
     void Init() {
         Signature signature{};
-        signature.set(Core::coordinator.GetComponentType<TileBackgroundComponent>());
-        Core::coordinator.SetSystemSignature<TileBackgroundSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<TileBackgroundComponent>());
+        Core::GetCoordinator().SetSystemSignature<TileBackgroundSystem>(signature);
     }
 
     void Update() {
         for (auto const &entity: mEntities) {
-            auto &bg = Core::coordinator.GetComponent<TileBackgroundComponent>(entity);
+            auto &bg = Core::GetCoordinator().GetComponent<TileBackgroundComponent>(entity);
             SDL_Rect srcRect{};
             SDL_Rect destRect{};
 
@@ -28,7 +28,7 @@ public:
                     destRect.w = bg.tileWidth;
                     destRect.h = bg.tileHeight;
 
-                    SDL_RenderCopy(Core::window.GetRenderer(), bg.tileTexture, &srcRect, &destRect);
+                    SDL_RenderCopy(Core::GetWindow().GetRenderer(), bg.tileTexture, &srcRect, &destRect);
                 }
             }
         }

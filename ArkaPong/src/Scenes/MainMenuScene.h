@@ -44,19 +44,19 @@ public:
     };
 
     void Update(float delta_time) override {
-        Core::coordinator.GetSystem<AudioSystem>()->Update();
-        Core::coordinator.GetSystem<InputSystem>()->Update();
-        Core::coordinator.GetSystem<SolidColorBackgroundSystem>()->Update();
-        Core::coordinator.GetSystem<SpriteSystem>()->Update();
-        Core::coordinator.GetSystem<TextSystem>()->Update();
+        Core::GetCoordinator().GetSystem<AudioSystem>()->Update();
+        Core::GetCoordinator().GetSystem<InputSystem>()->Update();
+        Core::GetCoordinator().GetSystem<SolidColorBackgroundSystem>()->Update();
+        Core::GetCoordinator().GetSystem<SpriteSystem>()->Update();
+        Core::GetCoordinator().GetSystem<TextSystem>()->Update();
 
         // TODO: use the input system
         if (const Uint8 *keyStates = SDL_GetKeyboardState(nullptr); keyStates[SDL_SCANCODE_RETURN]) {
-            Core::scene_manager.ChangeScene(ROUND_SCENE);
+            Core::GetSceneManager().ChangeScene(ROUND_SCENE);
         }
     };
 
     void Cleanup() override {
-        Core::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene(TITLE_SCENE);
+        Core::GetCoordinator().GetSystem<BaseSystem>()->DestroyEntitiesByScene(TITLE_SCENE);
     }
 };

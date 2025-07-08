@@ -7,7 +7,7 @@
 #include <unordered_set>
 #include "CollisionDetection.h"
 #include "CoreConstants.h"
-#include "../Entity/Entity.h"
+#include "Core/Entity/Entity.h"
 
 struct pair_hash {
     template<class T1, class T2>

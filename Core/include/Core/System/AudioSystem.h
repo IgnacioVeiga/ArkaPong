@@ -6,19 +6,19 @@
 #include <SDL2/SDL_mixer.h>
 #endif
 
-#include "../Manager/AudioManager.h"
+#include "Core/Manager/AudioManager.h"
 
 class AudioSystem : public System {
 public:
     void Init() {
         Signature signature{};
-        signature.set(Core::coordinator.GetComponentType<AudioComponent>());
-        Core::coordinator.SetSystemSignature<AudioSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<AudioComponent>());
+        Core::GetCoordinator().SetSystemSignature<AudioSystem>(signature);
     }
 
     void Update() {
         for (auto const &entity: mEntities) {
-            auto &audioComponent = Core::coordinator.GetComponent<AudioComponent>(entity);
+            auto &audioComponent = Core::GetCoordinator().GetComponent<AudioComponent>(entity);
 
             if (!audioComponent.isPlaying)
                 continue;

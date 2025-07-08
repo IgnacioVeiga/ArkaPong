@@ -21,15 +21,15 @@ inline void CreateBallEntity(const std::string &entity_name, const std::string &
     const float velY = (rand() % 2 == 0 ? -factor : factor);
     const auto velocity = Vec2(velX, velY);
 
-    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+    const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
 
-    Core::coordinator.AddComponent(
+    Core::GetCoordinator().AddComponent(
         entity,
         TransformComponent{
             Vec2(static_cast<float_t>(SCREEN_WIDTH) / 2 - static_cast<float_t>(BALL_SIZE) / 2,
                  static_cast<float_t>(SCREEN_HEIGHT) / 2 - static_cast<float_t>(BALL_SIZE) / 2)
         });
-    Core::coordinator.AddComponent(
+    Core::GetCoordinator().AddComponent(
         entity,
         SpriteComponent{
             texture, // Texture
@@ -49,7 +49,7 @@ inline void CreateBallEntity(const std::string &entity_name, const std::string &
             },
             SDL_FLIP_NONE // Flip
         });
-    Core::coordinator.AddComponent(
+    Core::GetCoordinator().AddComponent(
         entity,
         RigidBodyComponent{
             {0, 0, BALL_SIZE, BALL_SIZE}, // Collider

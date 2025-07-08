@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utils/Vec2.h"
+#include "Core/Utils/Vec2.h"
 
 struct TransformComponent {
     Vec2 position;

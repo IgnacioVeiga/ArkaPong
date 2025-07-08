@@ -4,9 +4,9 @@ class AnimationSystem : public System {
 public:
     void Init() {
         Signature signature{};
-        signature.set(Core::coordinator.GetComponentType<AnimationComponent>());
-        signature.set(Core::coordinator.GetComponentType<SpriteComponent>());
-        Core::coordinator.SetSystemSignature<AnimationSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<AnimationComponent>());
+        signature.set(Core::GetCoordinator().GetComponentType<SpriteComponent>());
+        Core::GetCoordinator().SetSystemSignature<AnimationSystem>(signature);
     }
 
     void Update() {
@@ -15,8 +15,8 @@ public:
         static auto lastTime = now;
 
         for (auto const &entity: mEntities) {
-            auto &animComponent = Core::coordinator.GetComponent<AnimationComponent>(entity);
-            auto &spriteComponent = Core::coordinator.GetComponent<SpriteComponent>(entity);
+            auto &animComponent = Core::GetCoordinator().GetComponent<AnimationComponent>(entity);
+            auto &spriteComponent = Core::GetCoordinator().GetComponent<SpriteComponent>(entity);
 
             // Skip if the animation is not playing
             if (!animComponent.isPlaying)

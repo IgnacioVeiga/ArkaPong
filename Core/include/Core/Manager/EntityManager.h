@@ -3,7 +3,7 @@
 #include <array>
 #include <cassert>
 #include <queue>
-#include "../Entity/Entity.h"
+#include "Core/Entity/Entity.h"
 
 class EntityManager {
 public:

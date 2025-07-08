@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utils/Vec2.h"
+#include "Core/Utils/Vec2.h"
 
 // Abstract base class for path scripts
 class BasePath {

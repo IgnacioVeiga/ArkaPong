@@ -77,6 +77,7 @@ public:
 
     [[nodiscard]] Vec2 normalize() const {
         const float mag = magnitude();
+        if (mag == 0) return Vec2(0.0f, 0.0f);
         return {x / mag, y / mag};
     }
 

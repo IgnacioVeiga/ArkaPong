@@ -2,12 +2,12 @@
 
 #include <SDL2/SDL_render.h>
 #include <string>
-#include "../include/Core/Core.h"
-#include "../Manager/TextureManager.h"
-#include "../Component/TransformComponent.h"
-#include "../Component/SpriteComponent.h"
-#include "../Component/AnimationComponent.h"
-#include "../Component/PathComponent.h"
+#include "Core/Core.h"
+#include "Core/Manager/TextureManager.h"
+#include "Core/Component/TransformComponent.h"
+#include "Core/Component/SpriteComponent.h"
+#include "Core/Component/AnimationComponent.h"
+#include "Core/Component/PathComponent.h"
 
 inline void CreateAnimatedEntity(
     const std::string &entity_name,
@@ -20,13 +20,13 @@ inline void CreateAnimatedEntity(
     const bool loop,
     const Vec2 pos
 ) {
-    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+    const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
 
     SDL_Texture *texture = TextureManager::LoadTexture(texturePath.c_str());
-    Core::coordinator.AddComponent(
+    Core::GetCoordinator().AddComponent(
         entity,
         TransformComponent{pos});
-    Core::coordinator.AddComponent(
+    Core::GetCoordinator().AddComponent(
         entity,
         SpriteComponent{
             texture,
@@ -35,7 +35,7 @@ inline void CreateAnimatedEntity(
             SDL_FLIP_NONE
         });
 
-    Core::coordinator.AddComponent(
+    Core::GetCoordinator().AddComponent(
         entity,
         AnimationComponent{
             0, // currentFrame
@@ -57,5 +57,5 @@ inline void CreateAnimatedEntity(
 
     const std::vector<PathEvent> events = {};
 
-    Core::coordinator.AddComponent(entity, PathComponent{movementScript, events});
+    Core::GetCoordinator().AddComponent(entity, PathComponent{movementScript, events});
 }

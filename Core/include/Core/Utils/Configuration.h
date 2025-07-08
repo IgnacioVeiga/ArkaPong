@@ -59,8 +59,8 @@ inline json getDefaultConfig() {
     };
 }
 
-inline json readConfig() {
-    if (std::ifstream file("config.json"); file.is_open()) {
+inline json readConfig(const std::string& path = "config.json") {
+    if (std::ifstream file(path); file.is_open()) {
         json config;
         file >> config;
         return config;

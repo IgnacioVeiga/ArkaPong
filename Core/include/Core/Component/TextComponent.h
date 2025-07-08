@@ -6,8 +6,8 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
-#include "../Utils/Vec2.h"
-#include "../Utils/CoreEnums.h"
+#include "Core/Utils/Vec2.h"
+#include "Core/Utils/CoreEnums.h"
 
 struct TextComponent {
     std::string text;

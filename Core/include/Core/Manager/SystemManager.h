@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include <typeinfo>
 #include <cassert>
-#include "../System/System.h"
-#include "../Entity/Entity.h"
+#include "Core/System/System.h"
+#include "Core/Entity/Entity.h"
 
 class SystemManager {
 public:

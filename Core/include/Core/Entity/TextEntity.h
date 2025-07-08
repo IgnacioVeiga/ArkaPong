@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Entity.h"
-#include "../Manager/FontManager.h"
-#include "../Utils/Vec2.h"
-#include "../Utils/CoreEnums.h"
-#include "../include/Core/Core.h"
-#include "../Component/TextComponent.h"
+#include "Core/Manager/FontManager.h"
+#include "Core/Utils/Vec2.h"
+#include "Core/Utils/CoreEnums.h"
+#include "Core/Component/TextComponent.h"
+#include "Core/Core.h"
 
 inline void CreateTextEntity(
     const std::string &entity_name,
@@ -18,9 +18,9 @@ inline void CreateTextEntity(
     const Side alignment = Side::LEFT
 ) {
     TTF_Font *font = FontManager::GetFont(fontPath, fontSize);
-    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
+    const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
 
-    Core::coordinator.AddComponent(
+    Core::GetCoordinator().AddComponent(
         entity,
         TextComponent{
             text,

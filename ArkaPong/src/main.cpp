@@ -22,39 +22,39 @@ int main(int argc, char *argv[]) {
     mergeConfig(config, defaultConfig);
     std::cout << config.dump(4) << std::endl;
 
-    if (!Core::window.Init(DEFAULT_GAME_TITLE))
+    if (!Core::GetWindow().Init(DEFAULT_GAME_TITLE))
         return 1;
 
-    Core::coordinator.Init();
-    Core::coordinator.RegisterComponent<BaseComponent>();
-    Core::coordinator.RegisterSystem<BaseSystem>()->Init(config);
+    Core::GetCoordinator().Init();
+    Core::GetCoordinator().RegisterComponent<BaseComponent>();
+    Core::GetCoordinator().RegisterSystem<BaseSystem>()->Init(config);
 
-    Core::scene_manager.Add(TITLE_SCENE, std::make_unique<MainMenuScene>());
-    Core::scene_manager.Add(ROUND_SCENE, std::make_unique<GameScene>());
-    Core::scene_manager.Init(TITLE_SCENE);
+    Core::GetSceneManager().Add(TITLE_SCENE, std::make_unique<MainMenuScene>());
+    Core::GetSceneManager().Add(ROUND_SCENE, std::make_unique<GameScene>());
+    Core::GetSceneManager().Init(TITLE_SCENE);
 
     Uint32 last_frame_time = SDL_GetTicks();
     SDL_Event event;
 
-    while (Core::game_on) {
+    while (Core::is_game_on) {
         const Uint32 current_frame_time = SDL_GetTicks();
         const float delta_time = static_cast<float_t>(current_frame_time - last_frame_time) / 1000;
         last_frame_time = current_frame_time;
 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT)
-                Core::game_on = false;
+                Core::is_game_on = false;
         }
 
-        SDL_SetRenderDrawColor(Core::window.GetRenderer(), 0, 0, 0, 255);
-        SDL_RenderClear(Core::window.GetRenderer());
+        SDL_SetRenderDrawColor(Core::GetWindow().GetRenderer(), 0, 0, 0, 255);
+        SDL_RenderClear(Core::GetWindow().GetRenderer());
 
-        Core::coordinator.GetSystem<BaseSystem>()->Update();
-        Core::scene_manager.Update(delta_time);
+        Core::GetCoordinator().GetSystem<BaseSystem>()->Update();
+        Core::GetSceneManager().Update(delta_time);
 
-        SDL_RenderPresent(Core::window.GetRenderer());
+        SDL_RenderPresent(Core::GetWindow().GetRenderer());
     }
 
-    Core::window.CleanUp();
+    Core::GetWindow().CleanUp();
     return 0;
 }

@@ -19,7 +19,7 @@ public:
             return nullptr;
         }
 
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(Core::window.GetRenderer(), surface);
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(Core::GetWindow().GetRenderer(), surface);
         SDL_FreeSurface(surface);
 
         if (!texture) {

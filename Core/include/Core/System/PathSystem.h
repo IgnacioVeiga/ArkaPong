@@ -4,15 +4,15 @@ class PathSystem : public System {
 public:
     void Init() {
         Signature signature{};
-        signature.set(Core::coordinator.GetComponentType<PathComponent>());
-        signature.set(Core::coordinator.GetComponentType<TransformComponent>());
-        Core::coordinator.SetSystemSignature<PathSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<PathComponent>());
+        signature.set(Core::GetCoordinator().GetComponentType<TransformComponent>());
+        Core::GetCoordinator().SetSystemSignature<PathSystem>(signature);
     }
 
     void Update(const float delta_time) {
         for (auto const &entity: mEntities) {
-            auto &pathComponent = Core::coordinator.GetComponent<PathComponent>(entity);
-            auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(entity);
+            auto &pathComponent = Core::GetCoordinator().GetComponent<PathComponent>(entity);
+            auto &transformComponent = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
 
             if (pathComponent.path) {
                 pathComponent.path->UpdatePosition(transformComponent.position, delta_time);

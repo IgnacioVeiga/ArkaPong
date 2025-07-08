@@ -2,8 +2,8 @@
 
 #include <functional>
 #include <SDL2/SDL_rect.h>
-#include "../Utils/Vec2.h"
-#include "../Entity/Entity.h"
+#include "Core/Utils/Vec2.h"
+#include "Core/Entity/Entity.h"
 
 struct RigidBodyComponent {
     SDL_FRect collider;

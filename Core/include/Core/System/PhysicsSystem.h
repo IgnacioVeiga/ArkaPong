@@ -1,20 +1,20 @@
 #pragma once
 
 #include <memory>
-#include "../Entity/Entity.h"
-#include "../Utils/CoreConstants.h"
-#include "../Utils/CollisionDetection.h"
-#include "../Utils/QuadTree.h"
-#include "../Utils/SpatialHash.h"
+#include "Core/Entity/Entity.h"
+#include "Core/Utils/CoreConstants.h"
+#include "Core/Utils/CollisionDetection.h"
+#include "Core/Utils/QuadTree.h"
+#include "Core/Utils/SpatialHash.h"
 #include "nlohmann-json/json.hpp"
 
 class PhysicsSystem : public System {
 public:
     void Init(const nlohmann::json &config) {
         Signature signature{};
-        signature.set(Core::coordinator.GetComponentType<RigidBodyComponent>());
-        signature.set(Core::coordinator.GetComponentType<TransformComponent>());
-        Core::coordinator.SetSystemSignature<PhysicsSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<RigidBodyComponent>());
+        signature.set(Core::GetCoordinator().GetComponentType<TransformComponent>());
+        Core::GetCoordinator().SetSystemSignature<PhysicsSystem>(signature);
 
         std::string collisionMethod = config["physics"]["collision_method"];
         if (collisionMethod == "quadtree") {
@@ -33,7 +33,7 @@ public:
 
         // Update movement of non-static entities
         for (auto const &entity: mEntities) {
-            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
+            auto &rigidBody = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entity);
             if (!rigidBody.isStatic)
                 ApplyPhysics(entity, delta_time);
 
@@ -53,8 +53,8 @@ public:
 private:
     void PopulateCollisionDetection() {
         for (auto const &entity: mEntities) {
-            const auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
-            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
+            const auto &transform = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
+            auto &rigidBody = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entity);
 
             // Update collider position
             rigidBody.collider.x = transform.position.x;
@@ -66,7 +66,7 @@ private:
 
     void DetectCollisions(std::vector<std::pair<Entity, Entity> > &collisions) {
         for (const auto &entity: mEntities) {
-            auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
+            auto &rigidBody = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entity);
             std::vector<Entity> possibleCollisions = collisionDetection->Retrieve(rigidBody.collider);
 
             for (const auto &otherEntity: possibleCollisions) {
@@ -74,7 +74,7 @@ private:
                     continue;
 
                 // Check collision
-                auto &other_rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(otherEntity);
+                auto &other_rigidBody = Core::GetCoordinator().GetComponent<RigidBodyComponent>(otherEntity);
                 if (SDL_HasIntersectionF(&rigidBody.collider, &other_rigidBody.collider)) {
                     collisions.emplace_back(entity, otherEntity);
                 }
@@ -82,9 +82,9 @@ private:
         }
     }
 
-    void ApplyPhysics(Entity entity, float delta_time) {
-        auto &rigidBody = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
-        auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
+    void ApplyPhysics(const Entity entity, const float delta_time) {
+        auto &rigidBody = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entity);
+        auto &transform = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
 
         if (rigidBody.useGravity) {
             rigidBody.acceleration.y += gravity * delta_time;
@@ -95,9 +95,9 @@ private:
         rigidBody.acceleration = Vec2(0.0f, 0.0f);
     }
 
-    void ResolveCollision(Entity entityA, Entity entityB) {
-        const auto &rigidbody_A = Core::coordinator.GetComponent<RigidBodyComponent>(entityA);
-        const auto &rigidbody_B = Core::coordinator.GetComponent<RigidBodyComponent>(entityB);
+    void ResolveCollision(const Entity entityA, const Entity entityB) {
+        const auto &rigidbody_A = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entityA);
+        const auto &rigidbody_B = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entityB);
 
         // Resolving the collision for non-static bodies
         if (!rigidbody_A.isStatic)
@@ -112,12 +112,12 @@ private:
             rigidbody_B.onCollision(entityB, entityA);
     }
 
-    void Bounce(Entity self, Entity other) {
-        auto &transform_self = Core::coordinator.GetComponent<TransformComponent>(self);
-        auto &rigidbody_self = Core::coordinator.GetComponent<RigidBodyComponent>(self);
+    void Bounce(const Entity self, const Entity other) {
+        auto &transform_self = Core::GetCoordinator().GetComponent<TransformComponent>(self);
+        auto &rigidbody_self = Core::GetCoordinator().GetComponent<RigidBodyComponent>(self);
 
-        const auto &transform_other = Core::coordinator.GetComponent<TransformComponent>(other);
-        const auto &rigidbody_other = Core::coordinator.GetComponent<RigidBodyComponent>(other);
+        const auto &transform_other = Core::GetCoordinator().GetComponent<TransformComponent>(other);
+        const auto &rigidbody_other = Core::GetCoordinator().GetComponent<RigidBodyComponent>(other);
 
         // Calculate overlap on each side of the collision
         const float overlapLeft = (transform_self.position.x + rigidbody_self.collider.w) - transform_other.position.x;
@@ -156,9 +156,9 @@ private:
 
     // Depends, the entity can be destroyed, teleported, etc.
     // TODO: use callbacks or events for this
-    void CheckOutOfBounds(Entity entity) {
-        auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(entity);
-        auto &rigidBodyComponent = Core::coordinator.GetComponent<RigidBodyComponent>(entity);
+    void CheckOutOfBounds(const Entity entity) {
+        auto &transformComponent = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
+        auto &rigidBodyComponent = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entity);
 
         // Teleports to the center of the screen
         if (transformComponent.position.x > SCREEN_WIDTH || transformComponent.position.x < 0) {

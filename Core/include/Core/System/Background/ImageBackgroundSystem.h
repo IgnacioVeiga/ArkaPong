@@ -1,4 +1,5 @@
 #pragma once
+#include "Core/Utils/CoreConstants.h"
 
 /*
 	Example:
@@ -9,15 +10,15 @@ class ImageBackgroundSystem : public System {
 public:
     void Init() {
         Signature signature;
-        signature.set(Core::coordinator.GetComponentType<ImageBackgroundComponent>());
-        Core::coordinator.SetSystemSignature<ImageBackgroundSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<ImageBackgroundComponent>());
+        Core::GetCoordinator().SetSystemSignature<ImageBackgroundSystem>(signature);
     }
 
     void Update() {
         for (auto const &entity: mEntities) {
-            auto &bg = Core::coordinator.GetComponent<ImageBackgroundComponent>(entity);
+            auto &bg = Core::GetCoordinator().GetComponent<ImageBackgroundComponent>(entity);
             SDL_Rect dstRect = {(SCREEN_WIDTH - bg.width) / 2, (SCREEN_HEIGHT - bg.height) / 2, bg.width, bg.height};
-            SDL_RenderCopy(Core::window.GetRenderer(), bg.imageTexture, nullptr, &dstRect);
+            SDL_RenderCopy(Core::GetWindow().GetRenderer(), bg.imageTexture, nullptr, &dstRect);
         }
     }
 };

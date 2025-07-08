@@ -1,18 +1,19 @@
 #pragma once
+#include "Core/Utils/CoreConstants.h"
 
 class SpriteSystem : public System {
 public:
     void Init() {
         Signature signature{};
-        signature.set(Core::coordinator.GetComponentType<SpriteComponent>());
-        signature.set(Core::coordinator.GetComponentType<TransformComponent>());
-        Core::coordinator.SetSystemSignature<SpriteSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<SpriteComponent>());
+        signature.set(Core::GetCoordinator().GetComponentType<TransformComponent>());
+        Core::GetCoordinator().SetSystemSignature<SpriteSystem>(signature);
     }
 
     void Update() {
         for (auto const &entity: mEntities) {
-            auto &spriteComponent = Core::coordinator.GetComponent<SpriteComponent>(entity);
-            auto &transformComponent = Core::coordinator.GetComponent<TransformComponent>(entity);
+            auto &spriteComponent = Core::GetCoordinator().GetComponent<SpriteComponent>(entity);
+            auto &transformComponent = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
 
             SDL_FRect destRect = {
                 transformComponent.position.x, // X
@@ -22,7 +23,7 @@ public:
             };
 
             SDL_RenderCopyExF(
-                Core::window.GetRenderer(), // Renderer
+                Core::GetWindow().GetRenderer(), // Renderer
                 spriteComponent.texture, // Texture
                 &spriteComponent.srcRect, // Source rectangle
                 &destRect, // Destination rectangle
@@ -33,7 +34,7 @@ public:
         }
 
         // DEBUG, remove later
-        DrawGrid(Core::window.GetRenderer(), SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
+        DrawGrid(Core::GetWindow().GetRenderer(), SCREEN_WIDTH, SCREEN_HEIGHT, CELL_GRID_SIZE);
     }
 
     void DrawGrid(SDL_Renderer *renderer, const int gridWidth, const int gridHeight, const int cellSize) {

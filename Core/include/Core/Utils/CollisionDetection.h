@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "../Entity/Entity.h"
+#include "Core/Entity/Entity.h"
 #include "Vec2.h"
 
 class CollisionDetection {

@@ -2,7 +2,7 @@
 
 #include <functional>
 #include <SDL2/SDL_keycode.h>
-#include "../Entity/Entity.h"
+#include "Core/Entity/Entity.h"
 
 struct InputBehavior {
     SDL_Keycode keyMap;

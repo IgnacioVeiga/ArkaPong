@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Component/Background/ParallaxLayer.h"
-#include "../Manager/TextureManager.h"
+#include "Core/Component/Background/ParallaxLayer.h"
+#include "Core/Manager/TextureManager.h"
 
 inline void CreateTileBackgroundEntity(
     const std::string &entity_name,
@@ -25,8 +25,8 @@ inline void CreateTileBackgroundEntity(
 
     const std::vector tiles(mapWidth * mapHeight, 0);
 
-    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
-    Core::coordinator.AddComponent(entity, TileBackgroundComponent{
+    const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
+    Core::GetCoordinator().AddComponent(entity, TileBackgroundComponent{
                                        tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight,
                                        mapWidth, mapHeight, tiles
                                    });
@@ -37,8 +37,8 @@ inline void CreateSolidColorBackgroundEntity(
     const std::string &scene_name,
     const SDL_Color color
 ) {
-    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
-    Core::coordinator.AddComponent(entity, SolidColorBackgroundComponent{color});
+    const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
+    Core::GetCoordinator().AddComponent(entity, SolidColorBackgroundComponent{color});
 }
 
 inline void CreateImageBackgroundEntity(
@@ -48,8 +48,8 @@ inline void CreateImageBackgroundEntity(
     const int width,
     const int height
 ) {
-    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
-    Core::coordinator.AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height});
+    const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
+    Core::GetCoordinator().AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height});
 }
 
 inline void CreateParallaxBackgroundEntity(
@@ -57,6 +57,14 @@ inline void CreateParallaxBackgroundEntity(
     const std::string &scene_name,
     const std::vector<ParallaxLayer> &layers
 ) {
-    const Entity entity = Core::coordinator.CreateEntity(entity_name, scene_name);
-    Core::coordinator.AddComponent(entity, ParallaxBackgroundComponent{layers});
+    const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
+    Core::GetCoordinator().AddComponent(entity, ParallaxBackgroundComponent{layers});
 }
+// inline void CreateParallaxBackgroundEntity(
+//     const std::string& entity_name,
+//     const std::string& scene_name,
+//     std::vector<ParallaxLayer>&& layers
+// ) {
+//     const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
+//     Core::GetCoordinator().AddComponent(entity, ParallaxBackgroundComponent{std::move(layers)});
+// }

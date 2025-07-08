@@ -12,13 +12,13 @@ class TextSystem : public System {
 public:
     void Init() {
         Signature signature;
-        signature.set(Core::coordinator.GetComponentType<TextComponent>());
-        Core::coordinator.SetSystemSignature<TextSystem>(signature);
+        signature.set(Core::GetCoordinator().GetComponentType<TextComponent>());
+        Core::GetCoordinator().SetSystemSignature<TextSystem>(signature);
     }
 
     void Update() {
         for (auto const &entity: mEntities) {
-            auto &textComponent = Core::coordinator.GetComponent<TextComponent>(entity);
+            auto &textComponent = Core::GetCoordinator().GetComponent<TextComponent>(entity);
 
             if (textComponent.dirty) {
                 UpdateTexture(textComponent);
@@ -28,7 +28,7 @@ public:
             if (textComponent.texture) {
                 SDL_Rect renderRect = GetAlignedRect(entity, textComponent);
                 SDL_RenderCopy(
-                    Core::window.GetRenderer(), // Renderer
+                    Core::GetWindow().GetRenderer(), // Renderer
                     textComponent.texture, // Texture
                     nullptr, // Source rectangle
                     &renderRect // Destination Rectangle
@@ -55,7 +55,7 @@ private:
             return;
         }
 
-        textComponent.texture = SDL_CreateTextureFromSurface(Core::window.GetRenderer(), surface);
+        textComponent.texture = SDL_CreateTextureFromSurface(Core::GetWindow().GetRenderer(), surface);
 
         if (!textComponent.texture) {
             std::cerr << "Error creating text texture: " << SDL_GetError() << std::endl;
@@ -70,8 +70,8 @@ private:
 
         // Check if the entity has a TransformComponent
         Vec2 finalPosition = textComponent.position;
-        if (Core::coordinator.HasComponent<TransformComponent>(entity)) {
-            const auto &transform = Core::coordinator.GetComponent<TransformComponent>(entity);
+        if (Core::GetCoordinator().HasComponent<TransformComponent>(entity)) {
+            const auto &transform = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
             finalPosition = transform.position + textComponent.position; // Add relative position
         }
 

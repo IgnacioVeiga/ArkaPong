@@ -63,23 +63,23 @@ public:
     };
 
     void Update(const float delta_time) override {
-        Core::coordinator.GetSystem<AnimationSystem>()->Update();
-        Core::coordinator.GetSystem<AudioSystem>()->Update();
-        Core::coordinator.GetSystem<InputSystem>()->Update();
-        Core::coordinator.GetSystem<TileBackgroundSystem>()->Update();
-        Core::coordinator.GetSystem<PathSystem>()->Update(delta_time);
-        Core::coordinator.GetSystem<PhysicsSystem>()->Update(delta_time);
-        Core::coordinator.GetSystem<SpriteSystem>()->Update();
-        Core::coordinator.GetSystem<TextSystem>()->Update();
+        Core::GetCoordinator().GetSystem<AnimationSystem>()->Update();
+        Core::GetCoordinator().GetSystem<AudioSystem>()->Update();
+        Core::GetCoordinator().GetSystem<InputSystem>()->Update();
+        Core::GetCoordinator().GetSystem<TileBackgroundSystem>()->Update();
+        Core::GetCoordinator().GetSystem<PathSystem>()->Update(delta_time);
+        Core::GetCoordinator().GetSystem<PhysicsSystem>()->Update(delta_time);
+        Core::GetCoordinator().GetSystem<SpriteSystem>()->Update();
+        Core::GetCoordinator().GetSystem<TextSystem>()->Update();
 
         // TODO: use the input system
         if (const Uint8 *keyStates = SDL_GetKeyboardState(nullptr); keyStates[SDL_SCANCODE_BACKSPACE]) {
-            Core::scene_manager.ChangeScene(TITLE_SCENE);
+            Core::GetSceneManager().ChangeScene(TITLE_SCENE);
         }
     };
 
     void Cleanup() override {
-        Core::coordinator.GetSystem<BaseSystem>()->DestroyEntitiesByScene(ROUND_SCENE);
+        Core::GetCoordinator().GetSystem<BaseSystem>()->DestroyEntitiesByScene(ROUND_SCENE);
     }
 
 private:

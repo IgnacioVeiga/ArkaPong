@@ -5,8 +5,20 @@
 #include "Window.h"
 
 namespace Core {
-    static Coordinator coordinator;
-    static SceneManager scene_manager;
-    static Window window;
-    inline bool game_on = true;
+    inline Coordinator& GetCoordinator() {
+        static Coordinator instance;
+        return instance;
+    }
+
+    inline SceneManager& GetSceneManager() {
+        static SceneManager instance;
+        return instance;
+    }
+
+    inline Window& GetWindow() {
+        static Window instance;
+        return instance;
+    }
+
+    static bool is_game_on = true;
 }
