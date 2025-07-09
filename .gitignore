@@ -25,10 +25,6 @@ bin/
 ArkaPong/lib/
 Frontend/lib/
 
-# Binaries direct
-**/ArkaPong
-**/Frontend
-
 # CLion logs
 clion-*.txt
 CMakeConfigureLog.yaml
