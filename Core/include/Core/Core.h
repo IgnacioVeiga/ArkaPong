@@ -5,6 +5,8 @@
 #include "Utils/Window.h"
 #include "Utils/Configuration.h"
 #include <string>
+#include <functional>
+#include <SDL2/SDL.h>
 
 namespace Core
 {
@@ -17,4 +19,10 @@ namespace Core
     Window& GetWindow();
     extern bool is_game_on;
     extern json config;
+
+    using EventCallback = std::function<void(const SDL_Event&)>;
+    void SetEventCallback(const EventCallback& callback);
+
+    using UpdateCallback = std::function<void(float)>;
+    void SetUpdateCallback(const UpdateCallback& callback);
 }

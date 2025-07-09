@@ -12,6 +12,16 @@ namespace Core
     bool is_game_on = true;
     json config;
 
+    static EventCallback event_callback = nullptr;
+    void SetEventCallback(const EventCallback& callback) {
+        event_callback = callback;
+    }
+
+    static UpdateCallback update_callback = nullptr;
+    void SetUpdateCallback(const UpdateCallback& callback) {
+        update_callback = callback;
+    }
+
     void Init(const std::string& config_path, const char* title)
     {
         srand(static_cast<Uint32>(time(nullptr)));
@@ -46,12 +56,19 @@ namespace Core
             {
                 if (event.type == SDL_QUIT)
                     is_game_on = false;
+
+                if (event_callback)
+                    event_callback(event);
             }
 
             SDL_SetRenderDrawColor(GetWindow().GetRenderer(), 0, 0, 0, 255);
             SDL_RenderClear(GetWindow().GetRenderer());
 
             GetCoordinator().GetSystem<BaseSystem>()->Update();
+
+            if (update_callback)
+                update_callback(delta_time);
+
             GetSceneManager().Update(delta_time);
 
             SDL_RenderPresent(GetWindow().GetRenderer());
