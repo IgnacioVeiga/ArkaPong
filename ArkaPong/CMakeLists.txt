@@ -15,15 +15,13 @@ target_link_libraries(ArkaPong
         SDL2 SDL2main SDL2_mixer SDL2_ttf
 )
 
-# Copiar assets y config.json al ejecutable
 add_custom_command(TARGET ArkaPong POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
+        ${CMAKE_SOURCE_DIR}/ArkaPong/assets
         $<TARGET_FILE_DIR:ArkaPong>/assets
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_SOURCE_DIR}/config.json
+        ${CMAKE_SOURCE_DIR}/ArkaPong/config.json
         $<TARGET_FILE_DIR:ArkaPong>/config.json
 )
 
-# (opcional) salida separada
 set_target_properties(ArkaPong PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/ArkaPong)

@@ -8,7 +8,6 @@ include(FetchContent)
 if (WIN32)
     message(STATUS "Fetching SDL2 via FetchContent on Windows")
 
-    # SDL2
     FetchContent_Declare(
             SDL2
             GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
@@ -16,7 +15,6 @@ if (WIN32)
     )
     FetchContent_MakeAvailable(SDL2)
 
-    # SDL2_mixer
     FetchContent_Declare(
             SDL2_mixer
             GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
@@ -24,7 +22,6 @@ if (WIN32)
     )
     FetchContent_MakeAvailable(SDL2_mixer)
 
-    # SDL2_ttf
     FetchContent_Declare(
             SDL2_ttf
             GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
@@ -38,14 +35,10 @@ else()
     find_package(SDL2_ttf REQUIRED)
 endif()
 
-# SDL2 buscar en el sistema
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
-#message(STATUS "SDL2 include dirs: ${SDL2_INCLUDE_DIRS}")
-
-# Subproyectos
 add_subdirectory(Core)
 add_subdirectory(ArkaPong)
 add_subdirectory(Frontend)

@@ -3,7 +3,6 @@ file(GLOB_RECURSE FRONTEND_HEADERS "src/*.h")
 
 add_executable(Frontend ${FRONTEND_SOURCES} ${FRONTEND_HEADERS})
 
-# ImGui sources
 set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui-docking)
 set(IMGUI_SOURCES
         ${IMGUI_DIR}/imgui.cpp
@@ -32,5 +31,4 @@ target_link_libraries(Frontend
         SDL2 SDL2main SDL2_mixer SDL2_ttf
 )
 
-# (opcional) salida separada
 set_target_properties(Frontend PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/Frontend)

@@ -19,7 +19,6 @@ bin/
 *.o
 *.a
 *.log
-*.txt
 
 # Build libs
 ArkaPong/lib/
