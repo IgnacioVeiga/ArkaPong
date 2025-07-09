@@ -20,20 +20,24 @@
 #error This backend requires SDL 2.0.17+ because of SDL_RenderGeometry() function
 #endif
 
-void SetupEntitiesAndScenesWindow(const ImGuiIO &io) {
+void SetupEntitiesAndScenesWindow(const ImGuiIO& io)
+{
     ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::Begin("Entities and Scenes", nullptr,
                  ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-    if (ImGui::BeginTabBar("EntitiesAndScenesTabBar")) {
-        if (ImGui::BeginTabItem("Entities")) {
+    if (ImGui::BeginTabBar("EntitiesAndScenesTabBar"))
+    {
+        if (ImGui::BeginTabItem("Entities"))
+        {
             ImGui::Selectable("Entity 1");
             ImGui::Selectable("Entity 2");
             ImGui::Selectable("Entity 3");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Scenes")) {
+        if (ImGui::BeginTabItem("Scenes"))
+        {
             ImGui::Text("Scenes");
             ImGui::Selectable("Scene 1");
             ImGui::Selectable("Scene 2");
@@ -44,7 +48,8 @@ void SetupEntitiesAndScenesWindow(const ImGuiIO &io) {
     ImGui::End();
 }
 
-void SetupSceneWindow(const ImGuiIO &io, SDL_Renderer *renderer) {
+void SetupSceneWindow(const ImGuiIO& io, SDL_Renderer* renderer)
+{
     ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.25f, 0), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
@@ -58,7 +63,8 @@ void SetupSceneWindow(const ImGuiIO &io, SDL_Renderer *renderer) {
     ImGui::End();
 }
 
-void SetupComponentsWindow(const ImGuiIO &io) {
+void SetupComponentsWindow(const ImGuiIO& io)
+{
     static float pos_x = 0.0f;
     static float pos_y = 0.0f;
     static float scale_x = 1.0f;
@@ -69,7 +75,8 @@ void SetupComponentsWindow(const ImGuiIO &io) {
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::Begin("Components", nullptr,
                  ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-    if (ImGui::CollapsingHeader("Base")) {
+    if (ImGui::CollapsingHeader("Base"))
+    {
         ImGui::Text("Tags");
         ImGui::SetNextItemWidth(100);
         static char buf1[32] = "";
@@ -85,7 +92,8 @@ void SetupComponentsWindow(const ImGuiIO &io) {
 
     ImGui::Separator();
 
-    if (ImGui::CollapsingHeader("Transform")) {
+    if (ImGui::CollapsingHeader("Transform"))
+    {
         ImGui::Text("Position");
         ImGui::SetNextItemWidth(100);
         ImGui::InputFloat("X##pos_x", &pos_x, 0.1f);
@@ -107,7 +115,8 @@ void SetupComponentsWindow(const ImGuiIO &io) {
     ImGui::End();
 }
 
-void SetupScriptExplorerWindow(const ImGuiIO &io) {
+void SetupScriptExplorerWindow(const ImGuiIO& io)
+{
     ImGui::SetNextWindowPos(ImVec2(0, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
     ImGui::Begin("Script Explorer", nullptr,
@@ -118,7 +127,8 @@ void SetupScriptExplorerWindow(const ImGuiIO &io) {
     ImGui::End();
 }
 
-void SetupConsoleWindow(const ImGuiIO &io, bool &show_demo_window) {
+void SetupConsoleWindow(const ImGuiIO& io, bool& show_demo_window)
+{
     ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.75f), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
     ImGui::Begin("Log", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
@@ -132,9 +142,11 @@ void SetupConsoleWindow(const ImGuiIO &io, bool &show_demo_window) {
 }
 
 // Main code
-int main(int, char **) {
+int main(int, char**)
+{
     // Setup SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
+    {
         printf("Error: %s\n", SDL_GetError());
         return -1;
     }
@@ -146,14 +158,16 @@ int main(int, char **) {
 
     // Create window with SDL_Renderer graphics context
     constexpr auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    SDL_Window *window = SDL_CreateWindow("ArkaPong Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280,
+    SDL_Window* window = SDL_CreateWindow("ArkaPong Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280,
                                           720, window_flags);
-    if (window == nullptr) {
+    if (window == nullptr)
+    {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
         return -1;
     }
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
-    if (renderer == nullptr) {
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+    if (renderer == nullptr)
+    {
         SDL_Log("Error creating SDL_Renderer!");
         return -1;
     }
@@ -164,8 +178,8 @@ int main(int, char **) {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void) io;
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
@@ -199,14 +213,16 @@ int main(int, char **) {
 
     // Main loop
     bool done = false;
-    while (!done) {
+    while (!done)
+    {
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
         // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
         // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event))
+        {
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
                 done = true;
@@ -214,7 +230,8 @@ int main(int, char **) {
                 SDL_GetWindowID(window))
                 done = true;
         }
-        if (SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED) {
+        if (SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED)
+        {
             SDL_Delay(10);
             continue;
         }
