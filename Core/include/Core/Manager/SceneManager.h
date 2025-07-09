@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "Core/Scene.h"
+#include "../Utils/Scene.h"
 
 class SceneManager {
 public:

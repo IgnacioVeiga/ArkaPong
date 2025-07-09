@@ -1,24 +1,12 @@
 #pragma once
 
-#include "Coordinator.h"
+#include "Utils/Coordinator.h"
 #include "Manager/SceneManager.h"
-#include "Window.h"
+#include "Utils/Window.h"
 
 namespace Core {
-    inline Coordinator& GetCoordinator() {
-        static Coordinator instance;
-        return instance;
-    }
-
-    inline SceneManager& GetSceneManager() {
-        static SceneManager instance;
-        return instance;
-    }
-
-    inline Window& GetWindow() {
-        static Window instance;
-        return instance;
-    }
-
+    Coordinator& GetCoordinator();
+    SceneManager& GetSceneManager();
+    Window& GetWindow();
     static bool is_game_on = true;
 }
