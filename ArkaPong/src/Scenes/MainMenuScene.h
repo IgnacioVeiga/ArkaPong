@@ -4,6 +4,7 @@
 #include "Core/Utils/Vec2.h"
 #include "Core/Utils/CoreEnums.h"
 #include "../Utils/GameConstants.h"
+#include "Core/System/BaseSystem.h"
 
 class MainMenuScene final : public Scene {
 public:

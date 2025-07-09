@@ -2,6 +2,10 @@
 
 #include <functional>
 
+#include "Core/Component/RigidBodyComponent.h"
+#include "Core/Component/SpriteComponent.h"
+#include "Core/Component/TransformComponent.h"
+
 inline auto ballCollisionCallback = [](Entity self, Entity other) {
     // TODO: bounce sfx sound
 };

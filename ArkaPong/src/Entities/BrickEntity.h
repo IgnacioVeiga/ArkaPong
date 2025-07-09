@@ -3,6 +3,9 @@
 #include <functional>
 #include "../Utils/GameEnums.h"
 #include "../Utils/BrickUtils.h"
+#include "Core/Component/RigidBodyComponent.h"
+#include "Core/Component/SpriteComponent.h"
+#include "Core/Component/TransformComponent.h"
 
 inline auto brickCollisionCallback = [](const Entity self, Entity other) {
     Core::GetCoordinator().MarkEntityForDeletion(self);

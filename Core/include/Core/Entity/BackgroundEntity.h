@@ -1,7 +1,12 @@
 #pragma once
 
+#include "Core/Component/Background/ImageBackgroundComponent.h"
+#include "Core/Component/Background/ParallaxBackgroundComponent.h"
 #include "Core/Component/Background/ParallaxLayer.h"
+#include "Core/Component/Background/SolidColorBackgroundComponent.h"
+#include "Core/Component/Background/TileBackgroundComponent.h"
 #include "Core/Manager/TextureManager.h"
+#include "Core/Utils/CoreConstants.h"
 
 inline void CreateTileBackgroundEntity(
     const std::string &entity_name,

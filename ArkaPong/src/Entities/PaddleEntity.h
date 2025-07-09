@@ -1,7 +1,13 @@
 #pragma once
 
 #include <functional>
+
+#include "Core/Component/InputComponent.h"
+#include "Core/Component/RigidBodyComponent.h"
+#include "Core/Component/SpriteComponent.h"
+#include "Core/Component/TransformComponent.h"
 #include "Core/Manager/TextureManager.h"
+#include "Core/Utils/CoreConstants.h"
 
 inline auto paddleCollisionCallback = [](Entity self, Entity other) {
     // TODO: do collision logic with walls, enemies or something like that.

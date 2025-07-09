@@ -9,6 +9,7 @@
 #include "../Entities/PaddleEntity.h"
 #include "Core/Entity/AudioEntity.h"
 #include "Core/Entity/AnimatedEntity.h"
+#include "Core/System/BaseSystem.h"
 
 class GameScene final : public Scene {
 public:
