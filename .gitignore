@@ -1,9 +1,29 @@
+# IDE configs
 .vs/
 .vscode/
+.idea/
+*.user
+*.DS_Store
+
+# Build artifacts
 build/
-vcpkg_installed/
-ArkaPong/
-Debug/
-Release/
-out/
-ArkaPong.vcxproj.user
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+build.ninja
+rules.ninja
+Testing/
+bin/
+*.o
+*.a
+*.log
+
+# Build libs
+ArkaPong/lib/
+Frontend/lib/
+
+# CLion logs
+clion-*.txt
+CMakeConfigureLog.yaml

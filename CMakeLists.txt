@@ -1,43 +1,44 @@
-cmake_minimum_required(VERSION 3.10)
-project(ArkaPong)
+cmake_minimum_required(VERSION 3.20)
+project(ArkaPongGameEngine)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Output directory for executables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+include(FetchContent)
+
+if (WIN32)
+    message(STATUS "Fetching SDL2 via FetchContent on Windows")
+
+    FetchContent_Declare(
+            SDL2
+            GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+            GIT_TAG release-2.32.8
+    )
+    FetchContent_MakeAvailable(SDL2)
+
+    FetchContent_Declare(
+            SDL2_mixer
+            GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+            GIT_TAG release-2.8.1
+    )
+    FetchContent_MakeAvailable(SDL2_mixer)
+
+    FetchContent_Declare(
+            SDL2_ttf
+            GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
+            GIT_TAG release-2.24.0
+    )
+    FetchContent_MakeAvailable(SDL2_ttf)
+
+else()
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_mixer REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
+endif()
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
-# Required ".h" file folders
-include_directories(
-    ${CMAKE_SOURCE_DIR}/src
-    ${SDL2_INCLUDE_DIRS}
-    ${SDL2_MIXER_INCLUDE_DIRS}
-    ${SDL2_TTF_INCLUDE_DIRS}
-)
-
-# Recursively adds all subdirectories containing headers
-file(GLOB_RECURSE HEADER_FILES "${CMAKE_SOURCE_DIR}/src/*.h")
-foreach(_headerFile ${HEADER_FILES})
-    get_filename_component(_dir ${_headerFile} PATH)
-    include_directories(${_dir})
-endforeach()
-
-# Collect all ".cpp" files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-
-# Create the executable
-add_executable(${PROJECT_NAME} ${SOURCES})
-
-# Links SDL2 libraries to the project
-target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_mixer SDL2_ttf)
-
-# TODO: Copy the necessary DLL files after the build (Windows ONLY)
-
-# Copy the assets folder to where the executable is after the build.
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/assets"
-        "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
+add_subdirectory(Core)
+add_subdirectory(ArkaPong)
+add_subdirectory(Frontend)
