@@ -49,7 +49,7 @@ namespace Core
         while (is_game_on)
         {
             const Uint32 current_frame_time = SDL_GetTicks();
-            const float delta_time = (current_frame_time - last_frame_time) / 1000.0f;
+            const float delta_time = static_cast<float>(current_frame_time - last_frame_time) / 1000.0f;
             last_frame_time = current_frame_time;
 
             while (SDL_PollEvent(&event))

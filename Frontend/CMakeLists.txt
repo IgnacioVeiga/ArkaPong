@@ -3,6 +3,7 @@ file(GLOB_RECURSE FRONTEND_HEADERS "src/*.h")
 
 add_executable(Frontend ${FRONTEND_SOURCES} ${FRONTEND_HEADERS})
 
+# ImGui
 set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui-docking)
 set(IMGUI_SOURCES
         ${IMGUI_DIR}/imgui.cpp
@@ -23,12 +24,12 @@ target_include_directories(Frontend
         ${IMGUI_DIR}/backends
         ${CMAKE_SOURCE_DIR}/Core/include
         ${CMAKE_SOURCE_DIR}/Core/include/nlohmann-json
-        ${SDL2_INCLUDE_DIRS}
+        ${SDL2_INCLUDE_DIR}
 )
 
 target_link_libraries(Frontend
         Core
-        SDL2 SDL2main SDL2_mixer SDL2_ttf
+        SDL2::SDL2 SDL2::SDL2main SDL2_mixer SDL2_ttf
 )
 
 set_target_properties(Frontend PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/Frontend)

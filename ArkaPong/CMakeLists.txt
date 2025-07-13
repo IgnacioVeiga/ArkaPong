@@ -8,11 +8,12 @@ target_include_directories(ArkaPong
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/Core/include
         ${CMAKE_SOURCE_DIR}/Core/include/nlohmann-json
+        ${SDL2_INCLUDE_DIR}
 )
 
 target_link_libraries(ArkaPong
         Core
-        SDL2 SDL2main SDL2_mixer SDL2_ttf
+        SDL2::SDL2 SDL2::SDL2main SDL2_mixer SDL2_ttf
 )
 
 add_custom_command(TARGET ArkaPong POST_BUILD
