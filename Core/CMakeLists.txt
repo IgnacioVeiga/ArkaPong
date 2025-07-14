@@ -14,6 +14,8 @@ target_link_libraries(Core
 )
 
 add_custom_command(TARGET Core POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/ArkaPong/lib/
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/Frontend/lib/
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/ArkaPong/lib
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/Frontend/lib
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/ArkaPong/lib/
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/Frontend/lib/
 )

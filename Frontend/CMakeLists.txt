@@ -32,4 +32,11 @@ target_link_libraries(Frontend
         SDL2::SDL2 SDL2::SDL2main SDL2_mixer SDL2_ttf
 )
 
+add_custom_command(TARGET Frontend POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_RUNTIME_DLLS:Frontend>
+        $<TARGET_FILE_DIR:Frontend>
+    COMMAND_EXPAND_LISTS
+)
+
 set_target_properties(Frontend PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/Frontend)

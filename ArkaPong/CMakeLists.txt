@@ -20,9 +20,15 @@ add_custom_command(TARGET ArkaPong POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/ArkaPong/assets
         $<TARGET_FILE_DIR:ArkaPong>/assets
+
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/ArkaPong/config.json
         $<TARGET_FILE_DIR:ArkaPong>/config.json
+        
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_RUNTIME_DLLS:ArkaPong>
+        $<TARGET_FILE_DIR:ArkaPong>
+    COMMAND_EXPAND_LISTS
 )
 
 set_target_properties(ArkaPong PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/ArkaPong)
