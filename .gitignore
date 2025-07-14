@@ -23,6 +23,8 @@ bin/
 # Build libs
 ArkaPong/lib/
 Frontend/lib/
+ThirdParty/
+_deps/
 
 # CLion logs
 clion-*.txt
