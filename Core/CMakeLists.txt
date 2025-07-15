@@ -13,9 +13,11 @@ target_link_libraries(Core
         SDL2::SDL2 SDL2::SDL2main SDL2_mixer SDL2_ttf
 )
 
-add_custom_command(TARGET Core POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/ArkaPong/lib
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/Frontend/lib
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/ArkaPong/lib/
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/Frontend/lib/
-)
+if(WIN32)
+    add_custom_command(TARGET Core POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/ArkaPong/lib
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/Frontend/lib
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/ArkaPong/lib/
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Core> ${CMAKE_SOURCE_DIR}/Frontend/lib/
+    )
+endif()
