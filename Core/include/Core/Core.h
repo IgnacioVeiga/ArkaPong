@@ -4,25 +4,26 @@
 #include "Manager/SceneManager.h"
 #include "Utils/Window.h"
 #include "Utils/Configuration.h"
+#include "CoreExport.h"
 #include <string>
 #include <functional>
 #include <SDL2/SDL.h>
 
 namespace Core
 {
-    void Init(const std::string& config_path, const char* title);
-    void Run();
-    void CleanUp();
+    CORE_API void Init(const std::string& config_path, const char* title);
+    CORE_API void Run();
+    CORE_API void CleanUp();
 
-    Coordinator& GetCoordinator();
-    SceneManager& GetSceneManager();
-    Window& GetWindow();
-    extern bool is_game_on;
-    extern json config;
+    CORE_API Coordinator& GetCoordinator();
+    CORE_API SceneManager& GetSceneManager();
+    CORE_API Window& GetWindow();
+    CORE_API extern bool is_game_on;
+    CORE_API extern json config;
 
     using EventCallback = std::function<void(const SDL_Event&)>;
-    void SetEventCallback(const EventCallback& callback);
+    CORE_API void SetEventCallback(const EventCallback& callback);
 
     using UpdateCallback = std::function<void(float)>;
-    void SetUpdateCallback(const UpdateCallback& callback);
+    CORE_API void SetUpdateCallback(const UpdateCallback& callback);
 }
