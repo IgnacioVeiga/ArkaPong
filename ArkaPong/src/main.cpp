@@ -23,7 +23,6 @@ int main(int argc, char* argv[])
     });
 
     Core::Run();
-    Core::CleanUp();
 
     return 0;
 }

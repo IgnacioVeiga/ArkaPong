@@ -73,10 +73,7 @@ namespace Core
 
             SDL_RenderPresent(GetWindow().GetRenderer());
         }
-    }
 
-    void CleanUp()
-    {
         GetWindow().CleanUp();
     }
 

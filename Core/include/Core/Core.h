@@ -13,7 +13,6 @@ namespace Core
 {
     CORE_API void Init(const std::string& config_path, const char* title);
     CORE_API void Run();
-    CORE_API void CleanUp();
 
     CORE_API Coordinator& GetCoordinator();
     CORE_API SceneManager& GetSceneManager();
