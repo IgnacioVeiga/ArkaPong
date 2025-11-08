@@ -1,6 +1,19 @@
 # ArkaPong
 
-ArkaPong is a modern take on the classic Arkanoid/Breakout game genre, featuring both single-player and two-player modes. Built with C++ and SDL2, it combines retro gameplay with modern programming practices.
+ArkaPong is a unique fusion of classic Arkanoid and Pong gameplay mechanics, featuring both single-player and two-player modes. Built with C++ and SDL2, it combines retro gameplay with modern programming practices.
+
+## Game Concept
+
+ArkaPong combines elements from two classic games:
+
+### Arkanoid/Breakout
+![Arkanoid](https://images.squarespace-cdn.com/content/v1/5e004a01af59914152deea6d/1604237320287-Q5RPEEJ8B77OTM4OSGXV/Brick+Breaker.gif)
+
+### Pong
+![PONG](https://www.retrogames.cz/games/530/Pong-gameplay.gif)
+
+Creating a unique hybrid gameplay experience:
+![ArkaPong](https://github.com/user-attachments/assets/538974f9-4e3c-4382-9c7e-d15dc1607d17)
 
 ## Features
 
@@ -11,6 +24,7 @@ ArkaPong is a modern take on the classic Arkanoid/Breakout game genre, featuring
 - Multiple brick types and level designs
 - Animated sprites and particle effects
 - Configurable controls and settings
+- Level editor support through text files
 
 ## Requirements
 
@@ -69,12 +83,31 @@ SDL2 dependencies are managed automatically by the `cmake/ThirdParty.cmake` scri
 ## Project Structure
 
 - `assets/` - Game resources (sprites, audio, fonts, levels)
+  - `audio/` - Sound effects and background music
+  - `fonts/` - Game fonts
+  - `levels/` - Level design files
+  - `sprites/` - Game graphics and animations
 - `src/` - Source code
   - `Entities/` - Game entity definitions
   - `Scenes/` - Game scene management
   - `Utils/` - Utility functions and constants
 - `cmake/` - Build system configuration
 
-## License
+## Creating Custom Levels
 
-This project is available under the MIT License. See the LICENSE file for more details.
+Levels are defined in text files under `assets/levels/`. Each level file follows this format:
+```
+rows columns
+[grid of numbers representing brick types]
+```
+
+Example:
+```
+6 8
+1 1 1 1 1 1 1 1
+2 2 2 2 2 2 2 2
+3 3 3 3 3 3 3 3
+1 1 1 1 1 1 1 1
+2 2 2 2 2 2 2 2
+3 3 3 3 3 3 3 3
+```

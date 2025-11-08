@@ -1,32 +1,90 @@
-Core - Portable Game Engine (C++)
+# Core - Portable Game Engine
 
-Overview
+Core is a portable C++17 game engine library that provides essential infrastructure for 2D game development. It serves as the foundation for both ArkaPong game and Frontend tools.
 
-Core is a portable C++17 library containing game engine code (ECS, managers, utils) used by ArkaPong and Frontend. This folder is intended to be a standalone project: build it, and then copy the headers and built library into downstream projects.
+## Features
 
-Quick build
+- Entity Component System (ECS) architecture
+- Resource management (textures, audio, fonts)
+- Scene management system
+- Input handling
+- Physics and collision detection
+- Audio system with BGM and SFX support
+- Animation system
+- Rendering pipeline
+- Window management
+- Configuration system
 
-Unix/macOS:
+## Requirements
+
+- C++17 compatible compiler
+- SDL2 and related libraries (automatically managed by CMake)
+- CMake 3.0 or higher
+
+## Building
+
 ```bash
-./build.sh
+# From Core/
+./build.sh  # Linux/macOS
+# or
+build.bat   # Windows CMD
+# or
+build.ps1   # PowerShell
 ```
 
-Windows (cmd):
-```
-build.bat
-```
+## Integration
 
-Windows (PowerShell):
-```
-./build.ps1
-```
+To use Core in your project:
 
-Using the library from another project
+1. Build the library
+2. Copy the headers and built library to your project:
+   ```
+   your-project/
+   ├── core_local/
+   │   ├── include/  # Core headers
+   │   └── lib/      # Built library (libCore.so/Core.dll)
+   ```
+3. Link against Core in your CMake:
+   ```cmake
+   find_package(Core REQUIRED)
+   target_link_libraries(YourTarget PRIVATE Core)
+   ```
 
-1. Build Core.
-2. Copy headers (Core/include) and the built library from Core/build into the consumer project. You can use the consumer project's `copy_core` script, or copy manually.
+## Project Structure
 
-Notes
+- `include/Core/` - Public headers
+  - `Component/` - ECS components
+  - `Entity/` - Entity definitions
+  - `Manager/` - Resource managers
+  - `System/` - ECS systems
+  - `Utils/` - Utility classes and functions
+- `src/` - Implementation files
+- `cmake/` - CMake configuration files
 
-- This project contains a `cmake/ThirdParty.cmake` helper that fetches or uses local SDL2 builds. The project is self-contained for dependency retrieval.
-- Core is portable: it is not installed into the system. Consumers should point their CMake via `-DCORE_INCLUDE_DIR=/path/to/include -DCORE_LIBRARY=/path/to/libCore.so` or use the provided copy script.
+## Technical Details
+
+- Modern C++17 features
+- SDL2 for graphics, input, and audio
+- Cross-platform support (Windows, Linux)
+- Modular design for easy extension
+- Smart pointer memory management
+- Event-driven architecture
+
+## Documentation
+
+Key namespaces and classes:
+
+- `Core::` - Main namespace
+- `Core::Manager` - Resource management
+- `Core::Component` - ECS components
+- `Core::System` - Game systems
+- `Core::Entity` - Game entities
+- `Core::Utils` - Helper utilities
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
