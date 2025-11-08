@@ -1,0 +1,11 @@
+# ArkaPong ignores
+build/
+core_local/
+assets/
+bin/
+*.o
+*.a
+*.so
+*.dll
+ThirdParty/
+_deps/

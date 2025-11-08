@@ -1,0 +1,10 @@
+# Core project ignores
+build/
+core_local/
+bin/
+*.o
+*.a
+*.so
+*.dll
+ThirdParty/
+_deps/
