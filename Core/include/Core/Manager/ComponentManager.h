@@ -141,12 +141,15 @@ public:
         return mComponentArrays[typeid(T).name()]->HasData(entity);
     }
 
+    std::unordered_map<std::string, std::shared_ptr<IComponentArray>> &GetAllComponentArrays() {
+        return mComponentArrays;
+    }
 private:
     // Map from type string pointer to a component type
     std::unordered_map<const char *, ComponentType> mComponentTypes{};
 
     // Map from type string pointer to a component array
-    std::unordered_map<const char *, std::shared_ptr<IComponentArray> > mComponentArrays{};
+    std::unordered_map<std::string, std::shared_ptr<IComponentArray>> mComponentArrays;
 
     // The component type to be assigned to the next registered component - starting at 0
     ComponentType mNextComponentType{};

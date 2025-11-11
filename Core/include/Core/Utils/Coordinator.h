@@ -9,51 +9,24 @@
 #include "../Manager/EntityManager.h"
 #include "../Manager/ComponentManager.h"
 #include "../Manager/SystemManager.h"
+#include "nlohmann-json/json.hpp"
 
 class Coordinator {
 public:
-    void Init() {
-        // Create pointers to each manager
-        mEntityManager = std::make_unique<EntityManager>();
-        mComponentManager = std::make_unique<ComponentManager>();
-        mSystemManager = std::make_unique<SystemManager>();
-    }
+    void Init();
 
     // Entity methods
     Entity CreateEntity(const std::string &entity_name,
                         const std::string &scene_name,
-                        const std::string &tag = "",
-                        const std::string &sub_tag = ""
-    ) {
-        const Entity entity = mEntityManager->CreateEntity();
-        AddComponent<BaseComponent>(
-            entity,
-            {
-                true,
-                entity_name,
-                scene_name,
-                tag,
-                sub_tag
-            });
-        return entity;
-    }
-
-    void DestroyEntity(const Entity entity) const {
-        mEntityManager->DestroyEntity(entity);
-        mComponentManager->EntityDestroyed(entity);
-        mSystemManager->EntityDestroyed(entity);
-    }
-
-    void MarkEntityForDeletion(const Entity entity) {
-        entitiesToDelete.push_back(entity);
-    }
-
-    void ProcessPendingDeletions() {
-        for (const Entity entity: entitiesToDelete) {
-            DestroyEntity(entity);
-        }
-        entitiesToDelete.clear();
-    }
+                        const std::string &tag,
+                        const std::string &sub_tag);
+    void DestroyEntity(const Entity entity) const;
+    void MarkEntityForDeletion(const Entity entity);
+    void ProcessPendingDeletions();
+    bool EntityExists(Entity entity) const;
+    std::vector<Entity> GetAllEntities() const;
+    nlohmann::json SerializeEntity(Entity entity);
+    Entity DeserializeEntity(const nlohmann::json& j);
 
     // Component methods
     template<typename T>
@@ -110,6 +83,7 @@ public:
         return mSystemManager->GetSystem<T>();
     }
 
+    std::vector<std::string> GetComponentsOfEntity(Entity entity) const;
 private:
     std::vector<Entity> entitiesToDelete;
 
