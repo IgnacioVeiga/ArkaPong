@@ -10,13 +10,10 @@ cd build
 if [ -n "$CORE_ARG" ]; then
   CORE_ROOT=$(realpath "$CORE_ARG")
   CORE_INC="${CORE_ROOT}/include"
-  # heuristic: look for the library under Core's build/ directory
   if [ -f "${CORE_ROOT}/build/libCore.so" ]; then
     CORE_LIB="${CORE_ROOT}/build/libCore.so"
   elif [ -f "${CORE_ROOT}/build/Core.dll" ]; then
     CORE_LIB="${CORE_ROOT}/build/Core.dll"
-  elif [ -f "${CORE_ROOT}/build/libCore.a" ]; then
-    CORE_LIB="${CORE_ROOT}/build/libCore.a"
   else
     CORE_LIB=""
   fi
