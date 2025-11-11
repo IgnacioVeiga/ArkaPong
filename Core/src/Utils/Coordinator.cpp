@@ -11,8 +11,8 @@ void Coordinator::Init()
 // Entity methods
 Entity Coordinator::CreateEntity(const std::string &entity_name,
                                  const std::string &scene_name,
-                                 const std::string &tag = "",
-                                 const std::string &sub_tag = "")
+                                 const std::string &tag,
+                                 const std::string &sub_tag)
 {
     const Entity entity = mEntityManager->CreateEntity();
     AddComponent<BaseComponent>(

@@ -18,8 +18,8 @@ public:
     // Entity methods
     Entity CreateEntity(const std::string &entity_name,
                         const std::string &scene_name,
-                        const std::string &tag,
-                        const std::string &sub_tag);
+                        const std::string &tag = "",
+                        const std::string &sub_tag = "");
     void DestroyEntity(const Entity entity) const;
     void MarkEntityForDeletion(const Entity entity);
     void ProcessPendingDeletions();
