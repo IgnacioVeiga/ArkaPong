@@ -62,15 +62,10 @@ inline void CreatePaddleEntity(const std::string &entity_name, const std::string
     };
 
     if (side == Side::LEFT) {
-        // Physical QWERTY positions.
-        addMapping(SDL_SCANCODE_W, SDLK_w, goUpCallback);
-        addMapping(SDL_SCANCODE_S, SDLK_s, goDownCallback);
-        // Common AZERTY up alternative.
-        addMapping(SDL_SCANCODE_Z, SDLK_z, goUpCallback);
-        // Layout-aware letter mappings.
-        addMapping(SDL_GetScancodeFromKey(SDLK_w), SDLK_w, goUpCallback);
-        addMapping(SDL_GetScancodeFromKey(SDLK_s), SDLK_s, goDownCallback);
-        addMapping(SDL_GetScancodeFromKey(SDLK_z), SDLK_z, goUpCallback);
+        // Layout-aware letter mappings (keycode-driven).
+        addMapping(SDL_SCANCODE_UNKNOWN, SDLK_w, goUpCallback);
+        addMapping(SDL_SCANCODE_UNKNOWN, SDLK_s, goDownCallback);
+        addMapping(SDL_SCANCODE_UNKNOWN, SDLK_z, goUpCallback);
     } else {
         addMapping(SDL_SCANCODE_UP, SDLK_UP, goUpCallback);
         addMapping(SDL_SCANCODE_DOWN, SDLK_DOWN, goDownCallback);

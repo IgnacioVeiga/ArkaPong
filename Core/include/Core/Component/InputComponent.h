@@ -18,5 +18,6 @@ struct InputBehavior {
 struct InputComponent {
     std::vector<InputBehavior> keyMappings;
     Uint32 debounce_time = 250;
-    std::unordered_map<SDL_Scancode, Uint32> lastKeyPressTime;
+    std::unordered_map<SDL_Scancode, Uint32> lastScancodePressTime;
+    std::unordered_map<SDL_Keycode, Uint32> lastKeycodePressTime;
 };
