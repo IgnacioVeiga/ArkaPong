@@ -109,6 +109,9 @@ struct PathEvent
 
     // Action to execute when event triggers
     std::function<void(Entity)> action;
+
+    // One-shot by default to avoid repeated firing every frame.
+    bool triggered = false;
 };
 
 struct PathComponent

@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 class PathSystem : public System {
 public:
@@ -18,9 +19,18 @@ public:
                 pathComponent.path->UpdatePosition(transformComponent.position, delta_time);
             }
 
-            for (const auto &event: pathComponent.events) {
-                if (transformComponent.position == event.trigger) {
-                    event.action(entity);
+            static constexpr float triggerEpsilon = 0.5f;
+            const float triggerEpsilonSquared = triggerEpsilon * triggerEpsilon;
+            for (auto &event: pathComponent.events) {
+                const float dx = transformComponent.position.x - event.trigger.x;
+                const float dy = transformComponent.position.y - event.trigger.y;
+                const float distanceSquared = (dx * dx) + (dy * dy);
+
+                if (!event.triggered && distanceSquared <= triggerEpsilonSquared) {
+                    if (event.action) {
+                        event.action(entity);
+                    }
+                    event.triggered = true;
                 }
             }
         }

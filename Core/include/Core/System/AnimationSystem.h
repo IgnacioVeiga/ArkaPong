@@ -13,6 +13,8 @@ public:
         using namespace std::chrono;
         const auto now = steady_clock::now();
         static auto lastTime = now;
+        const int frameDeltaMs = static_cast<int>(duration_cast<milliseconds>(now - lastTime).count());
+        lastTime = now;
 
         for (auto const &entity: mEntities) {
             auto &animComponent = Core::GetCoordinator().GetComponent<AnimationComponent>(entity);
@@ -22,14 +24,17 @@ public:
             if (!animComponent.isPlaying)
                 continue;
 
-            // Calculate the elapsed time since the last update
-            animComponent.elapsedTime += static_cast<int>(duration_cast<milliseconds>(now - lastTime).count());
-            lastTime = now;
+            if (animComponent.animationSpeed <= 0) {
+                animComponent.animationSpeed = 1;
+            }
+
+            // Accumulate elapsed time once per frame (same delta for all entities).
+            animComponent.elapsedTime += frameDeltaMs;
 
             // Check if it's time to update the animation frame
-            if (animComponent.elapsedTime >= animComponent.animationSpeed) {
-                animComponent.elapsedTime = 0;
-                animComponent.currentFrame++;
+            while (animComponent.elapsedTime >= animComponent.animationSpeed) {
+                animComponent.elapsedTime -= animComponent.animationSpeed;
+                ++animComponent.currentFrame;
 
                 // If we reached the end of the animation
                 if (animComponent.currentFrame >= animComponent.frameCount) {

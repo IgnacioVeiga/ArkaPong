@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+#include <iostream>
 #include <memory>
 #include "Core/Entity/Entity.h"
 #include "Core/Utils/CoreConstants.h"
@@ -16,18 +18,31 @@ public:
         signature.set(Core::GetCoordinator().GetComponentType<TransformComponent>());
         Core::GetCoordinator().SetSystemSignature<PhysicsSystem>(signature);
 
-        std::string collisionMethod = config["physics"]["collision_method"];
+        std::string collisionMethod = "spatial_hash";
+        if (config.contains("physics") && config["physics"].is_object()) {
+            collisionMethod = config["physics"].value("collision_method", collisionMethod);
+            gravity = config["physics"].value("gravity", 0.0f);
+        }
+
         if (collisionMethod == "quadtree") {
             collisionDetection = std::make_unique<QuadTree>();
         } else if (collisionMethod == "spatial_hash") {
             collisionDetection = std::make_unique<SpatialHash>();
+        } else {
+            std::cerr << "Unknown collision_method '" << collisionMethod
+                      << "', falling back to spatial_hash" << std::endl;
+            collisionMethod = "spatial_hash";
+            collisionDetection = std::make_unique<SpatialHash>();
         }
 
-        gravity = config["physics"]["gravity"];
         std::cout << "Using " << collisionMethod << std::endl;
     }
 
     void Update(float delta_time) {
+        if (!collisionDetection) {
+            return;
+        }
+
         collisionDetection->Clear();
         PopulateCollisionDetection();
 
@@ -126,20 +141,20 @@ private:
         const float overlapBottom = (transform_other.position.y + rigidbody_other.collider.h) - transform_self.position.y;
 
         // Side of collision coming from
-        const bool fromLeft = fabs(overlapLeft) < fabs(overlapRight);
-        const bool fromTop = fabs(overlapTop) < fabs(overlapBottom);
+        const bool fromLeft = std::fabs(overlapLeft) < std::fabs(overlapRight);
+        const bool fromTop = std::fabs(overlapTop) < std::fabs(overlapBottom);
 
         // Find the minimum overlap in the X and Y axes
         const float minOverlapX = fromLeft ? overlapLeft : overlapRight;
         const float minOverlapY = fromTop ? overlapTop : overlapBottom;
 
         // Determine whether the collision is horizontal, vertical or diagonal
-        if (fabs(minOverlapX) < fabs(minOverlapY)) {
+        if (std::fabs(minOverlapX) < std::fabs(minOverlapY)) {
             // Horizontal collision
             rigidbody_self.velocity.x = -rigidbody_self.velocity.x;
             // Separate the ball by a small amount
             transform_self.position.x += fromLeft ? -minOverlapX : minOverlapX;
-        } else if (fabs(minOverlapX) > fabs(minOverlapY)) {
+        } else if (std::fabs(minOverlapX) > std::fabs(minOverlapY)) {
             // Vertical collision
             rigidbody_self.velocity.y = -rigidbody_self.velocity.y;
             // Separate the ball by a small amount
