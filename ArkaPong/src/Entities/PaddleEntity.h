@@ -2,6 +2,9 @@
 
 #include <functional>
 
+#include <SDL2/SDL_keyboard.h>
+#include <SDL2/SDL_keycode.h>
+
 #include "Core/Component/InputComponent.h"
 #include "Core/Component/RigidBodyComponent.h"
 #include "Core/Component/SpriteComponent.h"
@@ -40,12 +43,25 @@ inline void CreatePaddleEntity(const std::string &entity_name, const std::string
     const int x_position = (side == Side::LEFT) ? PADDLE_OFFSET : (SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH);
     const SDL_RendererFlip flip = (side == Side::LEFT) ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 
-    const SDL_Keycode upKeyCode = (side == Side::LEFT) ? SDL_SCANCODE_W : SDL_SCANCODE_UP;
-    const SDL_Keycode downKeyCode = (side == Side::LEFT) ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN;
+    SDL_Scancode upScancode = SDL_SCANCODE_UP;
+    SDL_Scancode downScancode = SDL_SCANCODE_DOWN;
+    if (side == Side::LEFT) {
+        // Use the active keyboard layout for letter controls (W/S equivalent).
+        upScancode = SDL_GetScancodeFromKey(SDLK_w);
+        downScancode = SDL_GetScancodeFromKey(SDLK_s);
+
+        // Fallback for platforms/layouts that fail to map keycodes.
+        if (upScancode == SDL_SCANCODE_UNKNOWN) {
+            upScancode = SDL_SCANCODE_W;
+        }
+        if (downScancode == SDL_SCANCODE_UNKNOWN) {
+            downScancode = SDL_SCANCODE_S;
+        }
+    }
 
     const std::vector<InputBehavior> keyMappings = {
-        {upKeyCode, goUpCallback},
-        {downKeyCode, goDownCallback}
+        {upScancode, goUpCallback},
+        {downScancode, goDownCallback}
     };
 
     const auto velocity = Vec2(0, PADDLE_SPEED);

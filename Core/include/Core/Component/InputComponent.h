@@ -1,16 +1,20 @@
 #pragma once
 
 #include <functional>
-#include <SDL2/SDL_keycode.h>
+#include <unordered_map>
+#include <vector>
+
+#include <SDL2/SDL_scancode.h>
+
 #include "Core/Entity/Entity.h"
 
 struct InputBehavior {
-    SDL_Keycode keyMap;
+    SDL_Scancode scancode;
     std::function<void(Entity self)> keyBehavior;
 };
 
 struct InputComponent {
     std::vector<InputBehavior> keyMappings;
     Uint32 debounce_time = 250;
-    std::unordered_map<SDL_Keycode, Uint32> lastKeyPressTime;
+    std::unordered_map<SDL_Scancode, Uint32> lastKeyPressTime;
 };

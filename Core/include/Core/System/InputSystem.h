@@ -17,11 +17,11 @@ public:
             auto &inputComponent = Core::GetCoordinator().GetComponent<InputComponent>(entity);
 
             for (auto &keyMapping: inputComponent.keyMappings) {
-                if (const Uint32 lastPressTime = inputComponent.lastKeyPressTime[keyMapping.keyMap];
-                    keyStates[keyMapping.keyMap] && (currentTime - lastPressTime >= inputComponent.debounce_time)) {
+                if (const Uint32 lastPressTime = inputComponent.lastKeyPressTime[keyMapping.scancode];
+                    keyStates[keyMapping.scancode] && (currentTime - lastPressTime >= inputComponent.debounce_time)) {
                     keyMapping.keyBehavior(entity);
 
-                    inputComponent.lastKeyPressTime[keyMapping.keyMap] = currentTime;
+                    inputComponent.lastKeyPressTime[keyMapping.scancode] = currentTime;
                 }
             }
         }
