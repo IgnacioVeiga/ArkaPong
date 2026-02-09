@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_scancode.h>
 
 #include "Core/Entity/Entity.h"

@@ -1,6 +1,5 @@
 #pragma once
 #include "Core/Core.h"
-#include <unordered_set>
 
 class InputSystem : public System {
 public:
@@ -8,14 +7,6 @@ public:
         Signature signature{};
         signature.set(Core::GetCoordinator().GetComponentType<InputComponent>());
         Core::GetCoordinator().SetSystemSignature<InputSystem>(signature);
-    }
-
-    void OnKeyEvent(SDL_Keycode keycode, bool pressed) {
-        if (pressed) {
-            pressedKeys.insert(keycode);
-        } else {
-            pressedKeys.erase(keycode);
-        }
     }
 
     void Update() {
@@ -26,14 +17,20 @@ public:
             auto &inputComponent = Core::GetCoordinator().GetComponent<InputComponent>(entity);
 
             for (auto &keyMapping: inputComponent.keyMappings) {
-                const Uint32 lastPressTime = inputComponent.lastKeyPressTime[keyMapping.scancode];
                 const bool scancodeHit = keyMapping.scancode != SDL_SCANCODE_UNKNOWN && keyStates[keyMapping.scancode];
-                const bool keycodeHit = keyMapping.keycode != SDLK_UNKNOWN &&
-                                        pressedKeys.find(keyMapping.keycode) != pressedKeys.end();
+                const SDL_Scancode layoutScancode = keyMapping.keycode != SDLK_UNKNOWN
+                                                        ? SDL_GetScancodeFromKey(keyMapping.keycode)
+                                                        : SDL_SCANCODE_UNKNOWN;
+                const bool layoutHit = layoutScancode != SDL_SCANCODE_UNKNOWN && keyStates[layoutScancode];
 
-                if ((scancodeHit || keycodeHit) && (currentTime - lastPressTime >= inputComponent.debounce_time)) {
+                const SDL_Scancode debounceKey = keyMapping.scancode != SDL_SCANCODE_UNKNOWN
+                                                     ? keyMapping.scancode
+                                                     : layoutScancode;
+                const Uint32 lastPressTime = inputComponent.lastKeyPressTime[debounceKey];
+
+                if ((scancodeHit || layoutHit) && (currentTime - lastPressTime >= inputComponent.debounce_time)) {
                     keyMapping.keyBehavior(entity);
-                    inputComponent.lastKeyPressTime[keyMapping.scancode] = currentTime;
+                    inputComponent.lastKeyPressTime[debounceKey] = currentTime;
                 }
             }
         }
@@ -42,7 +39,4 @@ public:
             Core::is_game_on = false;
         }
     }
-
-private:
-    std::unordered_set<SDL_Keycode> pressedKeys;
 };
