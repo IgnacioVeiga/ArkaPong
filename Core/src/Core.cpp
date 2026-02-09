@@ -74,6 +74,11 @@ namespace Core
             SDL_RenderPresent(GetWindow().GetRenderer());
         }
 
+        for (const Entity entity : GetCoordinator().GetAllEntities())
+        {
+            GetCoordinator().DestroyEntity(entity);
+        }
+
         GetWindow().CleanUp();
     }
 

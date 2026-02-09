@@ -138,7 +138,12 @@ public:
 
     template<typename T>
     bool HasComponent(const Entity entity) {
-        return mComponentArrays[typeid(T).name()]->HasData(entity);
+        const char *typeName = typeid(T).name();
+        auto it = mComponentArrays.find(typeName);
+        if (it == mComponentArrays.end() || !it->second) {
+            return false;
+        }
+        return it->second->HasData(entity);
     }
 
     std::unordered_map<std::string, std::shared_ptr<IComponentArray>> &GetAllComponentArrays() {

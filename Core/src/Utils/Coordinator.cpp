@@ -1,4 +1,6 @@
 #include "Core/Utils/Coordinator.h"
+#include "Core/Component/TextComponent.h"
+#include <SDL2/SDL_render.h>
 
 void Coordinator::Init()
 {
@@ -25,8 +27,18 @@ Entity Coordinator::CreateEntity(const std::string &entity_name,
     return entity;
 }
 
-void Coordinator::DestroyEntity(const Entity entity) const
+void Coordinator::DestroyEntity(const Entity entity)
 {
+    if (HasComponent<TextComponent>(entity))
+    {
+        auto &textComponent = GetComponent<TextComponent>(entity);
+        if (textComponent.texture != nullptr)
+        {
+            SDL_DestroyTexture(textComponent.texture);
+            textComponent.texture = nullptr;
+        }
+    }
+
     mEntityManager->DestroyEntity(entity);
     mComponentManager->EntityDestroyed(entity);
     mSystemManager->EntityDestroyed(entity);

@@ -15,7 +15,7 @@ public:
     ~Window();
 
     bool Init(const char* title);
-    void CleanUp() const;
+    void CleanUp();
     void SetWindowMode(int resolutionIndex, Uint32 flags) const;
 
     [[nodiscard]] SDL_Window* GetWindow() const { return window; }

@@ -20,7 +20,7 @@ public:
                         const std::string &scene_name,
                         const std::string &tag = "",
                         const std::string &sub_tag = "");
-    void DestroyEntity(const Entity entity) const;
+    void DestroyEntity(const Entity entity);
     void MarkEntityForDeletion(const Entity entity);
     void ProcessPendingDeletions();
     bool EntityExists(Entity entity) const;

@@ -1,5 +1,8 @@
 #include "Core/Utils/Window.h"
 #include "Core/Utils/CoreConstants.h"
+#include "Core/Manager/AudioManager.h"
+#include "Core/Manager/FontManager.h"
+#include "Core/Manager/TextureManager.h"
 
 #include <SDL2/SDL.h>
 
@@ -37,11 +40,13 @@ bool Window::Init(const char* title) {
 
     if (TTF_Init() == -1) {
         SDL_Log("TTF_Init failed: %s", TTF_GetError());
+        CleanUp();
         return false;
     }
 
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1) {
         SDL_Log("Mix_OpenAudio failed: %s", Mix_GetError());
+        CleanUp();
         return false;
     }
 
@@ -51,12 +56,14 @@ bool Window::Init(const char* title) {
                               SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
     if (!window) {
         SDL_Log("Window creation failed: %s", SDL_GetError());
+        CleanUp();
         return false;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!renderer) {
         SDL_Log("Renderer creation failed: %s", SDL_GetError());
+        CleanUp();
         return false;
     }
 
@@ -65,18 +72,44 @@ bool Window::Init(const char* title) {
     return true;
 }
 
-void Window::CleanUp() const {
-    if (renderer)
+void Window::CleanUp() {
+    // Destroy engine-managed resources first while the renderer/audio subsystems are alive.
+    TextureManager::Clear();
+    FontManager::Cleanup();
+    AudioManager::Cleanup();
+
+    if (renderer != nullptr) {
         SDL_DestroyRenderer(renderer);
-    if (window)
+        renderer = nullptr;
+    }
+    if (window != nullptr) {
         SDL_DestroyWindow(window);
-    Mix_CloseAudio();
-    TTF_Quit();
-    SDL_Quit();
+        window = nullptr;
+    }
+
+    int frequency = 0;
+    int channels = 0;
+    Uint16 format = 0;
+    if (Mix_QuerySpec(&frequency, &format, &channels) != 0) {
+        Mix_CloseAudio();
+    }
+
+    if (TTF_WasInit() != 0) {
+        TTF_Quit();
+    }
+
+    if (SDL_WasInit(0) != 0) {
+        SDL_Quit();
+    }
 }
 
 // TODO: fix fullscreen mode in Linux, not working on KDE
 void Window::SetWindowMode(const int resolutionIndex, const Uint32 flags) const {
+    if (!window || !renderer) {
+        std::cerr << "Window/renderer not initialized" << std::endl;
+        return;
+    }
+
     if (resolutionIndex < 0 || resolutionIndex >= static_cast<int>(availableResolutions.size())) {
         std::cerr << "Invalid resolution index" << std::endl;
         return;
