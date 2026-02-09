@@ -11,7 +11,7 @@ set(THIRDPARTY_DIR "${CMAKE_SOURCE_DIR}/ThirdParty")
 # ------------------------------------------
 # Helper macro to define a local imported library
 # ------------------------------------------
-macro(import_local_lib NAME LIB_NAME)
+macro(import_local_lib NAME LIB_NAME FOUND_VAR)
     set(LIB_DIR "${THIRDPARTY_DIR}/${LIB_NAME}")
 
     if (EXISTS "${LIB_DIR}/include" AND EXISTS "${LIB_DIR}/lib")
@@ -35,7 +35,7 @@ macro(import_local_lib NAME LIB_NAME)
                 INTERFACE_INCLUDE_DIRECTORIES "${LIB_DIR}/include"
         )
 
-        set(${NAME}_FOUND TRUE)
+        set(${FOUND_VAR} TRUE)
     endif()
 endmacro()
 
@@ -43,7 +43,7 @@ endmacro()
 # SDL2
 # ------------------------------------------
 set(SDL2_FOUND FALSE)
-import_local_lib(SDL2::SDL2 SDL2)
+import_local_lib(SDL2::SDL2 SDL2 SDL2_FOUND)
 
 if (NOT SDL2_FOUND)
     find_package(SDL2 QUIET)
@@ -64,7 +64,7 @@ endif()
 # SDL2_mixer
 # ------------------------------------------
 set(SDL2_mixer_FOUND FALSE)
-import_local_lib(SDL2_mixer SDL2_mixer)
+import_local_lib(SDL2_mixer SDL2_mixer SDL2_mixer_FOUND)
 
 if (NOT SDL2_mixer_FOUND)
     find_package(SDL2_mixer QUIET)
@@ -85,7 +85,7 @@ endif()
 # SDL2_ttf
 # ------------------------------------------
 set(SDL2_ttf_FOUND FALSE)
-import_local_lib(SDL2_ttf SDL2_ttf)
+import_local_lib(SDL2_ttf SDL2_ttf SDL2_ttf_FOUND)
 
 if (NOT SDL2_ttf_FOUND)
     find_package(SDL2_ttf QUIET)

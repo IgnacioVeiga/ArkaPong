@@ -13,10 +13,29 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty.cmake")
 #  -DCORE_INCLUDE_DIR=/path/to/Core/include
 #  -DCORE_LIBRARY=/path/to/libCore.so (or .dll/.a depending on platform)
 if(NOT DEFINED CORE_INCLUDE_DIR)
-        set(CORE_INCLUDE_DIR "core_local/include")
+        set(CORE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core_local/include")
 endif()
 if(NOT DEFINED CORE_LIBRARY)
-        set(CORE_LIBRARY "core_local/libCore.so")
+        set(_core_candidates
+                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/Core.lib"
+                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.lib"
+                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/Core.dll"
+                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.so"
+                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.dylib"
+                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.a"
+        )
+        foreach(_core_candidate IN LISTS _core_candidates)
+                if(EXISTS "${_core_candidate}")
+                        set(CORE_LIBRARY "${_core_candidate}")
+                        break()
+                endif()
+        endforeach()
+        unset(_core_candidate)
+        unset(_core_candidates)
+endif()
+
+if(NOT DEFINED CORE_LIBRARY)
+        set(CORE_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.so")
 endif()
 
 file(GLOB_RECURSE ARKAPONG_SOURCES "src/*.cpp")

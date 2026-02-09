@@ -13,11 +13,22 @@ New-Item -ItemType Directory -Path (Join-Path $dest 'include') -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $dest 'lib') -Force | Out-Null
 Copy-Item -Recurse (Join-Path $srcInc '*') (Join-Path $dest 'include') -Force
 
-if (Test-Path (Join-Path $srcBuild 'libCore.so')) {
-    Copy-Item (Join-Path $srcBuild 'libCore.so') (Join-Path $dest 'lib') -Force
-} elseif (Test-Path (Join-Path $srcBuild 'Core.dll')) {
-    Copy-Item (Join-Path $srcBuild 'Core.dll') (Join-Path $dest 'lib') -Force
-} else {
+@(
+    'Core.lib',
+    'libCore.lib',
+    'Core.dll',
+    'libCore.so',
+    'libCore.dylib',
+    'libCore.a'
+) | ForEach-Object {
+    $candidate = Join-Path $srcBuild $_
+    if (Test-Path $candidate) {
+        Copy-Item $candidate (Join-Path $dest 'lib') -Force
+    }
+}
+
+$copiedBinaries = Get-ChildItem -Path (Join-Path $dest 'lib') -File -ErrorAction SilentlyContinue
+if (-not $copiedBinaries) {
     Write-Warning "No binaries found in $srcBuild. Ensure Core was built."
 }
 Write-Host "Core copied to $dest"
