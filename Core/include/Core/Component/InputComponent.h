@@ -10,6 +10,7 @@
 
 struct InputBehavior {
     SDL_Scancode scancode;
+    SDL_Keycode keycode;
     std::function<void(Entity self)> keyBehavior;
 };
 

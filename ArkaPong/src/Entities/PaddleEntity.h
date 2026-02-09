@@ -45,32 +45,35 @@ inline void CreatePaddleEntity(const std::string &entity_name, const std::string
     const SDL_RendererFlip flip = (side == Side::LEFT) ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 
     std::vector<InputBehavior> keyMappings;
-    const auto addMapping = [&keyMappings](const SDL_Scancode scancode, const std::function<void(Entity)> &callback) {
-        if (scancode == SDL_SCANCODE_UNKNOWN) {
+    const auto addMapping = [&keyMappings](SDL_Scancode scancode, SDL_Keycode keycode,
+                                           const std::function<void(Entity)> &callback) {
+        if (scancode == SDL_SCANCODE_UNKNOWN && keycode == SDLK_UNKNOWN) {
             return;
         }
         const auto exists = std::find_if(
             keyMappings.begin(),
             keyMappings.end(),
-            [scancode](const InputBehavior &mapping) { return mapping.scancode == scancode; });
+            [scancode, keycode](const InputBehavior &mapping) {
+                return mapping.scancode == scancode && mapping.keycode == keycode;
+            });
         if (exists == keyMappings.end()) {
-            keyMappings.push_back({scancode, callback});
+            keyMappings.push_back({scancode, keycode, callback});
         }
     };
 
     if (side == Side::LEFT) {
         // Physical QWERTY positions.
-        addMapping(SDL_SCANCODE_W, goUpCallback);
-        addMapping(SDL_SCANCODE_S, goDownCallback);
+        addMapping(SDL_SCANCODE_W, SDLK_w, goUpCallback);
+        addMapping(SDL_SCANCODE_S, SDLK_s, goDownCallback);
         // Common AZERTY up alternative.
-        addMapping(SDL_SCANCODE_Z, goUpCallback);
+        addMapping(SDL_SCANCODE_Z, SDLK_z, goUpCallback);
         // Layout-aware letter mappings.
-        addMapping(SDL_GetScancodeFromKey(SDLK_w), goUpCallback);
-        addMapping(SDL_GetScancodeFromKey(SDLK_s), goDownCallback);
-        addMapping(SDL_GetScancodeFromKey(SDLK_z), goUpCallback);
+        addMapping(SDL_GetScancodeFromKey(SDLK_w), SDLK_w, goUpCallback);
+        addMapping(SDL_GetScancodeFromKey(SDLK_s), SDLK_s, goDownCallback);
+        addMapping(SDL_GetScancodeFromKey(SDLK_z), SDLK_z, goUpCallback);
     } else {
-        addMapping(SDL_SCANCODE_UP, goUpCallback);
-        addMapping(SDL_SCANCODE_DOWN, goDownCallback);
+        addMapping(SDL_SCANCODE_UP, SDLK_UP, goUpCallback);
+        addMapping(SDL_SCANCODE_DOWN, SDLK_DOWN, goDownCallback);
     }
 
     const auto velocity = Vec2(0, PADDLE_SPEED);

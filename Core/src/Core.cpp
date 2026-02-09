@@ -57,6 +57,14 @@ namespace Core
                 if (event.type == SDL_QUIT)
                     is_game_on = false;
 
+                if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
+                {
+                    if (auto inputSystem = GetCoordinator().GetSystem<InputSystem>())
+                    {
+                        inputSystem->OnKeyEvent(event.key.keysym.sym, event.type == SDL_KEYDOWN);
+                    }
+                }
+
                 if (event_callback)
                     event_callback(event);
             }
