@@ -3,8 +3,9 @@
 #include <SDL2/SDL_render.h>
 #include <string>
 #include <unordered_map>
+#include "Core/CoreExport.h"
 
-class TextureManager {
+class CORE_API TextureManager {
 public:
     static SDL_Texture *LoadTexture(const std::string &path);
     static void Clear();

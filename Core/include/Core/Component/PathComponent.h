@@ -5,11 +5,12 @@
 #include <memory>
 #include <vector>
 
+#include "Core/CoreExport.h"
 #include "Core/Entity/Entity.h"
 #include "Core/Utils/Vec2.h"
 
 // Abstract base class for path scripts
-class BasePath
+class CORE_API BasePath
 {
 public:
     virtual ~BasePath() = default;
@@ -17,7 +18,7 @@ public:
 };
 
 // Example of a linear path script
-class LinearPath final : public BasePath
+class CORE_API LinearPath final : public BasePath
 {
 public:
     LinearPath(const float velocityX, const float velocityY) : velocityX(velocityX), velocityY(velocityY)
@@ -32,7 +33,7 @@ private:
 };
 
 // Example of a circular path script
-class CircularPath final : public BasePath
+class CORE_API CircularPath final : public BasePath
 {
 public:
     CircularPath(const float centerX, const float centerY, const float radius, const float speed)
@@ -51,7 +52,7 @@ private:
 };
 
 // Other path scripts...
-class LinearInterpolationPath final : public BasePath
+class CORE_API LinearInterpolationPath final : public BasePath
 {
 public:
     LinearInterpolationPath(const float startX, const float startY, const float endX, const float endY,
@@ -66,7 +67,7 @@ private:
     float startX, startY, endX, endY, duration, elapsedTime;
 };
 
-class BezierCurvePath final : public BasePath
+class CORE_API BezierCurvePath final : public BasePath
 {
 public:
     BezierCurvePath(const std::vector<std::pair<float, float>>& controlPoints, const float duration)

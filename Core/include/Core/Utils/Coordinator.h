@@ -9,9 +9,10 @@
 #include "../Manager/EntityManager.h"
 #include "../Manager/ComponentManager.h"
 #include "../Manager/SystemManager.h"
+#include "Core/CoreExport.h"
 #include "nlohmann-json/json.hpp"
 
-class Coordinator {
+class CORE_API Coordinator {
 public:
     void Init();
 
@@ -25,8 +26,19 @@ public:
     void ProcessPendingDeletions();
     bool EntityExists(Entity entity) const;
     std::vector<Entity> GetAllEntities() const;
+    std::vector<Entity> GetEntitiesByScene(const std::string& scene_name);
     nlohmann::json SerializeEntity(Entity entity);
     Entity DeserializeEntity(const nlohmann::json& j);
+    nlohmann::json SerializeScene(const std::string& scene_name);
+    std::vector<Entity> DeserializeScene(
+        const nlohmann::json& j,
+        const std::string& override_scene_name = "",
+        bool clear_existing_scene = false);
+    bool SaveSceneToFile(const std::string& scene_name, const std::string& path);
+    std::vector<Entity> LoadSceneFromFile(
+        const std::string& path,
+        const std::string& override_scene_name = "",
+        bool clear_existing_scene = false);
 
     // Component methods
     template<typename T>

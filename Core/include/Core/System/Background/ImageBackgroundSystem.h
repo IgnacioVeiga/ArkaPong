@@ -17,7 +17,9 @@ public:
     void Update() {
         for (auto const &entity: mEntities) {
             auto &bg = Core::GetCoordinator().GetComponent<ImageBackgroundComponent>(entity);
-            SDL_Rect dstRect = {(SCREEN_WIDTH - bg.width) / 2, (SCREEN_HEIGHT - bg.height) / 2, bg.width, bg.height};
+            const int logicalWidth = Core::GetWindow().GetLogicalWidth();
+            const int logicalHeight = Core::GetWindow().GetLogicalHeight();
+            SDL_Rect dstRect = {(logicalWidth - bg.width) / 2, (logicalHeight - bg.height) / 2, bg.width, bg.height};
             SDL_RenderCopy(Core::GetWindow().GetRenderer(), bg.imageTexture, nullptr, &dstRect);
         }
     }

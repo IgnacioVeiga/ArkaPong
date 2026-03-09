@@ -21,6 +21,8 @@ inline void CreateAnimatedEntity(
     const Vec2 pos
 ) {
     const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
+    const float logicalWidth = static_cast<float>(Core::GetWindow().GetLogicalWidth());
+    const float logicalHeight = static_cast<float>(Core::GetWindow().GetLogicalHeight());
 
     SDL_Texture *texture = TextureManager::LoadTexture(texturePath.c_str());
     Core::GetCoordinator().AddComponent(
@@ -32,7 +34,8 @@ inline void CreateAnimatedEntity(
             texture,
             {0, 0, frameWidth, frameHeight}, // Source rectangle
             {0, 0, static_cast<float>(frameWidth), static_cast<float>(frameHeight)},
-            SDL_FLIP_NONE
+            SDL_FLIP_NONE,
+            texturePath
         });
 
     Core::GetCoordinator().AddComponent(
@@ -49,8 +52,8 @@ inline void CreateAnimatedEntity(
         });
 
     const std::shared_ptr<BasePath> movementScript = std::make_shared<CircularPath>(
-        (SCREEN_WIDTH / 2.0f) - 8.0f, // Center X
-        (SCREEN_HEIGHT / 2.0f) - 8.0f, // Center Y
+        (logicalWidth / 2.0f) - 8.0f, // Center X
+        (logicalHeight / 2.0f) - 8.0f, // Center Y
         64.0f, // Radius
         1.0f // Speed
     );

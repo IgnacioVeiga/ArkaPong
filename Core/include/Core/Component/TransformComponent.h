@@ -4,6 +4,6 @@
 
 struct TransformComponent {
     Vec2 position;
-    Vec2 scale;
-    float rotation;
+    Vec2 scale = Vec2(1.0f, 1.0f);
+    float rotation = 0.0f;
 };

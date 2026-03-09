@@ -29,6 +29,8 @@ inline void CreateTextEntity(
             pos,
             nullptr, // Initially, there is no texture
             true, // Needs to be updated
-            alignment
+            alignment,
+            fontPath,
+            fontSize
         });
 }

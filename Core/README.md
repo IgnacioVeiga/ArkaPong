@@ -1,10 +1,11 @@
 # Core - Portable Game Engine
 
-Core is a portable C++17 game engine library that provides essential infrastructure for 2D game development. It serves as the foundation for both ArkaPong game and Frontend tools.
+Core is a portable C++17 game engine library that provides essential infrastructure for 2D game development. It currently serves as the foundation for example projects such as `ArkaPong`.
 
 ## Features
 
 - Entity Component System (ECS) architecture
+- Project-level extension points for custom components and systems
 - Resource management (textures, audio, fonts)
 - Scene management system
 - Input handling
@@ -19,7 +20,7 @@ Core is a portable C++17 game engine library that provides essential infrastruct
 
 - C++17 compatible compiler
 - SDL2 and related libraries (automatically managed by CMake)
-- CMake 3.0 or higher
+- CMake 3.20 or higher
 
 ## Building
 
@@ -37,18 +38,19 @@ build.ps1   # PowerShell
 To use Core in your project:
 
 1. Build the library
-2. Copy the headers and built library to your project:
+2. Copy the headers and built binaries to your project:
    ```
    your-project/
    ├── core_local/
    │   ├── include/  # Core headers
-   │   └── lib/      # Built library (libCore.so/Core.dll)
+   │   └── lib/      # Link library + runtime files copied from Core/build
    ```
-3. Link against Core in your CMake:
-   ```cmake
-   find_package(Core REQUIRED)
-   target_link_libraries(YourTarget PRIVATE Core)
-   ```
+3. Build outputs are kept portable:
+   - `build/lib/` -> `Core.lib`, `libCore.so`, `libCore.dylib`, `libCore.a`
+   - `build/bin/` -> `Core.dll` on Windows
+4. Consumer projects can either:
+   - run their `copy_core.*` helper scripts, or
+   - pass `-DCORE_INCLUDE_DIR=...` and `-DCORE_LIBRARY=...` to CMake directly
 
 ## Project Structure
 
@@ -59,7 +61,7 @@ To use Core in your project:
   - `System/` - ECS systems
   - `Utils/` - Utility classes and functions
 - `src/` - Implementation files
-- `cmake/` - CMake configuration files
+- `ThirdParty.cmake` - Dependency bootstrap
 
 ## Technical Details
 
@@ -72,6 +74,8 @@ To use Core in your project:
 
 ## Documentation
 
+Start with [docs/README.md](docs/README.md) if you are new to this codebase or to C/C++ game-engine projects.
+
 Key namespaces and classes:
 
 - `Core::` - Main namespace
@@ -81,10 +85,4 @@ Key namespaces and classes:
 - `Core::Entity` - Game entities
 - `Core::Utils` - Helper utilities
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+The recommended way to extend the engine from a game project is documented in `docs/ecs-development.md`. You do not need to edit `Core` to add your own components or systems.

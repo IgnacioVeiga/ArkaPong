@@ -17,4 +17,6 @@ struct TextComponent {
     SDL_Texture *texture = nullptr; // New texture for storing rendered text
     bool dirty = true; // Indicates if the text has changed and needs to be rendered again
     Side alignment = Side::LEFT; // Text horizontal alignment
+    std::string fontPath;
+    int fontSize = 0;
 };

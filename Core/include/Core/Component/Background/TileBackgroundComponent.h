@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL_render.h>
+#include <string>
 
 struct TileBackgroundComponent {
     SDL_Texture *tileTexture;
@@ -15,4 +16,5 @@ struct TileBackgroundComponent {
     int mapHeight;
 
     std::vector<int> tiles;
+    std::string texturePath;
 };

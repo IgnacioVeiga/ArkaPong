@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <typeinfo>
 #include <cassert>
+#include <typeindex>
 #include "Core/System/System.h"
 #include "Core/Entity/Entity.h"
 
@@ -11,22 +12,22 @@ class SystemManager {
 public:
     template<typename T>
     std::shared_ptr<T> RegisterSystem() {
-        const char *typeName = typeid(T).name();
-        assert(mSystems.find(typeName) == mSystems.end() && "Registering system more than once.");
+        const auto typeKey = std::type_index(typeid(T));
+        assert(mSystems.find(typeKey) == mSystems.end() && "Registering system more than once.");
 
         // Create a pointer to the system and return it so it can be used externally
         auto system = std::make_shared<T>();
-        mSystems.insert({typeName, system});
+        mSystems.insert({typeKey, system});
         return system;
     }
 
     template<typename T>
     void SetSignature(Signature signature) {
-        const char *typeName = typeid(T).name();
-        assert(mSystems.find(typeName) != mSystems.end() && "System used before registered.");
+        const auto typeKey = std::type_index(typeid(T));
+        assert(mSystems.find(typeKey) != mSystems.end() && "System used before registered.");
 
         // Set the signature for this system
-        mSignatures.insert({typeName, signature});
+        mSignatures[typeKey] = signature;
     }
 
     void EntityDestroyed(const Entity entity) const {
@@ -41,9 +42,13 @@ public:
     void EntitySignatureChanged(const Entity entity, const Signature entitySignature) {
         // Notify each system that an entity's signature changed
         for (auto const &pair: mSystems) {
-            auto const &type = pair.first;
+            auto const &typeKey = pair.first;
             auto const &system = pair.second;
-            auto const &systemSignature = mSignatures[type];
+            auto signatureIt = mSignatures.find(typeKey);
+            if (signatureIt == mSignatures.end()) {
+                continue;
+            }
+            auto const &systemSignature = signatureIt->second;
 
             // Entity signature matches system signature - insert into set
             if ((entitySignature & systemSignature) == systemSignature) {
@@ -58,14 +63,18 @@ public:
 
     template<typename T>
     std::shared_ptr<T> GetSystem() {
-        const char *typeName = typeid(T).name();
-        return std::static_pointer_cast<T>(mSystems[typeName]);
+        const auto typeKey = std::type_index(typeid(T));
+        auto it = mSystems.find(typeKey);
+        if (it == mSystems.end()) {
+            return nullptr;
+        }
+        return std::static_pointer_cast<T>(it->second);
     }
 
 private:
-    // Map from system type string pointer to a signature
-    std::unordered_map<const char *, Signature> mSignatures{};
+    // Map from a stable type key to a signature
+    std::unordered_map<std::type_index, Signature> mSignatures{};
 
-    // Map from system type string pointer to a system pointer
-    std::unordered_map<const char *, std::shared_ptr<System> > mSystems{};
+    // Map from a stable type key to a system pointer
+    std::unordered_map<std::type_index, std::shared_ptr<System> > mSystems{};
 };

@@ -8,8 +8,9 @@
 #else
 #include <SDL2/SDL_ttf.h>
 #endif
+#include "Core/CoreExport.h"
 
-class FontManager
+class CORE_API FontManager
 {
 public:
     static TTF_Font* GetFont(const std::string& path, int size);

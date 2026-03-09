@@ -25,7 +25,14 @@ public:
         }
 
         if (collisionMethod == "quadtree") {
-            collisionDetection = std::make_unique<QuadTree>();
+            collisionDetection = std::make_unique<QuadTree>(
+                0,
+                SDL_FRect{
+                    0.0f,
+                    0.0f,
+                    static_cast<float>(Core::GetWindow().GetLogicalWidth()),
+                    static_cast<float>(Core::GetWindow().GetLogicalHeight())
+                });
         } else if (collisionMethod == "spatial_hash") {
             collisionDetection = std::make_unique<SpatialHash>();
         } else {
@@ -60,12 +67,34 @@ public:
         DetectCollisions(collisions);
         // collisionDetection->GetPotentialCollisions(collisions);
         for (const auto &pair: collisions) {
-            std::cout << "Collision detected between entities: " << pair.first << " and " << pair.second << std::endl;
             ResolveCollision(pair.first, pair.second);
         }
     }
 
 private:
+    void HandleOutOfBounds(const Entity entity, const BoundsSide side) {
+        auto &transformComponent = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
+        auto &rigidBodyComponent = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entity);
+        const float logicalWidth = static_cast<float>(Core::GetWindow().GetLogicalWidth());
+        const float logicalHeight = static_cast<float>(Core::GetWindow().GetLogicalHeight());
+
+        if (rigidBodyComponent.onOutOfBounds) {
+            rigidBodyComponent.onOutOfBounds(entity, side);
+            return;
+        }
+
+        switch (side) {
+            case BoundsSide::Left:
+            case BoundsSide::Right:
+                transformComponent.position = Vec2(logicalWidth / 2.0f, logicalHeight / 2.0f);
+                break;
+            case BoundsSide::Top:
+            case BoundsSide::Bottom:
+                rigidBodyComponent.velocity.y = -rigidBodyComponent.velocity.y;
+                break;
+        }
+    }
+
     void PopulateCollisionDetection() {
         for (auto const &entity: mEntities) {
             const auto &transform = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
@@ -169,20 +198,28 @@ private:
         }
     }
 
-    // Depends, the entity can be destroyed, teleported, etc.
-    // TODO: use callbacks or events for this
     void CheckOutOfBounds(const Entity entity) {
         auto &transformComponent = Core::GetCoordinator().GetComponent<TransformComponent>(entity);
         auto &rigidBodyComponent = Core::GetCoordinator().GetComponent<RigidBodyComponent>(entity);
+        const float logicalWidth = static_cast<float>(Core::GetWindow().GetLogicalWidth());
+        const float logicalHeight = static_cast<float>(Core::GetWindow().GetLogicalHeight());
 
-        // Teleports to the center of the screen
-        if (transformComponent.position.x > SCREEN_WIDTH || transformComponent.position.x < 0) {
-            transformComponent.position = Vec2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        // Let the owning game override bounds behavior when screen exits have
+        // gameplay meaning, such as scoring, respawns, or room transitions.
+        if (transformComponent.position.x > logicalWidth) {
+            HandleOutOfBounds(entity, BoundsSide::Right);
+            return;
         }
-        // Bounce vertically
-        if ((transformComponent.position.y + rigidBodyComponent.collider.h) > SCREEN_HEIGHT || transformComponent.
-            position.y < 0) {
-            rigidBodyComponent.velocity.y = -rigidBodyComponent.velocity.y;
+        if ((transformComponent.position.x + rigidBodyComponent.collider.w) < 0) {
+            HandleOutOfBounds(entity, BoundsSide::Left);
+            return;
+        }
+        if ((transformComponent.position.y + rigidBodyComponent.collider.h) > logicalHeight) {
+            HandleOutOfBounds(entity, BoundsSide::Bottom);
+            return;
+        }
+        if (transformComponent.position.y < 0) {
+            HandleOutOfBounds(entity, BoundsSide::Top);
         }
     }
 

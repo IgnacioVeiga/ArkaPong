@@ -5,6 +5,13 @@
 #include "Core/Utils/Vec2.h"
 #include "Core/Entity/Entity.h"
 
+enum class BoundsSide {
+    Left,
+    Right,
+    Top,
+    Bottom
+};
+
 struct RigidBodyComponent {
     SDL_FRect collider;
     Vec2 velocity = Vec2(0.0f, 0.0f);
@@ -13,4 +20,5 @@ struct RigidBodyComponent {
     bool isStatic = false; // If true, the entity should not move such as walls, static platforms, etc.
     bool useGravity = true;
     std::function<void(Entity self, Entity other)> onCollision; // Callback for custom behavior
+    std::function<void(Entity self, BoundsSide side)> onOutOfBounds; // Optional override for screen bounds behavior
 };

@@ -5,6 +5,7 @@
 #include "Core/Component/Background/ParallaxLayer.h"
 #include "Core/Component/Background/SolidColorBackgroundComponent.h"
 #include "Core/Component/Background/TileBackgroundComponent.h"
+#include "Core/Core.h"
 #include "Core/Manager/TextureManager.h"
 #include "Core/Utils/CoreConstants.h"
 
@@ -25,15 +26,15 @@ inline void CreateTileBackgroundEntity(
     constexpr int tileHeight = 32;
 
     // Dimensions of the tile map (how many tiles in width and height)
-    constexpr int mapWidth = SCREEN_WIDTH / tileWidth;
-    constexpr int mapHeight = SCREEN_HEIGHT / tileHeight;
+    const int mapWidth = Core::GetWindow().GetLogicalWidth() / tileWidth;
+    const int mapHeight = Core::GetWindow().GetLogicalHeight() / tileHeight;
 
     const std::vector tiles(mapWidth * mapHeight, 0);
 
     const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
     Core::GetCoordinator().AddComponent(entity, TileBackgroundComponent{
                                        tileTexture, tileTextureWidth, tileTextureHeight, tileWidth, tileHeight,
-                                       mapWidth, mapHeight, tiles
+                                       mapWidth, mapHeight, tiles, texture_filepath
                                    });
 }
 
@@ -54,7 +55,7 @@ inline void CreateImageBackgroundEntity(
     const int height
 ) {
     const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
-    Core::GetCoordinator().AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height});
+    Core::GetCoordinator().AddComponent(entity, ImageBackgroundComponent{imageTexture, width, height, ""});
 }
 
 inline void CreateParallaxBackgroundEntity(

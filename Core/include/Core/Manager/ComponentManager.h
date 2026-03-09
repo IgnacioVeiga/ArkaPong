@@ -4,6 +4,7 @@
 #include <memory>
 #include <array>
 #include <cassert>
+#include <typeindex>
 #include "Core/Entity/Entity.h"
 
 class IComponentArray {
@@ -87,15 +88,15 @@ class ComponentManager {
 public:
     template<typename T>
     void RegisterComponent() {
-        const char *typeName = typeid(T).name();
+        const auto typeKey = std::type_index(typeid(T));
 
-        assert(mComponentTypes.find(typeName) == mComponentTypes.end() && "Registering component type more than once.");
+        assert(mComponentTypes.find(typeKey) == mComponentTypes.end() && "Registering component type more than once.");
 
         // Add this component type to the component type map
-        mComponentTypes.insert({typeName, mNextComponentType});
+        mComponentTypes.insert({typeKey, mNextComponentType});
 
         // Create a ComponentArray pointer and add it to the component arrays map
-        mComponentArrays.insert({typeName, std::make_shared<ComponentArray<T> >()});
+        mComponentArrays.insert({typeKey, std::make_shared<ComponentArray<T> >()});
 
         // Increment the value so that the next component registered will be different
         ++mNextComponentType;
@@ -103,10 +104,10 @@ public:
 
     template<typename T>
     ComponentType GetComponentType() {
-        const char *typeName = typeid(T).name();
-        assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "Component not registered before use.");
+        const auto typeKey = std::type_index(typeid(T));
+        assert(mComponentTypes.find(typeKey) != mComponentTypes.end() && "Component not registered before use.");
         // Return this component's type - used for creating signatures
-        return mComponentTypes[typeName];
+        return mComponentTypes[typeKey];
     }
 
     template<typename T>
@@ -138,23 +139,23 @@ public:
 
     template<typename T>
     bool HasComponent(const Entity entity) {
-        const char *typeName = typeid(T).name();
-        auto it = mComponentArrays.find(typeName);
+        const auto typeKey = std::type_index(typeid(T));
+        auto it = mComponentArrays.find(typeKey);
         if (it == mComponentArrays.end() || !it->second) {
             return false;
         }
         return it->second->HasData(entity);
     }
 
-    std::unordered_map<std::string, std::shared_ptr<IComponentArray>> &GetAllComponentArrays() {
+    const std::unordered_map<std::type_index, std::shared_ptr<IComponentArray>> &GetAllComponentArrays() const {
         return mComponentArrays;
     }
 private:
-    // Map from type string pointer to a component type
-    std::unordered_map<const char *, ComponentType> mComponentTypes{};
+    // Map from a stable type key to a component type
+    std::unordered_map<std::type_index, ComponentType> mComponentTypes{};
 
-    // Map from type string pointer to a component array
-    std::unordered_map<std::string, std::shared_ptr<IComponentArray>> mComponentArrays;
+    // Map from a stable type key to a component array
+    std::unordered_map<std::type_index, std::shared_ptr<IComponentArray>> mComponentArrays;
 
     // The component type to be assigned to the next registered component - starting at 0
     ComponentType mNextComponentType{};
@@ -162,8 +163,8 @@ private:
     // Convenience function to get the statically casted pointer to the ComponentArray of type T.
     template<typename T>
     std::shared_ptr<ComponentArray<T> > GetComponentArray() {
-        const char *typeName = typeid(T).name();
-        assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "Component not registered before use.");
-        return std::static_pointer_cast<ComponentArray<T> >(mComponentArrays[typeName]);
+        const auto typeKey = std::type_index(typeid(T));
+        assert(mComponentTypes.find(typeKey) != mComponentTypes.end() && "Component not registered before use.");
+        return std::static_pointer_cast<ComponentArray<T> >(mComponentArrays[typeKey]);
     }
 };

@@ -6,20 +6,79 @@
 #include "Core/Component/BaseComponent.h"
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 
 namespace Core
 {
     bool is_game_on = true;
     json config;
 
-    static EventCallback event_callback = nullptr;
-    void SetEventCallback(const EventCallback& callback) {
-        event_callback = callback;
+    namespace
+    {
+        bool core_initialized = false;
+        std::vector<InitCallback> init_callbacks;
+        std::vector<EventCallback> event_callbacks;
+        std::vector<UpdateCallback> update_callbacks;
     }
 
-    static UpdateCallback update_callback = nullptr;
+    bool IsInitialized() {
+        return core_initialized;
+    }
+
+    void SetInitCallback(const InitCallback& callback) {
+        init_callbacks.clear();
+        AddInitCallback(callback);
+    }
+
+    void AddInitCallback(const InitCallback& callback) {
+        if (!callback) {
+            return;
+        }
+
+        if (core_initialized) {
+            // Late registrations are executed immediately so game projects can
+            // extend the engine after Core::Init without editing the engine.
+            callback();
+            return;
+        }
+
+        init_callbacks.push_back(callback);
+    }
+
+    void ClearInitCallbacks() {
+        init_callbacks.clear();
+    }
+
+    void SetEventCallback(const EventCallback& callback) {
+        event_callbacks.clear();
+        AddEventCallback(callback);
+    }
+
+    void AddEventCallback(const EventCallback& callback) {
+        if (!callback) {
+            return;
+        }
+        event_callbacks.push_back(callback);
+    }
+
+    void ClearEventCallbacks() {
+        event_callbacks.clear();
+    }
+
     void SetUpdateCallback(const UpdateCallback& callback) {
-        update_callback = callback;
+        update_callbacks.clear();
+        AddUpdateCallback(callback);
+    }
+
+    void AddUpdateCallback(const UpdateCallback& callback) {
+        if (!callback) {
+            return;
+        }
+        update_callbacks.push_back(callback);
+    }
+
+    void ClearUpdateCallbacks() {
+        update_callbacks.clear();
     }
 
     void Init(const std::string& config_path, const char* title)
@@ -28,9 +87,8 @@ namespace Core
 
         config = readConfig(config_path);
         mergeConfig(config, getDefaultConfig());
-        std::cout << config.dump(4) << std::endl;
 
-        if (!GetWindow().Init(title))
+        if (!GetWindow().Init(title, config))
         {
             is_game_on = false;
             return;
@@ -39,6 +97,16 @@ namespace Core
         GetCoordinator().Init();
         GetCoordinator().RegisterComponent<BaseComponent>();
         GetCoordinator().RegisterSystem<BaseSystem>()->Init(config);
+
+        core_initialized = true;
+
+        // Iterate over a snapshot so callbacks can register extra hooks safely
+        // during initialization without invalidating the active traversal.
+        const auto initCallbacksSnapshot = init_callbacks;
+        for (const auto& callback : initCallbacksSnapshot)
+        {
+            callback();
+        }
     }
 
     void Run()
@@ -65,8 +133,13 @@ namespace Core
                     }
                 }
 
-                if (event_callback)
-                    event_callback(event);
+                // Event hooks may register more hooks at runtime, so use a copy
+                // to keep callback dispatch deterministic for the current event.
+                const auto eventCallbacksSnapshot = event_callbacks;
+                for (const auto& callback : eventCallbacksSnapshot)
+                {
+                    callback(event);
+                }
             }
 
             SDL_SetRenderDrawColor(GetWindow().GetRenderer(), 0, 0, 0, 255);
@@ -74,8 +147,13 @@ namespace Core
 
             GetCoordinator().GetSystem<BaseSystem>()->Update();
 
-            if (update_callback)
-                update_callback(delta_time);
+            // Match event dispatch semantics: callbacks added mid-frame start on
+            // the next frame instead of mutating the current iteration.
+            const auto updateCallbacksSnapshot = update_callbacks;
+            for (const auto& callback : updateCallbacksSnapshot)
+            {
+                callback(delta_time);
+            }
 
             GetSceneManager().Update(delta_time);
 
@@ -88,6 +166,7 @@ namespace Core
         }
 
         GetWindow().CleanUp();
+        core_initialized = false;
     }
 
     Coordinator& GetCoordinator()

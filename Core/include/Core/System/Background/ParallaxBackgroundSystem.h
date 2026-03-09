@@ -22,9 +22,11 @@ public:
         for (auto const &entity: mEntities) {
             auto &bg = Core::GetCoordinator().GetComponent<ParallaxBackgroundComponent>(entity);
             for (const auto &layer: bg.layers) {
+                const int logicalWidth = Core::GetWindow().GetLogicalWidth();
+                const int logicalHeight = Core::GetWindow().GetLogicalHeight();
                 SDL_Rect dstRect = {
                     static_cast<int>(-cameraX * layer.scrollSpeed), static_cast<int>(-cameraY * layer.scrollSpeed),
-                    SCREEN_WIDTH, SCREEN_HEIGHT
+                    logicalWidth, logicalHeight
                 };
                 SDL_RenderCopy(Core::GetWindow().GetRenderer(), layer.layerTexture, nullptr, &dstRect);
             }

@@ -8,8 +8,9 @@
 #else
 #include <SDL2/SDL_mixer.h>
 #endif
+#include "Core/CoreExport.h"
 
-class AudioManager {
+class CORE_API AudioManager {
 public:
     static Mix_Chunk *LoadChunk(const std::string &path);
     static Mix_Music *LoadMusic(const std::string &path);
