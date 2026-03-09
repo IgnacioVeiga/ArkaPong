@@ -20,8 +20,8 @@ inline SDL_Rect GetBrickSrcRect(const BrickType brickType)
     {
         srcRect.x = brickTypeMap[brickType].first;
         srcRect.y = brickTypeMap[brickType].second;
-        srcRect.w = BRICK_WIDTH;
-        srcRect.h = BRICK_HEIGHT;
+        srcRect.w = DEFAULT_BRICK_WIDTH;
+        srcRect.h = DEFAULT_BRICK_HEIGHT;
     }
 
     return srcRect;

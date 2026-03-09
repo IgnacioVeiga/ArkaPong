@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/Entity/BackgroundEntity.h"
+#include "Core/Entity/InputEntity.h"
 #include "Core/Entity/TextEntity.h"
 #include "Core/Utils/Vec2.h"
 #include "Core/Utils/CoreEnums.h"
@@ -19,7 +20,7 @@ public:
             C_WHITE,
             RETRO_FONT_FILEPATH,
             FONT_L,
-            Vec2(static_cast<float_t>(SCREEN_WIDTH) / 2, PADDLE_OFFSET),
+            Vec2(static_cast<float>(GetGameWidth()) / 2.0f, static_cast<float>(PADDLE_OFFSET)),
             Side::CENTER);
 
         // TODO: add menu options
@@ -30,7 +31,7 @@ public:
             C_WHITE,
             RETRO_FONT_FILEPATH,
             FONT_M,
-            Vec2(static_cast<float_t>(SCREEN_WIDTH) / 2, static_cast<float_t>(SCREEN_HEIGHT) / 2),
+            Vec2(static_cast<float>(GetGameWidth()) / 2.0f, static_cast<float>(GetGameHeight()) / 2.0f),
             Side::CENTER);
 
         CreateTextEntity(
@@ -40,8 +41,25 @@ public:
             C_GRAY,
             RETRO_FONT_FILEPATH,
             FONT_XS,
-            Vec2(static_cast<float_t>(SCREEN_WIDTH) / 2, SCREEN_HEIGHT - PADDLE_OFFSET),
+            Vec2(static_cast<float>(GetGameWidth()) / 2.0f, static_cast<float>(GetGameHeight() - PADDLE_OFFSET)),
             Side::CENTER);
+
+        CreateInputEntity(
+            "TitleInput",
+            TITLE_SCENE,
+            {
+                InputBehavior{
+                    SDL_SCANCODE_RETURN,
+                    SDLK_RETURN,
+                    [](const Entity) { Core::GetSceneManager().ChangeScene(ROUND_SCENE); }
+                },
+                InputBehavior{
+                    SDL_SCANCODE_KP_ENTER,
+                    SDLK_KP_ENTER,
+                    [](const Entity) { Core::GetSceneManager().ChangeScene(ROUND_SCENE); }
+                }
+            },
+            150);
     };
 
     void Update(float delta_time) override {
@@ -50,11 +68,6 @@ public:
         Core::GetCoordinator().GetSystem<SolidColorBackgroundSystem>()->Update();
         Core::GetCoordinator().GetSystem<SpriteSystem>()->Update();
         Core::GetCoordinator().GetSystem<TextSystem>()->Update();
-
-        // TODO: use the input system
-        if (const Uint8 *keyStates = SDL_GetKeyboardState(nullptr); keyStates[SDL_SCANCODE_RETURN]) {
-            Core::GetSceneManager().ChangeScene(ROUND_SCENE);
-        }
     };
 
     void Cleanup() override {

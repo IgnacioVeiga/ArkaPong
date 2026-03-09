@@ -28,20 +28,25 @@ inline auto goDownCallback = [](const Entity self) {
     auto &transformComponent = Core::GetCoordinator().GetComponent<TransformComponent>(self);
     const auto &rigidBodyComponent = Core::GetCoordinator().GetComponent<RigidBodyComponent>(self);
 
-    transformComponent.position.y = std::min(static_cast<float>(SCREEN_HEIGHT - PADDLE_HEIGHT),
+    transformComponent.position.y = std::min(static_cast<float>(GetGameHeight() - GetPaddleHeight()),
                                              transformComponent.position.y + rigidBodyComponent.velocity.y);
 };
 
 inline void CreatePaddleEntity(const std::string &entity_name, const std::string &scene_name, const Side side) {
+    const int paddleWidth = GetPaddleWidth();
+    const int paddleHeight = GetPaddleHeight();
+    const float paddleSpeed = GetPaddleSpeed();
+    const int gameWidth = GetGameWidth();
+    const int gameHeight = GetGameHeight();
     SDL_Texture *texture = TextureManager::LoadTexture(VAUS_SPRITE_FILEPATH);
     constexpr SDL_Rect srcRectPaddle = {
         0, // X
         0, // Y
-        PADDLE_WIDTH, // W
-        PADDLE_HEIGHT // H
+        DEFAULT_PADDLE_WIDTH, // W
+        DEFAULT_PADDLE_HEIGHT // H
     };
 
-    const int x_position = (side == Side::LEFT) ? PADDLE_OFFSET : (SCREEN_WIDTH - PADDLE_OFFSET - PADDLE_WIDTH);
+    const int x_position = (side == Side::LEFT) ? PADDLE_OFFSET : (gameWidth - PADDLE_OFFSET - paddleWidth);
     const SDL_RendererFlip flip = (side == Side::LEFT) ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 
     std::vector<InputBehavior> keyMappings;
@@ -71,14 +76,14 @@ inline void CreatePaddleEntity(const std::string &entity_name, const std::string
         addMapping(SDL_SCANCODE_DOWN, SDLK_DOWN, goDownCallback);
     }
 
-    const auto velocity = Vec2(0, PADDLE_SPEED);
+    const auto velocity = Vec2(0, paddleSpeed);
 
     const Entity entity = Core::GetCoordinator().CreateEntity(entity_name, scene_name);
     Core::GetCoordinator().AddComponent(
         entity,
         TransformComponent{
             Vec2(static_cast<float>(x_position),
-                 static_cast<float_t>(SCREEN_HEIGHT) / 2 - static_cast<float_t>(PADDLE_HEIGHT) / 2)
+                 static_cast<float>(gameHeight) / 2.0f - static_cast<float>(paddleHeight) / 2.0f)
         });
     Core::GetCoordinator().AddComponent(
         entity,
@@ -89,15 +94,16 @@ inline void CreatePaddleEntity(const std::string &entity_name, const std::string
                 // Destination rectangle
                 0, // X
                 0, // Y
-                PADDLE_WIDTH, // W
-                PADDLE_HEIGHT // H
+                static_cast<float>(paddleWidth), // W
+                static_cast<float>(paddleHeight) // H
             },
-            flip
+            flip,
+            VAUS_SPRITE_FILEPATH
         });
     Core::GetCoordinator().AddComponent(
         entity,
         RigidBodyComponent{
-            {0, 0, PADDLE_WIDTH, PADDLE_HEIGHT}, // Collider
+            {0, 0, static_cast<float>(paddleWidth), static_cast<float>(paddleHeight)}, // Collider
             velocity,
             Vec2(0, 0), // Acceleration
             1.0f, // Mass

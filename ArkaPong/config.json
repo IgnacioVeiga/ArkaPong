@@ -18,6 +18,9 @@
         "width": 8,
         "height": 16
       }
+    },
+    "match": {
+      "winning_score": 5
     }
   }
 }

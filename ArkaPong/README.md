@@ -21,10 +21,11 @@ Creating a unique hybrid gameplay experience:
 - Two-player mode with paddles on both sides
 - Dynamic ball physics and paddle controls
 - Retro-style sound effects and background music
-- Multiple brick types and level designs
+- Multiple brick types and sample level progression
 - Animated sprites and particle effects
 - Configurable controls and settings
 - Level editor support through text files
+- Game-specific ECS components and systems built outside `Core`
 
 ## Requirements
 
@@ -59,6 +60,7 @@ Then run:
 
 - Left Player: W/S keys for up/down movement
 - Right Player: Up/Down arrow keys
+- Enter: Next stage / restart campaign when prompted
 - Backspace: Return to title screen
 - ESC: Exit game
 
@@ -70,6 +72,7 @@ Then run:
 - Cross-platform support (Windows, Linux)
 - CMake build system
 - SDL2 rendering and audio
+- Registers custom gameplay ECS types in the game project instead of `Core`
 
 ## Building
 
@@ -101,13 +104,15 @@ rows columns
 [grid of numbers representing brick types]
 ```
 
+The declared row and column count must match the file contents exactly.
+
 Example:
 ```
-6 8
-1 1 1 1 1 1 1 1
-2 2 2 2 2 2 2 2
-3 3 3 3 3 3 3 3
-1 1 1 1 1 1 1 1
-2 2 2 2 2 2 2 2
-3 3 3 3 3 3 3 3
+6 10
+1 1 1 1 1 1 1 1 1 1
+0 2 2 2 2 2 2 2 2 0
+0 0 3 3 3 3 3 3 0 0
+0 2 2 2 2 2 2 2 2 0
+1 1 1 1 1 1 1 1 1 1
+0 0 4 4 0 0 4 4 0 0
 ```
