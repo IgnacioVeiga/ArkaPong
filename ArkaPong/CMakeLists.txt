@@ -11,7 +11,8 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty.cmake")
 # Core is distributed as a portable library. The user must provide the paths to headers/lib
 # Expected options (optional):
 #  -DCORE_INCLUDE_DIR=/path/to/Core/include
-#  -DCORE_LIBRARY=/path/to/libCore.so (or .dll/.a depending on platform)
+#  -DCORE_LIBRARY=/path/to/Core binary used for linking (.lib/.so/.dylib/.a)
+#  -DCORE_RUNTIME_DLLS=/path/to/Core.dll (Windows runtime copy)
 if(NOT DEFINED CORE_INCLUDE_DIR)
         set(CORE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core_local/include")
 endif()
@@ -19,10 +20,10 @@ if(NOT DEFINED CORE_LIBRARY)
         set(_core_candidates
                 "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/Core.lib"
                 "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.lib"
-                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/Core.dll"
                 "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.so"
                 "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.dylib"
                 "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.a"
+                "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/Core.dll"
         )
         foreach(_core_candidate IN LISTS _core_candidates)
                 if(EXISTS "${_core_candidate}")
@@ -34,8 +35,34 @@ if(NOT DEFINED CORE_LIBRARY)
         unset(_core_candidates)
 endif()
 
+if(WIN32 AND NOT DEFINED CORE_RUNTIME_DLLS)
+        if(DEFINED CORE_LIBRARY)
+                get_filename_component(_core_lib_dir "${CORE_LIBRARY}" DIRECTORY)
+                set(_core_runtime_candidates
+                        "${_core_lib_dir}/Core.dll"
+                        "${_core_lib_dir}/libCore.dll"
+                        "${_core_lib_dir}/../bin/Core.dll"
+                        "${_core_lib_dir}/../bin/libCore.dll"
+                )
+        else()
+                set(_core_runtime_candidates
+                        "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/Core.dll"
+                        "${CMAKE_CURRENT_SOURCE_DIR}/core_local/bin/Core.dll"
+                )
+        endif()
+
+        foreach(_core_runtime_candidate IN LISTS _core_runtime_candidates)
+                if(EXISTS "${_core_runtime_candidate}")
+                        list(APPEND CORE_RUNTIME_DLLS "${_core_runtime_candidate}")
+                endif()
+        endforeach()
+        list(REMOVE_DUPLICATES CORE_RUNTIME_DLLS)
+        unset(_core_runtime_candidate)
+        unset(_core_runtime_candidates)
+endif()
+
 if(NOT DEFINED CORE_LIBRARY)
-        set(CORE_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/core_local/lib/libCore.so")
+        message(WARNING "Core library not found. Populate ArkaPong/core_local or pass -DCORE_LIBRARY explicitly.")
 endif()
 
 file(GLOB_RECURSE ARKAPONG_SOURCES "src/*.cpp")
@@ -71,4 +98,13 @@ if(WIN32)
             $<TARGET_FILE_DIR:ArkaPong>
             COMMAND_EXPAND_LISTS
     )
+
+    if(CORE_RUNTIME_DLLS)
+        add_custom_command(TARGET ArkaPong POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CORE_RUNTIME_DLLS}
+                $<TARGET_FILE_DIR:ArkaPong>
+                COMMAND_EXPAND_LISTS
+        )
+    endif()
 endif()

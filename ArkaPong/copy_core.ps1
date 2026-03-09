@@ -5,6 +5,8 @@ $ErrorActionPreference = 'Stop'
 $coreRootPath = Resolve-Path $CoreRoot
 $srcInc = Join-Path $coreRootPath 'include'
 $srcBuild = Join-Path $coreRootPath 'build'
+$srcLib = Join-Path $srcBuild 'lib'
+$srcBin = Join-Path $srcBuild 'bin'
 $dest = Join-Path (Get-Location) 'core_local'
 
 if (-not (Test-Path $srcInc)) { Write-Error "Missing $srcInc"; exit 1 }
@@ -14,14 +16,21 @@ New-Item -ItemType Directory -Path (Join-Path $dest 'lib') -Force | Out-Null
 Copy-Item -Recurse (Join-Path $srcInc '*') (Join-Path $dest 'include') -Force
 
 @(
-    'Core.lib',
-    'libCore.lib',
-    'Core.dll',
-    'libCore.so',
-    'libCore.dylib',
-    'libCore.a'
+    (Join-Path $srcLib 'Core.lib'),
+    (Join-Path $srcLib 'libCore.lib'),
+    (Join-Path $srcLib 'libCore.so'),
+    (Join-Path $srcLib 'libCore.dylib'),
+    (Join-Path $srcLib 'libCore.a'),
+    (Join-Path $srcBin 'Core.dll'),
+    (Join-Path $srcBin 'libCore.dll'),
+    (Join-Path $srcBuild 'Core.lib'),
+    (Join-Path $srcBuild 'libCore.lib'),
+    (Join-Path $srcBuild 'Core.dll'),
+    (Join-Path $srcBuild 'libCore.so'),
+    (Join-Path $srcBuild 'libCore.dylib'),
+    (Join-Path $srcBuild 'libCore.a')
 ) | ForEach-Object {
-    $candidate = Join-Path $srcBuild $_
+    $candidate = $_
     if (Test-Path $candidate) {
         Copy-Item $candidate (Join-Path $dest 'lib') -Force
     }

@@ -9,11 +9,18 @@ if ($CoreRoot) {
     $coreInc = Join-Path $coreRootPath 'include'
     $coreBuild = Join-Path $coreRootPath 'build'
     $coreLibCandidates = @(
+        (Join-Path $coreBuild 'lib\Core.lib'),
+        (Join-Path $coreBuild 'lib\libCore.lib'),
+        (Join-Path $coreBuild 'lib\libCore.so'),
+        (Join-Path $coreBuild 'lib\libCore.dylib'),
+        (Join-Path $coreBuild 'lib\libCore.a'),
+        (Join-Path $coreBuild 'bin\Core.dll'),
         (Join-Path $coreBuild 'Core.lib'),
         (Join-Path $coreBuild 'libCore.lib'),
         (Join-Path $coreBuild 'Core.dll'),
         (Join-Path $coreBuild 'libCore.so'),
-        (Join-Path $coreBuild 'libCore.dylib')
+        (Join-Path $coreBuild 'libCore.dylib'),
+        (Join-Path $coreBuild 'libCore.a')
     )
     $coreLib = $coreLibCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 

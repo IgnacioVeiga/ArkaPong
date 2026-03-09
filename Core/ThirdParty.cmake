@@ -5,6 +5,13 @@
 
 include(FetchContent)
 
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "4.0")
+    # Some vendored SDL dependencies still declare very old policy baselines.
+    # Pinning this keeps FetchContent usable on newer CMake releases without
+    # forcing users to downgrade their local toolchain.
+    set(CMAKE_POLICY_VERSION_MINIMUM "3.5")
+endif()
+
 # Base path for local third-party libraries
 set(THIRDPARTY_DIR "${CMAKE_SOURCE_DIR}/ThirdParty")
 
