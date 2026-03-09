@@ -1,8 +1,17 @@
 #include "Frontend/LevelEditor.h"
 
+#include <algorithm>
 #include <imgui.h>
 #include <fstream>
 #include <sstream>
+
+namespace
+{
+    constexpr int MIN_GRID_SIZE = 1;
+    constexpr int MAX_GRID_SIZE = 128;
+    constexpr int MIN_TILE_TYPE = 0;
+    constexpr int MAX_TILE_TYPE = 10;
+}
 
 LevelEditor::LevelEditor()
     : rows(6), cols(8), selectedTile(1)
@@ -12,9 +21,9 @@ LevelEditor::LevelEditor()
 
 void LevelEditor::ResizeGrid(int newRows, int newCols)
 {
-    rows = newRows;
-    cols = newCols;
-    grid.assign(rows * cols, 0);
+    rows = std::clamp(newRows, MIN_GRID_SIZE, MAX_GRID_SIZE);
+    cols = std::clamp(newCols, MIN_GRID_SIZE, MAX_GRID_SIZE);
+    grid.assign(static_cast<size_t>(rows) * static_cast<size_t>(cols), 0);
 }
 
 void LevelEditor::DrawGUI()
@@ -29,6 +38,7 @@ void LevelEditor::DrawGUI()
     ImGui::Separator();
 
     ImGui::InputInt("Tile Type", &selectedTile);
+    selectedTile = std::clamp(selectedTile, MIN_TILE_TYPE, MAX_TILE_TYPE);
 
     ImGui::Separator();
 
@@ -94,7 +104,7 @@ void LevelEditor::LoadFromFile(const std::string& filename)
         {
             int tile;
             in >> tile;
-            grid[r * cols + c] = tile;
+            grid[r * cols + c] = std::clamp(tile, MIN_TILE_TYPE, MAX_TILE_TYPE);
         }
     }
 }
